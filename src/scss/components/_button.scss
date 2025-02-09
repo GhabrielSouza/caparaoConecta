@@ -1,0 +1,28 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.5s;
+
+  border: none;
+  cursor: pointer;
+
+  &.btn-primary {
+    font-size: 16px;
+    padding: 10px 50px;
+
+    &:hover {
+      background: var(--background-red-010);
+      color: var(--white);
+    }
+  }
+
+  &.btn-primary {
+    color: var(--white);
+    background: var(--background-red);
+    font-weight: 500;
+    font-family: var(--font-poppinsB), sans-serif;
+    border-radius: 14px;
+  }
+}

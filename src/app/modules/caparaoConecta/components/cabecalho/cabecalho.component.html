@@ -1,0 +1,116 @@
+<header>
+  <div class="header_logo">
+    <a [routerLink]="['']"
+      ><img
+        src="assets/imgs/logo.svg"
+        alt="Logo do site Carapaó Conecta"
+        class="header_logo_imagem"
+    /></a>
+  </div>
+  <div class="header_aplicacao">
+    <!-- <div class="header_aplicacao_acesso">
+      <ul>
+        <li><a href="">Entrar</a></li>
+        <li><a href="">Inscrever-se</a></li>
+      </ul>
+    </div> -->
+    <div class="header_aplicacao_notificacoes">
+      <button class="btn-notificacoes">
+        <img
+          src="assets/icons/Notificacoes.svg"
+          alt="Icone de notificações"
+          class="header_aplicacao_notificacoes_imagem"
+        />
+      </button>
+    </div>
+    <div class="header_aplicacao_navegacao">
+      <div class="header_aplicacao_navegacao_menu-hamburguer">
+        <div class="menu">
+          <input type="checkbox" id="checkbox-id" (change)="openMenu()" />
+          <label for="checkbox-id">
+            <img
+              src="assets/icons/menu-hamburguer.svg"
+              alt="Menu hamburhuer para navegação do site"
+            />
+          </label>
+        </div>
+      </div>
+      <div
+        class="header_aplicacao_navegacao_opcoes"
+        [ngClass]="{ menu_hamburguer: valorMenu }"
+      >
+        <div class="perfil">
+          <div class="perfil_imagem">
+            <img
+              src="assets/imgs/perfil.svg"
+              alt="Imagem de perfil do usuário"
+            />
+          </div>
+          <div class="perfil_identificacao">
+            <h2>Nome usuário</h2>
+            <p>Especialização</p>
+          </div>
+        </div>
+        <div class="header_aplicacao_navegacao_opcoes_links">
+          <nav class="header_aplicacao_navegacao_opcoes_links-nav">
+            <ul>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img src="assets/icons/home.svg" alt="icone da home" />
+                <p><a href="">Home</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img src="assets/icons/perfil.svg" alt="icone de perfil" />
+                <p><a href="">Perfil</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img src="assets/icons/cursos.svg" alt="icone da cursos" />
+                <p><a href="">Cursos</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img src="assets/icons/vagas.svg" alt="icone de vagas" />
+                <p><a href="">Vagas</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img src="assets/icons/empresa.svg" alt="icone de empresa" />
+                <p><a href="">Empresa</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img
+                  src="assets/icons/Candidato.svg"
+                  alt="icone de Candidato"
+                />
+                <p><a href="">Candidatos</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img
+                  src="assets/icons/dashboard.svg"
+                  alt="icone de dashboard"
+                />
+                <p><a href="">Dashboard</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img
+                  src="assets/icons/relatorio.svg"
+                  alt="icone de relatorio"
+                />
+                <p><a href="">Relatórios</a></p>
+              </li>
+              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
+                <img
+                  src="assets/icons/criarVaga.svg"
+                  alt="icone de criar vaga"
+                />
+                <p><a href="">Criar vaga</a></p>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="header_aplicacao_navegacao_opcoes-singout">
+          <button class="btn btn-primary">
+            <img src="assets/icons/sair.svg" alt="Icone de sair" />Sair
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

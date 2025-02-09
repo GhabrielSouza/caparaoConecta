@@ -1,0 +1,73 @@
+:root {
+  // Cores
+  --primary-background-green: #359830;
+  --secondary-background-green: #60d953;
+  --tertiary-background-green: #92e28a;
+
+  --background-creme: #f8f4ee;
+
+  --primary-background-gray: #aaaaaa;
+  --secondary-background-gray: #dcdcdc;
+  --tertiary-background-gray: #f5f5f5;
+
+  --background-notWhite: #f5f5f5;
+
+  --white: #ffff;
+
+  --background-red: #ff0000;
+  --background-red-010: #ba2020;
+
+  --background-yellow: #f5cd47;
+
+  --black-010: #12121f;
+
+  // Fontes
+  --font-poppinsR: "PoppinsR", sans-serif;
+  --font-poppinsL: "PoppinsL", sans-serif;
+  --font-poppinsM: "PoppinsM", sans-serif;
+  --font-poppinsB: "PoppinsB", sans-serif;
+  --font-poppinsSB: "PoppinsSB", sans-serif;
+  --font-poppinsEB: "PoppinsEB", sans-serif;
+
+  @font-face {
+    font-family: "PoppinsL";
+    src: url("Poppins/Poppins-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "PoppinsR";
+    src: url("Poppins/Poppins-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "PoppinsM";
+    src: url("Poppins/Poppins-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "PoppinsSB";
+    src: url("Poppins/Poppins-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "PoppinsEB";
+    src: url("Poppins/Poppins-ExtraBold.ttf") format("truetype");
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "PoppinsB";
+    src: url("Poppins/Poppins-Bold.ttf") format("truetype");
+    font-weight: 800;
+    font-style: normal;
+  }
+}
