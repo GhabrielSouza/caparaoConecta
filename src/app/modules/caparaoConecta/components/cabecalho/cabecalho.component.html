@@ -8,12 +8,15 @@
     /></a>
   </div>
   <div class="header_aplicacao">
-    <!-- <div class="header_aplicacao_acesso">
+    @if(role == roleEnum.GUEST){
+    <div class="header_aplicacao_acesso">
       <ul>
         <li><a href="">Entrar</a></li>
         <li><a href="">Inscrever-se</a></li>
       </ul>
-    </div> -->
+    </div>
+    } @if(role == roleEnum.ADMIN || role == roleEnum.CANDIDATO || role ==
+    roleEnum.EMPRESA){
     <div class="header_aplicacao_notificacoes">
       <button class="btn-notificacoes">
         <img
@@ -70,10 +73,12 @@
                 <img src="assets/icons/vagas.svg" alt="icone de vagas" />
                 <p><a href="">Vagas</a></p>
               </li>
+              @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
                 <img src="assets/icons/empresa.svg" alt="icone de empresa" />
                 <p><a href="">Empresa</a></p>
               </li>
+              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
                 <img
                   src="assets/icons/Candidato.svg"
@@ -81,6 +86,7 @@
                 />
                 <p><a href="">Candidatos</a></p>
               </li>
+              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
                 <img
                   src="assets/icons/dashboard.svg"
@@ -88,6 +94,7 @@
                 />
                 <p><a href="">Dashboard</a></p>
               </li>
+              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
                 <img
                   src="assets/icons/relatorio.svg"
@@ -95,6 +102,7 @@
                 />
                 <p><a href="">Relatórios</a></p>
               </li>
+              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
                 <img
                   src="assets/icons/criarVaga.svg"
@@ -102,6 +110,7 @@
                 />
                 <p><a href="">Criar vaga</a></p>
               </li>
+              }
             </ul>
           </nav>
         </div>
@@ -112,5 +121,6 @@
         </div>
       </div>
     </div>
+    }
   </div>
 </header>

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ERoleUser } from '../../enum/ERoleUser.enum';
 
 @Component({
   selector: 'app-cabecalho',
@@ -10,6 +11,8 @@ import { RouterLink } from '@angular/router';
 })
 export class CabecalhoComponent {
   public valorMenu: boolean = false;
+  public role: ERoleUser | null = null;
+  public roleEnum = ERoleUser;
 
   public openMenu() {
     this.valorMenu = !this.valorMenu;
