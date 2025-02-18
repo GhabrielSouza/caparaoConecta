@@ -1,0 +1,21 @@
+<app-default-login-layout
+  titulo="Entrar no Caparaó Conecta"
+  botaoEntrar="Entrar"
+  botaoCadastrar="Cadastrar"
+  [disablebotaoCadastrar]="!loginForm.valid"
+>
+  <form [formGroup]="loginForm">
+    <app-primary-input
+      type="email"
+      inputName="email"
+      label="Email"
+      placeholder="Digite seu email"
+    />
+    <app-primary-input
+      type="password"
+      inputName="password"
+      label="Senha"
+      placeholder="Digite sua senha"
+    />
+  </form>
+</app-default-login-layout>

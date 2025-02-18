@@ -25,4 +25,40 @@
     font-family: var(--font-poppinsB), sans-serif;
     border-radius: 14px;
   }
+
+  &.btn-secondary {
+    font-size: 16px;
+    padding: 10px 50px;
+
+    &:hover {
+      background: var(--secondary-background-green);
+      color: var(--white);
+    }
+  }
+
+  &.btn-secondary {
+    color: var(--white);
+    background: var(--primary-background-green);
+    font-weight: 500;
+    font-family: var(--font-poppinsB), sans-serif;
+    border-radius: 14px;
+  }
+
+  &.btn-tertiary {
+    font-size: 16px;
+    padding: 10px 50px;
+
+    &:hover {
+      background: var(--primary-background-green);
+      color: var(--white);
+    }
+  }
+
+  &.btn-tertiary {
+    color: var(--white);
+    background: var(--secondary-background-green);
+    font-weight: 500;
+    font-family: var(--font-poppinsB), sans-serif;
+    border-radius: 14px;
+  }
 }

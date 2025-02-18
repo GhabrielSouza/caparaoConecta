@@ -11,7 +11,7 @@ import { ERoleUser } from '../../enum/ERoleUser.enum';
 })
 export class CabecalhoComponent {
   public valorMenu: boolean = false;
-  public role: ERoleUser | null = null;
+  public role: ERoleUser | null = ERoleUser.GUEST;
   public roleEnum = ERoleUser;
 
   public openMenu() {

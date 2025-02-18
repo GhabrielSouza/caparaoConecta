@@ -1,0 +1,20 @@
+::ng-deep {
+  body {
+    background-color: var(--background-notWhite);
+  }
+}
+:host {
+  app-default-login-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+}
