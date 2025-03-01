@@ -1,1 +1,1 @@
-export type TInputType = 'text' | 'email' | 'password';
+export type TInputType = 'text' | 'email' | 'password' | 'tel';

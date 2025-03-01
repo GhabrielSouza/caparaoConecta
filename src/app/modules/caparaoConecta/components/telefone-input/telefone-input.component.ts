@@ -1,22 +1,25 @@
 import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TInputType } from '../../types/TInputType.type';
+import { PrimaryInputComponent } from '../primary-input/primary-input.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+
 @Component({
-  selector: 'app-primary-input',
-  imports: [MatFormFieldModule, MatInputModule],
-  templateUrl: './primary-input.component.html',
-  styleUrl: './primary-input.component.scss',
+  selector: 'app-telefone-input',
+  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, NgxMaskPipe],
+  templateUrl: './telefone-input.component.html',
+  styleUrl: './telefone-input.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PrimaryInputComponent),
+      useExisting: forwardRef(() => TelefoneInputComponent),
       multi: true,
     },
   ],
 })
-export class PrimaryInputComponent implements ControlValueAccessor {
+export class TelefoneInputComponent implements ControlValueAccessor {
   @Input() public type: TInputType = 'text';
   @Input() public inputName: string = '';
   @Input() public placeholder: string = '';

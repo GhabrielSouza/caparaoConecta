@@ -1,0 +1,22 @@
+::ng-deep {
+  body {
+    background-color: var(--background-notWhite);
+  }
+}
+:host {
+  app-default-login-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  form {
+    flex-direction: column;
+
+    mat-error {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

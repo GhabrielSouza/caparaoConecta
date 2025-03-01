@@ -12,9 +12,18 @@
   }
 
   form {
-    display: flex;
     flex-direction: column;
     gap: 24px;
     margin-bottom: 24px;
+
+    mat-error {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  p a {
+    color: var(--black-010);
   }
 }

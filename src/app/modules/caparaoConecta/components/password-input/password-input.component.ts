@@ -1,22 +1,25 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, signal } from '@angular/core';
 import { TInputType } from '../../types/TInputType.type';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 @Component({
-  selector: 'app-primary-input',
-  imports: [MatFormFieldModule, MatInputModule],
-  templateUrl: './primary-input.component.html',
-  styleUrl: './primary-input.component.scss',
+  selector: 'app-password-input',
+  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule],
+  templateUrl: './password-input.component.html',
+  styleUrl: './password-input.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PrimaryInputComponent),
+      useExisting: forwardRef(() => PasswordInputComponent),
       multi: true,
     },
   ],
 })
-export class PrimaryInputComponent implements ControlValueAccessor {
+export class PasswordInputComponent implements ControlValueAccessor {
   @Input() public type: TInputType = 'text';
   @Input() public inputName: string = '';
   @Input() public placeholder: string = '';
@@ -47,4 +50,10 @@ export class PrimaryInputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {}
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 }

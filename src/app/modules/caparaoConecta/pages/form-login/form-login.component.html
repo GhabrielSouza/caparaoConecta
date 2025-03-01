@@ -6,16 +6,33 @@
 >
   <form [formGroup]="loginForm">
     <app-primary-input
+      formControlName="email"
       type="email"
       inputName="email"
       label="Email"
       placeholder="Digite seu email"
-    />
-    <app-primary-input
+      (blur)="updateErrorMessage('email')"
+    >
+      @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty ||
+      loginForm.get('email')?.touched )) {
+      <mat-error>{{ fieldErrors()["email"] }}</mat-error>
+      }
+    </app-primary-input>
+    <app-password-input
       type="password"
+      formControlName="password"
       inputName="password"
       label="Senha"
       placeholder="Digite sua senha"
-    />
+      (blur)="updateErrorMessage('password')"
+    >
+      @if (loginForm.get('password')?.invalid &&
+      (loginForm.get('password')?.dirty || loginForm.get('password')?.touched))
+      {
+      <mat-error>{{ fieldErrors()["password"] }}</mat-error>
+      }
+    </app-password-input>
+
+    <p><a href="">Esqueceu sua senha?</a></p>
   </form>
 </app-default-login-layout>

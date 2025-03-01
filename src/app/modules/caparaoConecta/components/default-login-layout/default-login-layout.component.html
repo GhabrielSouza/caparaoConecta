@@ -6,7 +6,9 @@
     <h2>{{ titulo }}</h2>
     <ng-content></ng-content>
     <div class="form-section_buttons">
+      @if(isRouterLogin()){
       <button class="btn btn-secondary">{{ botaoEntrar }}</button>
+      }
       <button class="btn btn-tertiary">{{ botaoCadastrar }}</button>
     </div>
   </section>
