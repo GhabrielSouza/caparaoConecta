@@ -6,6 +6,12 @@
     padding: 0 0.8em;
     background: var(--primary-background-green);
 
+    .header_logo {
+      & a img {
+        width: 80%;
+      }
+    }
+
     .header_aplicacao {
       display: flex;
       gap: 20px;
@@ -17,13 +23,13 @@
 
           li:nth-child(2) {
             border: 1px solid var(--white);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 8px;
           }
 
           li a {
             font-family: var(--font-poppinsR);
-            font-size: 16px;
+            font-size: 14px;
             color: var(--white);
           }
         }

@@ -1,0 +1,134 @@
+<app-default-login-layout
+  titulo="Cadastrar no Caparaó Conecta"
+  botaoCadastrar="Cadastrar"
+  [disablebotaoCadastrar]="!cadastrarForm.valid"
+>
+  <form [formGroup]="cadastrarForm" class="row">
+    <app-primary-input
+      formControlName="nome"
+      type="text"
+      placeholder="Digite seu nome"
+      label="Nome"
+      inputName="nome"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('nome')?.invalid &&
+      (cadastrarForm.get('nome')?.touched || cadastrarForm.get('nome')?.dirty ))
+      {
+      <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
+      }
+    </app-primary-input>
+    <div class="formCol d-flex">
+      <app-cpf-and-cnpj-input
+        formControlName="cnpj"
+        type="text"
+        placeholder="Digite seu CNPJ"
+        label="CNPJ"
+        inputName="CNPJ"
+        class="col-6"
+      >
+        @if (cadastrarForm.get('cnpj')?.invalid
+        &&(cadastrarForm.get('cnpj')?.touched ||
+        cadastrarForm.get('cnpj')?.dirty)) {
+        <mat-error>{{ fieldErrors()["cnpj"] }}</mat-error>
+        }
+      </app-cpf-and-cnpj-input>
+      <app-telefone-input
+        formControlName="telefone"
+        type="tel"
+        placeholder="Digite seu número"
+        label="Telefone(DDD)"
+        inputName="telefone"
+        class="col-6 ps-3"
+        >@if (cadastrarForm.get('telefone')?.invalid &&
+        (cadastrarForm.get('telefone')?.touched ||
+        cadastrarForm.get('telefone')?.dirty )) {
+        <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
+        }</app-telefone-input
+      >
+    </div>
+    <div class="d-flex">
+      <app-primary-input
+        formControlName="estado"
+        type="text"
+        placeholder="Ex: Espírito Santo"
+        label="Estado"
+        inputName="estado"
+        class="col-6"
+        >@if (cadastrarForm.get('estado')?.invalid &&
+        (cadastrarForm.get('estado')?.touched ||
+        cadastrarForm.get('estado')?.dirty )) {
+        <mat-error>{{ fieldErrors()["estado"] }}</mat-error>
+        }</app-primary-input
+      >
+      <app-primary-input
+        formControlName="endereco"
+        type="text"
+        placeholder="Ex: Avenide Obed Emerich"
+        label="Endereço"
+        inputName="endereco"
+        class="col-6 ps-3"
+        >@if (cadastrarForm.get('endereco')?.invalid &&
+        (cadastrarForm.get('endereco')?.touched ||
+        cadastrarForm.get('endereco')?.dirty )) {
+        <mat-error>{{ fieldErrors()["endereco"] }}</mat-error>
+        }</app-primary-input
+      >
+    </div>
+    <app-primary-input
+      formControlName="email"
+      type="email"
+      inputName="email"
+      label="Email"
+      placeholder="Digite seu email"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('email')?.invalid &&
+      (cadastrarForm.get('email')?.touched || cadastrarForm.get('email')?.dirty
+      )) {
+      <mat-error>{{ fieldErrors()["email"] }}</mat-error>
+      }
+    </app-primary-input>
+    <app-primary-input
+      type="password"
+      formControlName="password"
+      inputName="password"
+      label="Senha"
+      placeholder="Digite sua senha"
+      class="col-12"
+      >@if (cadastrarForm.get('password')?.invalid &&
+      (cadastrarForm.get('password')?.touched ||
+      cadastrarForm.get('password')?.dirty )) {
+      <mat-error>{{ fieldErrors()["password"] }}</mat-error>
+      } @if(cadastrarForm.get('password')?.hasError('uppercase')){
+      <mat-error>
+        {{ patternMessages["uppercase"] }}
+      </mat-error>
+      } @if(cadastrarForm.get('password')?.hasError('lowercase')){
+      <mat-error>
+        {{ patternMessages["lowercase"] }}
+      </mat-error>
+      } @if(cadastrarForm.get('password')?.hasError('specialChar')){
+      <mat-error>
+        {{ patternMessages["specialChar"] }}
+      </mat-error>
+      }
+    </app-primary-input>
+    <app-primary-input
+      type="password"
+      formControlName="confirmPassword"
+      inputName="confirmPassword"
+      label="Confirme sua senha"
+      placeholder="Confirme sua senha"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('confirmPassword')?.invalid &&
+      (cadastrarForm.get('confirmPassword')?.touched ||
+      cadastrarForm.get('confirmPassword')?.dirty )){
+      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
+      } @if (cadastrarForm.errors?.['Invalida']) {
+      <mat-error> As senhas não coincidem.</mat-error>
+      }
+    </app-primary-input>
+  </form>
+</app-default-login-layout>

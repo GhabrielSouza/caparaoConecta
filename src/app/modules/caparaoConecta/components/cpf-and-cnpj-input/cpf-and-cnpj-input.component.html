@@ -1,0 +1,19 @@
+<div class="input-container">
+  <mat-label>{{ label }}</mat-label>
+  <div class="input-content">
+    <mat-form-field class="formField">
+      <input
+        matInput
+        [type]="type"
+        [placeholder]="placeholder"
+        [value]="value"
+        (input)="updateValue($event)"
+        required
+        mask="CPF_CNPJ"
+      />
+    </mat-form-field>
+    <div class="erros">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
