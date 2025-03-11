@@ -33,18 +33,18 @@
         <mat-error>{{ fieldErrors()["cnpj"] }}</mat-error>
         }
       </app-cpf-and-cnpj-input>
-      <app-telefone-input
-        formControlName="telefone"
-        type="tel"
-        placeholder="Digite seu número"
-        label="Telefone(DDD)"
-        inputName="telefone"
+      <app-cep-input
+        formControlName="cep"
+        type="text"
+        placeholder="Digite seu CEP"
+        label="CEP"
+        inputName="cep"
         class="col-6 ps-3"
-        >@if (cadastrarForm.get('telefone')?.invalid &&
-        (cadastrarForm.get('telefone')?.touched ||
-        cadastrarForm.get('telefone')?.dirty )) {
-        <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
-        }</app-telefone-input
+        >@if (cadastrarForm.get('cep')?.invalid &&
+        (cadastrarForm.get('cep')?.touched || cadastrarForm.get('cep')?.dirty ))
+        {
+        <mat-error>{{ fieldErrors()["cep"] }}</mat-error>
+        }</app-cep-input
       >
     </div>
     <div class="d-flex">
@@ -62,11 +62,11 @@
         }</app-primary-input
       >
       <app-primary-input
-        formControlName="endereco"
+        formControlName="cidade"
         type="text"
-        placeholder="Ex: Avenide Obed Emerich"
-        label="Endereço"
-        inputName="endereco"
+        placeholder="Ex: Alegre"
+        label="Cidade"
+        inputName="cidade"
         class="col-6 ps-3"
         >@if (cadastrarForm.get('endereco')?.invalid &&
         (cadastrarForm.get('endereco')?.touched ||
@@ -75,6 +75,18 @@
         }</app-primary-input
       >
     </div>
+    <app-telefone-input
+      formControlName="telefone"
+      type="tel"
+      placeholder="Digite seu número"
+      label="Telefone(DDD)"
+      inputName="telefone"
+      >@if (cadastrarForm.get('telefone')?.invalid &&
+      (cadastrarForm.get('telefone')?.touched ||
+      cadastrarForm.get('telefone')?.dirty )) {
+      <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
+      }</app-telefone-input
+    >
     <app-primary-input
       formControlName="email"
       type="email"

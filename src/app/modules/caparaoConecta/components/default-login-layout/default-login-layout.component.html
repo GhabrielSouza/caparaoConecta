@@ -7,9 +7,13 @@
     <ng-content></ng-content>
     <div class="form-section_buttons">
       @if(isRouterLogin()){
-      <button class="btn btn-secondary">{{ botaoEntrar }}</button>
+      <button class="btn btn-secondary" (click)="submit()">
+        {{ botaoEntrar }}
+      </button>
       }
-      <button class="btn btn-tertiary">{{ botaoCadastrar }}</button>
+      <button class="btn btn-tertiary" (click)="navigate()">
+        {{ botaoCadastrar }}
+      </button>
     </div>
   </section>
 </main>
