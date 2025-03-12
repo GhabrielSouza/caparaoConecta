@@ -8,10 +8,9 @@
         [placeholder]="placeholder"
         [value]="value"
         (input)="updateValue($event)"
-        [disabled]="
-          inputName == 'cidade' || inputName == 'estado' ? true : false
-        "
         required
+        mask="00000-000"
+        [dropSpecialCharacters]="true"
       />
     </mat-form-field>
     <div class="erros">

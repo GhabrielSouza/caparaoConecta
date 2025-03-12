@@ -1,3 +1,4 @@
+import { ViacepService } from './../../../../services/viacep.service';
 import { Component, inject, OnInit, signal } from '@angular/core';
 
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
@@ -25,6 +26,8 @@ import { VPasswordPattern } from '../../validators/VPasswordPattern.validator';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { TelefoneInputComponent } from '../../components/telefone-input/telefone-input.component';
 import { CpfAndCnpjInputComponent } from '../../components/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
+import { ehUmCNPJ } from '../../validators/VCnpj.validator';
+import { CepInputComponent } from '../../components/cep-input/cep-input.component';
 
 @Component({
   selector: 'app-form-cadastro-candidato',
@@ -37,6 +40,7 @@ import { CpfAndCnpjInputComponent } from '../../components/cpf-and-cnpj-input/cp
     MatIconModule,
     TelefoneInputComponent,
     CpfAndCnpjInputComponent,
+    CepInputComponent,
   ],
   templateUrl: './form-cadastro-candidato.component.html',
   styleUrl: './form-cadastro-candidato.component.scss',
@@ -45,14 +49,15 @@ export class FormCadastroCandidatoComponent implements OnInit {
   // #fb = inject(FormBuilder);
   public cadastrarForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder, private ViacepService: ViacepService) {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
-        cnpj: ['', [Validators.required]],
+        cnpj: ['', [Validators.required, ehUmCNPJ]],
         telefone: ['', [Validators.required]],
-        estado: ['', [Validators.required]],
-        endereco: ['', [Validators.required]],
+        cep: ['', [Validators.required]],
+        estado: ['', []],
+        cidade: ['', []],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -122,12 +127,45 @@ export class FormCadastroCandidatoComponent implements OnInit {
         .subscribe(() => this.updateErrorMessage('estado'));
     }
 
-    const enderecoControl = this.endereco;
+    const enderecoControl = this.cidade;
     if (enderecoControl) {
       merge(enderecoControl.statusChanges, enderecoControl.valueChanges)
         .pipe(takeUntilDestroyed())
         .subscribe(() => this.updateErrorMessage('endereco'));
     }
+
+    const CepControl = this.cep;
+    if (CepControl) {
+      merge(CepControl.statusChanges, CepControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('cep'));
+    }
+  }
+
+  public observerPreenchimentoCep() {
+    this.cadastrarForm.get('cep')?.valueChanges.subscribe((value) => {
+      if (value?.length == 9) {
+        this.buscarCep();
+      }
+    });
+  }
+
+  public buscarCep() {
+    const cep = this.cadastrarForm.get('cep')?.value.replace(/\.|-/g, '');
+    this.ViacepService.getEnderecobyCep(cep).subscribe({
+      next: (resp) => {
+        this.cadastrarForm.patchValue({
+          estado: resp.estado,
+          cidade: resp.localidade,
+        });
+      },
+      error: () => {
+        console.log('erro ao buscar o cep');
+      },
+      complete: () => {
+        console.log('completo');
+      },
+    });
   }
 
   public errorMessages: Record<string, string> = {
@@ -135,7 +173,8 @@ export class FormCadastroCandidatoComponent implements OnInit {
     email: 'Por favor, preencha um email válido.',
     minlength: 'O campo deve ter pelo menos 6 caracteres',
     maxlength: 'O campo deve ter menos que 15 caracteres',
-    Invalida: ' As senhas não coincidem.',
+    Invalida: 'As senhas não coincidem.',
+    cnpjInvalido: 'Este CNPJ não é válido',
   };
 
   public patternMessages: Record<string, string> = {
@@ -174,11 +213,17 @@ export class FormCadastroCandidatoComponent implements OnInit {
     return this.cadastrarForm.get('estado');
   }
 
-  get endereco() {
-    return this.cadastrarForm.get('endereco');
+  get cidade() {
+    return this.cadastrarForm.get('cidade');
   }
 
-  ngOnInit(): void {}
+  get cep() {
+    return this.cadastrarForm.get('cep');
+  }
+
+  ngOnInit(): void {
+    this.observerPreenchimentoCep();
+  }
 
   updateErrorMessage(field: any) {
     const control = this.cadastrarForm.get(field);
