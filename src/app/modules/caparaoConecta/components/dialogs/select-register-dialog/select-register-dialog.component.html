@@ -1,1 +1,10 @@
-<p>select-register-dialog works!</p>
+<header class="d-flex justify-content-between align-items-center p-4">
+    <h3>Como você deseja se Cadastrar?</h3>
+    <button (click)="closeModal()">
+        <img src="assets/icons/close.svg" alt="Botão para fechar o dialog">
+    </button>
+</header>
+<mat-dialog-content class="d-flex p-4 ">
+    <button class="btn btn-secondary" (click)="navigateCandidato()" >Candidato</button>
+    <button class="btn btn-secondary ms-3" (click)="navigateEmpresa()">Empresa</button>
+</mat-dialog-content>

@@ -22,6 +22,9 @@ import { VPasswordValidator } from '../../validators/VPasswordValidator.validato
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs';
 import { PasswordInputComponent } from '../../components/inputs/password-input/password-input.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectRegisterDialogComponent } from '../../components/dialogs/select-register-dialog/select-register-dialog.component';
+import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 
 @Component({
   selector: 'app-form-login',
@@ -42,7 +45,7 @@ import { PasswordInputComponent } from '../../components/inputs/password-input/p
 export class FormLoginComponent implements OnInit {
   public loginForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder, readonly dialog:MatDialog) {
     this.loginForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -107,4 +110,6 @@ export class FormLoginComponent implements OnInit {
       [field]: this.errorMessages[errorKey],
     }));
   }
+
+  
 }
