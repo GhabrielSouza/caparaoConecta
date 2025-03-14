@@ -2,10 +2,11 @@
     <mat-label>{{ label }}</mat-label>
     <div class="input-content">
       <mat-form-field class="formField">
-        <mat-select placeholder="Selecione">
+        <mat-select placeholder="Selecione" formControlName="genero">
           <mat-option value="Masculino">Masculino</mat-option>
           <mat-option value="Feminino">Feminino</mat-option>
-          <mat-option value="Outros">Outros</mat-option>
+          <mat-option value="Prefiro não informar">Prefiro não informar</mat-option>
+          <mat-option value="Outro">Outro</mat-option>
         </mat-select>
       </mat-form-field>
       <div class="erros">
