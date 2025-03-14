@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+
+:host {
+    input, mat-label {
+      box-sizing: border-box;
+      font-family: var(--font-poppinsM);
+  
+      &:focus {
+        border-color: var(--primary-background-gray);
+        outline: none;
+      }
+    }
+
+    @include mat.radio-overrides((
+     
+      selected-focus-icon-color: var(--primary-background-green),
+      selected-hover-icon-color:var(--primary-background-green),
+      selected-pressed-icon-color: var(--primary-background-green),
+      selected-icon-color:var(--primary-background-green),
+      checked-ripple-color: var(--primary-background-green),
+  ));
+  }

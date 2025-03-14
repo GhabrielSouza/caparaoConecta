@@ -1,11 +1,7 @@
 import { ViacepService } from './../../../../services/viacep.service';
-import { Component, inject, OnInit, signal } from '@angular/core';
 
-import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
-import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
-import { PasswordInputComponent } from '../../components/password-input/password-input.component';
-
-import { JsonPipe } from '@angular/common';
+import { Component,  OnInit, signal} from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import {
   FormBuilder,
@@ -16,22 +12,32 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { VPasswordConfirm } from '../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../validators/VPasswordPattern.validator';
+import ehUmCPF from '../../validators/VCpf.validator';
 
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
-import { TelefoneInputComponent } from '../../components/telefone-input/telefone-input.component';
-import { CpfAndCnpjInputComponent } from '../../components/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
-import { ehUmCNPJ } from '../../validators/VCnpj.validator';
-import { CepInputComponent } from '../../components/cep-input/cep-input.component';
+
+import { CpfAndCnpjInputComponent } from '../../components/inputs/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
+import { CepInputComponent } from '../../components/inputs/cep-input/cep-input.component';
+import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
+import { PrimaryInputComponent } from '../../components/inputs/primary-input/primary-input.component';
+
+import { GeneroInputComponent } from '../../components/inputs/genero-input/genero-input.component';
+
+import { TelefoneInputComponent } from '../../components/inputs/telefone-input/telefone-input.component';
+import { CadUnicoRadioComponent } from '../../components/inputs/cad-unico-radio/cad-unico-radio.component';
+import { DataNascimentoInputComponent } from '../../components/inputs/data-nascimento-input/data-nascimento-input.component';
+
 
 @Component({
   selector: 'app-form-cadastro-candidato',
   imports: [
+    CommonModule,
     DefaultLoginLayoutComponent,
     PrimaryInputComponent,
     ReactiveFormsModule,
@@ -41,6 +47,9 @@ import { CepInputComponent } from '../../components/cep-input/cep-input.componen
     TelefoneInputComponent,
     CpfAndCnpjInputComponent,
     CepInputComponent,
+    DataNascimentoInputComponent,
+    GeneroInputComponent,
+    CadUnicoRadioComponent
   ],
   templateUrl: './form-cadastro-candidato.component.html',
   styleUrl: './form-cadastro-candidato.component.scss',
@@ -53,12 +62,15 @@ export class FormCadastroCandidatoComponent implements OnInit {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
-        cnpj: ['', [Validators.required, ehUmCNPJ]],
+        dataDeNascimento: ['', [Validators.required]],
+        genero: ['', [Validators.required]],
+        cpf: ['', [Validators.required, ehUmCPF]],
         telefone: ['', [Validators.required]],
         cep: ['', [Validators.required]],
         estado: ['', []],
         cidade: ['', []],
         email: ['', [Validators.required, Validators.email]],
+        cadUnico: ['',[Validators.required]],
         password: [
           '',
           [
@@ -89,11 +101,25 @@ export class FormCadastroCandidatoComponent implements OnInit {
         .subscribe(() => this.updateErrorMessage('nome'));
     }
 
-    const cnpjControl = this.cnpj;
-    if (cnpjControl) {
-      merge(cnpjControl.statusChanges, cnpjControl.valueChanges)
+    const dataDeNascimentoControl = this.dataDeNascimento;
+    if (dataDeNascimentoControl) {
+      merge(dataDeNascimentoControl.statusChanges, dataDeNascimentoControl.valueChanges)
         .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('cnpj'));
+        .subscribe(() => this.updateErrorMessage('dataDeNascimento'));
+    }
+
+    const generoControl = this.genero;
+    if (generoControl) {
+      merge(generoControl.statusChanges, generoControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('genero'));
+    }
+
+    const cpfControl = this.cpf;
+    if (cpfControl) {
+      merge(cpfControl.statusChanges, cpfControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('cpf'));
     }
 
     const telefoneControl = this.telefone;
@@ -140,6 +166,13 @@ export class FormCadastroCandidatoComponent implements OnInit {
         .pipe(takeUntilDestroyed())
         .subscribe(() => this.updateErrorMessage('cep'));
     }
+
+    const cadUnicoControl = this.cadUnico;
+    if (cadUnicoControl) {
+      merge(cadUnicoControl.statusChanges, cadUnicoControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('cadUnico'));
+    }
   }
 
   public observerPreenchimentoCep() {
@@ -174,7 +207,7 @@ export class FormCadastroCandidatoComponent implements OnInit {
     minlength: 'O campo deve ter pelo menos 6 caracteres',
     maxlength: 'O campo deve ter menos que 15 caracteres',
     Invalida: 'As senhas não coincidem.',
-    cnpjInvalido: 'Este CNPJ não é válido',
+    cpfInvalido: 'Este CPF não é válido',
   };
 
   public patternMessages: Record<string, string> = {
@@ -189,6 +222,18 @@ export class FormCadastroCandidatoComponent implements OnInit {
     return this.cadastrarForm.get('nome');
   }
 
+  get cadUnico() {
+    return this.cadastrarForm.get('cadUnico');
+  }
+
+  get dataDeNascimento() {
+    return this.cadastrarForm.get('dataDeNascimento');
+  }
+
+  get genero() {
+    return this.cadastrarForm.get('genero');
+  }
+
   get email() {
     return this.cadastrarForm.get('email');
   }
@@ -201,8 +246,8 @@ export class FormCadastroCandidatoComponent implements OnInit {
     return this.cadastrarForm.get('confirmPassword');
   }
 
-  get cnpj() {
-    return this.cadastrarForm.get('cnpj');
+  get cpf() {
+    return this.cadastrarForm.get('cpf');
   }
 
   get telefone() {

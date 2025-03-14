@@ -1,10 +1,11 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TInputType } from '../../types/TInputType.type';
-import { PrimaryInputComponent } from '../primary-input/primary-input.component';
+
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { TInputType } from '../../../types/TInputType.type';
 
 @Component({
   selector: 'app-telefone-input',
