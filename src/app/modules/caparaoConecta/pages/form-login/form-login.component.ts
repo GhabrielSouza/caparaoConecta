@@ -3,8 +3,8 @@ import { IFormLogin } from './../../interface/IFormLogin.interface';
 import { Component, OnInit, signal } from '@angular/core';
 
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
-import { PrimaryInputComponent } from '../../components/primary-input/primary-input.component';
-import { PasswordInputComponent } from '../../components/password-input/password-input.component';
+import { PrimaryInputComponent } from '../../components/inputs/primary-input/primary-input.component';
+
 
 import {
   FormBuilder,
@@ -21,6 +21,7 @@ import { VPasswordValidator } from '../../validators/VPasswordValidator.validato
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs';
+import { PasswordInputComponent } from '../../components/inputs/password-input/password-input.component';
 
 @Component({
   selector: 'app-form-login',

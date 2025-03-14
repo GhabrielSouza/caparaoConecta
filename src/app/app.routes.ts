@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './modules/caparaoConecta/pages/home/home.component';
 import { FormLoginComponent } from './modules/caparaoConecta/pages/form-login/form-login.component';
 import { FormCadastroCandidatoComponent } from './modules/caparaoConecta/pages/form-cadastro-candidato/form-cadastro-candidato.component';
+import { FormCadastroEmpresaComponent } from './modules/caparaoConecta/pages/form-cadastro-empresa/form-cadastro-empresa.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,10 @@ export const routes: Routes = [
   },
   {
     path: 'singUpEnterprise',
-    component: FormCadastroCandidatoComponent,
+    component: FormCadastroEmpresaComponent,
   },
+  {
+    path: 'singUp',
+    component:FormCadastroCandidatoComponent
+  }
 ];

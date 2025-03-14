@@ -18,19 +18,47 @@
       <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
       }
     </app-primary-input>
+    <div class="d-flex">
+      <app-data-nascimento-input
+        formControlName="dataDeNascimento"
+        type="text"
+        placeholder="06/03/2005"
+        label="Data de nascimento"
+        inputName="dataDeNascimento"
+        class="col-6"
+        >@if (cadastrarForm.get('dataDeNascimento')?.invalid &&
+        (cadastrarForm.get('dataDeNascimento')?.touched ||
+        cadastrarForm.get('dataDeNascimento')?.dirty )) {
+        <mat-error>{{ fieldErrors()["dataDeNascimento"] }}</mat-error>
+        }</app-data-nascimento-input
+      >
+      <app-genero-input
+        formControlName="genero"
+        type="text"
+        placeholder="Ex: Masculino"
+        label="Gênero"
+        inputName="genero"
+        class="col-6 ps-3"
+        >@if (cadastrarForm.get('genero')?.invalid &&
+        (cadastrarForm.get('genero')?.touched ||
+        cadastrarForm.get('genero')?.dirty )) {
+        <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
+        }</app-genero-input
+      >
+    </div>
     <div class="formCol d-flex">
       <app-cpf-and-cnpj-input
-        formControlName="cnpj"
+        formControlName="cpf"
         type="text"
-        placeholder="Digite seu CNPJ"
-        label="CNPJ"
-        inputName="CNPJ"
+        placeholder="Digite seu CPF"
+        label="CPF"
+        inputName="CPF"
         class="col-6"
       >
-        @if (cadastrarForm.get('cnpj')?.invalid
-        &&(cadastrarForm.get('cnpj')?.touched ||
-        cadastrarForm.get('cnpj')?.dirty)) {
-        <mat-error>{{ fieldErrors()["cnpj"] }}</mat-error>
+        @if (cadastrarForm.get('cpf')?.invalid
+        &&(cadastrarForm.get('cpf')?.touched ||
+        cadastrarForm.get('cpf')?.dirty)) {
+        <mat-error>{{ fieldErrors()["cpf"] }}</mat-error>
         }
       </app-cpf-and-cnpj-input>
       <app-cep-input
@@ -101,6 +129,17 @@
       <mat-error>{{ fieldErrors()["email"] }}</mat-error>
       }
     </app-primary-input>
+    <app-cad-unico-radio
+      formControlName="cadUnico"
+      type="text"
+      placeholder="Digite seu CAD Único"
+      label="Possui CAD único?"
+      inputName="cadUnico"
+    >
+      @if (cadastrarForm.get('cadUnico')?.hasError('required')){
+        <mat-error>{{ fieldErrors()["cadUnico"] }}</mat-error>
+      }
+    </app-cad-unico-radio>
     <app-primary-input
       type="password"
       formControlName="password"

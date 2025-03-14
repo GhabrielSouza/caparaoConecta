@@ -1,10 +1,11 @@
 import { Component, forwardRef, Input, signal } from '@angular/core';
-import { TInputType } from '../../types/TInputType.type';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TInputType } from '../../../types/TInputType.type';
 
 @Component({
   selector: 'app-password-input',
