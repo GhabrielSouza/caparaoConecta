@@ -1,5 +1,8 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { EDialogEnum } from '../../enum/EDialogEnum.enum';
+import { SelectRegisterDialogComponent } from '../dialogs/select-register-dialog/select-register-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-default-login-layout',
@@ -9,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class DefaultLoginLayoutComponent {
   #router = inject(Router);
+  #dialog = inject(MatDialog);
 
   @Input() public titulo: string = '';
   @Input() public botaoEntrar: string = '';
@@ -28,5 +32,11 @@ export class DefaultLoginLayoutComponent {
 
   public isRouterLogin() {
     return this.#router.url === '/login';
+  }
+
+  openDialog():void{
+    this.#dialog.open(SelectRegisterDialogComponent,{
+      panelClass:EDialogEnum.PROJETOS,
+    })
   }
 }
