@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
+import { SelectRegisterDialogComponent } from '../dialogs/select-register-dialog/select-register-dialog.component';
+import { EDialogEnum } from '../../enum/EDialogEnum.enum';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-cabecalho',
@@ -13,8 +16,16 @@ export class CabecalhoComponent {
   public valorMenu: boolean = false;
   public role: ERoleUser | null = ERoleUser.GUEST;
   public roleEnum = ERoleUser;
+  
+  #dialog = inject(MatDialog);
 
   public openMenu() {
     this.valorMenu = !this.valorMenu;
+  }
+
+  openDialog():void{
+      this.#dialog.open(SelectRegisterDialogComponent,{
+        panelClass:EDialogEnum.PROJETOS,
+      })
   }
 }

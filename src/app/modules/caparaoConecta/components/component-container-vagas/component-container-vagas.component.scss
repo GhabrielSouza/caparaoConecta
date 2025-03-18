@@ -1,0 +1,15 @@
+:host{
+    .container{
+        border-radius: 15px;
+        height: 80vh;
+        position: relative;
+
+        .container_ver-mais{
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            left: 1000px;
+            cursor: pointer;
+        }
+    }
+}

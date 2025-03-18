@@ -1,0 +1,32 @@
+
+.cpc{
+    &-regular{
+        font-family: var(--font-poppinsR);
+        font-size: 18px;
+    }
+
+    &-bold{
+        font-family: var(--font-poppinsB);
+        font-size: 24px;
+    }
+
+    &-light{
+        font-family: var(--font-poppinsL);
+        font-size: 16px;
+    }
+
+    &-medium{
+        font-family: var(--font-poppinsM);
+        font-size: 24px;
+    }
+
+    &-light-card{
+        font-family: var(--font-poppinsL);
+        font-size: 16px;
+    }
+
+    &-medium-card{
+        font-family: var(--font-poppinsM);
+        font-size: 18px;
+    }
+}

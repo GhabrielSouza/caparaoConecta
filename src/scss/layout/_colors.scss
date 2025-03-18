@@ -1,0 +1,17 @@
+.cpc{
+    &-black-010{
+        color: var(--black-010);
+    }
+
+    &-background-gray{
+        background: var(--secondary-background-gray);
+    }
+
+    &-background-nowhite{
+        background: var(--background-notWhite);
+    }
+
+    &-background-white{
+        background: var(--white);
+    }
+}
