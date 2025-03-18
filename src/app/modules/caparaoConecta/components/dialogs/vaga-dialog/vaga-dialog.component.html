@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="container_img-vaga py-3">
+        <img [src]="'assets/imgs/banner_vaga_padrao.svg'" alt="Logo da empresa">
+    </div>
+    <section>
+        <div class="d-flex justify-content-between align-items-center gap-2">
+            <h1 class="cpc-bold m-0">Web Devoloper</h1>
+            <div class="d-flex align-items-center gap-2" (click)="favoritarVaga()">
+                <p class="cpc-light">Favoritar</p>
+                <img [src]="favoritar ? 'assets/icons/star_preenchida.svg': 'assets/icons/star.svg'" alt="Favoritar vaga">
+            </div>
+        </div>
+        <div>
+            <p class="cpc-regular"></p>
+        </div>
+        <div>
+            <h2 class="cpc-regular">Requisitos da vaga</h2>
+            <ul>
+                <ul></ul>
+            </ul>
+        </div>
+        <div>
+            <h2 class="cpc-regular">Cursos recomendados</h2>
+            <ul>
+                <ul></ul>
+            </ul>
+        </div>
+        <div class="d-flex justify-content-center gap-4 p-3">
+            <button class="btn btn-secondary">
+              Candidatar
+            </button>
+            <button class="btn btn-primary" (click)="closeModal()">
+              Fechar
+            </button>
+        </div>
+    </section>
+</div>

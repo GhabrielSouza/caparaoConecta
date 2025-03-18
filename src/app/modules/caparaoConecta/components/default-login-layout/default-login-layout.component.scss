@@ -6,7 +6,6 @@
       justify-content: center;
       margin: auto;
       width: 25%;
-      background: var(--secondary-background-gray);
       border-radius: 50%;
       margin-bottom: 1em;
 
@@ -17,12 +16,9 @@
 
     & .form-section {
       padding: 1.5em;
-      background-color: var(--background-notWhite);
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       border-radius: 15px;
       & h2 {
-        font-family: var(--font-poppinsM);
-        font-size: 24px;
         text-align: center;
       }
 

@@ -11,8 +11,8 @@
     @if(role == roleEnum.GUEST){
     <div class="header_aplicacao_acesso">
       <ul>
-        <li><a href="">Entrar</a></li>
-        <li><a href="">Inscrever-se</a></li>
+        <li><a routerLink="/login">Entrar</a></li>
+        <li><a (click)="openDialog()">Inscrever-se</a></li>
       </ul>
     </div>
     } @if(role == roleEnum.ADMIN || role == roleEnum.CANDIDATO || role ==
