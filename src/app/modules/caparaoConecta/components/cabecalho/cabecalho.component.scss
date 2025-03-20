@@ -5,6 +5,7 @@
     align-items: center;
     padding: 0 0.8em;
     background: var(--primary-background-green);
+    z-index: 1;
 
     .header_logo {
       & a img {
@@ -65,15 +66,15 @@
 
         .header_aplicacao_navegacao_opcoes {
           display: flex;
-          position: fixed;
-          top: 83px;
-          right: 0;
-          width: 15%;
-          height: calc(100vh - 10px);
-          background: var(--background-notWhite);
           flex-direction: column;
-          justify-content: center;
+          gap: 35px;
           align-items: center;
+          position: fixed;
+          top: 70px;
+          right: 0;
+          width: 20%;
+          height: calc(100vh - 20px);
+          background: var(--background-notWhite);
           padding: 30px 10px;
           transform: translateX(100%);
           transition: transform 0.3s ease-in-out;
@@ -148,6 +149,9 @@
 
           & .header_aplicacao_navegacao_opcoes-singout {
             padding-top: 30px;
+            & button{
+              width: 100%;
+            }
             & img {
               padding-right: 10px;
             }

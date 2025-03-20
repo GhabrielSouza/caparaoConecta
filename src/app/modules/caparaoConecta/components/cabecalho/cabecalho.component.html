@@ -1,4 +1,4 @@
-<header>
+<header (scroll)="onscroll()" [ngClass]="navbarFixed ? 'fixed' : 'nofixed'">
   <div class="header_logo">
     <a [routerLink]="['']"
       ><img

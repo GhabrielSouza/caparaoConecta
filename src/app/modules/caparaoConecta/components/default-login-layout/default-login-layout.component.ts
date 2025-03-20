@@ -37,6 +37,7 @@ export class DefaultLoginLayoutComponent {
   openDialog():void{
     this.#dialog.open(SelectRegisterDialogComponent,{
       panelClass:EDialogEnum.PROJETOS,
+      data: 'Como você deseja se candidatar?'
     })
   }
 }
