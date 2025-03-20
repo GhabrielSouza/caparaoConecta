@@ -1,0 +1,11 @@
+.fixed {
+    position: fixed;
+    width: 100%;
+    transition: 0.2s all;
+    top: 0px;
+  }
+
+  .nofixed {
+    position: static;
+    transition: 0.2s all;
+  }
