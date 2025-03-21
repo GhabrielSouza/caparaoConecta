@@ -1,4 +1,3 @@
-
 .cpc{
     &-regular{
         font-family: var(--font-poppinsR);
@@ -28,5 +27,9 @@
     &-medium-card{
         font-family: var(--font-poppinsM);
         font-size: 18px;
+    }
+    &-descricao{
+        font-family: var(--font-poppinsM);
+        font-size: 11px;
     }
 }
