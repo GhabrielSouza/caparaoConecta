@@ -1,24 +1,25 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { TInputType } from '../../../types/TInputType.type';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TInputType } from '../../../types/TInputType.type';
+import { CpfAndCnpjInputComponent } from '../cpf-and-cnpj-input/cpf-and-cnpj-input.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+
 @Component({
-  selector: 'app-primary-input',
-  imports: [MatFormFieldModule, MatInputModule],
-  templateUrl: './primary-input.component.html',
-  styleUrl: './primary-input.component.scss',
-  standalone: true,
+  selector: 'app-date-input',
+  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, NgxMaskPipe],
+  templateUrl: './date-input.component.html',
+  styleUrl: './date-input.component.scss',
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PrimaryInputComponent),
-      multi: true,
-    },
-  ],
-  
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => CpfAndCnpjInputComponent),
+        multi: true,
+      },
+    ],
 })
-export class PrimaryInputComponent implements ControlValueAccessor {
+export class DateInputComponent implements ControlValueAccessor{
   @Input() public type: TInputType = 'text';
   @Input() public inputName: string = '';
   @Input() public placeholder: string = '';

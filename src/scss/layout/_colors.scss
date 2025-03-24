@@ -7,11 +7,23 @@
         background: var(--secondary-background-gray);
     }
 
+    &-background-gray-010{
+        background: var(--primary-background-gray);
+    }
+
     &-background-nowhite{
         background: var(--background-notWhite);
     }
 
     &-background-white{
         background: var(--white);
+    }
+
+    &-color-white{
+        color: var(--white);
+    }
+
+    &-shadow-black{
+        box-shadow: var(--shadow-black);
     }
 }

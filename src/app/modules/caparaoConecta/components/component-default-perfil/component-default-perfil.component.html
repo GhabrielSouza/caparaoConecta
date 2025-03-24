@@ -1,0 +1,9 @@
+<div class="container cpc-shadow-black cpc-background-gray my-3">
+    <h1 class="cpc-bold py-4 px-1">{{title}}</h1>
+    <div>
+        <ng-content></ng-content>
+    </div>
+    <div class="py-3">
+        <app-button-primary (click)="openDialog()" text="Adicionar experiência" color="btn-tertiary" textColor="cpc-white" fonte="cpc-regular"/>
+    </div>
+</div>

@@ -54,7 +54,7 @@ export class FormCadastroEmpresaComponent implements OnInit{
         telefone: ['', [Validators.required]],
         cep: ['', [Validators.required]],
         estado: ['', [Validators.required]],
-        cidade: ['', []],
+        cidade: ['', [Validators.required]],
         endereco: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: [

@@ -1,5 +1,37 @@
 <app-cabecalho />
-    <app-component-container-vagas>
-        <app-card-vaga></app-card-vaga>
-    </app-component-container-vagas>
+    <section class="container_filtros row">
+        <div class="container_filtros_filtro m-4 col">
+            <h1 class="cpc-regular py-2">Filtrar</h1>
+            <div>
+                <h2 class="cpc-regular-010 py-4">Dados da Vaga</h2>
+                <div>
+                    <h3 class="cpc-regular-010">Modelo de trabalho</h3>
+                    <div class="d-flex flex-column">
+                        <mat-checkbox>Presencial</mat-checkbox>
+                        <mat-checkbox>Híbrido</mat-checkbox>
+                        <mat-checkbox>Remoto</mat-checkbox>
+                    </div>
+                </div>
+                <div class="selects d-flex flex-column my-3">
+                    <mat-label class="cpc-regular-010">Empresa</mat-label>
+                    <mat-form-field>
+                        <mat-select  placeholder="Selecione um item">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
+                    <mat-form-field>
+                        <mat-select placeholder="Selecione um item">
+                          <mat-option value="one">First option</mat-option>
+                          <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <app-component-container-vagas class="col-10 col-lg-9">
+            <app-card-vaga></app-card-vaga>
+        </app-component-container-vagas>
+    </section>
 <app-footer></app-footer>

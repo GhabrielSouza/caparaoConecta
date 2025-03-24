@@ -1,0 +1,3 @@
+<button type="button" class="p-2 btn" [ngClass]="[color, textColor, fonte]" (click)="navigate()">
+    <img [src]="icon ? icon : ''"  class="{{ icon }} me-2"/>{{ text }}
+</button>

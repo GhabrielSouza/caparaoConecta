@@ -15,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class CabecalhoComponent {
   public valorMenu: boolean = false;
   public navbarFixed: boolean = false;
-  public role: ERoleUser | null = ERoleUser.GUEST ;
+  public role: ERoleUser | null = ERoleUser.GUEST;
   public roleEnum = ERoleUser;
   
   #dialog = inject(MatDialog);

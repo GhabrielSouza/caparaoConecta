@@ -1,0 +1,30 @@
+<header class="d-flex justify-content-between align-items-center p-4">
+    <h3>{{data}}</h3>
+    <button (click)="closeModal()">
+        <img src="assets/icons/close.svg" alt="Botão para fechar o dialog">
+    </button>
+</header>
+<mat-dialog-content>
+    <form>
+        <app-primary-input type="text" placeholder="Qual cargo você desempenhou" inputName="cargo" label="Cargo" />
+        <app-primary-input type="text" placeholder="Local onde desempenhou o cargo" inputName="empresa" label="Empresa" />
+        <div>
+            <app-primary-input type="date" placeholder="mês/Ano" label="Início" inputName="date" />
+            <div>
+                <app-primary-input type="date" placeholder="mês/Ano" label="Início" inputName="date" />
+                <input type="checkbox">
+            </div>
+        </div>
+        <mat-form-field>
+            <mat-label>Possui comprovação?</mat-label>
+            <mat-radio-group>
+                <mat-radio-button value="Sim">Sim</mat-radio-button>
+                <mat-radio-button value="Não">Não</mat-radio-button>
+            </mat-radio-group>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput placeholder="Digite as informações adicionais caso ache necessário"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
