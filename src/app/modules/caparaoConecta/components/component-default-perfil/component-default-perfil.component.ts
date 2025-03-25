@@ -3,10 +3,11 @@ import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary
 import { MatDialog } from '@angular/material/dialog';
 import { FormExperienciaProfissionalComponent } from '../dialogs/form-experiencia-profissional/form-experiencia-profissional.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-component-default-perfil',
-  imports: [ButtonPrimaryComponent],
+  imports: [ButtonPrimaryComponent, CommonModule],
   templateUrl: './component-default-perfil.component.html',
   styleUrl: './component-default-perfil.component.scss'
 })

@@ -1,9 +1,18 @@
 <div class="container cpc-shadow-black cpc-background-gray my-3">
-    <h1 class="cpc-bold py-4 px-1">{{title}}</h1>
+    <div class="d-flex align-items-center justify-content-between pb-3">
+        <h1 class="cpc-regular py-3">{{title}}</h1>
+        @if (title != 'Experiência profissional') {
+            <div>
+                <button (click)="openDialog()" class="btn"><img [ngClass]="title == 'Sobre' ? 'img-hover' : ''" [src]="title == 'Sobre' ? 'assets/icons/lapis.svg' :'assets/icons/mais.svg'" alt="Botão para adicionar"></button>
+            </div>
+        }
+    </div>
     <div>
         <ng-content></ng-content>
     </div>
-    <div class="py-3">
-        <app-button-primary (click)="openDialog()" text="Adicionar experiência" color="btn-tertiary" textColor="cpc-white" fonte="cpc-regular"/>
-    </div>
+    @if (title == 'Experiência profissional') {
+        <div class="py-3">
+            <app-button-primary (click)="openDialog()" text="Adicionar experiência" color="btn-tertiary" textColor="cpc-white" fonte="cpc-regular"/>
+        </div>
+    }
 </div>

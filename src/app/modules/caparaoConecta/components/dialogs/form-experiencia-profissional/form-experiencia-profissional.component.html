@@ -1,30 +1,58 @@
-<header class="d-flex justify-content-between align-items-center p-4">
-    <h3>{{data}}</h3>
-    <button (click)="closeModal()">
+<header class="d-flex justify-content-between align-items-center px-4 pt-3">
+    <h3>{{ data }}</h3>
+    <button class="btn" (click)="closeModal()">
         <img src="assets/icons/close.svg" alt="Botão para fechar o dialog">
     </button>
 </header>
+
 <mat-dialog-content>
-    <form>
-        <app-primary-input type="text" placeholder="Qual cargo você desempenhou" inputName="cargo" label="Cargo" />
-        <app-primary-input type="text" placeholder="Local onde desempenhou o cargo" inputName="empresa" label="Empresa" />
-        <div>
-            <app-primary-input type="date" placeholder="mês/Ano" label="Início" inputName="date" />
-            <div>
-                <app-primary-input type="date" placeholder="mês/Ano" label="Início" inputName="date" />
-                <input type="checkbox">
-            </div>
+    <form [formGroup]="formXp">
+        
+        <app-primary-input 
+            formControlName="cargo" 
+            type="text" 
+            placeholder="Qual cargo você desempenhou" 
+            inputName="cargo" 
+            label="Cargo" 
+        />
+
+        <app-primary-input 
+            formControlName="empresa" 
+            type="text" 
+            placeholder="Local onde desempenhou o cargo" 
+            inputName="empresa" 
+            label="Empresa" 
+        />
+
+        <div class="d-flex justify-content-between gap-3">
+            <app-primary-input 
+                formControlName="dateInicio" 
+                type="date" 
+                placeholder="Mês/Ano" 
+                label="Início" 
+                inputName="dateInicio" 
+            />
+            
+            <app-primary-input 
+                formControlName="dateTermino" 
+                type="date" 
+                placeholder="Mês/Ano" 
+                label="Término" 
+                inputName="dateTermino" 
+            />
         </div>
-        <mat-form-field>
-            <mat-label>Possui comprovação?</mat-label>
-            <mat-radio-group>
+        <mat-checkbox formControlName="trabalhoAtual">Trabalho atualmente neste cargo</mat-checkbox>
+
+
+        
+        
+        <div class="pt-2">
+            <p>Possui comprovação?</p>
+            <mat-radio-group formControlName="comprovacao">
                 <mat-radio-button value="Sim">Sim</mat-radio-button>
                 <mat-radio-button value="Não">Não</mat-radio-button>
             </mat-radio-group>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Leave a comment</mat-label>
-            <textarea matInput placeholder="Digite as informações adicionais caso ache necessário"></textarea>
-        </mat-form-field>
+        </div>
+        
     </form>
 </mat-dialog-content>
