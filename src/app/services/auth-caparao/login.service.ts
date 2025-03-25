@@ -13,7 +13,7 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  public httpLoginUser(email:string, password:string):Observable<IFormLogin[]>{
-    return this.http.post<IFormLogin[]>(`${this.#url}/users`, {email, password}).pipe(shareReplay()); 
+  public httpLoginUser(email:string, password:string):Observable<IFormLogin>{
+    return this.http.post<IFormLogin>(`${this.#url}/users`, {email, password}).pipe(shareReplay()); 
   }
 }
