@@ -5,15 +5,19 @@ import { IFormLogin } from '../../modules/caparaoConecta/interface/IFormLogin.in
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
+  #url = signal(environment.apiAuth);
 
-  #url = signal(environment.apiLogin);
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  public httpLoginUser(email:string, password:string):Observable<IFormLogin>{
-    return this.http.post<IFormLogin>(`${this.#url}/users`, {email, password}).pipe(shareReplay()); 
+  public httpLoginUser$(
+    email: string,
+    password: string
+  ): Observable<IFormLogin> {
+    return this.http
+      .post<IFormLogin>(`${this.#url}/users`, { email, password })
+      .pipe(shareReplay());
   }
 }

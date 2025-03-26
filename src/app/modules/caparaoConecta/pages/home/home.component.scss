@@ -1,17 +1,16 @@
-@use '@angular/material' as mat;
-:host{
-
-    .selects{
-        width: 60%;
-    }
-
-    @include mat.checkbox-overrides((
-        label-text-font: var(--font-poppinsR),
-        selected-icon-color:var(--secondary-background-green),
-        selected-hover-icon-color: var(--secondary-background-green),
-        selected-focus-icon-color: var(--secondary-background-green),
-        selected-focus-state-layer-color: var(--secondary-background-green),
-        unselected-pressed-state-layer-color: var(--secondary-background-green)
-  ));
-
+@use "@angular/material" as mat;
+:host {
+  .container_filtros {
+    width: 100%;
+  }
+  @include mat.checkbox-overrides(
+    (
+      label-text-font: var(--font-poppinsR),
+      selected-icon-color: var(--secondary-background-green),
+      selected-hover-icon-color: var(--secondary-background-green),
+      selected-focus-icon-color: var(--secondary-background-green),
+      selected-focus-state-layer-color: var(--secondary-background-green),
+      unselected-pressed-state-layer-color: var(--secondary-background-green),
+    )
+  );
 }
