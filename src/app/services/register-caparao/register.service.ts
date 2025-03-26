@@ -11,7 +11,7 @@ import { ICandidato } from '../../modules/caparaoConecta/interface/ICandidato.in
 })
 export class RegisterService {
 
-  #url = signal(environment.apiLogin);
+  #url = signal(environment.apiAuth);
 
   constructor(private http: HttpClient) { }
 

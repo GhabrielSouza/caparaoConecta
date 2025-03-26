@@ -1,9 +1,11 @@
 export interface ICandidato{
     id?:number;
     nome: string;
+    sobrenome:string;
     cpf: string;
     telefone: string;
     cep: string;
+    cadUnico?:string;
     data_de_nascimento:string;
     tipo_usuario?:string;
     estado: string;

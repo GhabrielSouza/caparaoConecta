@@ -10,7 +10,7 @@ import { IEmpresa } from '../../modules/caparaoConecta/interface/IEmpresa.intefa
 })
 export class ListsService {
 
-    #url = signal(environment.apiLogin);
+    #url = signal(environment.apiAuth);
   
     constructor(private http: HttpClient) { }
   

@@ -18,11 +18,25 @@
       <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
       }
     </app-primary-input>
+    <app-primary-input
+      formControlName="sobrenome"
+      type="text"
+      placeholder="Digite seu nome"
+      label="Sobrenome"
+      inputName="sobrenome"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('sobrenome')?.invalid &&
+      (cadastrarForm.get('sobrenome')?.touched || cadastrarForm.get('sobrenome')?.dirty ))
+      {
+      <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
+      }
+    </app-primary-input>
     <div class="d-flex">
       <app-data-nascimento-input
         formControlName="dataDeNascimento"
         type="text"
-        placeholder="06/03/2005"
+        placeholder="dd/mm/yyyy"
         label="Data de nascimento"
         inputName="dataDeNascimento"
         class="col-6"

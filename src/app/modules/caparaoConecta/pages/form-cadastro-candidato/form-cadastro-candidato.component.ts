@@ -62,6 +62,7 @@ export class FormCadastroCandidatoComponent implements OnInit {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
+        sobrenome: ['', [Validators.required]],
         dataDeNascimento: ['', [Validators.required]],
         genero: ['', [Validators.required]],
         cpf: ['', [Validators.required, ehUmCPF]],
@@ -99,6 +100,13 @@ export class FormCadastroCandidatoComponent implements OnInit {
       merge(nomeControl.statusChanges, nomeControl.valueChanges)
         .pipe(takeUntilDestroyed())
         .subscribe(() => this.updateErrorMessage('nome'));
+    }
+
+    const sobrenomeControl = this.sobrenome;
+    if (sobrenomeControl) {
+      merge(sobrenomeControl.statusChanges, sobrenomeControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('sobrenome'));
     }
 
     const dataDeNascimentoControl = this.dataDeNascimento;
@@ -220,6 +228,10 @@ export class FormCadastroCandidatoComponent implements OnInit {
 
   get nome() {
     return this.cadastrarForm.get('nome');
+  }
+
+  get sobrenome() {
+    return this.cadastrarForm.get('sobrenome');
   }
 
   get cadUnico() {
