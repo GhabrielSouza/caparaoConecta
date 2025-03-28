@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
+
 @Component({
   selector: 'app-home',
   imports: [CabecalhoComponent, 
@@ -17,7 +18,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
             MatFormFieldModule, 
             MatInputModule, 
             MatSelectModule,
-            MatCheckboxModule],
+            MatCheckboxModule,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
