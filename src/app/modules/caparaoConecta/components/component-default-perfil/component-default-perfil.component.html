@@ -1,9 +1,19 @@
 <div class="container cpc-shadow-black cpc-background-gray my-3">
-    <div class="d-flex align-items-center justify-content-between pb-3">
+    <div class="d-flex align-items-center justify-content-between">
         <h1 class="cpc-regular py-3">{{title}}</h1>
-        @if (title != 'Experiência profissional') {
+        @if (title == 'Sobre') {
+            <div>
+                <button (click)="openDialogsSobre()" class="btn"><img src="assets/icons/mais.svg" alt="Botão para adicionar"></button>
+            </div>
+        }
+        @if (title == 'Experiência profissional') {
             <div>
                 <button (click)="openDialog()" class="btn"><img src="assets/icons/mais.svg" alt="Botão para adicionar"></button>
+            </div>
+        }
+        @if (title == 'Habilidades e competências adicionais') {
+            <div>
+                <button (click)="openDialogHabilidades()" class="btn"><img src="assets/icons/mais.svg" alt="Botão para adicionar"></button>
             </div>
         }
     </div>
