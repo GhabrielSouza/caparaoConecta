@@ -3,7 +3,7 @@
     <h1 class="cpc-regular py-3">{{ title }}</h1>
     @if(title == 'Formação acadêmica') {
     <div>
-      <button (click)="openDialog()" class="btn">
+      <button (click)="openDialogFormacao()" class="btn">
         <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
       </button>
     </div>
@@ -25,21 +25,14 @@
         <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
       </button>
     </div>
+    } @if (title == 'Cursos realizados') {
+    <div>
+      <button (click)="openDialog()" class="btn">
+        <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
+      </button>
+    </div>
     }
   </div>
-  @if (title == 'Cursos realizados') {
-  <div>
-    <button (click)="openDialog()" class="btn">
-      <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
-    </button>
-  </div>
-  } @if (title == 'Habilidades e compências adicionais') {
-  <div>
-    <button (click)="openDialog()" class="btn">
-      <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
-    </button>
-  </div>
-  }
   <div>
     <ng-content></ng-content>
   </div>
