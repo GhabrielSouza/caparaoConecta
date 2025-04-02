@@ -1,18 +1,22 @@
 <div class="container p-0 mt-3 cpc-shadow-black cpc-background-gray">
   <div class="container_img">
-    <img
-      class="img-perfil"
-      src="assets/imgs/perfil-img.svg"
-      alt="Foto de perfil"
-      loading="eager"
-    />
-    <button class="btn">
+    <div class="container_img-perfil">
       <img
-        class="img-perfil-edit"
-        src="assets/icons/lapis.svg"
-        alt="botão de editar"
+        class="img-perfil"
+        src="assets/imgs/perfil-img.svg"
+        alt="Foto de perfil"
+        loading="eager"
       />
-    </button>
+      <div class="container_img-edit">
+        <button class="btn" (click)="openDialog()">
+          <img
+            class="img-perfil-edit"
+            src="assets/icons/lapis.svg"
+            alt="botão de editar"
+          />
+        </button>
+      </div>
+    </div>
     <h1 class="cpc-bold">Nome do candidato</h1>
   </div>
 

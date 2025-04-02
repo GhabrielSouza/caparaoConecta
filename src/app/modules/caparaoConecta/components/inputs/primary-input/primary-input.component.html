@@ -8,9 +8,6 @@
         [placeholder]="placeholder"
         [value]="value"
         (input)="updateValue($event)"
-        [disabled]="
-          inputName == 'cidade' || inputName == 'estado' ? true : false
-        "
         required
       />
     </mat-form-field>

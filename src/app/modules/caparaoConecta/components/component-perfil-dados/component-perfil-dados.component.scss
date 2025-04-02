@@ -22,33 +22,49 @@
   }
 
   .container_img {
+    position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    position: relative;
-    .img-perfil {
-      border-radius: 50%;
-      border: 5px solid var(--primary-background-green);
-      object-fit: cover;
-      margin-bottom: 15px;
-      padding: 3px;
-    }
-
-    button {
-      position: absolute;
-      top: 25%;
-      left: 56%;
-      transform: translate(-50%, -50%);
-      background-color: var(--primary-background-green);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
+  
+    .container_img-perfil {
+      position: relative; // Mantém o botão posicionado em relação à imagem
+      display: inline-block;
+  
+      .img-perfil {
+        border-radius: 50%;
+        border: 5px solid var(--primary-background-green);
+        object-fit: cover;
+        padding: 3px;
+      }
+  
+      .container_img-edit {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+  
+        .btn {
+          background-color: var(--primary-background-green);
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          border: none;
+          padding: 0;
+  
+          .img-perfil-edit {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
     }
   }
+  
 
   aside {
     p {
