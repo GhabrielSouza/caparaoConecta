@@ -5,7 +5,7 @@ import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.compone
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CardDefaultInformacoesComponent } from '../../components/card-default-informacoes/card-default-informacoes.component';
 import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
-
+import {MatChipsModule} from '@angular/material/chips';
 @Component({
   selector: 'app-perfil',
   imports: [
@@ -15,6 +15,7 @@ import { ComponentPerfilDadosComponent } from '../../components/component-perfil
     CardDefaultInformacoesComponent,
     CommonModule,
     ComponentPerfilDadosComponent,
+    MatChipsModule
   ],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.scss',
