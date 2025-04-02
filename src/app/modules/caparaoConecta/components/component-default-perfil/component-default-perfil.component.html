@@ -1,18 +1,38 @@
 <div class="container cpc-shadow-black cpc-background-gray my-3">
-    <div class="d-flex align-items-center justify-content-between pb-3">
-        <h1 class="cpc-regular py-3">{{title}}</h1>
-        @if (title != 'Experiência profissional') {
-            <div>
-                <button (click)="openDialog()" class="btn"><img src="assets/icons/mais.svg" alt="Botão para adicionar"></button>
-            </div>
-        }
-    </div>
+  <div class="d-flex align-items-center justify-content-between pb-3">
+    <h1 class="cpc-regular py-3">{{ title }}</h1>
+    @if (title == 'Formação acadêmica') {
     <div>
-        <ng-content></ng-content>
+      <button (click)="openDialogFormacao()" class="btn">
+        <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
+      </button>
     </div>
-    @if (title == 'Experiência profissional') {
-        <div class="py-3">
-            <app-button-primary (click)="openDialog()" text="Adicionar experiência" color="btn-tertiary" textColor="cpc-white" fonte="cpc-regular"/>
-        </div>
+    } @if (title == 'Cursos realizados') {
+    <div>
+      <button (click)="openDialog()" class="btn">
+        <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
+      </button>
+    </div>
+    } @if (title == 'Habilidades e compências adicionais') {
+    <div>
+      <button (click)="openDialog()" class="btn">
+        <img src="assets/icons/mais.svg" alt="Botão para adicionar" />
+      </button>
+    </div>
     }
+  </div>
+  <div>
+    <ng-content></ng-content>
+  </div>
+  @if (title == 'Experiência profissional') {
+  <div class="py-3">
+    <app-button-primary
+      (click)="openDialog()"
+      text="Adicionar experiência"
+      color="btn-tertiary"
+      textColor="cpc-white"
+      fonte="cpc-regular"
+    />
+  </div>
+  }
 </div>

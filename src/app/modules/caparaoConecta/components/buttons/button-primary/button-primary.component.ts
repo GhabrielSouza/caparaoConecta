@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
   selector: 'app-button-primary',
   imports: [CommonModule],
   templateUrl: './button-primary.component.html',
-  styleUrl: './button-primary.component.scss'
+  styleUrl: './button-primary.component.scss',
 })
 export class ButtonPrimaryComponent {
   @Input() icon?: string;
-  @Input() text: string = 'Buscar';
+  @Input() text: string = '';
   @Input() fonte: string = 'hypnosText--TituloGrande';
   @Input() color: string = 'btn-success';
   @Input() route: string = '';

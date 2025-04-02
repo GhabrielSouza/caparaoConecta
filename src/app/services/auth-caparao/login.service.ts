@@ -17,7 +17,7 @@ export class LoginService {
     password: string
   ): Observable<IFormLogin> {
     return this.http
-      .post<IFormLogin>(`${this.#url}/users`, { email, password })
+      .post<IFormLogin>(`${this.#url}/login`, { email, password })
       .pipe(shareReplay());
   }
 }
