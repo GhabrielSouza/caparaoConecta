@@ -1,0 +1,81 @@
+<div class="container">
+    <h1 class="cpc-bold p-4 ">Anuncie sua vaga</h1>
+    <form>
+        <mat-label>Cargo *</mat-label>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Qual cargo você desempenhou?">
+        </mat-form-field>
+
+        <mat-label>Onde/Empresa? *</mat-label>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Local onde desempenhou o cargo">
+        </mat-form-field>
+
+        <mat-label>Modalidade da vaga *</mat-label>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Presencial, remoto ou híbrido?">
+        </mat-form-field>
+
+        <mat-label>Salário *</mat-label>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="R$1509,00">
+        </mat-form-field>
+
+        <mat-label>Habilidades</mat-label>
+        <mat-form-field class="example-chip-list w-100">
+            <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                @for (fruit of fruits(); track $index) { @if (fruit != '') {
+                <mat-chip-row (removed)="remove(fruit)">
+                {{ fruit }}
+                <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+                </mat-chip-row>
+                } }
+            </mat-chip-grid>
+            <input
+                name="currentFruit"
+                placeholder="Nova habilidade..."
+                #fruitInput
+                [(ngModel)]="currentFruit"
+                [ngModelOptions]="{ standalone: true }"
+                [matChipInputFor]="chipGrid"
+                [matAutocomplete]="auto"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)"
+            />
+            <mat-autocomplete
+                #auto="matAutocomplete"
+                (optionSelected)="selected($event); fruitInput.value = ''"
+            >
+                @for (fruit of filteredFruits(); track fruit) {
+                <mat-option [value]="fruit">{{ fruit }}</mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-label >Descrição</mat-label>
+        <mat-form-field class="example-full-width" (click)="openDialogHabilidades()">
+            <textarea matInput placeholder="Descreva a vaga..."></textarea>
+        </mat-form-field>
+
+        <div class="d-flex justify-content-end">
+        </div>
+
+        <mat-label>Quantidade de vagas *</mat-label>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Quantas vagas estão sendo ofertadas?">
+        </mat-form-field>
+    </form>
+
+    <footer>
+        <div class="d-flex justify-content-center gap-4 p-3">
+            <button class="btn btn-secondary">
+              Candidatar
+            </button>
+            <button class="btn btn-primary" (click)="closeModal()">
+              Fechar
+            </button>
+        </div>
+    </footer>
+</div>
