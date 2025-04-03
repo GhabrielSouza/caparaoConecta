@@ -7,12 +7,12 @@
   <mat-dialog-content>
     <form [formGroup]="cadastrarForm" class="row">
 
-        <input
-        type="file"
-        placeholder="Selecione uma imagem"
-        multiple
-        formControlName="imagem"
-      />
+        
+          <div class="flex justify-center">
+            <p-toast />
+            <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Browse" />
+        </div>
+
         <app-primary-input
           formControlName="nome"
           type="text"

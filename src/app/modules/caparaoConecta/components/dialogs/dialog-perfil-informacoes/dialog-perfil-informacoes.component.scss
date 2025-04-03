@@ -1,0 +1,20 @@
+.custom-upload-button .p-button {
+    background-color: #28a745 !important; /* Verde */
+    border-color: #218838 !important;
+    color: white !important;
+  }
+  
+  .custom-upload-button .p-button:hover {
+    background-color: #218838 !important; /* Verde mais escuro */
+  }
+  
+  ::ng-deep .p-fileupload .p-button {
+    background-color: #28a745 !important; 
+    border-color: #218838 !important;
+    color: white !important;
+  }
+  
+  ::ng-deep .p-fileupload .p-button:hover {
+    background-color: #218838 !important; /* Verde mais escuro */
+    
+  }

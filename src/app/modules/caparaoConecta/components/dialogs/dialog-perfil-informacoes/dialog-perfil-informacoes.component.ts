@@ -6,11 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { merge } from 'rxjs';
-import ehUmCPF from '../../../validators/VCpf.validator';
+
 import { VPasswordConfirm } from '../../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../../validators/VPasswordPattern.validator';
-import { DefaultLoginLayoutComponent } from '../../default-login-layout/default-login-layout.component';
-import { CadUnicoRadioComponent } from '../../inputs/cad-unico-radio/cad-unico-radio.component';
+
+
 import { CepInputComponent } from '../../inputs/cep-input/cep-input.component';
 import { CpfAndCnpjInputComponent } from '../../inputs/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
 import { DataNascimentoInputComponent } from '../../inputs/data-nascimento-input/data-nascimento-input.component';
@@ -19,8 +19,14 @@ import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.
 import { TelefoneInputComponent } from '../../inputs/telefone-input/telefone-input.component';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { VagaDialogComponent } from '../vaga-dialog/vaga-dialog.component';
+
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
+import { FileUpload, FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
@@ -32,22 +38,25 @@ import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-prim
       MatInputModule,
       MatIconModule,
       TelefoneInputComponent,
-      CpfAndCnpjInputComponent,
-      CepInputComponent,
       DataNascimentoInputComponent,
       GeneroInputComponent,
       MatDialogContent,
-      ButtonPrimaryComponent
+      ButtonPrimaryComponent,
+      FileUpload,
+      ToastModule,
+      IconFieldModule,
+      InputIconModule,ButtonModule
   ],
   templateUrl: './dialog-perfil-informacoes.component.html',
-  styleUrl: './dialog-perfil-informacoes.component.scss'
+  styleUrl: './dialog-perfil-informacoes.component.scss',
+  providers: [MessageService]
 })
 export class DialogPerfilInformacoesComponent {
   public cadastrarForm: FormGroup;
  
   
     constructor(private _fb: FormBuilder, private _dialogRef:MatDialogRef<DialogPerfilInformacoesComponent>, 
-      @Inject(MAT_DIALOG_DATA) public data:string, private router: Router) {
+      @Inject(MAT_DIALOG_DATA) public data:string, private router: Router, private messageService: MessageService) {
       this.cadastrarForm = this._fb.group(
         {
           nome: ['', [Validators.required]],
@@ -79,7 +88,7 @@ export class DialogPerfilInformacoesComponent {
           validators: VPasswordConfirm,
         }
       );
-  
+
       const emailControl = this.email;
       if (emailControl) {
         merge(emailControl.statusChanges, emailControl.valueChanges)
@@ -175,6 +184,17 @@ export class DialogPerfilInformacoesComponent {
       }
     }
   
+    onBasicUploadAuto(event: UploadEvent) {
+      this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Foto adicionada com sucesso' });
+      this.cadastrarForm.patchValue({
+        imagem: event,
+      });
+
+      console.log(event)
+    }
+
+    
+
     public errorMessages: Record<string, string> = {
       required: 'Este campo não pode estar vazio.',
       email: 'Por favor, preencha um email válido.',
@@ -268,19 +288,6 @@ export class DialogPerfilInformacoesComponent {
 
     public closeModal():void{
       this._dialogRef.close();
-    }
-    
-    onFileSelected(event: Event) {
-      const input = event.target as HTMLInputElement;
-      if (input.files && input.files.length > 0) {
-        const file = input.files[0];
-    
-        // Atualiza o formulário manualmente
-        this.cadastrarForm.patchValue({
-          imagem: file
-        });
-    
-      }
     }
     
 }
