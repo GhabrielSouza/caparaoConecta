@@ -1,244 +1,245 @@
 <header class="d-flex justify-content-between align-items-center px-4 pt-3">
-    <h3>{{ data }}</h3>
-    <button class="btn" (click)="closeModal()">
-      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
-    </button>
-  </header>
-  <mat-dialog-content>
-    <form [formGroup]="cadastrarForm" class="row">
+  <h3>{{ data }}</h3>
+  <button class="btn" (click)="closeModal()">
+    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+  </button>
+</header>
+<mat-dialog-content>
+  <form [formGroup]="cadastrarForm" class="row">
+    <div class="d-flex justify-center pb-4">
+      <p-toast />
+      <p-fileupload
+        mode="basic"
+        name="demo[]"
+        url="https://www.primefaces.org/cdn/api/upload.php"
+        accept="image/*"
+        maxFileSize="1000000"
+        (onUpload)="onBasicUploadAuto($event)"
+        [auto]="true"
+        chooseLabel="Foto de perfil"
+      />
+    </div>
 
-        
-          <div class="flex justify-center">
-            <p-toast />
-            <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Browse" />
-        </div>
+    <app-primary-input
+      formControlName="nome"
+      type="text"
+      placeholder="Digite seu nome"
+      label="Nome"
+      inputName="nome"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('nome')?.invalid &&
+      (cadastrarForm.get('nome')?.touched || cadastrarForm.get('nome')?.dirty ))
+      {
+      <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
+      }
+    </app-primary-input>
+    <app-primary-input
+      formControlName="sobrenome"
+      type="text"
+      placeholder="Digite seu nome"
+      label="Sobrenome"
+      inputName="sobrenome"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('sobrenome')?.invalid &&
+      (cadastrarForm.get('sobrenome')?.touched ||
+      cadastrarForm.get('sobrenome')?.dirty )) {
+      <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
+      }
+    </app-primary-input>
+    <div class="d-flex">
+      <app-data-nascimento-input
+        formControlName="dataDeNascimento"
+        type="text"
+        placeholder="dd/mm/yyyy"
+        label="Data de nascimento"
+        inputName="dataDeNascimento"
+        class="col-6"
+        >@if (cadastrarForm.get('dataDeNascimento')?.invalid &&
+        (cadastrarForm.get('dataDeNascimento')?.touched ||
+        cadastrarForm.get('dataDeNascimento')?.dirty )) {
+        <mat-error>{{ fieldErrors()["dataDeNascimento"] }}</mat-error>
+        }</app-data-nascimento-input
+      >
+      <app-genero-input
+        formControlName="genero"
+        type="text"
+        placeholder="Ex: Masculino"
+        label="Gênero"
+        inputName="genero"
+        class="col-6 ps-3"
+        >@if (cadastrarForm.get('genero')?.invalid &&
+        (cadastrarForm.get('genero')?.touched ||
+        cadastrarForm.get('genero')?.dirty )) {
+        <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
+        }</app-genero-input
+      >
+    </div>
 
-        <app-primary-input
-          formControlName="nome"
-          type="text"
-          placeholder="Digite seu nome"
-          label="Nome"
-          inputName="nome"
-          class="col-12"
-        >
-          @if (cadastrarForm.get('nome')?.invalid &&
-          (cadastrarForm.get('nome')?.touched || cadastrarForm.get('nome')?.dirty ))
-          {
-          <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
-          }
-        </app-primary-input>
-        <app-primary-input
-          formControlName="sobrenome"
-          type="text"
-          placeholder="Digite seu nome"
-          label="Sobrenome"
-          inputName="sobrenome"
-          class="col-12"
-        >
-          @if (cadastrarForm.get('sobrenome')?.invalid &&
-          (cadastrarForm.get('sobrenome')?.touched || cadastrarForm.get('sobrenome')?.dirty ))
-          {
-          <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
-          }
-        </app-primary-input>
-        <div class="d-flex">
-          <app-data-nascimento-input
-            formControlName="dataDeNascimento"
-            type="text"
-            placeholder="dd/mm/yyyy"
-            label="Data de nascimento"
-            inputName="dataDeNascimento"
-            class="col-6"
-            >@if (cadastrarForm.get('dataDeNascimento')?.invalid &&
-            (cadastrarForm.get('dataDeNascimento')?.touched ||
-            cadastrarForm.get('dataDeNascimento')?.dirty )) {
-            <mat-error>{{ fieldErrors()["dataDeNascimento"] }}</mat-error>
-            }</app-data-nascimento-input
-          >
-          <app-genero-input
-            formControlName="genero"
-            type="text"
-            placeholder="Ex: Masculino"
-            label="Gênero"
-            inputName="genero"
-            class="col-6 ps-3"
-            >@if (cadastrarForm.get('genero')?.invalid &&
-            (cadastrarForm.get('genero')?.touched ||
-            cadastrarForm.get('genero')?.dirty )) {
-            <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
-            }</app-genero-input
-          >
-        </div>
-        
-            <app-primary-input
-            type="text"
-            formControlName="instagram"
-            inputName="instagram"
-            label="Instagram"
-            placeholder="Insira seu link"
-           
-          >
-            @if (cadastrarForm.get('confirmPassword')?.invalid &&
-            (cadastrarForm.get('confirmPassword')?.touched ||
-            cadastrarForm.get('confirmPassword')?.dirty )){
-            <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-            } @if (cadastrarForm.errors?.['Invalida']) {
-            <mat-error> As senhas não coincidem.</mat-error>
-            }
-          </app-primary-input>
-          <app-primary-input
-            type="text"
-            formControlName="lattes"
-            inputName="lattes"
-            label="Lattes"
-            placeholder="Insira seu link"
-           
-          >
-            @if (cadastrarForm.get('confirmPassword')?.invalid &&
-            (cadastrarForm.get('confirmPassword')?.touched ||
-            cadastrarForm.get('confirmPassword')?.dirty )){
-            <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-            } @if (cadastrarForm.errors?.['Invalida']) {
-            <mat-error> As senhas não coincidem.</mat-error>
-            }
-          </app-primary-input>
-          <app-primary-input
-            type="text"
-            formControlName="github"
-            inputName="github"
-            label="Github"
-            placeholder="Insira seu link"
-           
-          >
-            @if (cadastrarForm.get('confirmPassword')?.invalid &&
-            (cadastrarForm.get('confirmPassword')?.touched ||
-            cadastrarForm.get('confirmPassword')?.dirty )){
-            <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-            } @if (cadastrarForm.errors?.['Invalida']) {
-            <mat-error> As senhas não coincidem.</mat-error>
-            }
-          </app-primary-input>
-          <app-primary-input
-            type="text"
-            formControlName="linkedin"
-            inputName="linkedin"
-            label="Linkedin"
-            placeholder="Insira seu link"
-           
-          >
-            @if (cadastrarForm.get('confirmPassword')?.invalid &&
-            (cadastrarForm.get('confirmPassword')?.touched ||
-            cadastrarForm.get('confirmPassword')?.dirty )){
-            <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-            } @if (cadastrarForm.errors?.['Invalida']) {
-            <mat-error> As senhas não coincidem.</mat-error>
-            }
-          </app-primary-input>
-       
-        
-        <app-telefone-input
-          formControlName="telefone"
-          type="tel"
-          placeholder="Digite seu número"
-          label="Telefone(DDD)"
-          inputName="telefone"
-          >@if (cadastrarForm.get('telefone')?.invalid &&
-          (cadastrarForm.get('telefone')?.touched ||
-          cadastrarForm.get('telefone')?.dirty )) {
-          <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
-          }</app-telefone-input
-        >
-        <div class="d-flex">
-            <app-primary-input
-              formControlName="estado"
-              type="text"
-              placeholder="Ex: Espírito Santo"
-              label="Estado"
-              inputName="estado"
-              class="col-6"
-              >@if (cadastrarForm.get('estado')?.invalid &&
-              (cadastrarForm.get('estado')?.touched ||
-              cadastrarForm.get('estado')?.dirty )) {
-              <mat-error>{{ fieldErrors()["estado"] }}</mat-error>
-              }</app-primary-input
-            >
-            <app-primary-input
-              formControlName="cidade"
-              type="text"
-              placeholder="Ex: Alegre"
-              label="Cidade"
-              inputName="cidade"
-              class="col-6 ps-3"
-              >@if (cadastrarForm.get('endereco')?.invalid &&
-              (cadastrarForm.get('endereco')?.touched ||
-              cadastrarForm.get('endereco')?.dirty )) {
-              <mat-error>{{ fieldErrors()["endereco"] }}</mat-error>
-              }</app-primary-input
-            >
-          </div>
-        <app-primary-input
-          formControlName="email"
-          type="email"
-          inputName="email"
-          label="Email"
-          placeholder="Digite seu email"
-          class="col-12"
-        >
-          @if (cadastrarForm.get('email')?.invalid &&
-          (cadastrarForm.get('email')?.touched || cadastrarForm.get('email')?.dirty
-          )) {
-          <mat-error>{{ fieldErrors()["email"] }}</mat-error>
-          }
-        </app-primary-input>
-        
-        <app-primary-input
-          type="password"
-          formControlName="password"
-          inputName="password"
-          label="Senha"
-          placeholder="Digite sua senha"
-          class="col-12"
-          >@if (cadastrarForm.get('password')?.invalid &&
-          (cadastrarForm.get('password')?.touched ||
-          cadastrarForm.get('password')?.dirty )) {
-          <mat-error>{{ fieldErrors()["password"] }}</mat-error>
-          } @if(cadastrarForm.get('password')?.hasError('uppercase')){
-          <mat-error>
-            {{ patternMessages["uppercase"] }}
-          </mat-error>
-          } @if(cadastrarForm.get('password')?.hasError('lowercase')){
-          <mat-error>
-            {{ patternMessages["lowercase"] }}
-          </mat-error>
-          } @if(cadastrarForm.get('password')?.hasError('specialChar')){
-          <mat-error>
-            {{ patternMessages["specialChar"] }}
-          </mat-error>
-          }
-        </app-primary-input>
-        <app-primary-input
-          type="password"
-          formControlName="confirmPassword"
-          inputName="confirmPassword"
-          label="Confirme sua senha"
-          placeholder="Confirme sua senha"
-          class="col-12"
-        >
-          @if (cadastrarForm.get('confirmPassword')?.invalid &&
-          (cadastrarForm.get('confirmPassword')?.touched ||
-          cadastrarForm.get('confirmPassword')?.dirty )){
-          <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-          } @if (cadastrarForm.errors?.['Invalida']) {
-          <mat-error> As senhas não coincidem.</mat-error>
-          }
-        </app-primary-input>
-        <div class="d-flex justify-content-end">
-            <app-button-primary
-              fonte="cpc-regular"
-              color="btn-secondary"
-              text="Salvar"
-            />
-          </div>
-      </form>
-  </mat-dialog-content>
+    <app-primary-input
+      type="text"
+      formControlName="instagram"
+      inputName="instagram"
+      label="Instagram"
+      placeholder="Insira seu link"
+    >
+      @if (cadastrarForm.get('confirmPassword')?.invalid &&
+      (cadastrarForm.get('confirmPassword')?.touched ||
+      cadastrarForm.get('confirmPassword')?.dirty )){
+      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
+      } @if (cadastrarForm.errors?.['Invalida']) {
+      <mat-error> As senhas não coincidem.</mat-error>
+      }
+    </app-primary-input>
+    <app-primary-input
+      type="text"
+      formControlName="lattes"
+      inputName="lattes"
+      label="Lattes"
+      placeholder="Insira seu link"
+    >
+      @if (cadastrarForm.get('confirmPassword')?.invalid &&
+      (cadastrarForm.get('confirmPassword')?.touched ||
+      cadastrarForm.get('confirmPassword')?.dirty )){
+      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
+      } @if (cadastrarForm.errors?.['Invalida']) {
+      <mat-error> As senhas não coincidem.</mat-error>
+      }
+    </app-primary-input>
+    <app-primary-input
+      type="text"
+      formControlName="github"
+      inputName="github"
+      label="Github"
+      placeholder="Insira seu link"
+    >
+      @if (cadastrarForm.get('confirmPassword')?.invalid &&
+      (cadastrarForm.get('confirmPassword')?.touched ||
+      cadastrarForm.get('confirmPassword')?.dirty )){
+      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
+      } @if (cadastrarForm.errors?.['Invalida']) {
+      <mat-error> As senhas não coincidem.</mat-error>
+      }
+    </app-primary-input>
+    <app-primary-input
+      type="text"
+      formControlName="linkedin"
+      inputName="linkedin"
+      label="Linkedin"
+      placeholder="Insira seu link"
+    >
+      @if (cadastrarForm.get('confirmPassword')?.invalid &&
+      (cadastrarForm.get('confirmPassword')?.touched ||
+      cadastrarForm.get('confirmPassword')?.dirty )){
+      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
+      } @if (cadastrarForm.errors?.['Invalida']) {
+      <mat-error> As senhas não coincidem.</mat-error>
+      }
+    </app-primary-input>
 
+    <app-telefone-input
+      formControlName="telefone"
+      type="tel"
+      placeholder="Digite seu número"
+      label="Telefone(DDD)"
+      inputName="telefone"
+      >@if (cadastrarForm.get('telefone')?.invalid &&
+      (cadastrarForm.get('telefone')?.touched ||
+      cadastrarForm.get('telefone')?.dirty )) {
+      <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
+      }</app-telefone-input
+    >
+    <div class="d-flex">
+      <app-primary-input
+        formControlName="estado"
+        type="text"
+        placeholder="Ex: Espírito Santo"
+        label="Estado"
+        inputName="estado"
+        class="col-6"
+        >@if (cadastrarForm.get('estado')?.invalid &&
+        (cadastrarForm.get('estado')?.touched ||
+        cadastrarForm.get('estado')?.dirty )) {
+        <mat-error>{{ fieldErrors()["estado"] }}</mat-error>
+        }</app-primary-input
+      >
+      <app-primary-input
+        formControlName="cidade"
+        type="text"
+        placeholder="Ex: Alegre"
+        label="Cidade"
+        inputName="cidade"
+        class="col-6 ps-3"
+        >@if (cadastrarForm.get('endereco')?.invalid &&
+        (cadastrarForm.get('endereco')?.touched ||
+        cadastrarForm.get('endereco')?.dirty )) {
+        <mat-error>{{ fieldErrors()["endereco"] }}</mat-error>
+        }</app-primary-input
+      >
+    </div>
+    <app-primary-input
+      formControlName="email"
+      type="email"
+      inputName="email"
+      label="Email"
+      placeholder="Digite seu email"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('email')?.invalid &&
+      (cadastrarForm.get('email')?.touched || cadastrarForm.get('email')?.dirty
+      )) {
+      <mat-error>{{ fieldErrors()["email"] }}</mat-error>
+      }
+    </app-primary-input>
+
+    <app-primary-input
+      type="password"
+      formControlName="password"
+      inputName="password"
+      label="Senha"
+      placeholder="Digite sua senha"
+      class="col-12"
+      >@if (cadastrarForm.get('password')?.invalid &&
+      (cadastrarForm.get('password')?.touched ||
+      cadastrarForm.get('password')?.dirty )) {
+      <mat-error>{{ fieldErrors()["password"] }}</mat-error>
+      } @if(cadastrarForm.get('password')?.hasError('uppercase')){
+      <mat-error>
+        {{ patternMessages["uppercase"] }}
+      </mat-error>
+      } @if(cadastrarForm.get('password')?.hasError('lowercase')){
+      <mat-error>
+        {{ patternMessages["lowercase"] }}
+      </mat-error>
+      } @if(cadastrarForm.get('password')?.hasError('specialChar')){
+      <mat-error>
+        {{ patternMessages["specialChar"] }}
+      </mat-error>
+      }
+    </app-primary-input>
+    <app-primary-input
+      type="password"
+      formControlName="confirmPassword"
+      inputName="confirmPassword"
+      label="Confirme sua senha"
+      placeholder="Confirme sua senha"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('confirmPassword')?.invalid &&
+      (cadastrarForm.get('confirmPassword')?.touched ||
+      cadastrarForm.get('confirmPassword')?.dirty )){
+      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
+      } @if (cadastrarForm.errors?.['Invalida']) {
+      <mat-error> As senhas não coincidem.</mat-error>
+      }
+    </app-primary-input>
+    <div class="d-flex justify-content-end">
+      <app-button-primary
+        fonte="cpc-regular"
+        color="btn-secondary"
+        text="Salvar"
+      />
+    </div>
+  </form>
+</mat-dialog-content>
