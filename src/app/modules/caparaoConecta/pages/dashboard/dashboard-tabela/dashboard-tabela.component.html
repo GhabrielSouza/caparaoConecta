@@ -1,0 +1,28 @@
+<div class="mt-5 card">
+    <p-table
+        class="tabela-vagas"
+        [value]="vagas"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]" >
+        <ng-template #header>
+            <tr [ngStyle]="{ 'background-color': '#60D953' }">
+                <th style="width:25%;">Nome da vaga</th>
+                <th style="width:25%;">Status da vaga</th>
+                <th style="width:25%;">Data de encerramento</th>
+                <th style="width:25%;">Candidatos Aceitos</th>
+                <th style="width:25%;">Qtd. Candidatos</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-vagas>
+            <tr>
+                <td>{{ vagas.titulo_vaga }}</td>
+                <td>{{ vagas.status }}</td>
+                <td>{{ vagas.data_fechamenot }}</td>
+                <td>{{ vagas.qtd_vagas_preenchidas }}</td>
+                <td>{{ vagas.qtd_vaga }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
