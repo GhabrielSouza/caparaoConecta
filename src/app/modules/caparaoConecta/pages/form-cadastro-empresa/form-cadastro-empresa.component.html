@@ -1,6 +1,9 @@
 <app-default-login-layout
   titulo="Cadastrar no Caparaó Conecta"
-  botaoCadastrar="Cadastrar"
+  botaoCadastrar="Login"
+  (Submit)="submit()"
+  (Navigate)="navigate()"
+  botaoEntrar="Cadastrar"
   [disablebotaoCadastrar]="!cadastrarForm.valid"
 >
   <form [formGroup]="cadastrarForm" class="row">

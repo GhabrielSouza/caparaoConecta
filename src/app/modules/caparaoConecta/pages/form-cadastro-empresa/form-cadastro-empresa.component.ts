@@ -27,6 +27,8 @@ import { VPasswordPattern } from '../../validators/VPasswordPattern.validator';
 import { CpfAndCnpjInputComponent } from '../../components/inputs/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
 import { CepInputComponent } from '../../components/inputs/cep-input/cep-input.component';
 import { TelefoneInputComponent } from '../../components/inputs/telefone-input/telefone-input.component';
+import { Router } from '@angular/router';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 @Component({
   selector: 'app-form-cadastro-empresa',
@@ -46,7 +48,7 @@ import { TelefoneInputComponent } from '../../components/inputs/telefone-input/t
 export class FormCadastroEmpresaComponent implements OnInit{
   public cadastrarForm: FormGroup;
 
-  constructor(private _fb: FormBuilder, private ViacepService: ViacepService) {
+  constructor(private _fb: FormBuilder, private ViacepService: ViacepService, public router: Router, private httpService:RegisterService) {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
@@ -67,10 +69,12 @@ export class FormCadastroEmpresaComponent implements OnInit{
           ],
         ],
         confirmPassword: ['', [Validators.required]],
+        tipo_usuario: 3,
       },
       {
         validators: VPasswordConfirm,
-      }
+      },
+      
     );
 
     const emailControl = this.email;
@@ -238,5 +242,24 @@ export class FormCadastroEmpresaComponent implements OnInit{
       ...errors,
       [field]: this.errorMessages[errorKey],
     }));
+  }
+
+  navigate(){
+    this.router.navigate(["login"]);
+  }
+
+  submit(){
+    this.httpService.httpRegisterEmpresa$(this.cadastrarForm.value).subscribe({
+      next: (resp) => {
+        console.log(resp);
+        this.router.navigate(["login"]);
+      },
+      error() {
+        console.log('erro ao cadastrar');
+      },
+      complete() {
+        console.log('completo');
+      },
+    })
   }
 }

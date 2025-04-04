@@ -16,7 +16,7 @@ export class RegisterService {
   constructor(private http: HttpClient) { }
 
   public httpRegisterEmpresa$(empresa:IEmpresa):Observable<IEmpresa>{
-    return this.http.post<IEmpresa>(`${this.#url}/cadastrar`, empresa).pipe(shareReplay()); 
+    return this.http.post<IEmpresa>(`${this.#url}/cadPessoas`, empresa).pipe(shareReplay()); 
   }
 
   public httpRegisterCandidato$(candidato:ICandidato):Observable<ICandidato>{
