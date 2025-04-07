@@ -37,6 +37,19 @@ export class RegisterService {
       );
   }
 
+  #setUpdateEmpresa = signal<IEmpresa | null>(null);
+  public getUpdateEmpresa = this.#setCreateEmpresa.asReadonly();
+  public httpUpdateEmpresa$(empresa: IEmpresa): Observable<IEmpresa> {
+    return this.#http
+      .post<IEmpresa>(`${this.#url}/api/cadPessoas`, empresa)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setUpdateEmpresa.set(data);
+        })
+      );
+  }
+
   #setListCandidato = signal<ICandidato[] | null>(null);
   public getListCandidato = this.#setListCandidato.asReadonly();
   public httpListCandidatos$(): Observable<ICandidato[]> {
@@ -60,4 +73,20 @@ export class RegisterService {
         })
       );
   }
+
+  #setUpdateCandidato = signal<ICandidato | null>(null);
+  public getUpdateCandidato = this.#setCreateCandidato.asReadonly();
+  public httpUpdateCandidato$(candidato: ICandidato): Observable<ICandidato> {
+    return this.#http
+      .put<ICandidato>(`${this.#url}/api/cadastrar/${candidato.id}`, candidato)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setUpdateCandidato.set(data);
+        })
+      );
+  }
 }
+
+
+
