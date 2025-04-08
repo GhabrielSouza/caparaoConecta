@@ -41,7 +41,7 @@ export class RegisterService {
   public getUpdateEmpresa = this.#setCreateEmpresa.asReadonly();
   public httpUpdateEmpresa$(empresa: IEmpresa): Observable<IEmpresa> {
     return this.#http
-      .post<IEmpresa>(`${this.#url}/api/cadPessoas/${empresa.id}`, empresa)
+      .put<IEmpresa>(`${this.#url}/api/cadPessoas/${empresa.id}`, empresa)
       .pipe(
         shareReplay(),
         tap((data) => {
