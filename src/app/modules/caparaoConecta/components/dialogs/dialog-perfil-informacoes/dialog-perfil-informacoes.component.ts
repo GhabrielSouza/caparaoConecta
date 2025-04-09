@@ -185,7 +185,7 @@ export class DialogPerfilInformacoesComponent {
     }
   
     onBasicUploadAuto(event: UploadEvent) {
-      this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Foto adicionada com sucesso' });
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Foto adicionada com sucesso' });
       this.cadastrarForm.patchValue({
         imagem: event,
       });

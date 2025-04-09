@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormFormacaoAcademicaComponent } from '../dialogs/form-formacao-academica/form-formacao-academica.component';
 import { DialogHabilidadesComponent } from '../dialogs/dialog-habilidades/dialog-habilidades.component';
 import { DialogSobreComponent } from '../dialogs/dialog-sobre/dialog-sobre.component';
+import { DialogCursosComponent } from '../dialogs/dialog-cursos/dialog-cursos.component';
 
 @Component({
   selector: 'app-component-default-perfil',
@@ -45,6 +46,13 @@ export class ComponentDefaultPerfilComponent {
     this.#dialog.open(DialogSobreComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: 'Atualizando a seção sobre',
+    });
+  }
+
+  openDialogCursos(): void {
+    this.#dialog.open(DialogCursosComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+      data: 'Adicionar curso realizado',
     });
   }
 }
