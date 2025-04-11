@@ -12,6 +12,8 @@ import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-cadastro-vaga-dialog',
@@ -22,7 +24,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatChipsModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './cadastro-vaga-dialog.component.html',
   styleUrl: './cadastro-vaga-dialog.component.scss',
