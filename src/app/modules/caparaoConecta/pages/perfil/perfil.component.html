@@ -1,18 +1,23 @@
 <app-cabecalho />
-<app-component-perfil-dados></app-component-perfil-dados>
-<app-component-default-perfil title="Sobre">
-    
+<app-component-perfil-dados [data]=""></app-component-perfil-dados>
+<app-component-default-perfil title="Sobre" [data]="sobre">
 </app-component-default-perfil>
-<app-component-default-perfil title="Experiência profissional">
+<app-component-default-perfil
+  title="Experiência profissional"
+  [data]="experiencias"
+>
   <!--for com condicional tbm-->
   <app-card-default-informacoes></app-card-default-informacoes>
 </app-component-default-perfil>
-<app-component-default-perfil title="Formação acadêmica">
+<app-component-default-perfil title="Formação acadêmica" [data]="formacoes">
 </app-component-default-perfil>
-<app-component-default-perfil title="Cursos realizados">
+<app-component-default-perfil title="Cursos realizados" [data]="cursos">
 </app-component-default-perfil>
-<app-component-default-perfil title="Habilidades e competências adicionais">
-<!-- colocar um for e um if para verifica se existe-->
+<app-component-default-perfil
+  title="Habilidades e competências adicionais"
+  [data]="habilidades"
+>
+  <!-- colocar um for e um if para verifica se existe-->
   <mat-chip-set aria-label="Fish selection">
     <mat-chip>One fish</mat-chip>
   </mat-chip-set>
