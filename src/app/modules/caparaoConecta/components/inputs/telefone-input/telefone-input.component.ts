@@ -9,7 +9,7 @@ import { TInputType } from '../../../types/TInputType.type';
 
 @Component({
   selector: 'app-telefone-input',
-  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, NgxMaskPipe],
+  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective],
   templateUrl: './telefone-input.component.html',
   styleUrl: './telefone-input.component.scss',
   providers: [
