@@ -2,6 +2,8 @@
   titulo="Cadastrar no Caparaó Conecta"
   botaoEntrar="Cadastrar"
   botaoCadastrar="Login"
+  (Submit)="submit()"
+  (Navigate)="navigate()"
   [disablebotaoCadastrar]="!cadastrarForm.valid"
 >
   <form [formGroup]="cadastrarForm" class="row">
@@ -54,6 +56,7 @@
         label="Gênero"
         inputName="genero"
         class="col-6 ps-3"
+        
         >@if (cadastrarForm.get('genero')?.invalid &&
         (cadastrarForm.get('genero')?.touched ||
         cadastrarForm.get('genero')?.dirty )) {

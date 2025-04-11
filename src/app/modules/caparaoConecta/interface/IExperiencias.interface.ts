@@ -1,4 +1,4 @@
-export interface Experiencia {
+export interface IExperiencia {
   id_experiencias?: number;
   cargo: string;
   nome_empresa: string;

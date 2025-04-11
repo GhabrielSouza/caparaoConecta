@@ -20,11 +20,13 @@ export class ComponentDefaultPerfilComponent {
   #dialog = inject(MatDialog);
 
   @Input() public title: string = '';
+  @Input() public IdUsuario: any;
   @Input() public data: any;
 
-  openDialogFormacao(): void {
+  openDialogFormacao(data:any): void {
     this.#dialog.open(FormFormacaoAcademicaComponent, {
       panelClass: EDialogEnum.FORMACAO,
+      data
     });
   }
 

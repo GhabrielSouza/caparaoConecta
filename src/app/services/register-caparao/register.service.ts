@@ -65,7 +65,7 @@ export class RegisterService {
   public getCreateCandidato = this.#setCreateCandidato.asReadonly();
   public httpRegisterCandidato$(candidato: ICandidato): Observable<ICandidato> {
     return this.#http
-      .post<ICandidato>(`${this.#url}/api/cadastrar`, candidato)
+      .post<ICandidato>(`${this.#url}/api/cadPessoas`, candidato)
       .pipe(
         shareReplay(),
         tap((data) => {

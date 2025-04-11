@@ -32,6 +32,7 @@ import { GeneroInputComponent } from '../../components/inputs/genero-input/gener
 import { TelefoneInputComponent } from '../../components/inputs/telefone-input/telefone-input.component';
 import { CadUnicoRadioComponent } from '../../components/inputs/cad-unico-radio/cad-unico-radio.component';
 import { DataNascimentoInputComponent } from '../../components/inputs/data-nascimento-input/data-nascimento-input.component';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 
 @Component({
@@ -57,13 +58,14 @@ import { DataNascimentoInputComponent } from '../../components/inputs/data-nasci
 export class FormCadastroCandidatoComponent implements OnInit {
   // #fb = inject(FormBuilder);
   public cadastrarForm: FormGroup;
+  router: any;
 
-  constructor(private _fb: FormBuilder, private ViacepService: ViacepService) {
+  constructor(private _fb: FormBuilder, private ViacepService: ViacepService, private apiService: RegisterService) {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
         sobrenome: ['', [Validators.required]],
-        dataDeNascimento: ['', [Validators.required]],
+        data_de_nascimento: ['', [Validators.required]],
         genero: ['', [Validators.required]],
         cpf: ['', [Validators.required, ehUmCPF]],
         telefone: ['', [Validators.required]],
@@ -82,6 +84,7 @@ export class FormCadastroCandidatoComponent implements OnInit {
           ],
         ],
         confirmPassword: ['', [Validators.required]],
+        id_tipo_usuarios: 2,
       },
       {
         validators: VPasswordConfirm,
@@ -298,5 +301,28 @@ export class FormCadastroCandidatoComponent implements OnInit {
       ...errors,
       [field]: this.errorMessages[errorKey],
     }));
+  }
+
+  navigate() {
+    this.router.navigate(['login']);
+  }
+
+  submit() {
+    console.log(this.cadastrarForm.value);
+    return this.apiService
+      .httpRegisterCandidato$(this.cadastrarForm.value)
+      .subscribe({
+        next: (resp) => {
+          console.log(resp);
+          this.router.navigate(['login']);
+        },
+        error(resp) {
+          console.log(resp);
+          console.log('erro ao cadastrar');
+        },
+        complete() {
+          console.log('completo');
+        },
+      });
   }
 }

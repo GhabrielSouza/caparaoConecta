@@ -1,3 +1,8 @@
+import { ICursos } from "./ICursos.inteface";
+import { IExperiencia } from "./IExperiencias.interface";
+import { IFormacoesAcademicas } from "./IFormacoesAcademicas.interface";
+import { IHabilidades } from "./IHabilidades.interface";
+
 export interface ICandidato {
   id?: number;
   nome: string;
@@ -20,4 +25,8 @@ export interface ICandidato {
   curriculo_lattes?: string;
   email: string;
   password: string;
+  formacoes?: IFormacoesAcademicas[];
+  experiencias?: IExperiencia[];
+  cursos?:ICursos[];
+  habilidades?: IHabilidades[];
 }

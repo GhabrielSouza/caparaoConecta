@@ -71,7 +71,7 @@ export class FormCadastroEmpresaComponent implements OnInit {
           ],
         ],
         confirmPassword: ['', [Validators.required]],
-        tipo_usuario: 3,
+        id_tipo_usuarios: 3,
       },
       {
         validators: VPasswordConfirm,
@@ -241,16 +241,18 @@ export class FormCadastroEmpresaComponent implements OnInit {
     }));
   }
 
-  navigate() {
-    this.router.navigate(['login']);
-  }
-
   ngOnInit(): void {
     this.observerPreenchimentoCep();
     this.apiService.httpListEmpresas$().subscribe();
   }
 
+  navigate() {
+    this.router.navigate(['login']);
+  }
+
+
   submit() {
+    console.log(this.cadastrarForm.value)
     return this.apiService
       .httpRegisterEmpresa$(this.cadastrarForm.value)
       .subscribe({
@@ -259,6 +261,7 @@ export class FormCadastroEmpresaComponent implements OnInit {
           this.router.navigate(['login']);
         },
         error(resp) {
+          console.log(resp);
           console.log('erro ao cadastrar');
         },
         complete() {
