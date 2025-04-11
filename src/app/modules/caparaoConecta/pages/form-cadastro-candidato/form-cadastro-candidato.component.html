@@ -37,24 +37,22 @@
     </app-primary-input>
     <div class="d-flex">
       <app-data-nascimento-input
-        formControlName="dataDeNascimento"
+        formControlName="data_de_nascimento"
         type="text"
         placeholder="dd/mm/yyyy"
         label="Data de nascimento"
-        inputName="dataDeNascimento"
+        inputName="data_de_nascimento"
         class="col-6"
-        >@if (cadastrarForm.get('dataDeNascimento')?.invalid &&
-        (cadastrarForm.get('dataDeNascimento')?.touched ||
-        cadastrarForm.get('dataDeNascimento')?.dirty )) {
-        <mat-error>{{ fieldErrors()["dataDeNascimento"] }}</mat-error>
+        >@if (cadastrarForm.get('data_de_nascimento')?.invalid &&
+        (cadastrarForm.get('data_de_nascimento')?.touched ||
+        cadastrarForm.get('data_de_nascimento')?.dirty )) {
+        <mat-error>{{ fieldErrors()["data_de_nascimento"] }}</mat-error>
         }</app-data-nascimento-input
       >
       <app-genero-input
         formControlName="genero"
-        type="text"
-        placeholder="Ex: Masculino"
         label="Gênero"
-        inputName="genero"
+        placeholder="Selecione seu gênero"
         class="col-6 ps-3"
         
         >@if (cadastrarForm.get('genero')?.invalid &&
