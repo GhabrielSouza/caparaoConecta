@@ -21,9 +21,5 @@ export const routes: Routes = [
   {
     path: 'singUp',
     component: FormCadastroCandidatoComponent
-  },
-  {
-    path: 'detalhesVaga',
-    component: DetalhesVagaComponent
   }
 ];
