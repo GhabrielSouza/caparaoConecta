@@ -30,8 +30,8 @@
       class="col-12"
     >
       @if (cadastrarForm.get('sobrenome')?.invalid &&
-      (cadastrarForm.get('sobrenome')?.touched || cadastrarForm.get('sobrenome')?.dirty ))
-      {
+      (cadastrarForm.get('sobrenome')?.touched ||
+      cadastrarForm.get('sobrenome')?.dirty )) {
       <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
       }
     </app-primary-input>
@@ -54,7 +54,6 @@
         label="Gênero"
         placeholder="Selecione seu gênero"
         class="col-6 ps-3"
-        
         >@if (cadastrarForm.get('genero')?.invalid &&
         (cadastrarForm.get('genero')?.touched ||
         cadastrarForm.get('genero')?.dirty )) {
@@ -153,7 +152,7 @@
       inputName="cadUnico"
     >
       @if (cadastrarForm.get('cadUnico')?.hasError('required')){
-        <mat-error>{{ fieldErrors()["cadUnico"] }}</mat-error>
+      <mat-error>{{ fieldErrors()["cadUnico"] }}</mat-error>
       }
     </app-cad-unico-radio>
     <app-primary-input

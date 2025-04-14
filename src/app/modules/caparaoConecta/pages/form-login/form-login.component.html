@@ -4,7 +4,7 @@
   botaoCadastrar="Cadastrar"
   [disablebotaoCadastrar]="!loginForm.valid"
   (Submit)="submit()"
-  
+  (Navigate)="navigate()"
 >
   <form [formGroup]="loginForm">
     <app-primary-input

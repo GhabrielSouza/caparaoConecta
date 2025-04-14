@@ -135,5 +135,10 @@ export class FormLoginComponent implements OnInit {
     });
   }
 
-  
+  navigate() {
+    this.dialog.open(SelectRegisterDialogComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+      data: 'Como você deseja se cadastrar?',
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import { ViacepService } from './../../../../services/viacep.service';
 
-import { Component,  OnInit, signal} from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -12,7 +12,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -20,7 +20,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { VPasswordConfirm } from '../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../validators/VPasswordPattern.validator';
 import ehUmCPF from '../../validators/VCpf.validator';
-
 
 import { CpfAndCnpjInputComponent } from '../../components/inputs/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
 import { CepInputComponent } from '../../components/inputs/cep-input/cep-input.component';
@@ -33,7 +32,7 @@ import { TelefoneInputComponent } from '../../components/inputs/telefone-input/t
 import { CadUnicoRadioComponent } from '../../components/inputs/cad-unico-radio/cad-unico-radio.component';
 import { DataNascimentoInputComponent } from '../../components/inputs/data-nascimento-input/data-nascimento-input.component';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-cadastro-candidato',
@@ -50,7 +49,7 @@ import { RegisterService } from '../../../../services/register-caparao/register.
     CepInputComponent,
     DataNascimentoInputComponent,
     GeneroInputComponent,
-    CadUnicoRadioComponent
+    CadUnicoRadioComponent,
   ],
   templateUrl: './form-cadastro-candidato.component.html',
   styleUrl: './form-cadastro-candidato.component.scss',
@@ -58,9 +57,13 @@ import { RegisterService } from '../../../../services/register-caparao/register.
 export class FormCadastroCandidatoComponent implements OnInit {
   // #fb = inject(FormBuilder);
   public cadastrarForm: FormGroup;
-  router: any;
 
-  constructor(private _fb: FormBuilder, private ViacepService: ViacepService, private apiService: RegisterService) {
+  constructor(
+    private _fb: FormBuilder,
+    private ViacepService: ViacepService,
+    private apiService: RegisterService,
+    private router: Router
+  ) {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
@@ -73,7 +76,7 @@ export class FormCadastroCandidatoComponent implements OnInit {
         estado: ['', []],
         cidade: ['', []],
         email: ['', [Validators.required, Validators.email]],
-        cadUnico: ['',[Validators.required]],
+        cadUnico: ['', [Validators.required]],
         password: [
           '',
           [
@@ -114,7 +117,10 @@ export class FormCadastroCandidatoComponent implements OnInit {
 
     const dataDeNascimentoControl = this.dataDeNascimento;
     if (dataDeNascimentoControl) {
-      merge(dataDeNascimentoControl.statusChanges, dataDeNascimentoControl.valueChanges)
+      merge(
+        dataDeNascimentoControl.statusChanges,
+        dataDeNascimentoControl.valueChanges
+      )
         .pipe(takeUntilDestroyed())
         .subscribe(() => this.updateErrorMessage('dataDeNascimento'));
     }
