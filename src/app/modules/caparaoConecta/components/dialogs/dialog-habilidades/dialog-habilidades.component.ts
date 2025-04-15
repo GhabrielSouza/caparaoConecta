@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
+import { DateInputComponent } from '../../inputs/date-input/date-input.component';
+
 import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
@@ -93,5 +95,5 @@ export class DialogHabilidadesComponent {
     public closeModal(){
       this._dialogRef.close();
     }
-  
 }
+

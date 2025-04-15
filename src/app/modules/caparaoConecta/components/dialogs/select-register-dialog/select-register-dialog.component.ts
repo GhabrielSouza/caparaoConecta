@@ -23,7 +23,6 @@ export class SelectRegisterDialogComponent {
   constructor(private _dialogRef:MatDialogRef<SelectRegisterDialogComponent>, 
     @Inject(MAT_DIALOG_DATA) public data:string, private router: Router){}
 
-  @Input() public title:string = '';  
 
   public closeModal():void{
     this._dialogRef.close();

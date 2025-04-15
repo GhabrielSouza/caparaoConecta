@@ -1,8 +1,12 @@
 :host{
     .container{
         border-radius: 15px;
-        height: 80vh;
         position: relative;
+        width: 100%;
+
+        .container_vaga{
+            border-radius: 8px;
+        }
 
         .container_ver-mais{
             position: absolute;
