@@ -5,8 +5,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-genero-input',
-  standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule],
+  imports: [MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './genero-input.component.html',
   styleUrls: ['./genero-input.component.scss'],
   providers: [

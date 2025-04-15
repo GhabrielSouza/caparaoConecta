@@ -1,0 +1,30 @@
+section{
+    display: flex;
+    flex-direction: row;
+}
+
+.card{
+    box-shadow: 4px 4px 15px #cccaca;
+    flex-direction: column;
+    display: flex;
+    padding: 1em;
+    background-color: #DCDCDC;
+    border: none;
+    border-radius: 14px;
+}
+
+.cardIneer{
+    display: flex;
+    flex-direction: row;
+}
+
+.divider{
+    border-left: 1px solid black;
+    color: black;
+    margin: 0 1vw;
+}
+
+.cardTitle{
+    display: flex;
+    flex-direction: row;
+}

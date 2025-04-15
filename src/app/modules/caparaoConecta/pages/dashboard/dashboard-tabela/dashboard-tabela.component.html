@@ -1,0 +1,47 @@
+<div class="mt-5 container">
+  <div>
+    <table mat-table [dataSource]="dataSource" class="mat-table">
+      <ng-container matColumnDef="nomeVaga">
+        <th mat-header-cell *matHeaderCellDef>Nome da vaga</th>
+        <td mat-cell *matCellDef="let element">{{ element.nomeVaga }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="statusVaga">
+        <th mat-header-cell *matHeaderCellDef>Status da vaga</th>
+        <td mat-cell *matCellDef="let element">{{ element.statusVaga }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataEncerramento">
+        <th mat-header-cell *matHeaderCellDef>Data de encerramento</th>
+        <td mat-cell *matCellDef="let element">{{ element.dataEncerramento }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="candidatosAceitos">
+        <th mat-header-cell *matHeaderCellDef>Candidatos aceitos</th>
+        <td mat-cell *matCellDef="let element">
+          <span [class.aceito]="element.aceito" [class.nao-aceito]="!element.aceito">
+            {{ element.candidatosAceitos }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="qtdCandidatos">
+        <th mat-header-cell *matHeaderCellDef>Qtd. Candidatos</th>
+        <td mat-cell *matCellDef="let element">
+          <span [class.aceito]="element.aceito" [class.nao-aceito]="!element.aceito">
+            {{ element.qtdCandidatos }}
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <mat-paginator
+    class="matPaginator"
+    [pageSizeOptions]="[12, 20]"
+    showFirstLastButtons
+    hidePageSize>
+  </mat-paginator>
+</div>
