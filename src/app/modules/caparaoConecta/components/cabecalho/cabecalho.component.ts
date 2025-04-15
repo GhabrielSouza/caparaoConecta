@@ -5,6 +5,7 @@ import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { SelectRegisterDialogComponent } from '../dialogs/select-register-dialog/select-register-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { MatDialog } from '@angular/material/dialog';
+import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
 
 @Component({
   selector: 'app-cabecalho',
@@ -15,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class CabecalhoComponent {
   public valorMenu: boolean = false;
   public navbarFixed: boolean = false;
-  public role: ERoleUser | null = ERoleUser.GUEST;
+  public role: ERoleUser | null = ERoleUser.ADMIN;
   public roleEnum = ERoleUser;
   
   #dialog = inject(MatDialog);
@@ -29,6 +30,12 @@ export class CabecalhoComponent {
         panelClass:EDialogEnum.PROJETOS,
         data: 'Como você deseja se cadastrar?'
       })
+  }
+
+  openDialogVaga(){
+    this.#dialog.open(CadastroVagaDialogComponent,{
+      panelClass:EDialogEnum.PROJETOS,
+    })
   }
 
   @HostListener('window:scroll', ['$event']) onscroll() {

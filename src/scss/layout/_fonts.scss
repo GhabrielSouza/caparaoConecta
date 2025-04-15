@@ -36,15 +36,17 @@
         font-family: var(--font-poppinsM);
         font-size: 11px;
     }
+
+    &-light-card {
+      font-family: var(--font-poppinsL);
+      font-size: 16px;
+    }
+  
+    &-medium-card {
+      font-family: var(--font-poppinsM);
+      font-size: 18px;
+    }
 }
 
-  &-light-card {
-    font-family: var(--font-poppinsL);
-    font-size: 16px;
-  }
+  
 
-  &-medium-card {
-    font-family: var(--font-poppinsM);
-    font-size: 18px;
-  }
-}
