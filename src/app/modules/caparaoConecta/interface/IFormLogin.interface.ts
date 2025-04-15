@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
 
 export interface IFormLogin {
-  email: FormControl;
-  password: FormControl;
+  id:string,
+  email: string;
+  password: string;
 }

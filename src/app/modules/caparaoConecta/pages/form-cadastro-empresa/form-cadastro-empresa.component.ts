@@ -3,8 +3,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
 import { PrimaryInputComponent } from '../../components/inputs/primary-input/primary-input.component';
 
-
-
 import { ViacepService } from './../../../../services/viacep.service';
 import {
   FormBuilder,
@@ -22,31 +20,38 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { VPasswordConfirm } from '../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../validators/VPasswordPattern.validator';
 
-
-
 import { CpfAndCnpjInputComponent } from '../../components/inputs/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
 import { CepInputComponent } from '../../components/inputs/cep-input/cep-input.component';
 import { TelefoneInputComponent } from '../../components/inputs/telefone-input/telefone-input.component';
+import { Router } from '@angular/router';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 @Component({
   selector: 'app-form-cadastro-empresa',
-  imports: [ DefaultLoginLayoutComponent,
-   DefaultLoginLayoutComponent,
-       PrimaryInputComponent,
-       ReactiveFormsModule,
-       MatFormFieldModule,
-       MatInputModule,
-       MatIconModule,
-       TelefoneInputComponent,
-       CpfAndCnpjInputComponent,
-       CepInputComponent,],
+  imports: [
+    DefaultLoginLayoutComponent,
+    DefaultLoginLayoutComponent,
+    PrimaryInputComponent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    TelefoneInputComponent,
+    CpfAndCnpjInputComponent,
+    CepInputComponent,
+  ],
   templateUrl: './form-cadastro-empresa.component.html',
-  styleUrl: './form-cadastro-empresa.component.scss'
+  styleUrl: './form-cadastro-empresa.component.scss',
 })
-export class FormCadastroEmpresaComponent implements OnInit{
+export class FormCadastroEmpresaComponent implements OnInit {
   public cadastrarForm: FormGroup;
 
-  constructor(private _fb: FormBuilder, private ViacepService: ViacepService) {
+  constructor(
+    private _fb: FormBuilder,
+    private ViacepService: ViacepService,
+    public router: Router,
+    private apiService: RegisterService
+  ) {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
@@ -54,10 +59,9 @@ export class FormCadastroEmpresaComponent implements OnInit{
         telefone: ['', [Validators.required]],
         cep: ['', [Validators.required]],
         estado: ['', [Validators.required]],
-        cidade: ['', []],
-        endereco: ['', [Validators.required]],
+        cidade: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        password: [
+        senha: [
           '',
           [
             Validators.required,
@@ -67,6 +71,7 @@ export class FormCadastroEmpresaComponent implements OnInit{
           ],
         ],
         confirmPassword: ['', [Validators.required]],
+        id_tipo_usuarios: 3,
       },
       {
         validators: VPasswordConfirm,
@@ -105,7 +110,7 @@ export class FormCadastroEmpresaComponent implements OnInit{
     if (passWordControl) {
       merge(passWordControl.statusChanges, passWordControl.valueChanges)
         .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('password'));
+        .subscribe(() => this.updateErrorMessage('senha'));
     }
 
     const confirmPasswordControl = this.confirmPassword;
@@ -165,7 +170,7 @@ export class FormCadastroEmpresaComponent implements OnInit{
   }
 
   get password() {
-    return this.cadastrarForm.get('password');
+    return this.cadastrarForm.get('senha');
   }
 
   get confirmPassword() {
@@ -218,10 +223,6 @@ export class FormCadastroEmpresaComponent implements OnInit{
     });
   }
 
-  ngOnInit(): void {
-    this.observerPreenchimentoCep();
-  }
-
   updateErrorMessage(field: any) {
     const control = this.cadastrarForm.get(field);
 
@@ -238,5 +239,34 @@ export class FormCadastroEmpresaComponent implements OnInit{
       ...errors,
       [field]: this.errorMessages[errorKey],
     }));
+  }
+
+  ngOnInit(): void {
+    this.observerPreenchimentoCep();
+    this.apiService.httpListEmpresas$().subscribe();
+  }
+
+  navigate() {
+    this.router.navigate(['login']);
+  }
+
+
+  submit() {
+    console.log(this.cadastrarForm.value)
+    return this.apiService
+      .httpRegisterEmpresa$(this.cadastrarForm.value)
+      .subscribe({
+        next: (resp) => {
+          console.log(resp);
+          this.router.navigate(['login']);
+        },
+        error(resp) {
+          console.log(resp);
+          console.log('erro ao cadastrar');
+        },
+        complete() {
+          console.log('completo');
+        },
+      });
   }
 }

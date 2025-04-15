@@ -30,9 +30,6 @@ export class DefaultLoginLayoutComponent {
     this.onNavigate.emit();
   }
 
-  public isRouterLogin() {
-    return this.#router.url === '/login';
-  }
 
   openDialog():void{
     this.#dialog.open(SelectRegisterDialogComponent,{
