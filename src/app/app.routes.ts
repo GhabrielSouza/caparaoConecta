@@ -22,11 +22,4 @@ export const routes: Routes = [
     path: 'singUp',
     component:FormCadastroCandidatoComponent,
   },
-
-  {
-    path: 'card-perfil',
-    component:CardPerfilComponent,
-  }
-
-  
 ];
