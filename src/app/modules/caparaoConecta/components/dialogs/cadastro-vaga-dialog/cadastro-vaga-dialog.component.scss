@@ -1,0 +1,23 @@
+::ng-deep .dialog-container-projects .mdc-dialog__container {
+    max-width: 100%;
+    width: 825px;
+}
+
+form{
+    padding: 0 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group{
+    margin: 1.5vh 0px;
+}
+
+.container{
+    max-height: 90vh;
+    overflow: scroll;
+}
+
+.info-icon {
+    filter: invert(35%) sepia(73%) saturate(365%) hue-rotate(67deg) brightness(94%) contrast(86%);
+}

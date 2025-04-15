@@ -1,6 +1,6 @@
 import { ViacepService } from './../../../../services/viacep.service';
 
-import { Component,  OnInit, signal} from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -12,7 +12,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -20,7 +20,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { VPasswordConfirm } from '../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../validators/VPasswordPattern.validator';
 import ehUmCPF from '../../validators/VCpf.validator';
-
 
 import { CpfAndCnpjInputComponent } from '../../components/inputs/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
 import { CepInputComponent } from '../../components/inputs/cep-input/cep-input.component';
@@ -32,7 +31,8 @@ import { GeneroInputComponent } from '../../components/inputs/genero-input/gener
 import { TelefoneInputComponent } from '../../components/inputs/telefone-input/telefone-input.component';
 import { CadUnicoRadioComponent } from '../../components/inputs/cad-unico-radio/cad-unico-radio.component';
 import { DataNascimentoInputComponent } from '../../components/inputs/data-nascimento-input/data-nascimento-input.component';
-
+import { RegisterService } from '../../../../services/register-caparao/register.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-cadastro-candidato',
@@ -49,7 +49,7 @@ import { DataNascimentoInputComponent } from '../../components/inputs/data-nasci
     CepInputComponent,
     DataNascimentoInputComponent,
     GeneroInputComponent,
-    CadUnicoRadioComponent
+    CadUnicoRadioComponent,
   ],
   templateUrl: './form-cadastro-candidato.component.html',
   styleUrl: './form-cadastro-candidato.component.scss',
@@ -58,11 +58,17 @@ export class FormCadastroCandidatoComponent implements OnInit {
   // #fb = inject(FormBuilder);
   public cadastrarForm: FormGroup;
 
-  constructor(private _fb: FormBuilder, private ViacepService: ViacepService) {
+  constructor(
+    private _fb: FormBuilder,
+    private ViacepService: ViacepService,
+    private apiService: RegisterService,
+    private router: Router
+  ) {
     this.cadastrarForm = this._fb.group(
       {
         nome: ['', [Validators.required]],
-        dataDeNascimento: ['', [Validators.required]],
+        sobrenome: ['', [Validators.required]],
+        data_de_nascimento: ['', [Validators.required]],
         genero: ['', [Validators.required]],
         cpf: ['', [Validators.required, ehUmCPF]],
         telefone: ['', [Validators.required]],
@@ -70,7 +76,7 @@ export class FormCadastroCandidatoComponent implements OnInit {
         estado: ['', []],
         cidade: ['', []],
         email: ['', [Validators.required, Validators.email]],
-        cadUnico: ['',[Validators.required]],
+        cadUnico: ['', [Validators.required]],
         password: [
           '',
           [
@@ -81,6 +87,7 @@ export class FormCadastroCandidatoComponent implements OnInit {
           ],
         ],
         confirmPassword: ['', [Validators.required]],
+        id_tipo_usuarios: 2,
       },
       {
         validators: VPasswordConfirm,
@@ -101,9 +108,19 @@ export class FormCadastroCandidatoComponent implements OnInit {
         .subscribe(() => this.updateErrorMessage('nome'));
     }
 
+    const sobrenomeControl = this.sobrenome;
+    if (sobrenomeControl) {
+      merge(sobrenomeControl.statusChanges, sobrenomeControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('sobrenome'));
+    }
+
     const dataDeNascimentoControl = this.dataDeNascimento;
     if (dataDeNascimentoControl) {
-      merge(dataDeNascimentoControl.statusChanges, dataDeNascimentoControl.valueChanges)
+      merge(
+        dataDeNascimentoControl.statusChanges,
+        dataDeNascimentoControl.valueChanges
+      )
         .pipe(takeUntilDestroyed())
         .subscribe(() => this.updateErrorMessage('dataDeNascimento'));
     }
@@ -222,6 +239,10 @@ export class FormCadastroCandidatoComponent implements OnInit {
     return this.cadastrarForm.get('nome');
   }
 
+  get sobrenome() {
+    return this.cadastrarForm.get('sobrenome');
+  }
+
   get cadUnico() {
     return this.cadastrarForm.get('cadUnico');
   }
@@ -286,5 +307,28 @@ export class FormCadastroCandidatoComponent implements OnInit {
       ...errors,
       [field]: this.errorMessages[errorKey],
     }));
+  }
+
+  navigate() {
+    this.router.navigate(['login']);
+  }
+
+  submit() {
+    console.log(this.cadastrarForm.value);
+    return this.apiService
+      .httpRegisterCandidato$(this.cadastrarForm.value)
+      .subscribe({
+        next: (resp) => {
+          console.log(resp);
+          this.router.navigate(['login']);
+        },
+        error(resp) {
+          console.log(resp);
+          console.log('erro ao cadastrar');
+        },
+        complete() {
+          console.log('completo');
+        },
+      });
   }
 }

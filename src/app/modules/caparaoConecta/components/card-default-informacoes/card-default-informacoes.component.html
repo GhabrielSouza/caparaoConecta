@@ -1,0 +1,10 @@
+<div class="container vaga-opacity  cpc-background-white d-flex align-items-center p-2 gap-2">
+    <div class="container_img py-2">
+        <img [src]="imagem == '' ? 'assets/icons/malinha.svg' : imagem" alt="Logo da empresa" class="p-3">
+    </div>
+    <div class="container_informacoes d-flex flex-column py-2">
+        <h1 class="cpc-medium-card">{{cargo}}</h1>
+        <p class="cpc-light-card">{{empresa}}</p>
+        <p class="cpc-light-card">{{data | date:'yyyy'}}</p>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<mat-accordion>
+    <mat-expansion-panel class="" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header class="">
+        <mat-panel-title class="cpc-medium"> {{title}} </mat-panel-title>
+        <!-- <mat-panel-description>
+          Currently I am {{panelOpenState() ? 'open' : 'closed'}}
+        </mat-panel-description> -->
+      </mat-expansion-panel-header>
+      <ng-content></ng-content>
+    </mat-expansion-panel>
+</mat-accordion>

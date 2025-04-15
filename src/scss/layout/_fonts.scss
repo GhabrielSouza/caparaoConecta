@@ -1,32 +1,52 @@
 
-.cpc{
-    &-regular{
-        font-family: var(--font-poppinsR);
-        font-size: 18px;
-    }
+.cpc {
+  &-regular {
+    font-family: var(--font-poppinsR);
+    font-size: 18px;
+  }
 
-    &-bold{
-        font-family: var(--font-poppinsB);
-        font-size: 24px;
-    }
+  &-regular-010 {
+    font-family: var(--font-poppinsR);
+    font-size: 14px;
+  }
 
-    &-light{
-        font-family: var(--font-poppinsL);
-        font-size: 16px;
-    }
 
-    &-medium{
+  &-bold {
+    font-family: var(--font-poppinsB);
+    font-size: 24px;
+  }
+
+  &-light {
+    font-family: var(--font-poppinsL);
+    font-size: 16px;
+  }
+
+  &-medium {
+    font-family: var(--font-poppinsM);
+    font-size: 24px;
+  }
+
+  &-medium-010 {
+    font-family: var(--font-poppinsM);
+    font-size: 16px;
+  }
+
+
+    &-descricao{
         font-family: var(--font-poppinsM);
-        font-size: 24px;
+        font-size: 11px;
     }
 
-    &-light-card{
-        font-family: var(--font-poppinsL);
-        font-size: 16px;
+    &-light-card {
+      font-family: var(--font-poppinsL);
+      font-size: 16px;
     }
-
-    &-medium-card{
-        font-family: var(--font-poppinsM);
-        font-size: 18px;
+  
+    &-medium-card {
+      font-family: var(--font-poppinsM);
+      font-size: 18px;
     }
 }
+
+  
+

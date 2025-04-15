@@ -1,0 +1,27 @@
+<header class="d-flex justify-content-between align-items-center px-4 pt-3">
+  <h3>Atualizando a seção sobre</h3>
+  <button class="btn" (click)="closeModal()">
+    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+  </button>
+</header>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field class="example-full-width w-100">
+      <mat-label class="cpc-regular-010">Fale mais sobre você aqui</mat-label>
+      <textarea
+        class="w-100 cpc-regular-010"
+        formControlName="sobre"
+        matInput
+        placeholder="Ex. Olá, eu sou o Eduardo..."
+      ></textarea>
+    </mat-form-field>
+    <div class="d-flex justify-content-end">
+      <app-button-primary
+        fonte="cpc-regular"
+        color="btn-secondary"
+        text="Salvar"
+      />
+    </div>
+  </form>
+</mat-dialog-content>

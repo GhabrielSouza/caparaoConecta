@@ -3,13 +3,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxMaskDirective } from 'ngx-mask';
 
 import { TInputType } from '../../../types/TInputType.type';
 
 @Component({
   selector: 'app-cpf-and-cnpj-input',
-  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, NgxMaskPipe],
+  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective],
   templateUrl: './cpf-and-cnpj-input.component.html',
   styleUrl: './cpf-and-cnpj-input.component.scss',
   providers: [

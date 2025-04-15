@@ -5,7 +5,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { DefaultLoginLayoutComponent } from '../../components/default-login-layout/default-login-layout.component';
 import { PrimaryInputComponent } from '../../components/inputs/primary-input/primary-input.component';
 
-
 import {
   FormBuilder,
   FormGroup,
@@ -25,6 +24,8 @@ import { PasswordInputComponent } from '../../components/inputs/password-input/p
 import { MatDialog } from '@angular/material/dialog';
 import { SelectRegisterDialogComponent } from '../../components/dialogs/select-register-dialog/select-register-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
+import { LoginService } from '../../../../services/auth-caparao/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-login',
@@ -45,7 +46,12 @@ import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 export class FormLoginComponent implements OnInit {
   public loginForm: FormGroup;
 
-  constructor(private _fb: FormBuilder, readonly dialog:MatDialog) {
+  constructor(
+    private _fb: FormBuilder,
+    readonly dialog: MatDialog,
+    private authLogin: LoginService,
+    private route: Router
+  ) {
     this.loginForm = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -111,5 +117,28 @@ export class FormLoginComponent implements OnInit {
     }));
   }
 
-  
+  submit() {
+    const { email, password } = this.loginForm.value;
+    this.authLogin.httpLoginUser$(email, password).subscribe({
+      next: (resp) => {
+        if (resp.password === password) {
+          sessionStorage.setItem('email', email);
+          this.route.navigate(['']);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('deu tudo certo!');
+      },
+    });
+  }
+
+  navigate() {
+    this.dialog.open(SelectRegisterDialogComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+      data: 'Como você deseja se cadastrar?',
+    });
+  }
 }

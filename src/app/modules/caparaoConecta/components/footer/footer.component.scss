@@ -1,5 +1,92 @@
 :host {
-  footer {
+
+  .container_perfil{
+    position: none;
+
+    & .footer_container {
+      display: flex;
+
+      justify-content: space-between;
+      background: var(--secondary-background-gray);
+      padding: 2em 4em;
+
+      & .footer_container_links {
+        display: flex;
+        gap: 80px;
+
+        & .footer_container_links_sobre,
+        & .footer_container_links_termos,
+        & .footer_container_links_ajuda,
+        & .footer_container_links_redes,
+        & .footer_container_links_faleConosco {
+          & h2 {
+            font-family: var(--font-poppinsR);
+            font-size: 16px;
+            color: var(--primary-background-green);
+          }
+
+          & p a {
+            font-family: var(--font-poppinsL);
+            font-size: 12px;
+            color: var(--black-010);
+          }
+        }
+
+        & .footer_container_links_redes {
+          & a {
+            & img {
+              width: 50%;
+              background: var(--primary-background-gray);
+              border-radius: 10px;
+              padding: 5px;
+            }
+          }
+        }
+
+        & .footer_container_links_faleConosco {
+          & ul {
+            & li {
+              box-sizing: border-box;
+              background: var(--primary-background-green);
+              padding: 0.5em;
+              margin-bottom: 1em;
+              border-radius: 2px;
+              width: 100%;
+
+              & a {
+                display: flex;
+                align-items: center;
+                font-family: var(--font-poppinsM);
+                color: var(--white);
+
+                & img {
+                  width: 20%;
+                  padding-right: 10px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    & .footer_container_copy {
+      background: var(--primary-background-green);
+      padding: 0.5em;
+      text-align: center;
+
+      & p {
+        font-family: var(--font-poppinsR);
+        color: var(--white);
+      }
+    }
+  }
+  
+  .container_footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
     & .footer_container {
       display: flex;
 

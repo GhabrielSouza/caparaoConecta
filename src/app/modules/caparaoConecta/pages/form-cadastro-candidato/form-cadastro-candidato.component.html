@@ -1,6 +1,9 @@
 <app-default-login-layout
   titulo="Cadastrar no Caparaó Conecta"
-  botaoCadastrar="Cadastrar"
+  botaoEntrar="Cadastrar"
+  botaoCadastrar="Login"
+  (Submit)="submit()"
+  (Navigate)="navigate()"
   [disablebotaoCadastrar]="!cadastrarForm.valid"
 >
   <form [formGroup]="cadastrarForm" class="row">
@@ -18,26 +21,38 @@
       <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
       }
     </app-primary-input>
+    <app-primary-input
+      formControlName="sobrenome"
+      type="text"
+      placeholder="Digite seu nome"
+      label="Sobrenome"
+      inputName="sobrenome"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('sobrenome')?.invalid &&
+      (cadastrarForm.get('sobrenome')?.touched ||
+      cadastrarForm.get('sobrenome')?.dirty )) {
+      <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
+      }
+    </app-primary-input>
     <div class="d-flex">
       <app-data-nascimento-input
-        formControlName="dataDeNascimento"
+        formControlName="data_de_nascimento"
         type="text"
-        placeholder="06/03/2005"
+        placeholder="dd/mm/yyyy"
         label="Data de nascimento"
-        inputName="dataDeNascimento"
+        inputName="data_de_nascimento"
         class="col-6"
-        >@if (cadastrarForm.get('dataDeNascimento')?.invalid &&
-        (cadastrarForm.get('dataDeNascimento')?.touched ||
-        cadastrarForm.get('dataDeNascimento')?.dirty )) {
-        <mat-error>{{ fieldErrors()["dataDeNascimento"] }}</mat-error>
+        >@if (cadastrarForm.get('data_de_nascimento')?.invalid &&
+        (cadastrarForm.get('data_de_nascimento')?.touched ||
+        cadastrarForm.get('data_de_nascimento')?.dirty )) {
+        <mat-error>{{ fieldErrors()["data_de_nascimento"] }}</mat-error>
         }</app-data-nascimento-input
       >
       <app-genero-input
         formControlName="genero"
-        type="text"
-        placeholder="Ex: Masculino"
         label="Gênero"
-        inputName="genero"
+        placeholder="Selecione seu gênero"
         class="col-6 ps-3"
         >@if (cadastrarForm.get('genero')?.invalid &&
         (cadastrarForm.get('genero')?.touched ||
@@ -137,7 +152,7 @@
       inputName="cadUnico"
     >
       @if (cadastrarForm.get('cadUnico')?.hasError('required')){
-        <mat-error>{{ fieldErrors()["cadUnico"] }}</mat-error>
+      <mat-error>{{ fieldErrors()["cadUnico"] }}</mat-error>
       }
     </app-cad-unico-radio>
     <app-primary-input

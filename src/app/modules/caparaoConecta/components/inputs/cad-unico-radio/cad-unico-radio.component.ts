@@ -4,12 +4,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { TInputType } from '../../../types/TInputType.type';
 
 @Component({
   selector: 'app-cad-unico-radio',
-  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, NgxMaskPipe, MatRadioModule],
+  imports: [MatFormFieldModule, MatInputModule, MatRadioModule],
   templateUrl: './cad-unico-radio.component.html',
   styleUrl: './cad-unico-radio.component.scss',
   providers: [
