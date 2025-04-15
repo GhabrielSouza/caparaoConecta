@@ -5,6 +5,7 @@ import { FormCadastroCandidatoComponent } from './modules/caparaoConecta/pages/f
 import { FormCadastroEmpresaComponent } from './modules/caparaoConecta/pages/form-cadastro-empresa/form-cadastro-empresa.component';
 import { PerfilComponent } from './modules/caparaoConecta/pages/perfil/perfil.component';
 
+
 export const routes: Routes = [
   {
     path: '',

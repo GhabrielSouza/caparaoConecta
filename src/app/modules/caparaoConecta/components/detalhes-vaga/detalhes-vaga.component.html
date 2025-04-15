@@ -1,0 +1,74 @@
+@if(visaoCandidato){
+<div class="detalhesVagaContainer">
+    <h1 class="my-4 cpc-bold">Detalhes da vaga</h1>
+
+    <div class="container">
+        <img src="../../../../../assets/imgs/banner_vaga_padrao.svg" alt="imagemVaga">
+    
+
+        <h1 class="my-4 cpc-bold">Web Developer</h1>
+        <h1 class="my-4 cpc-descricao">{{texto}}</h1>
+
+        <div class="containerInterno">
+            <div class="conteudoRequisitos">
+                <h1>Requisitos da vaga</h1>
+                <p>Sólidos conhecimentos em Pascal</p>
+                <p>Conhecimento básico da ferramenta Excel 2008</p>
+            </div>
+            <div class="conteudoCompetencias">
+                <h1>Competências</h1>
+                <p>CSS</p>
+                <p>Javascript</p>
+                <p>Javascript 3</p>
+            </div>
+            <div class="conteudoCursos">
+                <h1>Cursos recomendados</h1>
+                <p>HTML e CSS</p>
+                <p>Figma</p>
+                <p>JavaScript avançado</p>
+            </div>
+        </div>
+
+        @if(containerFooter){
+            <h1>Contatos</h1>
+            <div class="containerFooter">
+                <div class="conteudoContatos">
+                    <div class="linkContainer">
+                        <div class="linkContainerText">
+                            <img class="me-2" src="assets/icons/iconeEmail.svg" alt="">
+                            <p>HTML e CSS</p>
+                        </div>
+                        <div class="linkContainerText">
+                            <img class="me-2" src="assets/icons/iconeWhatsapp.svg" alt="">
+                            <p>Figma</p>
+                        </div>
+                        <div class="linkContainerText">
+                            <img class="me-2" src="assets/icons/iconeSite.svg" alt="">
+                            <p>Javascript avançados</p>
+                        </div>
+                    </div>
+
+                    <div class="linkContainer">
+                        <div class="linkContainerText">
+                            <img class="me-2" src="assets/icons/iconeInstagram.svg" alt="">
+                            <p>HTML e CSS</p>
+                        </div>
+                        <div class="linkContainerText">
+                            <img class="me-2" src="assets/icons/iconeGithub.svg" alt="">
+                            <p>Figma</p>
+                        </div>
+                        <div class="linkContainerText">
+                            <img class="me-2" src="assets/icons/iconeLinkedin.svg" alt="">
+                            <p>Javascript avançados</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="conteudoEndereco">
+                    <img class="me-2" src="assets/icons/iconeLocalizacao.svg" alt="">
+                    <p class="cpc-descricao">Rodovia ES-482 (Cachoeiro-Alegre, Km 72 - Rive, Alegre - ES, 29500-000)</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+}

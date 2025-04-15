@@ -1,3 +1,4 @@
+
 .cpc {
   &-regular {
     font-family: var(--font-poppinsR);
@@ -8,6 +9,7 @@
     font-family: var(--font-poppinsR);
     font-size: 14px;
   }
+
 
   &-bold {
     font-family: var(--font-poppinsB);
@@ -28,6 +30,13 @@
     font-family: var(--font-poppinsM);
     font-size: 16px;
   }
+
+
+    &-descricao{
+        font-family: var(--font-poppinsM);
+        font-size: 11px;
+    }
+}
 
   &-light-card {
     font-family: var(--font-poppinsL);
