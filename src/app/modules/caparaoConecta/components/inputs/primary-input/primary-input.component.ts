@@ -1,6 +1,9 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { TInputType } from '../../../types/TInputType.type';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
@@ -8,6 +11,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   imports: [MatFormFieldModule, MatInputModule],
   templateUrl: './primary-input.component.html',
   styleUrl: './primary-input.component.scss',
+  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

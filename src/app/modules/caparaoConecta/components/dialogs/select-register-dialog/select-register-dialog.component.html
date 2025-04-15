@@ -1,10 +1,10 @@
 <header class="d-flex justify-content-between align-items-center p-4">
     <h3>{{data}}</h3>
-    <button (click)="closeModal()">
+    <button class="btn" (click)="closeModal()">
         <img src="assets/icons/close.svg" alt="Botão para fechar o dialog">
     </button>
 </header>
-<mat-dialog-content class="d-flex p-4 ">
+<mat-dialog-content class="d-flex justify-content-between p-4 ">
     <button class="btn btn-secondary" (click)="navigateCandidato()" >Candidato</button>
     <button class="btn btn-secondary ms-3" (click)="navigateEmpresa()">Empresa</button>
 </mat-dialog-content>

@@ -1,6 +1,10 @@
 <app-default-login-layout
   titulo="Cadastrar no Caparaó Conecta"
-  botaoCadastrar="Cadastrar"
+  botaoCadastrar="Login"
+  (Submit)="submit()"
+  (Navigate)="navigate()"
+  botaoCadastrar="Login"
+  botaoEntrar="Cadastrar"
   [disablebotaoCadastrar]="!cadastrarForm.valid"
 >
   <form [formGroup]="cadastrarForm" class="row">
@@ -103,24 +107,24 @@
     </app-primary-input>
     <app-primary-input
       type="password"
-      formControlName="password"
-      inputName="password"
+      formControlName="senha"
+      inputName="senha"
       label="Senha"
       placeholder="Digite sua senha"
       class="col-12"
-      >@if (cadastrarForm.get('password')?.invalid &&
-      (cadastrarForm.get('password')?.touched ||
-      cadastrarForm.get('password')?.dirty )) {
-      <mat-error>{{ fieldErrors()["password"] }}</mat-error>
-      } @if(cadastrarForm.get('password')?.hasError('uppercase')){
+      >@if (cadastrarForm.get('senha')?.invalid &&
+      (cadastrarForm.get('senha')?.touched || cadastrarForm.get('senha')?.dirty
+      )) {
+      <mat-error>{{ fieldErrors()["senha"] }}</mat-error>
+      } @if(cadastrarForm.get('senha')?.hasError('uppercase')){
       <mat-error>
         {{ patternMessages["uppercase"] }}
       </mat-error>
-      } @if(cadastrarForm.get('password')?.hasError('lowercase')){
+      } @if(cadastrarForm.get('senha')?.hasError('lowercase')){
       <mat-error>
         {{ patternMessages["lowercase"] }}
       </mat-error>
-      } @if(cadastrarForm.get('password')?.hasError('specialChar')){
+      } @if(cadastrarForm.get('senha')?.hasError('specialChar')){
       <mat-error>
         {{ patternMessages["specialChar"] }}
       </mat-error>
