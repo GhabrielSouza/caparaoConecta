@@ -61,7 +61,7 @@ export class FormCadastroEmpresaComponent implements OnInit {
         estado: ['', [Validators.required]],
         cidade: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        senha: [
+        password: [
           '',
           [
             Validators.required,
@@ -110,7 +110,7 @@ export class FormCadastroEmpresaComponent implements OnInit {
     if (passWordControl) {
       merge(passWordControl.statusChanges, passWordControl.valueChanges)
         .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('senha'));
+        .subscribe(() => this.updateErrorMessage('password'));
     }
 
     const confirmPasswordControl = this.confirmPassword;
@@ -170,7 +170,7 @@ export class FormCadastroEmpresaComponent implements OnInit {
   }
 
   get password() {
-    return this.cadastrarForm.get('senha');
+    return this.cadastrarForm.get('password');
   }
 
   get confirmPassword() {

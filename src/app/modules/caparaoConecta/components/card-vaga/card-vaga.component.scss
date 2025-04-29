@@ -1,12 +1,16 @@
 ::ng-deep .dialog-container-vaga .mdc-dialog__container {
     width: 550px;
   }
-:host{
+
+::ng-deep .p-carousel-item{
+   padding: 1em;
+}
+
+:host{    
     .container{
-        width: 25%;
+        width: 100%;
         border-radius: 8px;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        margin: 1.5em;
         cursor: pointer;
 
         & .container_img {

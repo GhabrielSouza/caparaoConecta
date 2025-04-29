@@ -107,24 +107,24 @@
     </app-primary-input>
     <app-primary-input
       type="password"
-      formControlName="senha"
-      inputName="senha"
+      formControlName="password"
+      inputName="password"
       label="Senha"
       placeholder="Digite sua senha"
       class="col-12"
-      >@if (cadastrarForm.get('senha')?.invalid &&
-      (cadastrarForm.get('senha')?.touched || cadastrarForm.get('senha')?.dirty
+      >@if (cadastrarForm.get('password')?.invalid &&
+      (cadastrarForm.get('password')?.touched || cadastrarForm.get('password')?.dirty
       )) {
-      <mat-error>{{ fieldErrors()["senha"] }}</mat-error>
-      } @if(cadastrarForm.get('senha')?.hasError('uppercase')){
+      <mat-error>{{ fieldErrors()["password"] }}</mat-error>
+      } @if(cadastrarForm.get('password')?.hasError('uppercase')){
       <mat-error>
         {{ patternMessages["uppercase"] }}
       </mat-error>
-      } @if(cadastrarForm.get('senha')?.hasError('lowercase')){
+      } @if(cadastrarForm.get('password')?.hasError('lowercase')){
       <mat-error>
         {{ patternMessages["lowercase"] }}
       </mat-error>
-      } @if(cadastrarForm.get('senha')?.hasError('specialChar')){
+      } @if(cadastrarForm.get('password')?.hasError('specialChar')){
       <mat-error>
         {{ patternMessages["specialChar"] }}
       </mat-error>

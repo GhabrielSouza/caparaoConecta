@@ -39,7 +39,7 @@
         </div>
       </div>
       <div
-        class="header_aplicacao_navegacao_opcoes"
+        class="header_aplicacao_navegacao_opcoes cpc-shadow-black"
         [ngClass]="{ menu_hamburguer: valorMenu }"
       >
         <div class="perfil">
@@ -63,7 +63,7 @@
               </li>
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
                 <img src="assets/icons/perfil.svg" alt="icone de perfil" />
-                <p><a href="">Perfil</a></p>
+                <p><a routerLink="/perfil">Perfil</a></p>
               </li>
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
                 <img src="assets/icons/cursos.svg" alt="icone da cursos" />
@@ -92,7 +92,7 @@
                   src="assets/icons/dashboard.svg"
                   alt="icone de dashboard"
                 />
-                <p><a href="">Dashboard</a></p>
+                <p><a routerLink="/dashboard">Dashboard</a></p>
               </li>
               } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
               <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
