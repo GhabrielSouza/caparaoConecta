@@ -37,10 +37,14 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     const idUsuario = 1; // Substitua pelo ID do usuário desejado
-    this.id_tipo_usuario = '2'; // Substitua pelo ID do tipo de usuário desejado
+     // Substitua pelo ID do tipo de usuário desejado
 
     this.apiService.httpListCandidatosId$(idUsuario).subscribe((data) => {
       console.log(data);
+      this.dadosPessoais = data;
+      this.sobre = data.sobre;
+      this.id_tipo_usuario = this.dadosPessoais.usuario.id_tipo_usuarios;
+      console.log(this.id_tipo_usuario);
     });
   }
 }

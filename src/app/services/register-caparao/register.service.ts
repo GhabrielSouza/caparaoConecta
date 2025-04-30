@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { IFormLogin } from '../../modules/caparaoConecta/interface/IFormLogin.interface';
 import { IEmpresa } from '../../modules/caparaoConecta/interface/IEmpresa.inteface';
 import { ICandidato } from '../../modules/caparaoConecta/interface/ICandidato.interface';
+import { IPessoa } from '../../modules/caparaoConecta/interface/IPessoa.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -50,10 +51,10 @@ export class RegisterService {
       );
   }
 
-  #setListCandidatoId = signal<ICandidato[] | null>(null);
+  #setListCandidatoId = signal<IPessoa | null>(null);
   public getListCandidatoId = this.#setListCandidatoId.asReadonly();
-  public httpListCandidatosId$(id: number): Observable<ICandidato[]> {
-    return this.#http.get<ICandidato[]>(`${this.#url}/api/pessoas/${id}`).pipe(
+  public httpListCandidatosId$(id: number): Observable<IPessoa> {
+    return this.#http.get<IPessoa>(`${this.#url}/api/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListCandidatoId.set(data);
