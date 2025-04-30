@@ -243,16 +243,15 @@ export class FormCadastroEmpresaComponent implements OnInit {
 
   ngOnInit(): void {
     this.observerPreenchimentoCep();
-    this.apiService.httpListEmpresas$().subscribe();
+    //this.apiService.httpListEmpresas$().subscribe();
   }
 
   navigate() {
     this.router.navigate(['login']);
   }
 
-
   submit() {
-    console.log(this.cadastrarForm.value)
+    console.log(this.cadastrarForm.value);
     return this.apiService
       .httpRegisterEmpresa$(this.cadastrarForm.value)
       .subscribe({
