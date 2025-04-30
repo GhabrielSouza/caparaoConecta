@@ -13,13 +13,13 @@ export class RegisterService {
   #http = inject(HttpClient);
   #url = environment.apiAuth;
 
-  #setListEmpresa = signal<IEmpresa[] | null>(null);
-  public getListEmpresa = this.#setListEmpresa.asReadonly();
-  public httpListEmpresas$(): Observable<IEmpresa[]> {
-    return this.#http.get<IEmpresa[]>(`${this.#url}/api/empresas`).pipe(
+  #setListEmpresaId = signal<IEmpresa[] | null>(null);
+  public getListEmpresaId = this.#setListEmpresaId.asReadonly();
+  public httpListEmpresasId$(id: number): Observable<IEmpresa[]> {
+    return this.#http.get<IEmpresa[]>(`${this.#url}/api/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
-        this.#setListEmpresa.set(data);
+        this.#setListEmpresaId.set(data);
       })
     );
   }
@@ -50,13 +50,13 @@ export class RegisterService {
       );
   }
 
-  #setListCandidato = signal<ICandidato[] | null>(null);
-  public getListCandidato = this.#setListCandidato.asReadonly();
-  public httpListCandidatos$(): Observable<ICandidato[]> {
-    return this.#http.get<ICandidato[]>(`${this.#url}/api/empresas`).pipe(
+  #setListCandidatoId = signal<ICandidato[] | null>(null);
+  public getListCandidatoId = this.#setListCandidatoId.asReadonly();
+  public httpListCandidatosId$(id: number): Observable<ICandidato[]> {
+    return this.#http.get<ICandidato[]>(`${this.#url}/api/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
-        this.#setListCandidato.set(data);
+        this.#setListCandidatoId.set(data);
       })
     );
   }
@@ -87,6 +87,3 @@ export class RegisterService {
       );
   }
 }
-
-
-
