@@ -75,15 +75,36 @@ export class RegisterService {
       );
   }
 
-  #setUpdateCandidato = signal<ICandidato | null>(null);
+  #setUpdateCandidato = signal<IPessoa | null>(null);
   public getUpdateCandidato = this.#setCreateCandidato.asReadonly();
-  public httpUpdateCandidato$(candidato: ICandidato): Observable<ICandidato> {
+  public httpUpdateCandidato$(
+    id: number,
+    candidato: IPessoa
+  ): Observable<IPessoa> {
     return this.#http
-      .put<ICandidato>(`${this.#url}/api/cadastrar/${candidato.id}`, candidato)
+      .put<IPessoa>(`${this.#url}/api/pessoas/${id}`, candidato)
       .pipe(
         shareReplay(),
         tap((data) => {
           this.#setUpdateCandidato.set(data);
+        })
+      );
+  }
+
+  #setUpdatePessoaSobre = signal<IPessoa | null>(null);
+  public setUpdatePessoaSobre = this.#setUpdatePessoaSobre.asReadonly();
+  public httpUpdatePessoaSobre$(
+    id: number,
+    novoSobre: string
+  ): Observable<IPessoa> {
+    return this.#http
+      .patch<IPessoa>(`${this.#url}/api/pessoas/${id}/sobre`, {
+        sobre: novoSobre,
+      })
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setUpdatePessoaSobre.set(data);
         })
       );
   }

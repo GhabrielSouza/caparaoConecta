@@ -27,23 +27,23 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-  
+
     .container_img-perfil {
       position: relative; // Mantém o botão posicionado em relação à imagem
       display: inline-block;
-  
+
       .img-perfil {
         border-radius: 50%;
         border: 5px solid var(--primary-background-green);
         object-fit: cover;
         padding: 3px;
       }
-  
+
       .container_img-edit {
         position: absolute;
         bottom: 5px;
         right: 5px;
-  
+
         .btn {
           background-color: var(--primary-background-green);
           border-radius: 50%;
@@ -55,7 +55,7 @@
           cursor: pointer;
           border: none;
           padding: 0;
-  
+
           .img-perfil-edit {
             width: 20px;
             height: 20px;
@@ -64,7 +64,6 @@
       }
     }
   }
-  
 
   aside {
     p {

@@ -14,6 +14,7 @@
         formControlName="sobre"
         matInput
         placeholder="Ex. Olá, eu sou o Eduardo..."
+        rows="10"
       ></textarea>
     </mat-form-field>
     <div class="d-flex justify-content-end">
@@ -21,6 +22,7 @@
         fonte="cpc-regular"
         color="btn-secondary"
         text="Salvar"
+        (click)="submit()"
       />
     </div>
   </form>

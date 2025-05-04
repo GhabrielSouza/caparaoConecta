@@ -1,15 +1,19 @@
 <app-cabecalho />
 
-<app-component-perfil-dados [data]="dadosPessoais"></app-component-perfil-dados>
+@defer (when carregarDados) {
+<app-component-perfil-dados
+  [data]="dadosPessoais"
+  [IdUsuario]="idUsuario"
+></app-component-perfil-dados>
 
 <app-component-default-perfil
   title="Sobre"
-  [IdUsuario]="dadosPessoais.id"
+  [IdUsuario]="idUsuario"
   [data]="sobre"
 >
 </app-component-default-perfil>
 
-<div *ngIf="id_tipo_usuario === '2'">
+<div *ngIf="id_tipo_usuario == '2'">
   <app-perfil-candidato
     [experiencias]="experiencias"
     [formacoes]="formacoes"
@@ -22,5 +26,16 @@
 <div *ngIf="id_tipo_usuario == '3'">
   <app-perfil-empresa [dadosEmpresa]="dadosEmpresa"> </app-perfil-empresa>
 </div>
+} @placeholder(minimum 3s) {
+<app-spinner />
+}@loading(minimum 3s) {
+<div class="loading-message">
+  <p>Carregando dados do perfil...</p>
+</div>
+} @error {
+<div class="error-message">
+  <p>Erro ao carregar os dados do perfil.</p>
+</div>
+}
 
 <app-footer tela="perfil"></app-footer>

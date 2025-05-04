@@ -1,6 +1,5 @@
 :host {
-
-  .container_perfil{
+  .container_perfil {
     position: none;
 
     & .footer_container {
@@ -81,11 +80,11 @@
       }
     }
   }
-  
+
   .container_footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    // position: fixed;
+    // bottom: 0;
+    // width: 100%;
 
     & .footer_container {
       display: flex;

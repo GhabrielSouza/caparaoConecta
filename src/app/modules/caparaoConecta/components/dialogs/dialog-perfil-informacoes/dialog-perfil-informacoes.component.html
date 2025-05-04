@@ -1,5 +1,5 @@
 <header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>{{ data }}</h3>
+  <h3>Editar Perfil</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
@@ -65,7 +65,7 @@
       <app-genero-input
         formControlName="genero"
         type="text"
-        placeholder="Ex: Masculino"
+        placeholder="Selecione seu gênero"
         label="Gênero"
         inputName="genero"
         class="col-6 ps-3"
@@ -239,6 +239,7 @@
         fonte="cpc-regular"
         color="btn-secondary"
         text="Salvar"
+        (click)="submit()"
       />
     </div>
   </form>

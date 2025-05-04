@@ -1,4 +1,4 @@
-export interface ICidade{
-    id?: number;
-    nome: string;
+export interface ICidade {
+  id?: number;
+  nome_cidade: string;
 }
