@@ -11,10 +11,10 @@ import { Router } from '@angular/router';
 export class ButtonPrimaryComponent {
   @Input() icon?: string;
   @Input() text: string = '';
-  @Input() fonte: string = 'hypnosText--TituloGrande';
-  @Input() color: string = 'btn-success';
+  @Input() fonte: string = '';
+  @Input() color: string = '';
   @Input() route: string = '';
-  @Input() textColor: string = 'hdk-creme';
+  @Input() textColor: string = '';
 
   constructor(private router: Router) {}
 

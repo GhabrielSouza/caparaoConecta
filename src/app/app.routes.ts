@@ -6,6 +6,7 @@ import { FormCadastroEmpresaComponent } from './modules/caparaoConecta/pages/for
 import { CardPerfilComponent } from './modules/caparaoConecta/components/card-perfil/card-perfil.component';
 import { DashboardComponent } from './modules/caparaoConecta/pages/dashboard/dashboard.component';
 import { PerfilComponent } from './modules/caparaoConecta/pages/perfil/perfil.component';
+import { DetalhesVagaComponent } from './modules/caparaoConecta/components/detalhes-vaga/detalhes-vaga.component';
 
 
 
@@ -34,5 +35,9 @@ export const routes: Routes = [
   {
     path: 'perfil',
     component:PerfilComponent,
+  },
+  {
+    path: 'detalhesVaga',
+    component: DetalhesVagaComponent
   }
 ];
