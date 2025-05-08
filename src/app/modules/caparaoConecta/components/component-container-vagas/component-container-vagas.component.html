@@ -1,8 +1,9 @@
 <div class="container my-4 mx-4">
-    <h1 class="cpc-bold p-2">Vagas em alta</h1>
+    <h1 class="cpc-bold p-2">{{titulo}}</h1>
     <div class="container_vaga  p-3 card">
         <div>
             <ng-content></ng-content>
         </div>
+        <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="120" [rowsPerPageOptions]="[10, 20, 30]" />
     </div>
 </div>

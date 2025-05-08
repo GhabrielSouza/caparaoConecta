@@ -9,10 +9,12 @@ import { ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { IVagas } from '../../interface/IVagas.interface';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+
 
 @Component({
   selector: 'app-card-vaga',
-  imports: [CommonModule, Carousel, ButtonModule, Tag],
+  imports: [CommonModule, Carousel, ButtonModule, Tag, PaginatorModule],
   standalone: true,
   templateUrl: './card-vaga.component.html',
   styleUrl: './card-vaga.component.scss'
