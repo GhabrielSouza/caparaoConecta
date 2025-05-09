@@ -7,15 +7,21 @@ import { SelectRegisterDialogComponent } from '../../components/dialogs/select-r
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { SelecionarVagaComponent } from '../../components/dialogs/selecionar-vaga/selecionar-vaga.component';
 import { MatDialog } from '@angular/material/dialog';
+import { GraficoComponent } from "../../components/grafico/grafico.component";
+
+
+
+
 
 
 @Component({
   selector: 'app-homepage-empresa',
-  imports: [FooterComponent, CabecalhoComponent, CardVagaComponent, ComponentContainerVagasComponent],
+  imports: [FooterComponent, CabecalhoComponent, CardVagaComponent, ComponentContainerVagasComponent, GraficoComponent],
   templateUrl: './homepage-empresa.component.html',
   styleUrl: './homepage-empresa.component.scss'
 })
 export class HomepageEmpresaComponent {
+
   #dialog = inject(MatDialog);
 
   openDialogSelecionarVaga():void{
@@ -23,5 +29,6 @@ export class HomepageEmpresaComponent {
       panelClass:EDialogEnum.PROJETOS,
     })
 }
+
 
 }
