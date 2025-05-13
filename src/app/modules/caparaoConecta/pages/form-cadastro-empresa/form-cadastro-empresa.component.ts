@@ -25,6 +25,7 @@ import { CepInputComponent } from '../../components/inputs/cep-input/cep-input.c
 import { TelefoneInputComponent } from '../../components/inputs/telefone-input/telefone-input.component';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-form-cadastro-empresa',
@@ -45,11 +46,13 @@ import { RegisterService } from '../../../../services/register-caparao/register.
 })
 export class FormCadastroEmpresaComponent implements OnInit {
   public cadastrarForm: FormGroup;
+  
 
   constructor(
     private _fb: FormBuilder,
     private ViacepService: ViacepService,
     public router: Router,
+    private messageService: MessageService,
     private apiService: RegisterService
   ) {
     this.cadastrarForm = this._fb.group(
@@ -243,29 +246,31 @@ export class FormCadastroEmpresaComponent implements OnInit {
 
   ngOnInit(): void {
     this.observerPreenchimentoCep();
-    this.apiService.httpListEmpresas$().subscribe();
   }
 
   navigate() {
     this.router.navigate(['login']);
   }
 
-
   submit() {
-    console.log(this.cadastrarForm.value)
     return this.apiService
       .httpRegisterEmpresa$(this.cadastrarForm.value)
       .subscribe({
         next: (resp) => {
-          console.log(resp);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Cadastro realizado com sucesso',
+          });
           this.router.navigate(['login']);
         },
-        error(resp) {
-          console.log(resp);
+        error: (resp) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Erro ao cadastrar',
+          });
           console.log('erro ao cadastrar');
-        },
-        complete() {
-          console.log('completo');
         },
       });
   }
