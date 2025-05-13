@@ -88,20 +88,7 @@ export class DialogPerfilInformacoesComponent {
         cidade: ['', []],
         imagem: [null],
         email: ['', [Validators.required, Validators.email]],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(15),
-            VPasswordPattern,
-          ],
-        ],
-        confirmPassword: ['', [Validators.required]],
       },
-      {
-        validators: VPasswordConfirm,
-      }
     );
 
     const emailControl = this.email;
@@ -235,9 +222,6 @@ export class DialogPerfilInformacoesComponent {
             detail: 'Erro ao cadastrar',
           });
           console.error('Error updating data', error);
-        },
-        complete: () => {
-          console.log('Cadastro completo');
         },
       });
   }

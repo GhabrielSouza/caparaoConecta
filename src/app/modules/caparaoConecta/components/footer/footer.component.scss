@@ -82,9 +82,9 @@
   }
 
   .container_footer {
-    // position: fixed;
-    // bottom: 0;
-    // width: 100%;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 
     & .footer_container {
       display: flex;
