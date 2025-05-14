@@ -1,0 +1,18 @@
+<div class="d-flex gap-4">
+  <div
+    *ngFor="let vaga of paginatedVagas"
+    class="container cpc-background-gray d-flex align-items-center p-2 gap-4"
+  >
+    <div class="container_informacoes d-flex flex-column py-2">
+      <h1 class="cpc-medium-card">{{ vaga.titulo_vaga }}</h1>
+      <p class="cpc-light-card">{{ vaga.descricao }}</p>
+      <p class="cpc-light-card">Vagas: {{ vaga.qtd_vaga }}</p>
+    </div>
+  </div>
+</div>
+<p-paginator
+  [rows]="pageSize"
+  [totalRecords]="vagas.length"
+  (onPageChange)="onPageChange($event)"
+>
+</p-paginator>

@@ -1,50 +1,72 @@
-<app-cabecalho />
-<section class="container-fluid">
-  <div class="row">
-    <!-- Filtros - ocupa 2 colunas em telas grandes, 12 (full width) em telas pequenas -->
-    <div class="col-12 col-lg-2">
-      <div class="container_filtros_filtro m-4">
-        <h1 class="cpc-regular py-2">Filtrar</h1>
-        <div class="container_filtros_filtro-itens">
-          <h2 class="cpc-regular-010 py-4">Dados da Vaga</h2>
-          <div>
-            <h3 class="cpc-regular-010">Modelo de trabalho</h3>
-            <div class="d-flex flex-column">
-              <mat-checkbox>Presencial</mat-checkbox>
-              <mat-checkbox>Híbrido</mat-checkbox>
-              <mat-checkbox>Remoto</mat-checkbox>
+<div class="layout">
+  <app-cabecalho />
+  <main class="conteudo">
+    <section class="container-fluid">
+      <div class="row">
+        <!-- Filtros - ocupa 2 colunas em telas grandes, 12 (full width) em telas pequenas -->
+        <div class="col-12 col-lg-2">
+          <div class="container_filtros_filtro m-4">
+            <h1 class="cpc-regular py-2">Filtrar</h1>
+            <div class="container_filtros_filtro-itens">
+              <h2 class="cpc-regular-010 py-4">Dados da Vaga</h2>
+              <div>
+                <h3 class="cpc-regular-010">Modelo de trabalho</h3>
+                <div class="d-flex flex-column">
+                  <mat-checkbox>Presencial</mat-checkbox>
+                  <mat-checkbox>Híbrido</mat-checkbox>
+                  <mat-checkbox>Remoto</mat-checkbox>
+                </div>
+              </div>
+              <div class="selects d-flex flex-column my-3">
+                @if(role == roleEnum.CANDIDATO || role == roleEnum.GUEST){
+                <mat-label class="cpc-regular-010">Empresa</mat-label>
+                <mat-form-field>
+                  <mat-select placeholder="Selecione um item">
+                    <mat-option value="one">First option</mat-option>
+                    <mat-option value="two">Second option</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                }
+                <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
+                <mat-form-field>
+                  <mat-select placeholder="Selecione um item">
+                    <mat-option value="one">First option</mat-option>
+                    <mat-option value="two">Second option</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
           </div>
-          <div class="selects d-flex flex-column my-3">
-            <mat-label class="cpc-regular-010">Empresa</mat-label>
-            <mat-form-field>
-              <mat-select placeholder="Selecione um item">
-                <mat-option value="one">First option</mat-option>
-                <mat-option value="two">Second option</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
-            <mat-form-field>
-              <mat-select placeholder="Selecione um item">
-                <mat-option value="one">First option</mat-option>
-                <mat-option value="two">Second option</mat-option>
-              </mat-select>
-            </mat-form-field>
+        </div>
+
+        <!-- Vagas - ocupa 10 colunas em telas grandes, 12 em telas pequenas -->
+        <div class="col-12 col-lg-10">
+          <div class="row">
+            <div class="col-12 col-lg-11">
+              @if(role == roleEnum.CANDIDATO || role == roleEnum.GUEST){
+              <app-component-container-vagas titulo="Vagas em Alta">
+                <app-card-vaga-publica
+                  [vagas]="vagasPublicas"
+                ></app-card-vaga-publica>
+              </app-component-container-vagas>
+              } @if(role == roleEnum.EMPRESA){
+              <app-component-container-vagas titulo="Vagas Ofertadas">
+                <app-card-vaga-empresa
+                  [vagas]="vagasOfertadas"
+                ></app-card-vaga-empresa>
+              </app-component-container-vagas>
+
+              <app-component-container-vagas titulo="Vagas Encerradas">
+                <app-card-vaga-empresa
+                  [vagas]="vagasEncerradas"
+                ></app-card-vaga-empresa>
+              </app-component-container-vagas>
+              }
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Vagas - ocupa 10 colunas em telas grandes, 12 em telas pequenas -->
-    <div class="col-12 col-lg-10">
-      <div class="row">
-        <div class="col-12 col-lg-11">
-          <app-component-container-vagas titulo="Vagas em Alta">
-            <app-card-vaga></app-card-vaga>
-          </app-component-container-vagas>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<app-footer></app-footer>
+    </section>
+  </main>
+  <app-footer></app-footer>
+</div>

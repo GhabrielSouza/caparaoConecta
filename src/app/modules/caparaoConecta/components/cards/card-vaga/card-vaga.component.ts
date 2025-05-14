@@ -1,41 +1,45 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { IVagas } from '../../interface/IVagas.interface';
-
-import { EStatusVaga } from '../../enum/EStatusVaga.enum';
-import { ComponentContainerVagasComponent } from '../../components/component-container-vagas/component-container-vagas.component';
-import { FooterComponent } from '../../components/footer/footer.component';
-import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
-import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empresa/card-vaga-empresa.component';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { EDialogEnum } from '../../../enum/EDialogEnum.enum';
+import { VagaDialogComponent } from '../../dialogs/vaga-dialog/vaga-dialog.component';
+import { ERoleUser } from '../../../enum/ERoleUser.enum';
+import { CommonModule } from '@angular/common';
+import { Carousel } from 'primeng/carousel';
+import { ButtonModule } from 'primeng/button';
+import { Tag } from 'primeng/tag';
+import { IVagas } from '../../../interface/IVagas.interface';
+import { EStatusVaga } from '../../../enum/EStatusVaga.enum';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
-  selector: 'app-home-empresa',
-  templateUrl: './homepage-empresa.component.html',
-  styleUrl: './homepage-empresa.component.scss',
-  imports: [
-    ComponentContainerVagasComponent,
-    FooterComponent,
-    CabecalhoComponent,
-    CardVagaEmpresaComponent,
-  ],
+  selector: 'app-card-vaga',
+  imports: [CommonModule, Carousel, ButtonModule, Tag, PaginatorModule],
+  standalone: true,
+  templateUrl: './card-vaga.component.html',
+  styleUrl: './card-vaga.component.scss',
 })
-export class HomepageEmpresaComponent implements OnInit {
-  vagasOfertadas: IVagas[] = [];
-  vagasEncerradas: IVagas[] = [];
-  idEmpresa = 1; // Substitua pelo ID da empresa logada
+export class CardVagaComponent implements OnInit {
+  #dialog = inject(MatDialog);
 
-  constructor() {}
+  @Input() public imagem: string = 'assets/imgs/semFoto.jpg';
+  @Input() public titulo: string = 'Titulo da vaga';
+  @Input() public empresa: string = 'Empresa';
+  @Input() public qtd_vagas: number = 0;
+
+  vagas: IVagas[] | null = null;
+
+  public role: ERoleUser | null = ERoleUser.GUEST;
+  public roleEnum = ERoleUser;
+
+  public openModel(): void {
+    this.#dialog.open(VagaDialogComponent, {
+      panelClass: EDialogEnum.VAGA,
+    });
+  }
 
   ngOnInit(): void {
-    this.vagasOfertadas = this.vagasOb().filter(
-      (vaga) =>
-        vaga.id_empresa === this.idEmpresa &&
-        vaga.status === EStatusVaga.EM_ANDAMENTO
-    );
-    this.vagasEncerradas = this.vagasOb().filter(
-      (vaga) =>
-        vaga.id_empresa === this.idEmpresa &&
-        vaga.status === EStatusVaga.FINALIZADO
-    );
+    this.vagas = this.vagasOb();
+    console.log(this.vagas);
   }
 
   public vagasOb = signal<IVagas[]>([
@@ -50,7 +54,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 3,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Remoto',
-      id_empresa: 1,
+      id_empresa: 101,
     },
     {
       id_vagas: 2,
@@ -76,7 +80,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
     {
       id_vagas: 4,
@@ -89,7 +93,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
     {
       id_vagas: 5,
@@ -102,7 +106,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
     {
       id_vagas: 6,
@@ -115,7 +119,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
   ]);
 }
