@@ -25,7 +25,7 @@ export class DetalhesVagaComponent {
  visaoDetalhes: boolean = true;
  visaoEstatistica: boolean = false;
 
- public role: ERoleUser | null = ERoleUser.ADMIN;
+ public role: ERoleUser | null = ERoleUser.EMPRESA;
  public roleEnum = ERoleUser;
 
  nomeVaga: string = "Desenvolvedor Web JR";
