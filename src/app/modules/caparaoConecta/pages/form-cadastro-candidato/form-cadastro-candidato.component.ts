@@ -33,6 +33,7 @@ import { CadUnicoRadioComponent } from '../../components/inputs/cad-unico-radio/
 import { DataNascimentoInputComponent } from '../../components/inputs/data-nascimento-input/data-nascimento-input.component';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-form-cadastro-candidato',
@@ -50,19 +51,22 @@ import { Router } from '@angular/router';
     DataNascimentoInputComponent,
     GeneroInputComponent,
     CadUnicoRadioComponent,
+    MatSelectModule,
   ],
   templateUrl: './form-cadastro-candidato.component.html',
   styleUrl: './form-cadastro-candidato.component.scss',
 })
 export class FormCadastroCandidatoComponent implements OnInit {
-  // #fb = inject(FormBuilder);
   public cadastrarForm: FormGroup;
+  public estados: any[] = [];
+  public cidades: any[] = [];
 
   constructor(
     private _fb: FormBuilder,
     private ViacepService: ViacepService,
     private apiService: RegisterService,
-    private router: Router
+    private router: Router,
+    private viacepService: ViacepService
   ) {
     this.cadastrarForm = this._fb.group(
       {
@@ -192,30 +196,33 @@ export class FormCadastroCandidatoComponent implements OnInit {
     }
   }
 
-  public observerPreenchimentoCep() {
-    this.cadastrarForm.get('cep')?.valueChanges.subscribe((value) => {
-      if (value?.length == 9) {
-        this.buscarCep();
-      }
+  public carregarEstados() {
+    this.cadastrarForm.get('cidade')?.disable();
+    this.viacepService.getEstados().subscribe({
+      next: (resp) => {
+        console.log('Estados', resp);
+        this.estados = resp;
+      },
+      error: (error) => {
+        console.log('Erro ao carregar estados', error);
+      },
     });
   }
 
-  public buscarCep() {
-    const cep = this.cadastrarForm.get('cep')?.value.replace(/\.|-/g, '');
-    this.ViacepService.getEnderecobyCep(cep).subscribe({
-      next: (resp) => {
-        this.cadastrarForm.patchValue({
-          estado: resp.estado,
-          cidade: resp.localidade,
-        });
-      },
-      error: () => {
-        console.log('erro ao buscar o cep');
-      },
-      complete: () => {
-        console.log('completo');
-      },
-    });
+  public carregarCidadesPorEstado(idEstado: string) {
+    if (idEstado) {
+      this.cadastrarForm.get('cidade')?.reset();
+      this.cadastrarForm.get('cidade')?.enable();
+
+      this.viacepService.getMunicipioPorEstado(idEstado).subscribe({
+        next: (resp) => {
+          this.cidades = resp;
+        },
+        error: (error) => {
+          console.log('Erro ao carregar cidades', error);
+        },
+      });
+    }
   }
 
   public errorMessages: Record<string, string> = {
@@ -288,7 +295,7 @@ export class FormCadastroCandidatoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.observerPreenchimentoCep();
+    this.carregarEstados();
   }
 
   updateErrorMessage(field: any) {
@@ -314,21 +321,21 @@ export class FormCadastroCandidatoComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.cadastrarForm.value);
-    return this.apiService
-      .httpRegisterCandidato$(this.cadastrarForm.value)
-      .subscribe({
-        next: (resp) => {
-          console.log(resp);
-          this.router.navigate(['login']);
-        },
-        error(resp) {
-          console.log(resp);
-          console.log('erro ao cadastrar');
-        },
-        complete() {
-          console.log('completo');
-        },
-      });
+    const formdata = this.cadastrarForm.value;
+    formdata.estado = formdata.estado?.nome;
+    console.log(formdata);
+    return this.apiService.httpRegisterCandidato$(formdata).subscribe({
+      next: (resp) => {
+        console.log(resp);
+        this.router.navigate(['login']);
+      },
+      error(resp) {
+        console.log(resp);
+        console.log('erro ao cadastrar');
+      },
+      complete() {
+        console.log('completo');
+      },
+    });
   }
 }

@@ -1,23 +1,33 @@
 ::ng-deep {
-    body {
-      background-color: var(--background-notWhite);
-    }
+  body {
+    background-color: var(--background-notWhite);
   }
-  :host {
-    app-default-login-layout {
+}
+:host {
+  app-default-login-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  form {
+    flex-direction: column;
+
+    mat-error {
+      font-size: 13px;
       display: flex;
-      justify-content: center;
       align-items: center;
     }
-  
-    form {
-      flex-direction: column;
-  
-      mat-error {
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-      }
-    }
   }
-  
+}
+
+mat-select,
+mat-option {
+  box-sizing: border-box;
+  font-family: var(--font-poppinsM);
+
+  &:focus {
+    border-color: var(--primary-background-gray);
+    outline: none;
+  }
+}

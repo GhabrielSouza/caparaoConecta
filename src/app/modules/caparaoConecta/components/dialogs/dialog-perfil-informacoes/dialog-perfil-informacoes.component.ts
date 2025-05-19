@@ -10,7 +10,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { merge } from 'rxjs';
+import { identity, merge } from 'rxjs';
 
 import { VPasswordConfirm } from '../../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../../validators/VPasswordPattern.validator';
@@ -36,6 +36,10 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { RegisterService } from '../../../../../services/register-caparao/register.service';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { ViacepService } from '../../../../../services/viacep.service';
+import { IEstadoIbge } from '../../../interface/IEstadoIbge.interface';
+import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
@@ -56,6 +60,7 @@ import { RegisterService } from '../../../../../services/register-caparao/regist
     IconFieldModule,
     InputIconModule,
     ButtonModule,
+    MatSelectModule,
   ],
   templateUrl: './dialog-perfil-informacoes.component.html',
   styleUrl: './dialog-perfil-informacoes.component.scss',
@@ -64,32 +69,35 @@ import { RegisterService } from '../../../../../services/register-caparao/regist
 export class DialogPerfilInformacoesComponent {
   public cadastrarForm: FormGroup;
 
+  estados: IEstadoIbge[] = [];
+  cidades: IMunicipioIbge[] = [];
+
   constructor(
     private _fb: FormBuilder,
     private _dialogRef: MatDialogRef<DialogPerfilInformacoesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
     private messageService: MessageService,
-    private apiService: RegisterService
+    private apiService: RegisterService,
+    private viacepService: ViacepService
   ) {
-    this.cadastrarForm = this._fb.group(
-      {
-        nome: ['', [Validators.required]],
-        sobrenome: ['', [Validators.required]],
-        dataDeNascimento: ['', [Validators.required]],
-        genero: ['', [Validators.required]],
-        instagram: ['', [Validators.required]],
-        linkedin: ['', [Validators.required]],
-        lattes: ['', [Validators.required]],
-        github: ['', [Validators.required]],
-        telefone: ['', [Validators.required]],
-        cep: ['', [Validators.required]],
-        estado: ['', []],
-        cidade: ['', []],
-        imagem: [null],
-        email: ['', [Validators.required, Validators.email]],
-      },
-    );
+    this.cadastrarForm = this._fb.group({
+      nome: ['', [Validators.required]],
+      sobrenome: ['', [Validators.required]],
+      data_de_nascimento: ['', [Validators.required]],
+      genero: ['', [Validators.required]],
+      instagram: ['', [Validators.required]],
+      linkedin: ['', [Validators.required]],
+      lattes: ['', [Validators.required]],
+      github: ['', [Validators.required]],
+      telefone: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      estado: ['', []],
+      cidade: ['', []],
+      imagem: [null],
+      email: ['', [Validators.required, Validators.email]],
+      id_tipo_usuarios: 2,
+    });
 
     const emailControl = this.email;
     if (emailControl) {
@@ -203,15 +211,18 @@ export class DialogPerfilInformacoesComponent {
   }
 
   public submit() {
+    const formdata = this.cadastrarForm.value;
+    formdata.estado = formdata.estado?.nome;
+    console.log(formdata);
     return this.apiService
-      .httpUpdateCandidato$(this.data.id, this.cadastrarForm.value)
+      .httpUpdateCandidato$(this.data.id, formdata)
       .subscribe({
         next: (resposta) => {
           console.log(resposta);
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Cadastro realizado com sucesso',
+            detail: 'Atualizações realizadas com sucesso',
           });
           this._dialogRef.close();
         },
@@ -219,11 +230,39 @@ export class DialogPerfilInformacoesComponent {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Erro ao cadastrar',
+            detail: 'Erro ao atualizar',
           });
           console.error('Error updating data', error);
         },
       });
+  }
+
+  public carregarEstados() {
+    this.cadastrarForm.get('cidade')?.disable();
+    this.viacepService.getEstados().subscribe({
+      next: (resp) => {
+        this.estados = resp;
+      },
+      error: (error) => {
+        console.log('Erro ao carregar estados', error);
+      },
+    });
+  }
+
+  public carregarCidadesPorEstado(idEstado: string) {
+    if (idEstado) {
+      this.cadastrarForm.get('cidade')?.reset();
+      this.cadastrarForm.get('cidade')?.enable();
+
+      this.viacepService.getMunicipioPorEstado(idEstado).subscribe({
+        next: (resp) => {
+          this.cidades = resp;
+        },
+        error: (error) => {
+          console.log('Erro ao carregar cidades', error);
+        },
+      });
+    }
   }
 
   public errorMessages: Record<string, string> = {
@@ -295,7 +334,9 @@ export class DialogPerfilInformacoesComponent {
     return this.cadastrarForm.get('cep');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.carregarEstados();
+  }
 
   updateErrorMessage(field: any) {
     const control = this.cadastrarForm.get(field);
