@@ -5,6 +5,7 @@ import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { ComponentContainerVagasComponent } from '../../components/component-container-vagas/component-container-vagas.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
+
 import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empresa/card-vaga-empresa.component';
 
 @Component({
@@ -22,6 +23,7 @@ export class HomepageEmpresaComponent implements OnInit {
   vagasOfertadas: IVagas[] = [];
   vagasEncerradas: IVagas[] = [];
   idEmpresa = 1; // Substitua pelo ID da empresa logada
+
 
   constructor() {}
 
