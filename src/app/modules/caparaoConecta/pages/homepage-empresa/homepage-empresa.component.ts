@@ -1,57 +1,39 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
-import { FooterComponent } from '../../components/footer/footer.component';
-import { ComponentContainerVagasComponent } from '../../components/component-container-vagas/component-container-vagas.component';
-import { CardVagaComponent } from '../../components/cards/card-vaga/card-vaga.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IVagas } from '../../interface/IVagas.interface';
-import { CardVagaPublicaComponent } from '../../components/cards/card-vaga-publica/card-vaga-publica.component';
+
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
-import { ERoleUser } from '../../enum/ERoleUser.enum';
+import { ComponentContainerVagasComponent } from '../../components/component-container-vagas/component-container-vagas.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empresa/card-vaga-empresa.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-home-empresa',
+  templateUrl: './homepage-empresa.component.html',
+  styleUrl: './homepage-empresa.component.scss',
   imports: [
-    CabecalhoComponent,
-    FooterComponent,
     ComponentContainerVagasComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    CardVagaPublicaComponent,
+    FooterComponent,
+    CabecalhoComponent,
     CardVagaEmpresaComponent,
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit {
-  public role: ERoleUser | null = ERoleUser.GUEST;
-  public roleEnum = ERoleUser;
-
+export class HomepageEmpresaComponent implements OnInit {
   vagasOfertadas: IVagas[] = [];
   vagasEncerradas: IVagas[] = [];
-  idUsuario = 1;
-
-  vagasPublicas: IVagas[] = [];
+  idEmpresa = 1; // Substitua pelo ID da empresa logada
 
   constructor() {}
 
   ngOnInit(): void {
-    this.vagasPublicas = this.vagasOb();
-
     this.vagasOfertadas = this.vagasOb().filter(
       (vaga) =>
-        vaga.id_empresa === this.idUsuario &&
+        vaga.id_empresa === this.idEmpresa &&
         vaga.status === EStatusVaga.EM_ANDAMENTO
     );
     this.vagasEncerradas = this.vagasOb().filter(
       (vaga) =>
-        vaga.id_empresa === this.idUsuario &&
+        vaga.id_empresa === this.idEmpresa &&
         vaga.status === EStatusVaga.FINALIZADO
     );
   }
@@ -81,7 +63,7 @@ export class HomeComponent implements OnInit {
       qtd_vaga: 2,
       qtd_vagas_preenchidas: 0,
       modalidade_da_vaga: 'Híbrido',
-      id_empresa: 1,
+      id_empresa: 102,
     },
     {
       id_vagas: 3,

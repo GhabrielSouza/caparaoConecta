@@ -1,0 +1,23 @@
+<p-carousel
+  [value]="vagas"
+  [numVisible]="3"
+  [numScroll]="3"
+  [circular]="true"
+  [autoplayInterval]="5000"
+>
+  <ng-template let-vaga #item>
+    <div
+      class="container cpc-background-gray d-flex align-items-center p-2 gap-4"
+      (click)="openModel()"
+    >
+      <div class="container_img py-2">
+        <img [src]="imagem" alt="Logo da empresa" />
+      </div>
+      <div class="container_informacoes d-flex flex-column py-2">
+        <h1 class="cpc-medium-card">{{ vaga.titulo_vaga }}</h1>
+        <p class="cpc-light-card">{{ vaga.descricao }}</p>
+        <p class="cpc-light-card">Vagas: {{ vaga.qtd_vaga }}</p>
+      </div>
+    </div>
+  </ng-template>
+</p-carousel>

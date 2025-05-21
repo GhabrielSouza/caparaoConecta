@@ -1,20 +1,7 @@
 @use "@angular/material" as mat;
-:host {
-  .layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
 
-  .conteudo {
-    flex: 1;
-  }
 
-  .container_filtros {
-    width: 100%;
-  }
-
-  @include mat.checkbox-overrides(
+@include mat.checkbox-overrides(
     (
       label-text-font: var(--font-poppinsR),
       selected-icon-color: var(--secondary-background-green),
@@ -24,4 +11,3 @@
       unselected-pressed-state-layer-color: var(--secondary-background-green),
     )
   );
-}

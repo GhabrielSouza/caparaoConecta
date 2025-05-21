@@ -1,59 +1,45 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
-import { FooterComponent } from '../../components/footer/footer.component';
-import { ComponentContainerVagasComponent } from '../../components/component-container-vagas/component-container-vagas.component';
-import { CardVagaComponent } from '../../components/cards/card-vaga/card-vaga.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { IVagas } from '../../interface/IVagas.interface';
-import { CardVagaPublicaComponent } from '../../components/cards/card-vaga-publica/card-vaga-publica.component';
-import { EStatusVaga } from '../../enum/EStatusVaga.enum';
-import { ERoleUser } from '../../enum/ERoleUser.enum';
-import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empresa/card-vaga-empresa.component';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { EDialogEnum } from '../../../enum/EDialogEnum.enum';
+import { VagaDialogComponent } from '../../dialogs/vaga-dialog/vaga-dialog.component';
+import { ERoleUser } from '../../../enum/ERoleUser.enum';
+import { CommonModule } from '@angular/common';
+import { Carousel } from 'primeng/carousel';
+import { ButtonModule } from 'primeng/button';
+import { Tag } from 'primeng/tag';
+import { IVagas } from '../../../interface/IVagas.interface';
+import { EStatusVaga } from '../../../enum/EStatusVaga.enum';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
-  selector: 'app-home',
-  imports: [
-    CabecalhoComponent,
-    FooterComponent,
-    ComponentContainerVagasComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    CardVagaPublicaComponent,
-    CardVagaEmpresaComponent,
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  selector: 'app-card-vaga',
+  imports: [CommonModule, Carousel, ButtonModule, Tag, PaginatorModule],
+  standalone: true,
+  templateUrl: './card-vaga.component.html',
+  styleUrl: './card-vaga.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class CardVagaComponent implements OnInit {
+  #dialog = inject(MatDialog);
+
+  @Input() public imagem: string = 'assets/imgs/semFoto.jpg';
+  @Input() public titulo: string = 'Titulo da vaga';
+  @Input() public empresa: string = 'Empresa';
+  @Input() public qtd_vagas: number = 0;
+
+  vagas: IVagas[] | null = null;
+
   public role: ERoleUser | null = ERoleUser.GUEST;
   public roleEnum = ERoleUser;
 
-  vagasOfertadas: IVagas[] = [];
-  vagasEncerradas: IVagas[] = [];
-  idUsuario = 1;
-
-  vagasPublicas: IVagas[] = [];
-
-  constructor() {}
+  public openModel(): void {
+    this.#dialog.open(VagaDialogComponent, {
+      panelClass: EDialogEnum.VAGA,
+    });
+  }
 
   ngOnInit(): void {
-    this.vagasPublicas = this.vagasOb();
-
-    this.vagasOfertadas = this.vagasOb().filter(
-      (vaga) =>
-        vaga.id_empresa === this.idUsuario &&
-        vaga.status === EStatusVaga.EM_ANDAMENTO
-    );
-    this.vagasEncerradas = this.vagasOb().filter(
-      (vaga) =>
-        vaga.id_empresa === this.idUsuario &&
-        vaga.status === EStatusVaga.FINALIZADO
-    );
+    this.vagas = this.vagasOb();
+    console.log(this.vagas);
   }
 
   public vagasOb = signal<IVagas[]>([
@@ -68,7 +54,7 @@ export class HomeComponent implements OnInit {
       qtd_vaga: 3,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Remoto',
-      id_empresa: 1,
+      id_empresa: 101,
     },
     {
       id_vagas: 2,
@@ -81,7 +67,7 @@ export class HomeComponent implements OnInit {
       qtd_vaga: 2,
       qtd_vagas_preenchidas: 0,
       modalidade_da_vaga: 'Híbrido',
-      id_empresa: 1,
+      id_empresa: 102,
     },
     {
       id_vagas: 3,
@@ -94,7 +80,7 @@ export class HomeComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
     {
       id_vagas: 4,
@@ -107,7 +93,7 @@ export class HomeComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
     {
       id_vagas: 5,
@@ -120,7 +106,7 @@ export class HomeComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
     {
       id_vagas: 6,
@@ -133,7 +119,7 @@ export class HomeComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresa: 103,
     },
   ]);
 }
