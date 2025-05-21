@@ -23,10 +23,10 @@ export class ComponentDefaultPerfilComponent {
   @Input() public IdUsuario: any;
   @Input() public data: any;
 
-  openDialogFormacao(data:any): void {
+  openDialogFormacao(data: any): void {
     this.#dialog.open(FormFormacaoAcademicaComponent, {
       panelClass: EDialogEnum.FORMACAO,
-      data
+      data,
     });
   }
 
@@ -42,9 +42,20 @@ export class ComponentDefaultPerfilComponent {
     });
   }
 
-  openDialogsSobre(): void {
-    this.#dialog.open(DialogSobreComponent, {
+  openDialogsSobre(data: any): void {
+    const dialogRef = this.#dialog.open(DialogSobreComponent, {
       panelClass: EDialogEnum.PROJETOS,
+      data: {
+        conteudo: data,
+        id: this.IdUsuario,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((novoSobre) => {
+      console.log(novoSobre);
+      if (novoSobre) {
+        this.data = novoSobre;
+      }
     });
   }
 

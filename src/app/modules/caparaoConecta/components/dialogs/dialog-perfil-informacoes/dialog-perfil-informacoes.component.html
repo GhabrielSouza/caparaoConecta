@@ -1,5 +1,5 @@
 <header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>{{ data }}</h3>
+  <h3>Editar Perfil</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
@@ -34,6 +34,7 @@
       <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
       }
     </app-primary-input>
+    @if(data.conteudo.usuario.id_tipo_usuarios == 2) {
     <app-primary-input
       formControlName="sobrenome"
       type="text"
@@ -65,7 +66,7 @@
       <app-genero-input
         formControlName="genero"
         type="text"
-        placeholder="Ex: Masculino"
+        placeholder="Selecione seu gênero"
         label="Gênero"
         inputName="genero"
         class="col-6 ps-3"
@@ -76,6 +77,7 @@
         }</app-genero-input
       >
     </div>
+  }
 
     <app-primary-input
       type="text"
@@ -192,53 +194,13 @@
       <mat-error>{{ fieldErrors()["email"] }}</mat-error>
       }
     </app-primary-input>
-
-    <app-primary-input
-      type="password"
-      formControlName="password"
-      inputName="password"
-      label="Senha"
-      placeholder="Digite sua senha"
-      class="col-12"
-      >@if (cadastrarForm.get('password')?.invalid &&
-      (cadastrarForm.get('password')?.touched ||
-      cadastrarForm.get('password')?.dirty )) {
-      <mat-error>{{ fieldErrors()["password"] }}</mat-error>
-      } @if(cadastrarForm.get('password')?.hasError('uppercase')){
-      <mat-error>
-        {{ patternMessages["uppercase"] }}
-      </mat-error>
-      } @if(cadastrarForm.get('password')?.hasError('lowercase')){
-      <mat-error>
-        {{ patternMessages["lowercase"] }}
-      </mat-error>
-      } @if(cadastrarForm.get('password')?.hasError('specialChar')){
-      <mat-error>
-        {{ patternMessages["specialChar"] }}
-      </mat-error>
-      }
-    </app-primary-input>
-    <app-primary-input
-      type="password"
-      formControlName="confirmPassword"
-      inputName="confirmPassword"
-      label="Confirme sua senha"
-      placeholder="Confirme sua senha"
-      class="col-12"
-    >
-      @if (cadastrarForm.get('confirmPassword')?.invalid &&
-      (cadastrarForm.get('confirmPassword')?.touched ||
-      cadastrarForm.get('confirmPassword')?.dirty )){
-      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-      } @if (cadastrarForm.errors?.['Invalida']) {
-      <mat-error> As senhas não coincidem.</mat-error>
-      }
-    </app-primary-input>
+    
     <div class="d-flex justify-content-end">
       <app-button-primary
         fonte="cpc-regular"
         color="btn-secondary"
         text="Salvar"
+        (click)="submit()"
       />
     </div>
   </form>

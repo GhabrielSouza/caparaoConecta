@@ -8,7 +8,7 @@
         loading="eager"
       />
       <div class="container_img-edit">
-        <button class="btn" (click)="openDialog()">
+        <button class="btn" (click)="openDialog(data)">
           <img
             class="img-perfil-edit"
             src="assets/icons/lapis.svg"
@@ -17,49 +17,72 @@
         </button>
       </div>
     </div>
-    <h1 class="cpc-bold">Nome do candidato</h1>
+    <h1 class="cpc-bold mt-3">{{ data.nome }}</h1>
   </div>
 
   <aside>
     <div class="container_infos">
-      <p class="cpc-regular">Cariacica, Espírito Santo, Brasil</p>
+      <p class="cpc-regular">
+        {{ data.endereco?.cidade?.nome_cidade }}, {{ data.endereco?.estado }}
+      </p>
       <nav>
         <ul>
+          @if(data.telefone != null){
           <li>
-            <a href="#" target="_blank"
-              ><img src="assets/icons/icons_perfil/whats.svg" alt=""
+            <a [href]="'https://wa.me/' + telefoneWhatsApp" target="_blank">
+              <img
+                src="assets/icons/icons_perfil/whats.svg"
+                alt="Contato do WhatsApp"
+              />
+            </a>
+          </li>
+          } @if(data.telefone == null){
+          <li>
+            <a [href]="" target="_blank"
+              ><img
+                src="assets/icons/icons_perfil/insta.svg"
+                alt="Rede social Instagram"
             /></a>
           </li>
+          } @if(data.telefone == null){
           <li>
             <a href="#" target="_blank"
-              ><img src="assets/icons/icons_perfil/insta.svg" alt=""
+              ><img
+                src="assets/icons/icons_perfil/git.svg"
+                alt="Rede social GitHub"
             /></a>
           </li>
+          } @if(data.telefone == null){
           <li>
             <a href="#" target="_blank"
-              ><img src="assets/icons/icons_perfil/git.svg" alt=""
+              ><img
+                src="assets/icons/icons_perfil/linkedin.svg"
+                alt="Rede social LinkedIn"
             /></a>
           </li>
+          } @if(email != null){
+          <li>
+            <a [href]="'mailto:' + email" target="_blank"
+              ><img
+                src="assets/icons/icons_perfil/email.svg"
+                alt="Rede social Email"
+            /></a>
+          </li>
+          } @if(data.telefone != null){
+          <li>
+            <a [href]="data.telefone" target="_blank"
+              ><img src="assets/icons/icons_perfil/telefone.svg" alt="Telefone"
+            /></a>
+          </li>
+          } @if(data.telefone == null){
           <li>
             <a href="#" target="_blank"
-              ><img src="assets/icons/icons_perfil/linkedin.svg" alt=""
+              ><img
+                src="assets/icons/icons_perfil/lattes.svg"
+                alt="Rede social Lattes"
             /></a>
           </li>
-          <li>
-            <a href="#" target="_blank"
-              ><img src="assets/icons/icons_perfil/email.svg" alt=""
-            /></a>
-          </li>
-          <li>
-            <a href="#" target="_blank"
-              ><img src="assets/icons/icons_perfil/telefone.svg" alt=""
-            /></a>
-          </li>
-          <li>
-            <a href="#" target="_blank"
-              ><img src="assets/icons/icons_perfil/lattes.svg" alt=""
-            /></a>
-          </li>
+          }
         </ul>
       </nav>
     </div>

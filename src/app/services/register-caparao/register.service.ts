@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { IFormLogin } from '../../modules/caparaoConecta/interface/IFormLogin.interface';
 import { IEmpresa } from '../../modules/caparaoConecta/interface/IEmpresa.inteface';
 import { ICandidato } from '../../modules/caparaoConecta/interface/ICandidato.interface';
+import { IPessoa } from '../../modules/caparaoConecta/interface/IPessoa.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +14,13 @@ export class RegisterService {
   #http = inject(HttpClient);
   #url = environment.apiAuth;
 
-  #setListEmpresa = signal<IEmpresa[] | null>(null);
-  public getListEmpresa = this.#setListEmpresa.asReadonly();
-  public httpListEmpresas$(): Observable<IEmpresa[]> {
-    return this.#http.get<IEmpresa[]>(`${this.#url}/api/empresas`).pipe(
+  #setListEmpresaId = signal<IEmpresa[] | null>(null);
+  public getListEmpresaId = this.#setListEmpresaId.asReadonly();
+  public httpListEmpresasId$(id: number): Observable<IEmpresa[]> {
+    return this.#http.get<IEmpresa[]>(`${this.#url}/api/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
-        this.#setListEmpresa.set(data);
+        this.#setListEmpresaId.set(data);
       })
     );
   }
@@ -50,13 +51,13 @@ export class RegisterService {
       );
   }
 
-  #setListCandidato = signal<ICandidato[] | null>(null);
-  public getListCandidato = this.#setListCandidato.asReadonly();
-  public httpListCandidatos$(): Observable<ICandidato[]> {
-    return this.#http.get<ICandidato[]>(`${this.#url}/api/empresas`).pipe(
+  #setListCandidatoId = signal<IPessoa | null>(null);
+  public getListCandidatoId = this.#setListCandidatoId.asReadonly();
+  public httpListCandidatosId$(id: number): Observable<IPessoa> {
+    return this.#http.get<IPessoa>(`${this.#url}/api/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
-        this.#setListCandidato.set(data);
+        this.#setListCandidatoId.set(data);
       })
     );
   }
@@ -74,11 +75,14 @@ export class RegisterService {
       );
   }
 
-  #setUpdateCandidato = signal<ICandidato | null>(null);
+  #setUpdateCandidato = signal<IPessoa | null>(null);
   public getUpdateCandidato = this.#setCreateCandidato.asReadonly();
-  public httpUpdateCandidato$(candidato: ICandidato): Observable<ICandidato> {
+  public httpUpdateCandidato$(
+    id: number,
+    candidato: IPessoa
+  ): Observable<IPessoa> {
     return this.#http
-      .put<ICandidato>(`${this.#url}/api/cadastrar/${candidato.id}`, candidato)
+      .put<IPessoa>(`${this.#url}/api/pessoas/${id}`, candidato)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -86,7 +90,22 @@ export class RegisterService {
         })
       );
   }
+
+  #setUpdatePessoaSobre = signal<IPessoa | null>(null);
+  public setUpdatePessoaSobre = this.#setUpdatePessoaSobre.asReadonly();
+  public httpUpdatePessoaSobre$(
+    id: number,
+    novoSobre: string
+  ): Observable<IPessoa> {
+    return this.#http
+      .patch<IPessoa>(`${this.#url}/api/pessoas/${id}/sobre`, {
+        sobre: novoSobre,
+      })
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setUpdatePessoaSobre.set(data);
+        })
+      );
+  }
 }
-
-
-
