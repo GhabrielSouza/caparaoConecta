@@ -1,27 +1,41 @@
 <app-cabecalho />
-<app-component-perfil-dados [data]=""></app-component-perfil-dados>
-<app-component-default-perfil title="Sobre" [IdUsuario]="" [data]="sobre">
-</app-component-default-perfil>
+
+@defer (when carregarDados) {
+<app-component-perfil-dados
+  [data]="dadosPessoais"
+  [IdUsuario]="idUsuario"
+></app-component-perfil-dados>
+
 <app-component-default-perfil
-  title="Experiência profissional"
-  [IdUsuario]=""
-  [data]="experiencias"
+  title="Sobre"
+  [IdUsuario]="idUsuario"
+  [data]="sobre"
 >
-  <!--for com condicional tbm-->
-  <app-card-default-informacoes></app-card-default-informacoes>
 </app-component-default-perfil>
-<app-component-default-perfil title="Formação acadêmica" [IdUsuario]="" [data]="formacoes">
-</app-component-default-perfil>
-<app-component-default-perfil title="Cursos realizados" [IdUsuario]="" [data]="cursos">
-</app-component-default-perfil>
-<app-component-default-perfil
-  title="Habilidades e competências adicionais"
-  [IdUsuario]=""
-  [data]="habilidades"
->
-  <!-- colocar um for e um if para verifica se existe-->
-  <mat-chip-set aria-label="Fish selection">
-    <mat-chip>One fish</mat-chip>
-  </mat-chip-set>
-</app-component-default-perfil>
-<app-footer tela="perfil">
+
+<div *ngIf="id_tipo_usuario == '2'">
+  <app-perfil-candidato
+    [experiencias]="experiencias"
+    [formacoes]="formacoes"
+    [cursos]="cursos"
+    [habilidades]="habilidades"
+  >
+  </app-perfil-candidato>
+</div>
+
+<div *ngIf="id_tipo_usuario == '3'">
+  <app-perfil-empresa [dadosEmpresa]="dadosEmpresa"> </app-perfil-empresa>
+</div>
+} @placeholder(minimum 3s) {
+<app-spinner />
+}@loading(minimum 3s) {
+<div class="loading-message">
+  <p>Carregando dados do perfil...</p>
+</div>
+} @error {
+<div class="error-message">
+  <p>Erro ao carregar os dados do perfil.</p>
+</div>
+}
+
+<app-footer tela="perfil"></app-footer>

@@ -1,4 +1,5 @@
-@if(visaoCandidato){
+@if(role == roleEnum.CANDIDATO){
+    
 <div class="detalhesVagaContainer">
     <h1 class="my-4 cpc-bold">Detalhes da vaga</h1>
 
@@ -71,4 +72,171 @@
         }
     </div>
 </div>
+}
+@if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
+    <div class="detalhesVagaContainer">
+        <div class="d-flex aling-items-center justify-content-between mb-3 h-25">
+            <h1 class="my-1 cpc-bold">Detalhes da vaga</h1>
+            <div class="d-flex aling-items-center ">
+                <div [ngClass]="alterarBackground ? 'cpc-background-green' : 'cpc-background-gray'" class="d-flex aling-items-center px-2 cpc-border-radius-detalhes " (click)="alterarDetalhes()">
+                    <div  class="d-flex align-items-center">
+                        <img class="pe-2 w-25" [src]="alterarImagemDetalhes ? 'assets/icons/detalhesBranco.svg' : 'assets/icons/detalhes.svg'" alt="">
+                        <p [ngClass]="alterarCorFonteDetalhes ? 'cpc-color-white' : ''" class="my-1 cpc-regular">Detalhes</p>
+                    </div>
+                </div>
+                <div [ngClass]="alterarBackground ? 'cpc-background-gray' : 'cpc-background-green'"  class="d-flex aling-items-center me-4 px-2 cpc-border-radius-estatistica" (click)="alterarEstatistica()">
+                    <div class="d-flex align-items-center">
+                        <img class="pe-2 w-25" [src]="alterarImagemEstatistica ? 'assets/icons/estatisticaBranca.svg' : 'assets/icons/estatistica.svg'"alt="">
+                        <p [ngClass]="alterarCorFonteEstatistica ? 'cpc-color-white' : ''" class="my-1 cpc-regular">Estatísticas</p>
+                    </div>
+                </div>
+                <app-button-primary
+                    fonte="cpc-regular"
+                    color="btn-secondary"
+                    text="Voltar"
+                    (click)="voltar()"
+                />
+            </div>
+        </div>
+        @if(visaoDetalhes){
+            <div class="container">
+                <img src="../../../../../assets/imgs/banner_vaga_padrao.svg" alt="imagemVaga">
+            
+        
+                <h1 class="my-4 cpc-bold">Web Developer</h1>
+                <h1 class="my-4 cpc-descricao">{{texto}}</h1>
+        
+                <div class="containerInterno">
+                    <div class="conteudoRequisitos">
+                        <h1>Requisitos da vaga</h1>
+                        <p>Sólidos conhecimentos em Pascal</p>
+                        <p>Conhecimento básico da ferramenta Excel 2008</p>
+                    </div>
+                    <div class="conteudoCompetencias">
+                        <h1>Competências</h1>
+                        <p>CSS</p>
+                        <p>Javascript</p>
+                        <p>Javascript 3</p>
+                    </div>
+                    <div class="conteudoCursos">
+                        <h1>Cursos recomendados</h1>
+                        <p>HTML e CSS</p>
+                        <p>Figma</p>
+                        <p>JavaScript avançado</p>
+                    </div>
+                </div>
+        
+                @if(containerFooter){
+                    <h1>Contatos</h1>
+                    <div class="containerFooter">
+                        <div class="conteudoContatos">
+                            <div class="linkContainer">
+                                <div class="linkContainerText">
+                                    <img class="me-2" src="assets/icons/iconeEmail.svg" alt="">
+                                    <p>HTML e CSS</p>
+                                </div>
+                                <div class="linkContainerText">
+                                    <img class="me-2" src="assets/icons/iconeWhatsapp.svg" alt="">
+                                    <p>Figma</p>
+                                </div>
+                                <div class="linkContainerText">
+                                    <img class="me-2" src="assets/icons/iconeSite.svg" alt="">
+                                    <p>Javascript avançados</p>
+                                </div>
+                            </div>
+        
+                            <div class="linkContainer">
+                                <div class="linkContainerText">
+                                    <img class="me-2" src="assets/icons/iconeInstagram.svg" alt="">
+                                    <p>HTML e CSS</p>
+                                </div>
+                                <div class="linkContainerText">
+                                    <img class="me-2" src="assets/icons/iconeGithub.svg" alt="">
+                                    <p>Figma</p>
+                                </div>
+                                <div class="linkContainerText">
+                                    <img class="me-2" src="assets/icons/iconeLinkedin.svg" alt="">
+                                    <p>Javascript avançados</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="conteudoEndereco">
+                            <img class="me-2" src="assets/icons/iconeLocalizacao.svg" alt="">
+                            <p class="cpc-descricao">Rodovia ES-482 (Cachoeiro-Alegre, Km 72 - Rive, Alegre - ES, 29500-000)</p>
+                        </div>
+                    </div>
+                }
+                <div class="d-flex justify-content-between my-3">
+                    <div>
+                        <mat-checkbox
+                        formControlName="trabalhoAtual"
+                        class=""
+                      >
+                        Prorrogar 5 dias
+                      </mat-checkbox>
+                    </div>
+                    <app-button-primary
+                    fonte="cpc-regular"
+                    color="btn-secondary"
+                    text="Finalizar Vaga"
+                />
+                </div>
+            </div>
+        }
+        @if(visaoEstatistica){
+            <div class="container">
+                <section class="mt-5 d-flex justify-content-center align-items-center gap-5">
+                    <app-dashboard-card />
+                    <app-dashboard-card />
+                </section>
+                <section class="mt-5 cpc-background-gray p-4 mx-5 containerSelecaoVaga cpc-shadow-black">
+                    <h2>{{nomeVaga}}</h2>
+                    <div>
+                        <div class="cpc-background-green-010 px-4 py-1 my-3">
+                            <p class="cpc-regular">Selecão de candidatos a vaga</p>
+                        </div>
+                        <div class="my-3">
+                            <app-component-accordion title="{{nomeCandidato}}">
+                                <div >
+                                    <p class="cpc-regular mb-3">Perfil do candidato</p>
+                                    <a class="cpc-background-green cpc-color-white p-2" href="">Visualizar perfil</a>
+                                </div>
+                                <div class="py-3">
+                                    <p class="cpc-regular">Habilidades></p>
+                                    <p>Faltam as seguintes habilidades adicionais:</p>
+                                    <div>
+                                        <mat-chip-set>
+                                            <mat-chip>One fish</mat-chip>
+                                        </mat-chip-set>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="cpc-regular">Ações</p>
+                                    <div>
+                                        <mat-radio-group>
+                                            <mat-radio-button [value]="true">Entrevistar</mat-radio-button>
+                                            <mat-radio-button [value]="false">Contratar</mat-radio-button>
+                                            <mat-radio-button [value]="false">Desclassificar</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <app-button-primary
+                                    fonte="cpc-regular"
+                                    color="btn-secondary"
+                                    text="Salvar"
+                                 />
+                                </div>
+                            </app-component-accordion>
+                        </div>
+                        <div class="my-3">
+                            <app-component-accordion title="candidato">
+
+                            </app-component-accordion>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        }
+    </div>
 }
