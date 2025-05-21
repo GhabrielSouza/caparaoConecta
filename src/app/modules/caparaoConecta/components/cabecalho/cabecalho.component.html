@@ -1,126 +1,132 @@
 <header (scroll)="onscroll()" [ngClass]="navbarFixed ? 'fixed' : 'nofixed'">
-  <div class="header_logo">
-    <a [routerLink]="['']"
-      ><img
-        src="assets/imgs/logo.svg"
-        alt="Logo do site Carapaó Conecta"
-        class="header_logo_imagem"
-    /></a>
-  </div>
-  <div class="header_aplicacao">
-    @if(role == roleEnum.GUEST){
-    <div class="header_aplicacao_acesso">
-      <ul>
-        <li><a routerLink="/login">Entrar</a></li>
-        <li><a (click)="openDialog()">Inscrever-se</a></li>
-      </ul>
-    </div>
-    } @if(role == roleEnum.ADMIN || role == roleEnum.CANDIDATO || role ==
-    roleEnum.EMPRESA){
-    <div class="header_aplicacao_notificacoes">
-      <button class="btn-notificacoes">
+  <div class="header-container">
+    <div class="header_logo">
+      <a [routerLink]="['']">
         <img
-          src="assets/icons/Notificacoes.svg"
-          alt="Icone de notificações"
-          class="header_aplicacao_notificacoes_imagem"
+          src="assets/imgs/logo.svg"
+          alt="Logo do site Carapaó Conecta"
+          class="header_logo_imagem"
         />
-      </button>
+      </a>
     </div>
-    <div class="header_aplicacao_navegacao">
-      <div class="header_aplicacao_navegacao_menu-hamburguer">
-        <div class="menu">
-          <input type="checkbox" id="checkbox-id" (change)="openMenu()" />
-          <label for="checkbox-id">
-            <img
-              src="assets/icons/menu-hamburguer.svg"
-              alt="Menu hamburhuer para navegação do site"
-            />
+
+    <div class="header_aplicacao">
+      @if(role == roleEnum.GUEST) {
+      <div class="header_aplicacao_acesso">
+        <ul>
+          <li><a routerLink="/login" class="login-btn">Entrar</a></li>
+          <li><a (click)="openDialog()" class="signup-btn">Inscrever-se</a></li>
+        </ul>
+      </div>
+      } @if(role == roleEnum.ADMIN || role == roleEnum.CANDIDATO || role ==
+      roleEnum.EMPRESA) {
+      <div class="header_actions">
+        <button class="btn-notificacoes">
+          <mat-icon class="notificacao" matBadge="15">notifications</mat-icon>
+        </button>
+
+        <div class="menu-toggle">
+          <input type="checkbox" id="menu-toggle" (change)="toggleMenu()" />
+          <label for="menu-toggle" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
           </label>
         </div>
       </div>
-      <div
-        class="header_aplicacao_navegacao_opcoes cpc-shadow-black"
-        [ngClass]="{ menu_hamburguer: valorMenu }"
-      >
-        <div class="perfil">
-          <div class="perfil_imagem">
-            <img
-              src="assets/imgs/perfil.svg"
-              alt="Imagem de perfil do usuário"
-            />
-          </div>
-          <div class="perfil_identificacao">
-            <h2>Nome usuário</h2>
-            <p>Especialização</p>
-          </div>
+      }
+    </div>
+  </div>
+
+  @if(role == roleEnum.ADMIN || role == roleEnum.CANDIDATO || role ==
+  roleEnum.EMPRESA) {
+  <div class="side-menu" [class.menu-open]="isMenuOpen">
+    <div class="menu-overlay" (click)="toggleMenu()"></div>
+
+    <div class="menu-content">
+      <div class="user-profile">
+        <div class="profile-image-container">
+          <img
+            [src]="'assets/imgs/perfil.svg'"
+            alt="Foto do usuário"
+            class="profile-image"
+          />
         </div>
-        <div class="header_aplicacao_navegacao_opcoes_links">
-          <nav class="header_aplicacao_navegacao_opcoes_links-nav">
-            <ul>
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img src="assets/icons/home.svg" alt="icone da home" />
-                <p><a href="">Home</a></p>
-              </li>
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img src="assets/icons/perfil.svg" alt="icone de perfil" />
-                <p><a routerLink="/perfil">Perfil</a></p>
-              </li>
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img src="assets/icons/cursos.svg" alt="icone da cursos" />
-                <p><a href="">Cursos</a></p>
-              </li>
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img src="assets/icons/vagas.svg" alt="icone de vagas" />
-                <p><a href="">Vagas</a></p>
-              </li>
-              @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img src="assets/icons/empresa.svg" alt="icone de empresa" />
-                <p><a href="">Empresa</a></p>
-              </li>
-              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img
-                  src="assets/icons/Candidato.svg"
-                  alt="icone de Candidato"
-                />
-                <p><a href="">Candidatos</a></p>
-              </li>
-              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img
-                  src="assets/icons/dashboard.svg"
-                  alt="icone de dashboard"
-                />
-                <p><a routerLink="/dashboard">Dashboard</a></p>
-              </li>
-              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img
-                  src="assets/icons/relatorio.svg"
-                  alt="icone de relatorio"
-                />
-                <p><a href="">Relatórios</a></p>
-              </li>
-              } @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
-              <li class="header_aplicacao_navegacao_opcoes_links-nav_items">
-                <img
-                  src="assets/icons/criarVaga.svg"
-                  alt="icone de criar vaga"
-                />
-                <p><a (click)="openDialogVaga()">Criar vaga</a></p>
-              </li>
-              }
-            </ul>
-          </nav>
-        </div>
-        <div class="header_aplicacao_navegacao_opcoes-singout">
-          <button class="btn btn-primary">
-            <img src="assets/icons/sair.svg" alt="Icone de sair" />Sair
-          </button>
+        <div class="profile-info">
+          <h2>NOME</h2>
+          <p>Usuário</p>
         </div>
       </div>
+
+      <nav class="menu-nav">
+        <ul>
+          <li>
+            <a routerLink="/" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/home.svg" alt="Home" />
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/perfil" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/perfil.svg" alt="Perfil" />
+              <span>Perfil</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/cursos.svg" alt="Cursos" />
+              <span>Cursos</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/vagas.svg" alt="Vagas" />
+              <span>Vagas</span>
+            </a>
+          </li>
+
+          @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN) {
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/empresa.svg" alt="Empresa" />
+              <span>Empresa</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/Candidato.svg" alt="Candidatos" />
+              <span>Candidatos</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/dashboard" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/dashboard.svg" alt="Dashboard" />
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/relatorio.svg" alt="Relatórios" />
+              <span>Relatórios</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="openDialogVaga(); toggleMenu()" class="menu-item">
+              <img src="assets/icons/criarVaga.svg" alt="Criar vaga" />
+              <span>Criar vaga</span>
+            </a>
+          </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="menu-footer">
+        <button class="logout-btn btn btn-primary">
+          <img src="assets/icons/sair.svg" alt="Sair" />
+          <span>Sair</span>
+        </button>
+      </div>
     </div>
-    }
   </div>
+  }
 </header>

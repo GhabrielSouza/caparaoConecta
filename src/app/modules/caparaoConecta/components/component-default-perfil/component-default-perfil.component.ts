@@ -64,4 +64,36 @@ export class ComponentDefaultPerfilComponent {
       panelClass: EDialogEnum.PROJETOS,
     });
   }
+
+  // Método para verificar se mostra o botão
+  showAddButton(): boolean {
+    return [
+      'Formação acadêmica',
+      'Sobre',
+      'Experiência profissional',
+      'Habilidades e competências adicionais',
+      'Cursos realizados',
+    ].includes(this.title);
+  }
+
+  // Método único para lidar com todos os cliques
+  handleButtonClick(): void {
+    switch (this.title) {
+      case 'Formação acadêmica':
+        this.openDialogFormacao(this.data);
+        break;
+      case 'Sobre':
+        this.openDialogsSobre(this.data);
+        break;
+      case 'Experiência profissional':
+        this.openDialog();
+        break;
+      case 'Habilidades e competências adicionais':
+        this.openDialogHabilidades();
+        break;
+      case 'Cursos realizados':
+        this.openDialogCursos();
+        break;
+    }
+  }
 }

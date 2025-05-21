@@ -8,7 +8,7 @@
         loading="eager"
       />
       <div class="container_img-edit">
-        <button class="btn" (click)="openDialog(data)">
+        <button class="btn">
           <img
             class="img-perfil-edit"
             src="assets/icons/lapis.svg"
@@ -23,8 +23,18 @@
   <aside>
     <div class="container_infos">
       <p class="cpc-regular">
+        <img
+          src="assets/icons/localizacao.svg"
+          class="pe-1"
+          alt="Localização"
+        />
         {{ data.endereco?.cidade?.nome_cidade }}, {{ data.endereco?.estado }}
       </p>
+
+      <button class="btn btn-quaternary" (click)="openDialog(data)">
+        <img src="assets/icons/editInfos.svg" alt="Editar perfil" class="" />
+        Editar Perfil
+      </button>
       <nav>
         <ul>
           @if(data.telefone != null){
@@ -74,9 +84,9 @@
               ><img src="assets/icons/icons_perfil/telefone.svg" alt="Telefone"
             /></a>
           </li>
-          } @if(data.rede_social?.lattes != null){
+          } @if(data.rede_social?.curriculo_lattes != null){
           <li>
-            <a [href]="data.rede_social?.lattes" target="_blank"
+            <a [href]="data.rede_social?.curriculo_lattes" target="_blank"
               ><img
                 src="assets/icons/icons_perfil/lattes.svg"
                 alt="Rede social Lattes"

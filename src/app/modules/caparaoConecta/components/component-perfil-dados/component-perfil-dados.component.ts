@@ -15,6 +15,7 @@ export class ComponentPerfilDadosComponent {
 
   @Input() public data!: IPessoa;
   @Input() public IdUsuario: any;
+  @Input() public idTipoUsuario: any;
 
   get telefoneWhatsApp(): string {
     return '55' + (this.data?.telefone?.replace(/\D/g, '') ?? '');
@@ -27,7 +28,11 @@ export class ComponentPerfilDadosComponent {
   openDialog(data: IPessoa): void {
     this.#dialog.open(DialogPerfilInformacoesComponent, {
       panelClass: EDialogEnum.FORMACAO,
-      data: { conteudo: data, id: this.IdUsuario },
+      data: {
+        conteudo: data,
+        id: this.IdUsuario,
+        idTipoUsuario: this.idTipoUsuario,
+      },
     });
   }
 }

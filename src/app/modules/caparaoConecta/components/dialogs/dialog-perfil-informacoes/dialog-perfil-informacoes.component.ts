@@ -55,7 +55,6 @@ import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
     GeneroInputComponent,
     MatDialogContent,
     ButtonPrimaryComponent,
-    FileUpload,
     ToastModule,
     IconFieldModule,
     InputIconModule,
@@ -94,9 +93,8 @@ export class DialogPerfilInformacoesComponent {
       cep: ['', [Validators.required]],
       estado: ['', []],
       cidade: ['', []],
-      imagem: [null],
       email: ['', [Validators.required, Validators.email]],
-      id_tipo_usuarios: 2,
+      id_tipo_usuarios: this.data.idTipoUsuario,
     });
 
     const emailControl = this.email;
@@ -197,21 +195,9 @@ export class DialogPerfilInformacoesComponent {
     }
   }
 
-  onBasicUploadAuto(event: UploadEvent) {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Foto adicionada com sucesso',
-    });
-    this.cadastrarForm.patchValue({
-      imagem: event,
-    });
-
-    console.log(event);
-  }
-
   public submit() {
     const formdata = this.cadastrarForm.value;
+    console.log(formdata);
     formdata.estado = formdata.estado?.nome;
     console.log(formdata);
     return this.apiService
@@ -219,19 +205,9 @@ export class DialogPerfilInformacoesComponent {
       .subscribe({
         next: (resposta) => {
           console.log(resposta);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Atualizações realizadas com sucesso',
-          });
           this._dialogRef.close();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Erro ao atualizar',
-          });
           console.error('Error updating data', error);
         },
       });

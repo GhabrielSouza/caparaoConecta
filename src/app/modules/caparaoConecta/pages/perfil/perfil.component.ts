@@ -38,8 +38,6 @@ export class PerfilComponent implements OnInit {
   id_tipo_usuario: string = '';
 
   idUsuario = 1;
-  // Substitua pelo ID do usuário desejado
-  // Substitua pelo ID do tipo de usuário desejado
 
   carregarDados: boolean = false;
 

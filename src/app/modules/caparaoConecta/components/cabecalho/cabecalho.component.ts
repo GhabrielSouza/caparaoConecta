@@ -6,10 +6,11 @@ import { SelectRegisterDialogComponent } from '../dialogs/select-register-dialog
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
-
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-cabecalho',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, MatBadgeModule, MatIconModule],
   templateUrl: './cabecalho.component.html',
   styleUrl: './cabecalho.component.scss',
 })
@@ -18,24 +19,24 @@ export class CabecalhoComponent {
   public navbarFixed: boolean = false;
   public role: ERoleUser | null = ERoleUser.ADMIN;
   public roleEnum = ERoleUser;
-  
+
   #dialog = inject(MatDialog);
 
   public openMenu() {
     this.valorMenu = !this.valorMenu;
   }
 
-  openDialog():void{
-      this.#dialog.open(SelectRegisterDialogComponent,{
-        panelClass:EDialogEnum.PROJETOS,
-        data: 'Como você deseja se cadastrar?'
-      })
+  openDialog(): void {
+    this.#dialog.open(SelectRegisterDialogComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+      data: 'Como você deseja se cadastrar?',
+    });
   }
 
-  openDialogVaga(){
-    this.#dialog.open(CadastroVagaDialogComponent,{
-      panelClass:EDialogEnum.PROJETOS,
-    })
+  openDialogVaga() {
+    this.#dialog.open(CadastroVagaDialogComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+    });
   }
 
   @HostListener('window:scroll', ['$event']) onscroll() {
@@ -43,6 +44,27 @@ export class CabecalhoComponent {
       this.navbarFixed = true;
     } else {
       this.navbarFixed = false;
+    }
+  }
+
+  isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    // Bloquear scroll do body quando menu está aberto
+    document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
+  }
+
+  // Fechar menu ao clicar em um link
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (
+      !target.closest('.menu-content') &&
+      !target.closest('.menu-toggle') &&
+      this.isMenuOpen
+    ) {
+      this.toggleMenu();
     }
   }
 }
