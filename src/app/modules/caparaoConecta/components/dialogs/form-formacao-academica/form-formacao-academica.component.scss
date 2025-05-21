@@ -1,1 +1,14 @@
+@use "@angular/material" as mat;
 
+:host{
+
+    @include mat.radio-overrides(
+        (
+          selected-focus-icon-color: var(--primary-background-green),
+          selected-hover-icon-color: var(--primary-background-green),
+          selected-pressed-icon-color: var(--primary-background-green),
+          selected-icon-color: var(--primary-background-green),
+          checked-ripple-color: var(--primary-background-green),
+        )
+      );
+}

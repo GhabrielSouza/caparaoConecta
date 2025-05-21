@@ -23,6 +23,16 @@
         background: var(--background-creme);
     }
 
+    &-background-green{
+        background: var(--primary-background-green);
+    }
+    &-background-green-010{
+        background: var(--secondary-background-green);
+    }
+    &-background-green-020{
+        background: var(--tertiary-background-green);
+    }
+
     &-color-white{
         color: var(--white);
     }
