@@ -6,13 +6,12 @@ import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { CommonModule } from '@angular/common';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
-import { Tag } from 'primeng/tag';
 import { IVagas } from '../../interface/IVagas.interface';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 
 @Component({
   selector: 'app-card-vaga',
-  imports: [CommonModule, Carousel, ButtonModule, Tag],
+  imports: [CommonModule, Carousel, ButtonModule],
   standalone: true,
   templateUrl: './card-vaga.component.html',
   styleUrl: './card-vaga.component.scss'

@@ -47,7 +47,6 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     TelefoneInputComponent,
     CpfAndCnpjInputComponent,
-    CepInputComponent,
     DataNascimentoInputComponent,
     GeneroInputComponent,
     CadUnicoRadioComponent,

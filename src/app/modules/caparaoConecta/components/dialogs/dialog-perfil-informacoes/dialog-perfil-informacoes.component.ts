@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, signal } from '@angular/core';
+import { Component, Inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ReactiveFormsModule,
@@ -10,7 +10,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { identity, merge } from 'rxjs';
+import { concatMap, identity, merge } from 'rxjs';
 
 import { VPasswordConfirm } from '../../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../../validators/VPasswordPattern.validator';
@@ -65,7 +65,7 @@ import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
   styleUrl: './dialog-perfil-informacoes.component.scss',
   providers: [MessageService],
 })
-export class DialogPerfilInformacoesComponent {
+export class DialogPerfilInformacoesComponent implements OnInit{
   public cadastrarForm: FormGroup;
 
   estados: IEstadoIbge[] = [];
@@ -97,6 +97,7 @@ export class DialogPerfilInformacoesComponent {
       id_tipo_usuarios: this.data.idTipoUsuario,
     });
 
+  
     const emailControl = this.email;
     if (emailControl) {
       merge(emailControl.statusChanges, emailControl.valueChanges)
@@ -125,7 +126,7 @@ export class DialogPerfilInformacoesComponent {
         dataDeNascimentoControl.valueChanges
       )
         .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('dataDeNascimento'));
+        .subscribe(() => this.updateErrorMessage('data_de_nascimento'));
     }
 
     const generoControl = this.genero;
@@ -195,23 +196,27 @@ export class DialogPerfilInformacoesComponent {
     }
   }
 
+  ngOnInit(){
+    this.carregarEstados();
+  }
+
   public submit() {
     const formdata = this.cadastrarForm.value;
     console.log(formdata);
     formdata.estado = formdata.estado?.nome;
-    console.log(formdata);
     return this.apiService
       .httpUpdateCandidato$(this.data.id, formdata)
+      .pipe(concatMap(()=> this.apiService.httpListCandidatosId$(this.data.id)))
       .subscribe({
         next: (resposta) => {
           console.log(resposta);
-          this._dialogRef.close();
+          this._dialogRef.close(resposta);
         },
         error: (error) => {
           console.error('Error updating data', error);
         },
       });
-  }
+  } 
 
   public carregarEstados() {
     this.cadastrarForm.get('cidade')?.disable();
@@ -271,7 +276,7 @@ export class DialogPerfilInformacoesComponent {
   }
 
   get dataDeNascimento() {
-    return this.cadastrarForm.get('dataDeNascimento');
+    return this.cadastrarForm.get('data_de_nascimento');
   }
 
   get genero() {
@@ -310,9 +315,6 @@ export class DialogPerfilInformacoesComponent {
     return this.cadastrarForm.get('cep');
   }
 
-  ngOnInit(): void {
-    this.carregarEstados();
-  }
 
   updateErrorMessage(field: any) {
     const control = this.cadastrarForm.get(field);

@@ -26,13 +26,19 @@ export class ComponentPerfilDadosComponent {
   }
 
   openDialog(data: IPessoa): void {
-    this.#dialog.open(DialogPerfilInformacoesComponent, {
+    const dialogRef = this.#dialog.open(DialogPerfilInformacoesComponent, {
       panelClass: EDialogEnum.FORMACAO,
       data: {
         conteudo: data,
         id: this.IdUsuario,
         idTipoUsuario: this.idTipoUsuario,
       },
+    });
+
+    dialogRef.afterClosed().subscribe((resposta:IPessoa)=>{
+      if(resposta){
+        this.data = resposta;
+      }
     });
   }
 }

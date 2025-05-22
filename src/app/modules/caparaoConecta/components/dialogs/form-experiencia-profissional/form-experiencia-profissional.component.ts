@@ -24,17 +24,17 @@ import {
 } from '@angular/material/checkbox';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { CommonModule } from '@angular/common';
+import { ExperienciasService } from '../../../../../services/experiencias/experiencias.service';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-form-experiencia-profissional',
   imports: [
     MatButtonModule,
     MatDialogContent,
-    MatDialogActions,
     RouterModule,
     MatCheckboxModule,
     PrimaryInputComponent,
-    DateInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,
@@ -47,21 +47,24 @@ import { CommonModule } from '@angular/common';
 })
 export class FormExperienciaProfissionalComponent {
   public formExperiencia: FormGroup;
+  public isSubmitting = false;
 
   constructor(
     private _dialogRef: MatDialogRef<FormExperienciaProfissionalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+     private experienciaService: ExperienciasService 
   ) {
     this.formExperiencia = this._fb.group({
       cargo: ['', [Validators.required]],
-      empresa: ['', [Validators.required]],
-      dateInicio: ['', [Validators.required]],
-      dateTermino: ['', [Validators.required]],
-      comprovacao: ['', [Validators.required]],
+      nome_empresa: ['', [Validators.required]],
+      data_emissao: ['', [Validators.required]],
+      data_conclusao: ['', [Validators.required]],
+      comprovacao: [false, [Validators.required]],
       comentario: [''],
       trabalhoAtual: [false],
+      id_pessoasFisicas: this.data.id
     });
   }
 
@@ -77,4 +80,31 @@ export class FormExperienciaProfissionalComponent {
       this.formExperiencia.get('dateTermino')?.enable();
     }
   }
+
+  public submit() {
+    const formData = this.formExperiencia.value;
+    
+    if (formData.trabalhoAtual) {
+      delete formData.data_conclusao;
+    }
+    return this.experienciaService
+      .httpRegisterExperiencia$(formData)
+      .pipe(
+        concatMap(() => this.experienciaService.httpListExperienciaId$(this.data.id))
+      )
+      .subscribe({
+        next: (data) => {
+          console.log('Lista atualizada:', data);
+          this._dialogRef.close(data); 
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar', error);
+        },
+        complete: () => {
+          console.log('Finalizado');
+        },
+      });
+  }
+  
 }
+

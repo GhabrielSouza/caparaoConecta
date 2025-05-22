@@ -9,6 +9,7 @@ import { FormFormacaoAcademicaComponent } from '../dialogs/form-formacao-academi
 import { DialogHabilidadesComponent } from '../dialogs/dialog-habilidades/dialog-habilidades.component';
 import { DialogSobreComponent } from '../dialogs/dialog-sobre/dialog-sobre.component';
 import { DialogCursosComponent } from '../dialogs/dialog-cursos/dialog-cursos.component';
+import { IExperiencia } from '../../interface/IExperiencias.interface';
 
 @Component({
   selector: 'app-component-default-perfil',
@@ -22,6 +23,9 @@ export class ComponentDefaultPerfilComponent {
   @Input() public title: string = '';
   @Input() public IdUsuario: any;
   @Input() public data: any;
+  @Input() public dataExperiencia: IExperiencia[] = [];
+  // @Input() public data: any;
+  // @Input() public data: any;
 
   openDialogFormacao(data: any): void {
     this.#dialog.open(FormFormacaoAcademicaComponent, {
@@ -31,10 +35,21 @@ export class ComponentDefaultPerfilComponent {
   }
 
   openDialog(): void {
-    this.#dialog.open(FormExperienciaProfissionalComponent, {
+    const dialogRef = this.#dialog.open(FormExperienciaProfissionalComponent, {
       panelClass: EDialogEnum.PROJETOS,
+      data: {
+        id: this.IdUsuario,
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((resposta: IExperiencia[]) => {
+      console.log(resposta);
+      if (resposta) {
+        this.dataExperiencia = resposta; 
+      }
     });
   }
+  
 
   openDialogHabilidades(): void {
     this.#dialog.open(DialogHabilidadesComponent, {

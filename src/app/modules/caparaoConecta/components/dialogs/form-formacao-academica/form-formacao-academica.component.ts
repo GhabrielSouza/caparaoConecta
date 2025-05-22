@@ -26,11 +26,9 @@ import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-prim
   imports: [
     MatButtonModule,
     MatDialogContent,
-    MatDialogActions,
     RouterModule,
     MatCheckboxModule,
     PrimaryInputComponent,
-    DateInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,

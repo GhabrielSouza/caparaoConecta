@@ -11,6 +11,7 @@ import { PerfilCandidatoComponent } from './perfil-candidato/perfil-candidato.co
 
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { ExperienciasService } from '../../../../services/experiencias/experiencias.service';
 @Component({
   selector: 'app-perfil',
   imports: [
@@ -41,9 +42,14 @@ export class PerfilComponent implements OnInit {
 
   carregarDados: boolean = false;
 
-  constructor(private apiService: RegisterService) {}
+  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService) {}
 
   ngOnInit() {
+    this.getDadosPessoais();
+    this.getExperiencias();
+  }
+
+  getDadosPessoais() {
     this.apiService.httpListCandidatosId$(this.idUsuario).subscribe((data) => {
       console.log(data);
       this.dadosPessoais = data;
@@ -51,6 +57,13 @@ export class PerfilComponent implements OnInit {
       this.id_tipo_usuario = this.dadosPessoais.usuario.id_tipo_usuarios;
       this.carregarDados = true;
       console.log(this.id_tipo_usuario);
+    });
+  }
+
+  getExperiencias() {
+    this.experienciaService.httpListExperienciaId$(this.idUsuario).subscribe((data) => {
+      this.experiencias = data;
+      this.carregarDados = true;
     });
   }
 }

@@ -21,48 +21,52 @@
       }
     </app-primary-input>
     @if(data.conteudo.usuario.id_tipo_usuarios == 2) {
-    <app-primary-input
-      formControlName="sobrenome"
-      type="text"
-      placeholder="Digite seu nome"
-      label="Sobrenome"
-      inputName="sobrenome"
-      class="col-12"
-    >
-      @if (cadastrarForm.get('sobrenome')?.invalid &&
-      (cadastrarForm.get('sobrenome')?.touched ||
-      cadastrarForm.get('sobrenome')?.dirty )) {
-      <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
-      }
-    </app-primary-input>
-    <div class="d-flex">
-      <app-data-nascimento-input
-        formControlName="data_de_nascimento"
+      <app-primary-input
+        formControlName="sobrenome"
         type="text"
-        placeholder="dd/mm/yyyy"
-        label="Data de nascimento"
-        inputName="data_de_nascimento"
-        class="col-6"
-        >@if (cadastrarForm.get('data_de_nascimento')?.invalid &&
-        (cadastrarForm.get('data_de_nascimento')?.touched ||
-        cadastrarForm.get('data_de_nascimento')?.dirty )) {
-        <mat-error>{{ fieldErrors()["data_de_nascimento"] }}</mat-error>
-        }</app-data-nascimento-input
+        placeholder="Digite seu nome"
+        label="Sobrenome"
+        inputName="sobrenome"
+        class="col-12"
       >
-      <app-genero-input
-        formControlName="genero"
-        type="text"
-        placeholder="Selecione seu gênero"
-        label="Gênero"
-        inputName="genero"
-        class="col-6 ps-3"
-        >@if (cadastrarForm.get('genero')?.invalid &&
-        (cadastrarForm.get('genero')?.touched ||
-        cadastrarForm.get('genero')?.dirty )) {
-        <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
-        }</app-genero-input
-      >
-    </div>
+        @if (cadastrarForm.get('sobrenome')?.invalid &&
+        (cadastrarForm.get('sobrenome')?.touched ||
+        cadastrarForm.get('sobrenome')?.dirty )) {
+          <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
+        }
+      </app-primary-input>
+      
+      <div class="d-flex">
+        <app-data-nascimento-input
+          formControlName="data_de_nascimento"
+          type="text"
+          placeholder="dd/mm/yyyy"
+          label="Data de nascimento"
+          inputName="data_de_nascimento"
+          class="col-6"
+        >
+          @if (cadastrarForm.get('data_de_nascimento')?.invalid &&
+          (cadastrarForm.get('data_de_nascimento')?.touched ||
+          cadastrarForm.get('data_de_nascimento')?.dirty )) {
+            <mat-error>{{ fieldErrors()["data_de_nascimento"] }}</mat-error>
+          }
+        </app-data-nascimento-input>
+        
+        <app-genero-input
+          formControlName="genero"
+          type="text"
+          placeholder="Selecione seu gênero"
+          label="Gênero"
+          inputName="genero"
+          class="col-6 ps-3"
+        >
+          @if (cadastrarForm.get('genero')?.invalid &&
+          (cadastrarForm.get('genero')?.touched ||
+          cadastrarForm.get('genero')?.dirty )) {
+            <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
+          }
+        </app-genero-input>
+      </div>
     }
 
     <app-primary-input
@@ -171,7 +175,6 @@
           <mat-select
             formControlName="cidade"
             placeholder="Selecione sua cidade"
-            [disabled]="!cadastrarForm.get('estado')?.value"
           >
             @for(cidade of cidades; track cidade.id){
             <mat-option [value]="cidade.nome">

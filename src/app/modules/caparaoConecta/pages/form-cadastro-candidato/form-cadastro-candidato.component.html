@@ -76,19 +76,20 @@
         <mat-error>{{ fieldErrors()["cpf"] }}</mat-error>
         }
       </app-cpf-and-cnpj-input>
-      <app-cep-input
-        formControlName="cep"
-        type="text"
-        placeholder="Digite seu CEP"
-        label="CEP"
-        inputName="cep"
-        class="col-6 ps-3"
-        >@if (cadastrarForm.get('cep')?.invalid &&
-        (cadastrarForm.get('cep')?.touched || cadastrarForm.get('cep')?.dirty ))
-        {
-        <mat-error>{{ fieldErrors()["cep"] }}</mat-error>
-        }</app-cep-input
-      >
+     
+      <app-telefone-input
+      formControlName="telefone"
+      type="tel"
+      placeholder="Digite seu número"
+      label="Telefone(DDD)"
+      inputName="telefone"
+      class="col-6 ps-3"
+      >@if (cadastrarForm.get('telefone')?.invalid &&
+      (cadastrarForm.get('telefone')?.touched ||
+      cadastrarForm.get('telefone')?.dirty )) {
+      <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
+      }</app-telefone-input
+    >
     </div>
     <div class="d-flex gap-3 align-items-start">
       <!-- Campo de Estado -->
@@ -139,18 +140,6 @@
         </mat-form-field>
       </div>
     </div>
-    <app-telefone-input
-      formControlName="telefone"
-      type="tel"
-      placeholder="Digite seu número"
-      label="Telefone(DDD)"
-      inputName="telefone"
-      >@if (cadastrarForm.get('telefone')?.invalid &&
-      (cadastrarForm.get('telefone')?.touched ||
-      cadastrarForm.get('telefone')?.dirty )) {
-      <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
-      }</app-telefone-input
-    >
     <app-primary-input
       formControlName="email"
       type="email"

@@ -1,11 +1,15 @@
 <app-component-default-perfil
   title="Experiência profissional"
-  [data]="experiencias"
+  [dataExperiencia]="experiencias"
+  [IdUsuario]="IdUsuario"
 >
+@for(experiencia of experiencias; track experiencia){
   <app-card-default-informacoes
-    *ngFor="let experiencia of experiencias"
     [data]="experiencia"
-  ></app-card-default-informacoes>
+    class="w-50"
+  >
+</app-card-default-informacoes>
+}
 </app-component-default-perfil>
 
 <app-component-default-perfil title="Formação acadêmica" [data]="formacoes">
