@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ComponentDefaultPerfilComponent } from '../../../components/component-default-perfil/component-default-perfil.component';
-import { CardDefaultInformacoesComponent } from '../../../components/card-default-informacoes/card-default-informacoes.component';
+
 import { MatChipsModule } from '@angular/material/chips';
+import { CardDefaultInformacoesComponent } from '../../../components/cards/card-default-informacoes/card-default-informacoes.component';
 
 @Component({
   selector: 'app-perfil-candidato',

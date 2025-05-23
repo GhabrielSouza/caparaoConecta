@@ -4,10 +4,6 @@ import { CommonModule } from '@angular/common';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 
-
-import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
-import { MatChipsModule } from '@angular/material/chips';
-import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { CardDefaultInformacoesComponent } from '../../components/cards/card-default-informacoes/card-default-informacoes.component';
 
 import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
@@ -45,7 +41,7 @@ export class PerfilComponent implements OnInit {
   cursos: any[] = [];
   id_tipo_usuario: string = '';
 
-  idUsuario = 4;
+  idUsuario = 1;
   // Substitua pelo ID do usuário desejado
   // Substitua pelo ID do tipo de usuário desejado
 
