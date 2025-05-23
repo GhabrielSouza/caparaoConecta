@@ -1,73 +1,151 @@
-<header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>Adicionar experiência profissional</h3>
-  <button class="btn" (click)="closeModal()">
-    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
-  </button>
-</header>
-
-<mat-dialog-content>
-  <form [formGroup]="formExperiencia">
-    <app-primary-input
-      formControlName="cargo"
-      type="text"
-      placeholder="Qual cargo você desempenhou"
-      inputName="cargo"
-      label="Cargo"
-    />
-
-    <app-primary-input
-      formControlName="nome_empresa"
-      type="text"
-      placeholder="Local onde desempenhou o cargo"
-      inputName="empresa"
-      label="Empresa"
-    />
-
-    <div class="d-flex justify-content-between gap-3">
+@if(this.data.id){
+  <header class="d-flex justify-content-between align-items-center px-4 pt-3">
+    <h3>Adicionar experiência profissional</h3>
+    <button class="btn" (click)="closeModal()">
+      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+    </button>
+  </header>
+  
+  <mat-dialog-content>
+    <form [formGroup]="formExperiencia">
       <app-primary-input
-        formControlName="data_emissao"
-        type="date"
-        placeholder="Mês/Ano"
-        label="Início"
-        inputName="dateInicio"
+        formControlName="cargo"
+        type="text"
+        placeholder="Qual cargo você desempenhou"
+        inputName="cargo"
+        label="Cargo"
       />
-      <div>
+  
+      <app-primary-input
+        formControlName="nome_empresa"
+        type="text"
+        placeholder="Local onde desempenhou o cargo"
+        inputName="empresa"
+        label="Empresa"
+      />
+  
+      <div class="d-flex justify-content-between gap-3">
         <app-primary-input
-          formControlName="data_conclusao"
+          formControlName="data_emissao"
           type="date"
           placeholder="Mês/Ano"
-          label="Término"
-          inputName="dateTermino"
-          [ngClass]="
-            formExperiencia.get('trabalhoAtual')?.value ? 'opacityy' : ''
-          "
-        >
-        </app-primary-input>
-        <mat-checkbox
-          formControlName="trabalhoAtual"
-          (change)="toggleDateTermino($event)"
-          class=""
-        >
-          Trabalho atualmente neste cargo
-        </mat-checkbox>
+          label="Início"
+          inputName="dateInicio"
+        />
+        <div>
+          <app-primary-input
+            formControlName="data_conclusao"
+            type="date"
+            placeholder="Mês/Ano"
+            label="Término"
+            inputName="dateTermino"
+            [ngClass]="
+              formExperiencia.get('trabalhoAtual')?.value ? 'opacityy' : ''
+            "
+          >
+          </app-primary-input>
+          <mat-checkbox
+            formControlName="trabalhoAtual"
+            (change)="toggleDateTermino($event)"
+            class=""
+          >
+            Trabalho atualmente neste cargo
+          </mat-checkbox>
+        </div>
       </div>
-    </div>
-
-    <div class="pt-2">
-      <p>Possui comprovação?</p>
-      <mat-radio-group formControlName="comprovacao">
-        <mat-radio-button [value]="true">Sim</mat-radio-button>
-        <mat-radio-button [value]="false">Não</mat-radio-button>
-      </mat-radio-group>
-    </div>
-    <div class="d-flex justify-content-end">
-      <app-button-primary
-        fonte="cpc-regular"
-        color="btn-secondary"
-        text="Salvar"
-        (click)="submit()"
+  
+      <div class="pt-2">
+        <p>Possui comprovação?</p>
+        <mat-radio-group formControlName="comprovacao">
+          <mat-radio-button [value]="true">Sim</mat-radio-button>
+          <mat-radio-button [value]="false">Não</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="d-flex justify-content-end">
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Atualizar"
+          (click)="submit()"
+        />
+      </div>
+    </form>
+  </mat-dialog-content>
+  
+}
+@else{
+  <header class="d-flex justify-content-between align-items-center px-4 pt-3">
+    <h3>Atualizar experiência profissional</h3>
+    <button class="btn" (click)="closeModal()">
+      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+    </button>
+  </header>
+  
+  <mat-dialog-content>
+    <form [formGroup]="formExperiencia">
+      <app-primary-input
+        formControlName="cargo"
+        type="text"
+        placeholder="Qual cargo você desempenhou"
+        inputName="cargo"
+        label="Cargo"
       />
-    </div>
-   <p>{{this.formExperiencia.invalid}}</p>
-  </form>
-</mat-dialog-content>
+  
+      <app-primary-input
+        formControlName="nome_empresa"
+        type="text"
+        placeholder="Local onde desempenhou o cargo"
+        inputName="empresa"
+        label="Empresa"
+      />
+  
+      <div class="d-flex justify-content-between gap-3">
+        <app-primary-input
+          formControlName="data_emissao"
+          type="date"
+          placeholder="Mês/Ano"
+          label="Início"
+          inputName="dateInicio"
+        />
+        <div>
+          <app-primary-input
+            formControlName="data_conclusao"
+            type="date"
+            placeholder="Mês/Ano"
+            label="Término"
+            inputName="dateTermino"
+            [ngClass]="
+              formExperiencia.get('trabalhoAtual')?.value ? 'opacityy' : ''
+            "
+          >
+          </app-primary-input>
+          <mat-checkbox
+            formControlName="trabalhoAtual"
+            (change)="toggleDateTermino($event)"
+            class=""
+          >
+            Trabalho atualmente neste cargo
+          </mat-checkbox>
+        </div>
+      </div>
+  
+      <div class="pt-2">
+        <p>Possui comprovação?</p>
+        <mat-radio-group formControlName="comprovacao">
+          <mat-radio-button [value]="true">Sim</mat-radio-button>
+          <mat-radio-button [value]="false">Não</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="d-flex justify-content-end">
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Salvar"
+          (click)="update()"
+        />
+      </div>
+    </form>
+  </mat-dialog-content>  
+}
+
+

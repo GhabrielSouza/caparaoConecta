@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogContent,
@@ -25,7 +25,7 @@ import {
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { CommonModule } from '@angular/common';
 import { ExperienciasService } from '../../../../../services/experiencias/experiencias.service';
-import { concatMap } from 'rxjs';
+import { concatMap, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-form-experiencia-profissional',
@@ -45,7 +45,7 @@ import { concatMap } from 'rxjs';
   styleUrl: './form-experiencia-profissional.component.scss',
   standalone: true,
 })
-export class FormExperienciaProfissionalComponent {
+export class FormExperienciaProfissionalComponent implements OnInit{
   public formExperiencia: FormGroup;
   public isSubmitting = false;
 
@@ -64,12 +64,35 @@ export class FormExperienciaProfissionalComponent {
       comprovacao: [false, [Validators.required]],
       comentario: [''],
       trabalhoAtual: [false],
-      id_pessoasFisicas: this.data.id
+      id_pessoasFisicas: this.data.id || this.data.experiencia.id_pessoasFisicas
     });
+  }
+
+  ngOnInit(): void {
+    console.log(this.data.experiencia)
+    if(this.data.experiencia){
+      this.loadFormData(this.data.experiencia)
+    }
   }
 
   public closeModal() {
     this._dialogRef.close();
+  }
+
+  private loadFormData(experiencia: any): void {
+    this.formExperiencia.patchValue({
+      cargo: experiencia.cargo,
+      nome_empresa: experiencia.nome_empresa,
+      data_emissao: experiencia.data_emissao,
+      data_conclusao: experiencia.data_conclusao,
+      comprovacao: experiencia.comprovacao,
+      comentario: experiencia.comentario,
+      trabalhoAtual: !experiencia.data_conclusao 
+    });
+
+    if (!experiencia.data_conclusao) {
+      this.formExperiencia.get('data_conclusao')?.disable();
+    }
   }
 
   toggleDateTermino(event: MatCheckboxChange) {
@@ -104,6 +127,19 @@ export class FormExperienciaProfissionalComponent {
           console.log('Finalizado');
         },
       });
+  }
+
+  public update(){
+    return this.experienciaService.httpUpdateExperiencia$(this.data.experiencia.id_experiencias, this.formExperiencia.value)
+    .pipe(shareReplay())
+    .subscribe({
+      next: (data) => {
+        console.log("Experiencia aualizada" + data)
+      },
+      error: (error) =>[
+        console.log(error)
+      ]
+    })
   }
   
 }

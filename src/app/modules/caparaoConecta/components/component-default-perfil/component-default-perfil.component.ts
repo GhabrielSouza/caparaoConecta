@@ -49,7 +49,6 @@ export class ComponentDefaultPerfilComponent {
       }
     });
   }
-  
 
   openDialogHabilidades(): void {
     this.#dialog.open(DialogHabilidadesComponent, {

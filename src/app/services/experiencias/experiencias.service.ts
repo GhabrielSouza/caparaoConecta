@@ -59,5 +59,16 @@ export class ExperienciasService {
       );
   }
 
-  
+  #setDeleteExperiencia = signal<IExperiencia | null>(null);
+  public getDeleteEmpresa = this.#setDeleteExperiencia.asReadonly();
+  public httpDeleteExperiencia$(id:string | undefined): Observable<IExperiencia> {
+    return this.#http
+      .delete<IExperiencia>(`${this.#url}/api/experiencias/${id}`)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setDeleteExperiencia.set(data);
+        })
+      );
+  }
 }
