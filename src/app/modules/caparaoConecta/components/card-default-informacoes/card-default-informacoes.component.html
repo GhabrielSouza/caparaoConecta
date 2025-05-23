@@ -1,24 +1,38 @@
-<div class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative">
+<div
+  class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative"
+>
   <!-- Botões de ação no canto superior direito -->
   <div class="card-actions">
-    <button class="btn-edit" >
-      <img src="assets/icons/edit.svg" alt="Editar" width="16" height="16">
+    <button class="btn-edit">
+      <img
+        src="assets/icons/pen-solid.svg"
+        alt="Editar"
+        width="16"
+        height="16"
+      />
     </button>
     <button class="btn-delete">
-      <img src="assets/icons/delete.svg" alt="Deletar" width="16" height="16">
+      <img
+        src="assets/icons/trash-solid.svg"
+        alt="Deletar"
+        width="16"
+        height="16"
+      />
     </button>
   </div>
 
   <!-- Imagem -->
   <div class="card-img-container">
-    <img [src]="imagem || 'assets/icons/malinha.svg'" 
-         alt="Logo da empresa" 
-         class="card-img">
+    <img
+      [src]="imagem || 'assets/icons/malinha.svg'"
+      alt="Logo da empresa"
+      class="card-img"
+    />
   </div>
 
   <!-- Informações -->
   <div class="card-info">
-    <h1 class="card-title cpc-medium-card">{{data.cargo}}</h1>
-    <p class="card-subtitle cpc-light-card">{{data.nome_empresa}}</p>
+    <h1 class="card-title cpc-medium-card">{{ data.cargo }}</h1>
+    <p class="card-subtitle cpc-light-card">{{ data.nome_empresa }}</p>
   </div>
 </div>
