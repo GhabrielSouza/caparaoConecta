@@ -12,6 +12,7 @@ import { PerfilCandidatoComponent } from './perfil-candidato/perfil-candidato.co
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { ExperienciasService } from '../../../../services/experiencias/experiencias.service';
+import { FormacoesAcademicasService } from '../../../../services/formacoes/formacoes-academicas.service';
 @Component({
   selector: 'app-perfil',
   imports: [
@@ -42,7 +43,7 @@ export class PerfilComponent implements OnInit {
 
   carregarDados: boolean = false;
 
-  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService) {}
+  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService, private formacoesService: FormacoesAcademicasService) {}
 
   ngOnInit() {
     this.getDadosPessoais();
@@ -65,5 +66,26 @@ export class PerfilComponent implements OnInit {
       this.experiencias = data;
       this.carregarDados = true;
     });
+  }
+
+  getFormacoes() {
+    this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
+      this.formacoes = data;
+      this.carregarDados = true;
+    });
+  }
+
+  getCursos() {
+    // this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
+    //   this.formacoes = data;
+    //   this.carregarDados = true;
+    // });
+  }
+
+  getHabilidades() {
+    // this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
+    //   this.formacoes = data;
+    //   this.carregarDados = true;
+    // });
   }
 }

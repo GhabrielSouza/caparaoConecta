@@ -1,48 +1,94 @@
-<div
-  class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative"
->
-  <!-- Botões de ação no canto superior direito -->
-  <div class="card-actions">
-    <button class="btn-edit" (click)="openEditDialog()">
+@if(data){
+  <div
+    class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative"
+  >
+    <div class="card-actions">
+      <button class="btn-edit" (click)="openEditDialog()">
+        <img
+          src="assets/icons/pen-solid.svg"
+          alt="Editar"
+          width="16"
+          height="16"
+        />
+      </button>
+      <button class="btn-delete" (click)="confirmDelete()">
+        <img
+          src="assets/icons/trash-solid.svg"
+          alt="Deletar"
+          width="16"
+          height="16"
+        />
+      </button>
+    </div>
+  
+    <div class="card-img-container">
       <img
-        src="assets/icons/pen-solid.svg"
-        alt="Editar"
-        width="16"
-        height="16"
+        [src]="imagem || 'assets/icons/malinha.svg'"
+        alt="Logo da empresa"
+        class="card-img"
       />
-    </button>
-    <button class="btn-delete" (click)="confirmDelete()">
-      <img
-        src="assets/icons/trash-solid.svg"
-        alt="Deletar"
-        width="16"
-        height="16"
-      />
-    </button>
-  </div>
-
-  <!-- Imagem -->
-  <div class="card-img-container">
-    <img
-      [src]="imagem || 'assets/icons/malinha.svg'"
-      alt="Logo da empresa"
-      class="card-img"
-    />
-  </div>
-
-  <!-- Informações -->
-  <div class="card-info">
-    <h1 class="card-title cpc-medium-card">{{ data.cargo }}</h1>
-    <p class="card-subtitle cpc-light-card">{{ data.nome_empresa }}</p>
-    <div class="d-flex">
-      <p class="card-subtitle cpc-light-card">{{ data.data_emissao }}</p>
-      <p class="card-subtitle cpc-light-card ps-2">
-        {{
-          data.data_conclusao
-            ? data.data_conclusao
-            : "Trabalho nesta função atualmente"
-        }}
-      </p>
+    </div>
+  
+    <div class="card-info">
+      <h1 class="card-title cpc-medium-card">{{ data.cargo }}</h1>
+      <p class="card-subtitle cpc-light-card">{{ data.nome_empresa }}</p>
+      <div class="d-flex">
+        <p class="card-subtitle cpc-light-card">{{ data.data_emissao }}</p>
+        <p class="card-subtitle cpc-light-card ps-2">
+          {{
+            data.data_conclusao
+              ? data.data_conclusao
+              : "Trabalho nesta função atualmente"
+          }}
+        </p>
+      </div>
     </div>
   </div>
-</div>
+}
+@if(dataFormacoes){
+  <div
+    class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative"
+  >
+    <div class="card-actions">
+      <button class="btn-edit" (click)="openEditDialog()">
+        <img
+          src="assets/icons/pen-solid.svg"
+          alt="Editar"
+          width="16"
+          height="16"
+        />
+      </button>
+      <button class="btn-delete" (click)="confirmDelete()">
+        <img
+          src="assets/icons/trash-solid.svg"
+          alt="Deletar"
+          width="16"
+          height="16"
+        />
+      </button>
+    </div>
+  
+    <div class="card-img-container">
+      <img
+        [src]="imagem || 'assets/icons/malinha.svg'"
+        alt="Logo da empresa"
+        class="card-img"
+      />
+    </div>
+  
+    <div class="card-info">
+      <h1 class="card-title cpc-medium-card">{{ data.cargo }}</h1>
+      <p class="card-subtitle cpc-light-card">{{ data.nome_empresa }}</p>
+      <div class="d-flex">
+        <p class="card-subtitle cpc-light-card">{{ data.data_emissao }}</p>
+        <p class="card-subtitle cpc-light-card ps-2">
+          {{
+            data.data_conclusao
+              ? data.data_conclusao
+              : "Trabalho nesta função atualmente"
+          }}
+        </p>
+      </div>
+    </div>
+  </div>
+}

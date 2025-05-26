@@ -5,6 +5,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CardDefaultInformacoesComponent } from '../../../components/card-default-informacoes/card-default-informacoes.component';
 import { CommonModule } from '@angular/common';
 import { IExperiencia } from '../../../interface/IExperiencias.interface';
+import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
 
 @Component({
   selector: 'app-perfil-candidato',
@@ -19,7 +20,7 @@ import { IExperiencia } from '../../../interface/IExperiencias.interface';
 })
 export class PerfilCandidatoComponent implements OnInit {
   @Input() experiencias: IExperiencia[] = [];
-  @Input() formacoes: any[] = [];
+  @Input() formacoes: IFormacoesAcademicas[] = [];
   @Input() cursos: any[] = [];
   @Input() habilidades: any[] = [];
 

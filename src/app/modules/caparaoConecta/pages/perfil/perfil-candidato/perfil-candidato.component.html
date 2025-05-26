@@ -13,6 +13,10 @@
 </app-component-default-perfil>
 
 <app-component-default-perfil title="Formação acadêmica" [data]="formacoes">
+  @for(formacao of formacoes; track formacao){
+    <app-card-default-informacoes [dataFormacoes]="formacao" class="w-50">
+    </app-card-default-informacoes>
+  }
 </app-component-default-perfil>
 
 <app-component-default-perfil title="Cursos realizados" [data]="cursos">

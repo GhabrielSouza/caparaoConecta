@@ -30,7 +30,9 @@ export class ComponentDefaultPerfilComponent {
   openDialogFormacao(data: any): void {
     this.#dialog.open(FormFormacaoAcademicaComponent, {
       panelClass: EDialogEnum.FORMACAO,
-      data,
+      data: {
+        id: this.IdUsuario,
+      },
     });
   }
 

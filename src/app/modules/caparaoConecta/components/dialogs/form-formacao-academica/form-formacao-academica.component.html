@@ -7,25 +7,32 @@
 
 <mat-dialog-content>
   <form [formGroup]="form">
-    <app-primary-input
-      formControlName="instituicao"
-      type="text"
-      placeholder="Preencha sua Instituição"
-      inputName="instituicao"
-      label="Instituição de ensino"
-    />
+    <div class="d-flex justify-content-between gap-2">
+      <div class="col flex-grow-1 input-container ">
+        <mat-label  class="cpc-medium-010">Instituição de ensino</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input type="text" matInput [formControl]="myControl" placeholder="Preencha sua Instituição" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete"  [displayWith]="displayFn">
+            @for (option of filteredOptions | async; track option) {
+              <mat-option [value]="option">{{option.nome}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
 
-    <div class="d-flex">
-      <div>
+    <div class="d-flex justify-content-between gap-2a">
+      <div class="col flex-grow-1 input-container ">
         <mat-label class="cpc-medium-010">Nível de escolaridade</mat-label>
-
-        <mat-form-field>
+        <mat-form-field class="w-100">
           <mat-select
             placeholder="Selecione uma escolaridade"
             formControlName="escolaridade"
-            class="col"
           >
-            <mat-option value="Masculino">Masculino</mat-option>
+            <mat-option value="Ensino Fundamental">Ensino Fundamental</mat-option>
+            <mat-option value="Ensino Médio">Ensino Médio</mat-option>
+            <mat-option value="Graduação">Graduação</mat-option>
+            <mat-option value="Pós-graduação">Pós-graduação</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -36,7 +43,7 @@
         placeholder="Qual sua área de estudo?"
         label="Área de estudo"
         inputName="areaEstudo"
-        class="col"
+        class="col-6 ps-2"
       />
     </div>
 
@@ -80,6 +87,7 @@
         fonte="cpc-regular"
         color="btn-secondary"
         text="Salvar"
+        (click)="submit()"
       />
     </div>
   </form>

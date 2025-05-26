@@ -6,6 +6,7 @@ import { FormExperienciaProfissionalComponent } from '../dialogs/form-experienci
 import { IExperiencia } from '../../interface/IExperiencias.interface';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ExperienciasService } from '../../../../services/experiencias/experiencias.service';
+import { IFormacoesAcademicas } from '../../interface/IFormacoesAcademicas.interface';
 
 @Component({
   selector: 'app-card-default-informacoes',
@@ -17,7 +18,9 @@ export class CardDefaultInformacoesComponent {
   @Input() public imagem = '';
   @Input() public cargo = 'Cargo';
   @Input() public empresa = 'Empresa';
+
   @Input() public data!:IExperiencia;
+  @Input() public dataFormacoes!:IFormacoesAcademicas;
 
   private dialog = inject(MatDialog);
   private apiExperiencia = inject(ExperienciasService);
@@ -55,8 +58,5 @@ export class CardDefaultInformacoesComponent {
         console.log(error)
       },
     })
-    
-    // Exemplo:
-    // this.experienciaService.delete$(this.data.id).subscribe(...);
   }
 }
