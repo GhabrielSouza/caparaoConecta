@@ -16,7 +16,9 @@
 
   @if(title === 'Sobre'){
   <div class="mb-4">
-    <p class="mb-0 cpc-regular">{{ data }}</p>
+    <p class="mb-0 cpc-regular">
+      {{ data ? data : "Fale mais sobre você aqui" }}
+    </p>
   </div>
   }
 

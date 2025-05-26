@@ -45,7 +45,7 @@ import { concatMap, shareReplay } from 'rxjs';
   styleUrl: './form-experiencia-profissional.component.scss',
   standalone: true,
 })
-export class FormExperienciaProfissionalComponent implements OnInit{
+export class FormExperienciaProfissionalComponent implements OnInit {
   public formExperiencia: FormGroup;
   public isSubmitting = false;
 
@@ -54,7 +54,7 @@ export class FormExperienciaProfissionalComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
     private _fb: FormBuilder,
-     private experienciaService: ExperienciasService 
+    private experienciaService: ExperienciasService
   ) {
     this.formExperiencia = this._fb.group({
       cargo: ['', [Validators.required]],
@@ -63,15 +63,16 @@ export class FormExperienciaProfissionalComponent implements OnInit{
       data_conclusao: ['', [Validators.required]],
       comprovacao: [false, [Validators.required]],
       comentario: [''],
-      trabalhoAtual: [false],
-      id_pessoasFisicas: this.data.id || this.data.experiencia.id_pessoasFisicas
+      trabalho_atual: [false],
+      id_pessoasFisicas:
+        this.data.id || this.data.experiencia.id_pessoasFisicas,
     });
   }
 
   ngOnInit(): void {
-    console.log(this.data.experiencia)
-    if(this.data.experiencia){
-      this.loadFormData(this.data.experiencia)
+    console.log(this.data.experiencia);
+    if (this.data.experiencia) {
+      this.loadFormData(this.data.experiencia);
     }
   }
 
@@ -87,7 +88,7 @@ export class FormExperienciaProfissionalComponent implements OnInit{
       data_conclusao: experiencia.data_conclusao,
       comprovacao: experiencia.comprovacao,
       comentario: experiencia.comentario,
-      trabalhoAtual: !experiencia.data_conclusao 
+      trabalho_atual: !experiencia.data_conclusao,
     });
 
     if (!experiencia.data_conclusao) {
@@ -106,19 +107,22 @@ export class FormExperienciaProfissionalComponent implements OnInit{
 
   public submit() {
     const formData = this.formExperiencia.value;
-    
-    if (formData.trabalhoAtual) {
-      delete formData.data_conclusao;
+
+    if (formData.trabalho_atual) {
+      formData.data_conclusao = '';
     }
+
     return this.experienciaService
       .httpRegisterExperiencia$(formData)
       .pipe(
-        concatMap(() => this.experienciaService.httpListExperienciaId$(this.data.id))
+        concatMap(() =>
+          this.experienciaService.httpListExperienciaId$(this.data.id)
+        )
       )
       .subscribe({
         next: (data) => {
           console.log('Lista atualizada:', data);
-          this._dialogRef.close(data); 
+          this._dialogRef.close(data);
         },
         error: (error) => {
           console.error('Erro ao atualizar', error);
@@ -129,18 +133,19 @@ export class FormExperienciaProfissionalComponent implements OnInit{
       });
   }
 
-  public update(){
-    return this.experienciaService.httpUpdateExperiencia$(this.data.experiencia.id_experiencias, this.formExperiencia.value)
-    .pipe(shareReplay())
-    .subscribe({
-      next: (data) => {
-        console.log("Experiencia aualizada" + data)
-      },
-      error: (error) =>[
-        console.log(error)
-      ]
-    })
+  public update() {
+    console.log(this.formExperiencia.value);
+    return this.experienciaService
+      .httpUpdateExperiencia$(
+        this.data.experiencia.id_experiencias,
+        this.formExperiencia.value
+      )
+      .pipe(shareReplay())
+      .subscribe({
+        next: (data) => {
+          console.log('Experiencia aualizada' + data);
+        },
+        error: (error) => [console.log(error)],
+      });
   }
-  
 }
-

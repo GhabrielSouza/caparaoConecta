@@ -4,4 +4,7 @@ export interface IExperiencia {
   nome_empresa: string;
   comprovacao: boolean;
   descricao: string;
+  data_emissao: string;
+  data_conclusao: string;
+  trabalho_atual: boolean;
 }
