@@ -1,15 +1,13 @@
 import { Component, Inject , ChangeDetectionStrategy, computed, inject, model, signal} from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
+import {  FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA,  MatDialogContent } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { SelectRegisterDialogComponent } from '../select-register-dialog/select-register-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
-import { DateInputComponent } from '../../inputs/date-input/date-input.component';
 
-import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -17,6 +15,8 @@ import {FormsModule} from '@angular/forms';
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import { HabilidadesSService } from '../../../../../services/habilidades/habilidades-s.service';
+import { IHabilidades } from '../../../interface/IHabilidades.interface';
 
 @Component({
   selector: 'app-dialog-habilidades',
@@ -39,25 +39,33 @@ import {MatIconModule} from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogHabilidadesComponent {
-  public formXp: FormGroup;
   
    constructor(private _dialogRef:MatDialogRef<SelectRegisterDialogComponent>, 
-       @Inject(MAT_DIALOG_DATA) public data:string, private router: Router, private _fb:FormBuilder){
-          this.formXp = this._fb.group({
-            habilidades: ['', [Validators.required]],
-          });
+       @Inject(MAT_DIALOG_DATA) public data:any, private router: Router, private _fb:FormBuilder, private habilidadesService: HabilidadesSService){
+
+
+          if (data.habilidades) {
+            this.habilidadesExistentes.set(data.habilidades);
+            this.carregarHabilidadesExistentes();
+          }
+
+          this.getHabilidades();
        }
-       
+
+       readonly habilidadesExistentes = signal<IHabilidades[]>([]);
        readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-       readonly currentFruit = model('');
-       readonly fruits = signal(['']);
-       readonly allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-       readonly filteredFruits = computed(() => {
-         const currentFruit = this.currentFruit().toLowerCase();
-         return currentFruit
-           ? this.allFruits.filter(fruit => fruit.toLowerCase().includes(currentFruit))
-           : this.allFruits.slice();
-       });
+       readonly currentHabilidade = model('');
+       readonly habilidades = signal<string[]>([]);
+       readonly habilidadesIds = signal<number[]>([]);
+       public allhabilidades = signal<IHabilidades[]>([]);
+       public loaded = signal(false);
+       readonly filteredhabilidades = computed(() => {
+        if (!this.loaded()) return [];
+        const currentHabilidade = this.currentHabilidade().toLowerCase();
+        return currentHabilidade
+          ? this.allhabilidades().filter(habilidade => habilidade.nome.toLowerCase().includes(currentHabilidade))
+          : this.allhabilidades();
+      });
      
        readonly announcer = inject(LiveAnnouncer);
      
@@ -66,34 +74,93 @@ export class DialogHabilidadesComponent {
      
          // Add our fruit
          if (value) {
-           this.fruits.update(fruits => [...fruits, value]);
+           this.habilidades.update(habilidades => [...habilidades, value]);
          }
      
          // Clear the input value
-         this.currentFruit.set('');
+         this.currentHabilidade.set('');
        }
      
-       remove(fruit: string): void {
-         this.fruits.update(fruits => {
-           const index = fruits.indexOf(fruit);
+       remove(habilidade: string): void {
+         this.habilidades.update(habilidades => {
+           const index = habilidades.indexOf(habilidade);
            if (index < 0) {
-             return fruits;
+             return habilidades;
            }
      
-           fruits.splice(index, 1);
-           this.announcer.announce(`Removed ${fruit}`);
-           return [...fruits];
+           habilidades.splice(index, 1);
+           this.announcer.announce(`Removed ${habilidade}`);
+
+           const habilidadeRemovida =  this.allhabilidades().find(h => h.nome === habilidade);
+           if(habilidadeRemovida) {
+            this.habilidadesIds.update(ids => ids.filter(id => id !== habilidadeRemovida!.id_habilidades));
+           }
+
+           return [...habilidades];
          });
        }
      
        selected(event: MatAutocompleteSelectedEvent): void {
-         this.fruits.update(fruits => [...fruits, event.option.viewValue]);
-         this.currentFruit.set('');
-         event.option.deselect();
-       }
+        const value = event.option.viewValue;
+        const selectedHabilidade = this.allhabilidades().find(h => h.nome === value);
+        if (!this.habilidades().includes(value)) {
+          this.habilidades.update(habilidades => [...habilidades, value]);
+          this.habilidadesIds.update(ids => [...ids, selectedHabilidade!.id_habilidades]);
+        }
+        this.currentHabilidade.set('');
+      }
+      
    
     public closeModal(){
       this._dialogRef.close();
+    }
+
+    public getHabilidades(){
+      return this.habilidadesService.httpListHabilidades$().subscribe({
+        next: (data) =>{
+          this.allhabilidades.set(data);
+          this.loaded.set(true);
+        },  
+        error: (error) => {
+          console.log(error)
+          this.loaded.set(true);
+        }
+      })
+    }
+
+    private carregarHabilidadesExistentes() {
+      const nomes = this.habilidadesExistentes().map(h => h.nome);
+      const ids = this.habilidadesExistentes().map(h => h.id_habilidades);
+      
+      this.habilidades.set(nomes);
+      this.habilidadesIds.set(ids);
+    }
+
+    public submit() {
+      // Verifica se há habilidades selecionadas
+      if (this.habilidadesIds().length === 0) {
+        console.error('Nenhuma habilidade selecionada');
+        return;
+      }
+
+      // Cria o payload com os IDs das habilidades
+      const payload = {
+        id_pessoasFisicas: this.data.id,
+        id_habilidades: this.habilidadesIds()
+      };
+    
+      console.log(payload)
+
+      // Envia para o backend
+      return this.habilidadesService.httpCreateHabilidadesOnPessoas$(payload).subscribe({
+        next: (response) => {
+          console.log('Habilidades salvas com sucesso', response);
+          this._dialogRef.close(true); // Fecha o dialog e indica sucesso
+        },
+        error: (error) => {
+          console.error('Erro ao salvar habilidades', error);
+        }
+      });
     }
 }
 

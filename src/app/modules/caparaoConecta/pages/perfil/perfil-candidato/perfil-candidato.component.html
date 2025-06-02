@@ -12,23 +12,30 @@
 }
 </app-component-default-perfil>
 
-<app-component-default-perfil title="Formação acadêmica" [data]="formacoes">
+<app-component-default-perfil title="Formação acadêmica" [IdUsuario]="IdUsuario" [dataFormacao]="formacoes">
   @for(formacao of formacoes; track formacao){
     <app-card-default-informacoes [dataFormacoes]="formacao" class="w-50">
     </app-card-default-informacoes>
   }
 </app-component-default-perfil>
 
-<app-component-default-perfil title="Cursos realizados" [data]="cursos">
+<app-component-default-perfil title="Cursos realizados" [dataCursos]="cursos">
+  @for(curso of cursos; track curso){
+    <app-card-default-informacoes [dataCursos]="curso" class="w-50">
+    </app-card-default-informacoes>
+  }
 </app-component-default-perfil>
 
 <app-component-default-perfil
   title="Habilidades e competências adicionais"
-  [data]="habilidades"
+  [IdUsuario]="IdUsuario"
+  [dataHabilidades]="habilidades"
 >
   <mat-chip-set aria-label="Skill selection">
-    <mat-chip *ngFor="let habilidade of habilidades">{{
-      habilidade.nome
-    }}</mat-chip>
+    @for(habilidade of habilidades; track habilidade){
+      <mat-chip>{{
+        habilidade.nome
+      }}</mat-chip>
+    }
   </mat-chip-set>
 </app-component-default-perfil>

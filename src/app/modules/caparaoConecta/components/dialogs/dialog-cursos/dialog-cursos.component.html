@@ -7,21 +7,42 @@
 
 <mat-dialog-content>
   <form [formGroup]="form">
-    <app-primary-input
-      formControlName="nomeCurso"
-      type="text"
-      placeholder="Ex: Nome do curso"
-      inputName="nomeCurso"
-      label="Nome do curso"
-    />
 
-    <app-primary-input
-      formControlName="instituicao"
-      type="text"
-      placeholder="Ex: Nome da instituição"
-      label="Instituição"
-      inputName="instituicao"
-    />
+    <div class="col flex-grow-1 input-container">
+      <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+      <mat-form-field class="example-full-width w-100">
+        <input 
+          type="text" 
+          matInput 
+          formControlName="instituicao"
+          placeholder="Preencha sua Instituição" 
+          [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnInstituicao">
+          @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option">{{option.nome}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="col flex-grow-1 input-container">
+      <mat-label class="cpc-medium-010">Curso</mat-label>
+      <mat-form-field class="example-full-width w-100">
+        <input 
+          type="text" 
+          matInput 
+          formControlName="curso"
+          placeholder="Preencha seu curso" 
+          [matAutocomplete]="autoCurso"
+        >
+        <mat-autocomplete #autoCurso="matAutocomplete" [displayWith]="displayFnCurso">
+          @for (optionsCursos of filteredOptionsCursos | async; track optionsCursos) {
+            <mat-option [value]="optionsCursos">{{optionsCursos.curso}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
 
     <app-primary-input
       formControlName="cargoHoraria"

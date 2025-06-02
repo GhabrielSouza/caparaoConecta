@@ -1,5 +1,5 @@
 export interface IInstituicao {
-    id_instituicao?: string;
+    id_instituicoes?: string;
     nome:string;
     id_cidades?: string;
 }

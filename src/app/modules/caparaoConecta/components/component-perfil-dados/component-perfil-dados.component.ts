@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogPerfilInformacoesComponent } from '../dialogs/dialog-perfil-informacoes/dialog-perfil-informacoes.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
+import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-usuario/dialog-editar-foto-usuario.component';
 
 @Component({
   selector: 'app-component-perfil-dados',
@@ -40,5 +41,11 @@ export class ComponentPerfilDadosComponent {
         this.data = resposta;
       }
     });
+  }
+
+  dialogEditImagem(){
+    const dialogRef = this.#dialog.open(DialogEditarFotoUsuarioComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+    })
   }
 }

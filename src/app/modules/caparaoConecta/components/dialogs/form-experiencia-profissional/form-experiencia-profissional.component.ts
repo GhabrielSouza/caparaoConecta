@@ -26,6 +26,7 @@ import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-prim
 import { CommonModule } from '@angular/common';
 import { ExperienciasService } from '../../../../../services/experiencias/experiencias.service';
 import { concatMap, shareReplay } from 'rxjs';
+import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
 
 @Component({
   selector: 'app-form-experiencia-profissional',
@@ -54,7 +55,7 @@ export class FormExperienciaProfissionalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
     private _fb: FormBuilder,
-    private experienciaService: ExperienciasService
+    private experienciaService: ExperienciasService,
   ) {
     this.formExperiencia = this._fb.group({
       cargo: ['', [Validators.required]],
@@ -67,6 +68,8 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       id_pessoasFisicas:
         this.data.id || this.data.experiencia.id_pessoasFisicas,
     });
+
+    
   }
 
   ngOnInit(): void {
@@ -74,6 +77,8 @@ export class FormExperienciaProfissionalComponent implements OnInit {
     if (this.data.experiencia) {
       this.loadFormData(this.data.experiencia);
     }
+
+    console.log(this.data.id)
   }
 
   public closeModal() {
@@ -98,10 +103,10 @@ export class FormExperienciaProfissionalComponent implements OnInit {
 
   toggleDateTermino(event: MatCheckboxChange) {
     if (event.checked) {
-      this.formExperiencia.get('dateTermino')?.disable();
-      this.formExperiencia.get('dateTermino')?.setValue(null);
+      this.formExperiencia.get('data_conclusao')?.disable();
+      this.formExperiencia.get('data_conclusao')?.setValue(null);
     } else {
-      this.formExperiencia.get('dateTermino')?.enable();
+      this.formExperiencia.get('data_conclusao')?.enable();
     }
   }
 

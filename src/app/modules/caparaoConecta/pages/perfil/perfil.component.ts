@@ -13,6 +13,8 @@ import { IPessoa } from '../../interface/IPessoa.interface';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { ExperienciasService } from '../../../../services/experiencias/experiencias.service';
 import { FormacoesAcademicasService } from '../../../../services/formacoes/formacoes-academicas.service';
+import { HabilidadesSService } from '../../../../services/habilidades/habilidades-s.service';
+import { CursosSService } from '../../../../services/cursos/cursos-s.service';
 @Component({
   selector: 'app-perfil',
   imports: [
@@ -43,11 +45,14 @@ export class PerfilComponent implements OnInit {
 
   carregarDados: boolean = false;
 
-  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService, private formacoesService: FormacoesAcademicasService) {}
+  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService, private formacoesService: FormacoesAcademicasService, private habilidadesService: HabilidadesSService, private cursosService:CursosSService) {}
 
   ngOnInit() {
     this.getDadosPessoais();
     this.getExperiencias();
+    this.getFormacoes();
+    this.getHabilidades();
+    this.getCursos();
   }
 
   getDadosPessoais() {
@@ -76,16 +81,17 @@ export class PerfilComponent implements OnInit {
   }
 
   getCursos() {
-    // this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
-    //   this.formacoes = data;
-    //   this.carregarDados = true;
-    // });
+    this.cursosService.httpListCursosOnPessoaId$(this.idUsuario).subscribe((data) => {
+      console.log(data);
+      this.cursos = data;
+      this.carregarDados = true;
+    });
   }
 
   getHabilidades() {
-    // this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
-    //   this.formacoes = data;
-    //   this.carregarDados = true;
-    // });
+    this.habilidadesService.httpListHabilidadesOnPessoas$(this.idUsuario).subscribe((data) => {
+      this.habilidades = data;
+      this.carregarDados = true;
+    });
   }
 }
