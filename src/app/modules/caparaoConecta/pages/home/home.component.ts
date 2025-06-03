@@ -12,6 +12,9 @@ import { CardVagaPublicaComponent } from '../../components/cards/card-vaga-publi
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empresa/card-vaga-empresa.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { DetalhesVagaComponent } from '../../components/detalhes-vaga/detalhes-vaga.component';
 
 @Component({
   selector: 'app-home',
@@ -25,12 +28,14 @@ import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empre
     MatCheckboxModule,
     CardVagaPublicaComponent,
     CardVagaEmpresaComponent,
+    RouterModule,
+    DetalhesVagaComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  public role: ERoleUser | null = ERoleUser.GUEST;
+  public role: ERoleUser | null = ERoleUser.EMPRESA;
   public roleEnum = ERoleUser;
 
   vagasOfertadas: IVagas[] = [];
@@ -39,7 +44,8 @@ export class HomeComponent implements OnInit {
 
   vagasPublicas: IVagas[] = [];
 
-  constructor() {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
 
   ngOnInit(): void {
     this.vagasPublicas = this.vagasOb();
@@ -55,6 +61,13 @@ export class HomeComponent implements OnInit {
         vaga.status === EStatusVaga.FINALIZADO
     );
   }
+
+  navegarParaDetalhe(vaga: any) {
+    if (vaga?.id_vagas) {
+      this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
+    }
+  }
+  
 
   public vagasOb = signal<IVagas[]>([
     {

@@ -10,16 +10,17 @@ import { DashboardCardComponent } from "../../pages/dashboard/dashboard-card/das
 import { ComponentAccordionComponent } from "../component-accordion/component-accordion.component";
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
+import { CandidatoSelecionadoComponent } from '../candidato-selecionado/candidato-selecionado.component';
 
 @Component({
   selector: 'app-detalhes-vaga',
-  imports: [ButtonPrimaryComponent, CommonModule, MatCheckboxModule, DashboardCardComponent,MatRadioModule ,ComponentAccordionComponent,MatChipsModule],
+  imports: [ButtonPrimaryComponent, CommonModule, MatCheckboxModule, DashboardCardComponent,MatRadioModule ,ComponentAccordionComponent,MatChipsModule, CandidatoSelecionadoComponent],
   templateUrl: './detalhes-vaga.component.html',
   styleUrl: './detalhes-vaga.component.scss'
 })
 export class DetalhesVagaComponent {
  texto: string = "Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web. Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web.";
- containerFooter: boolean = true;
+ containerFooter: boolean = false;
  visaoCandidato: boolean = true;
 
  visaoDetalhes: boolean = true;

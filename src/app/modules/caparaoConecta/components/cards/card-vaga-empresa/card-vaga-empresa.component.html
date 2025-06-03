@@ -1,6 +1,6 @@
 <div class="d-flex gap-4 pb-4">
   <div
-    *ngFor="let vaga of paginatedVagas"
+    *ngFor="let vaga of paginatedVagas" (click)="onCardClick(vaga)"
     class="container cpc-background-gray d-flex align-items-center p-2 gap-4"
   >
     <div class="container_informacoes d-flex flex-column py-2">

@@ -3,16 +3,10 @@ import { ComponentDefaultPerfilComponent } from '../../components/component-defa
 import { CommonModule } from '@angular/common';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-
-
 import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { CardDefaultInformacoesComponent } from '../../components/cards/card-default-informacoes/card-default-informacoes.component';
-
-import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
-import { MatChipsModule } from '@angular/material/chips';
-import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component';
 import { PerfilCandidatoComponent } from './perfil-candidato/perfil-candidato.component';
 

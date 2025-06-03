@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { IVagas } from '../../../interface/IVagas.interface';
@@ -24,5 +24,11 @@ export class CardVagaEmpresaComponent {
 
   onPageChange(event: PaginatorState) {
     this.currentPage = event.page ?? 0;
+  }
+
+  @Output() vagaClicada = new EventEmitter<IVagas>();
+
+  onCardClick(vaga: IVagas) {
+    this.vagaClicada.emit(vaga);
   }
 }

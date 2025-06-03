@@ -53,15 +53,18 @@
               <app-component-container-vagas titulo="Vagas Ofertadas">
                 <app-card-vaga-empresa
                   [vagas]="vagasOfertadas"
+                  (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
 
               <app-component-container-vagas titulo="Vagas Encerradas">
                 <app-card-vaga-empresa
                   [vagas]="vagasEncerradas"
+                  (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
               }
+            
             </div>
           </div>
         </div>
