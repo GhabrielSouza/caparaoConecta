@@ -34,6 +34,17 @@ export class CursosSService {
     );
   }
 
+  #setCursosPorInstituicao = signal<ICursos[] | null>(null);
+  public getCursosPorInstituicao = this.#setCursosPorInstituicao.asReadonly();
+  public httpGetCursosPorInstituicao$(idInstituicao: string): Observable<ICursos[]> {
+    return this.#http.get<ICursos[]>(`${this.#url}/api/cursos/por-instituicao/${idInstituicao}`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setCursosPorInstituicao.set(data);
+      })
+    );
+  }
+
   #setCreateCursos = signal<ICursos[] | null>(null);
   public getCreateCursos = this.#setCreateCursos.asReadonly();
   public httpCreateCursos$(curso:ICursos): Observable<ICursos[]> {
@@ -78,10 +89,10 @@ export class CursosSService {
     );
   }
 
-  #setCreateCursosOnPessoa = signal<ICursos[] | null>(null);
+  #setCreateCursosOnPessoa = signal<ICursosOnPessoas | null>(null);
   public getCreateCursosOnPessoa = this.#setCreateCursosOnPessoa.asReadonly();
-  public httpCreateCursosOnPessoa$(curso:ICursosOnPessoas): Observable<ICursos[]> {
-    return this.#http.post<ICursos[]>(`${this.#url}/api/cursos`, curso).pipe(
+  public httpCreateCursosOnPessoa$(curso:ICursosOnPessoas): Observable<ICursosOnPessoas> {
+    return this.#http.post<ICursosOnPessoas>(`${this.#url}/api/cursosOnPessoaFisica`, curso).pipe(
       shareReplay(),
       tap((data) => {
         this.#setCreateCursosOnPessoa.set(data);
@@ -89,13 +100,24 @@ export class CursosSService {
     );
   }
 
-  #setUpdateCursosOnPessoa = signal<ICursos[] | null>(null);
+  #setUpdateCursosOnPessoa = signal<ICursosOnPessoas | null>(null);
   public getUpdateCursosOnPessoa = this.#setUpdateCursosOnPessoa.asReadonly();
-  public httpUpdateCursosOnPessoa$(curso:ICursosOnPessoas, id:string): Observable<ICursos[]> {
-    return this.#http.put<ICursos[]>(`${this.#url}/api/cursos/${id}`, curso).pipe(
+  public httpUpdateCursosOnPessoa$(curso:ICursosOnPessoas, id:string): Observable<ICursosOnPessoas> {
+    return this.#http.put<ICursosOnPessoas>(`${this.#url}/api/cursosOnPessoaFisica/${id}`, curso).pipe(
       shareReplay(),
       tap((data) => {
         this.#setUpdateCursosOnPessoa.set(data);
+      })
+    );
+  }
+
+  #setDeleteCursosOnPessoa = signal<ICursos[] | null>(null);
+  public getDeleteCursosOnPessoa = this.#setDeleteCursosOnPessoa.asReadonly();
+  public httpDeleteCursosOnPessoa$(id:number, id_pessoa:number): Observable<ICursos[]> {
+    return this.#http.delete<ICursos[]>(`${this.#url}/api/cursosOnPessoaFisica/${id}/${id_pessoa}`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setDeleteCursosOnPessoa.set(data);
       })
     );
   }

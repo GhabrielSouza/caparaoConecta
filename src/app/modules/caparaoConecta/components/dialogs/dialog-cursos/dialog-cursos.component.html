@@ -1,80 +1,161 @@
-<header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>Adicionar curso realizado</h3>
-  <button class="btn" (click)="closeModal()">
-    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
-  </button>
-</header>
-
-<mat-dialog-content>
-  <form [formGroup]="form">
-
-    <div class="col flex-grow-1 input-container">
-      <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
-      <mat-form-field class="example-full-width w-100">
-        <input 
-          type="text" 
-          matInput 
-          formControlName="instituicao"
-          placeholder="Preencha sua Instituição" 
-          [matAutocomplete]="auto"
-        >
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnInstituicao">
-          @for (option of filteredOptions | async; track option) {
-            <mat-option [value]="option">{{option.nome}}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
-    </div>
-
-    <div class="col flex-grow-1 input-container">
-      <mat-label class="cpc-medium-010">Curso</mat-label>
-      <mat-form-field class="example-full-width w-100">
-        <input 
-          type="text" 
-          matInput 
-          formControlName="curso"
-          placeholder="Preencha seu curso" 
-          [matAutocomplete]="autoCurso"
-        >
-        <mat-autocomplete #autoCurso="matAutocomplete" [displayWith]="displayFnCurso">
-          @for (optionsCursos of filteredOptionsCursos | async; track optionsCursos) {
-            <mat-option [value]="optionsCursos">{{optionsCursos.curso}}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
-    </div>
-
-    <app-primary-input
-      formControlName="cargoHoraria"
-      type="text"
-      placeholder="Ex: 40h"
-      label="Carga horária"
-      inputName="cargoHoraria"
-    />
-
-    <div class="d-flex flex-column py-3">
-      <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
-      <mat-radio-group formControlName="diploma">
-        <mat-radio-button [value]="true">Sim</mat-radio-button>
-        <mat-radio-button [value]="false">Não</mat-radio-button>
-      </mat-radio-group>
-    </div>
-
-    @if(form.get('diploma')?.value == true) {
-    <app-primary-input
-      formControlName="dateConclusao"
-      type="date"
-      placeholder="Mês/Ano"
-      label="Data conclusão"
-      inputName="dateTermino"
-    />
-    }
-    <div class="d-flex justify-content-end">
-      <app-button-primary
-        fonte="cpc-regular"
-        color="btn-secondary"
-        text="Salvar"
+@if(this.data.id){
+  <header class="d-flex justify-content-between align-items-center px-4 pt-3">
+    <h3>Adicionar curso realizado</h3>
+    <button class="btn" (click)="closeModal()">
+      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+    </button>
+  </header>
+  
+  <mat-dialog-content>
+    <form [formGroup]="form">
+  
+      <div class="col flex-grow-1 input-container">
+        <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input 
+            type="text" 
+            matInput 
+            formControlName="instituicao"
+            placeholder="Preencha sua Instituição" 
+            [matAutocomplete]="auto"
+          >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnInstituicao">
+            @for (option of filteredOptions | async; track option) {
+              <mat-option [value]="option">{{option.nome}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+  
+      <div class="col flex-grow-1 input-container">
+        <mat-label class="cpc-medium-010">Curso</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input 
+            type="text" 
+            matInput 
+            formControlName="id_cursos"
+            placeholder="Preencha seu curso" 
+            [matAutocomplete]="autoCurso"
+          >
+          <mat-autocomplete #autoCurso="matAutocomplete" [displayWith]="displayFnCurso">
+            @for (curso of filteredOptionsCursos | async; track curso) {
+              <mat-option [value]="curso">{{curso.curso}}</mat-option>
+            }
+            @if (optionsCursos.length === 0 && form.get('instituicao')?.value) {
+              <mat-option disabled>Nenhum curso encontrado para esta instituição</mat-option>
+            }
+            @if (!form.get('instituicao')?.value) {
+              <mat-option disabled>Selecione uma instituição primeiro</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+  
+      <div class="d-flex flex-column py-3">
+        <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
+        <mat-radio-group formControlName="certificado_curso">
+          <mat-radio-button [value]="true">Sim</mat-radio-button>
+          <mat-radio-button [value]="false">Não</mat-radio-button>
+        </mat-radio-group>
+      </div>
+  
+      @if(form.get('certificado_curso')?.value == true) {
+      <app-primary-input
+        formControlName="data_conclusao"
+        type="date"
+        placeholder="Mês/Ano"
+        label="Data conclusão"
+        inputName="dateTermino"
       />
-    </div>
-  </form>
-</mat-dialog-content>
+      }
+      <div class="d-flex justify-content-end">
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Salvar"
+          (click)="submit()"
+        />
+      </div>
+    </form>
+  </mat-dialog-content>
+}@else {
+  <header class="d-flex justify-content-between align-items-center px-4 pt-3">
+    <h3>Adicionar curso realizado</h3>
+    <button class="btn" (click)="closeModal()">
+      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+    </button>
+  </header>
+  
+  <mat-dialog-content>
+    <form [formGroup]="form">
+  
+      <div class="col flex-grow-1 input-container">
+        <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input 
+            type="text" 
+            matInput 
+            formControlName="instituicao"
+            placeholder="Preencha sua Instituição" 
+            [matAutocomplete]="auto"
+          >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnInstituicao">
+            @for (option of filteredOptions | async; track option) {
+              <mat-option [value]="option">{{option.nome}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+  
+      <div class="col flex-grow-1 input-container">
+        <mat-label class="cpc-medium-010">Curso</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input 
+            type="text" 
+            matInput 
+            formControlName="id_cursos"
+            placeholder="Preencha seu curso" 
+            [matAutocomplete]="autoCurso"
+          >
+          <mat-autocomplete #autoCurso="matAutocomplete" [displayWith]="displayFnCurso">
+            @for (curso of filteredOptionsCursos | async; track curso) {
+              <mat-option [value]="curso">{{curso.curso}}</mat-option>
+            }
+            @if (optionsCursos.length === 0 && form.get('instituicao')?.value) {
+              <mat-option disabled>Nenhum curso encontrado para esta instituição</mat-option>
+            }
+            @if (!form.get('instituicao')?.value) {
+              <mat-option disabled>Selecione uma instituição primeiro</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+  
+      <div class="d-flex flex-column py-3">
+        <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
+        <mat-radio-group formControlName="certificado_curso">
+          <mat-radio-button [value]="true">Sim</mat-radio-button>
+          <mat-radio-button [value]="false">Não</mat-radio-button>
+        </mat-radio-group>
+      </div>
+  
+      @if(form.get('certificado_curso')?.value == true) {
+      <app-primary-input
+        formControlName="data_conclusao"
+        type="date"
+        placeholder="Mês/Ano"
+        label="Data conclusão"
+        inputName="dateTermino"
+      />
+      }
+      <div class="d-flex justify-content-end">
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Salvar"
+          (click)="update()"
+        />
+      </div>
+    </form>
+  </mat-dialog-content>  
+}

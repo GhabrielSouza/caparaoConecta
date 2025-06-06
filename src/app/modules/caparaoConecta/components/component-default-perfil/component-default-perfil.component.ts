@@ -100,6 +100,9 @@ export class ComponentDefaultPerfilComponent {
   openDialogCursos(): void {
     this.#dialog.open(DialogCursosComponent, {
       panelClass: EDialogEnum.PROJETOS,
+      data: {
+        id: this.IdUsuario,
+      },
     });
   }
 

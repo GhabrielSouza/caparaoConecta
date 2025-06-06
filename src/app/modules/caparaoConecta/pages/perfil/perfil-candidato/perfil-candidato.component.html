@@ -19,9 +19,9 @@
   }
 </app-component-default-perfil>
 
-<app-component-default-perfil title="Cursos realizados" [dataCursos]="cursos">
+<app-component-default-perfil title="Cursos realizados" [IdUsuario]="IdUsuario" [dataCursos]="cursos">
   @for(curso of cursos; track curso){
-    <app-card-default-informacoes [dataCursos]="curso" class="w-50">
+    <app-card-default-informacoes [idUsuario]="IdUsuario" [dataCursos]="curso" class="w-50">
     </app-card-default-informacoes>
   }
 </app-component-default-perfil>

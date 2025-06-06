@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, input, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { FormExperienciaProfissionalComponent } from '../dialogs/form-experiencia-profissional/form-experiencia-profissional.component';
@@ -12,6 +12,8 @@ import { FormacoesAcademicasService } from '../../../../services/formacoes/forma
 import { ICursos } from '../../interface/ICursos.inteface';
 import { DialogHabilidadesComponent } from '../dialogs/dialog-habilidades/dialog-habilidades.component';
 import { DialogCursosComponent } from '../dialogs/dialog-cursos/dialog-cursos.component';
+import { CursosSService } from '../../../../services/cursos/cursos-s.service';
+import { ICursosOnPessoas } from '../../interface/ICursosOnPessoas.inteface';
 
 @Component({
   selector: 'app-card-default-informacoes',
@@ -31,7 +33,10 @@ export class CardDefaultInformacoesComponent {
   private dialog = inject(MatDialog);
   private apiExperiencia = inject(ExperienciasService);
   private apiFormacao = inject(FormacoesAcademicasService);
+  private apiCurso = inject(CursosSService);
 
+  @Input() public idUsuario: any;
+  
   openEditDialog(): void {
     this.dialog.open(FormExperienciaProfissionalComponent, {
       width: '600px',
@@ -49,7 +54,7 @@ export class CardDefaultInformacoesComponent {
   openEditDialogCurso(): void {
     this.dialog.open(DialogCursosComponent, {
       width: '600px',
-      data: {formacao: this.dataCursos}
+      data: {curso: this.dataCursos}
     });
   }
 
@@ -86,7 +91,7 @@ export class CardDefaultInformacoesComponent {
         }
 
         if(type === 'curso'){
-          this.deleteFormacao();
+          this.deleteCurso();
         }
       }
     });
@@ -108,6 +113,18 @@ export class CardDefaultInformacoesComponent {
     this.apiFormacao.httpDeleteFormacoes$(this.dataFormacoes.id_formacoes_academicas).subscribe({
       next:(data)=>{
         console.log(`essa formação com o nome ${this.dataFormacoes.instituicao.nome} foi excluido`)
+        console.log(data)
+      },
+      error: (error)=>{
+        console.log(error)
+      },
+    })
+  }
+
+  private deleteCurso():void{
+    this.apiCurso.httpDeleteCursosOnPessoa$(this.dataCursos.id_cursos, this.idUsuario).subscribe({
+      next:(data)=>{
+        console.log(`esse curso com o nome ${this.dataCursos.curso} foi excluido`)
         console.log(data)
       },
       error: (error)=>{

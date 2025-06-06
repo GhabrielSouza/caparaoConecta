@@ -1,42 +1,61 @@
 <app-cabecalho />
 <section class="container-fluid">
-  <div class="row">
-    <!-- Filtros - ocupa 2 colunas em telas grandes, 12 (full width) em telas pequenas -->
+  <div class="row g-0">
+    <!-- Filtros - Sidebar Moderna -->
     <div class="col-12 col-lg-2">
-      <div class="container_filtros_filtro m-4">
-        <h1 class="cpc-regular py-2">Filtrar</h1>
-        <div class="container_filtros_filtro-itens">
-          <h2 class="cpc-regular-010 py-4">Dados da Vaga</h2>
-          <div>
-            <h3 class="cpc-regular-010">Modelo de trabalho</h3>
-            <div class="d-flex flex-column">
-              <mat-checkbox>Presencial</mat-checkbox>
-              <mat-checkbox>Híbrido</mat-checkbox>
-              <mat-checkbox>Remoto</mat-checkbox>
-            </div>
+      <div class="filter-panel p-3">
+        <div class="filter-header mb-4">
+          <h2 class="filter-title">
+            <i class="fas fa-sliders-h me-2"></i>Filtros
+          </h2>
+          <p class="filter-subtitle">Refine sua busca</p>
+        </div>
+
+        <div class="filter-section mb-4">
+          <h3 class="section-title">
+            <i class="fas fa-briefcase me-2"></i>Modelo de Trabalho
+          </h3>
+          <div class="checkbox-group">
+            <mat-checkbox class="filter-checkbox">
+              <i class="fas fa-building me-2"></i>Presencial
+            </mat-checkbox>
+            <mat-checkbox class="filter-checkbox">
+              <i class="fas fa-random me-2"></i>Híbrido
+            </mat-checkbox>
+            <mat-checkbox class="filter-checkbox">
+              <i class="fas fa-home me-2"></i>Remoto
+            </mat-checkbox>
           </div>
-          <div class="selects d-flex flex-column my-3">
-            <mat-label class="cpc-regular-010">Empresa</mat-label>
-            <mat-form-field>
-              <mat-select placeholder="Selecione um item">
-                <mat-option value="one">First option</mat-option>
-                <mat-option value="two">Second option</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
-            <mat-form-field>
-              <mat-select placeholder="Selecione um item">
-                <mat-option value="one">First option</mat-option>
-                <mat-option value="two">Second option</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3 class="section-title">
+            <i class="fas fa-filter me-2"></i>Outros Filtros
+          </h3>
+          
+          <mat-form-field appearance="fill" class="w-100 mb-3">
+            <mat-label>Empresa</mat-label>
+            <mat-select>
+              <mat-option value="all">Todas empresas</mat-option>
+              <mat-option value="1">Empresa A</mat-option>
+              <mat-option value="2">Empresa B</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Área de atuação</mat-label>
+            <mat-select>
+              <mat-option value="all">Todas áreas</mat-option>
+              <mat-option value="1">TI</mat-option>
+              <mat-option value="2">Marketing</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
     </div>
 
-    <!-- Vagas - ocupa 10 colunas em telas grandes, 12 em telas pequenas -->
-    <div class="col-12 col-lg-10">
+    <!-- Área de Vagas -->
+    <div class="col-12 col-lg-10 p-4">
       <div class="row">
         <div class="col-12 col-lg-11">
           <app-component-container-vagas>

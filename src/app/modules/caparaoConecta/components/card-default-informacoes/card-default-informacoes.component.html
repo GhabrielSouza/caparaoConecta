@@ -33,11 +33,11 @@
       <h1 class="card-title cpc-medium-card">{{ data.cargo }}</h1>
       <p class="card-subtitle cpc-light-card">{{ data.nome_empresa }}</p>
       <div class="d-flex">
-        <p class="card-subtitle cpc-light-card">{{ data.data_emissao }}</p>
+        <p class="card-subtitle cpc-light-card">{{ data.data_emissao | date:'dd/MM/yyyy'}}</p>
         <p class="card-subtitle cpc-light-card ps-2">
           {{
             data.data_conclusao
-              ? data.data_conclusao
+              ? (data.data_conclusao | date:'dd/MM/yyyy')
               : "Trabalho nesta função atualmente"
           }}
         </p>
@@ -80,13 +80,9 @@
       <h1 class="card-title cpc-medium-card">{{ dataFormacoes.instituicao.nome }}</h1>
       <p class="card-subtitle cpc-light-card">{{ dataFormacoes.escolaridade }}</p>
       <div class="d-flex">
-        <p class="card-subtitle cpc-light-card">{{ dataFormacoes.data_emissao }}</p>
+        <p class="card-subtitle cpc-light-card">{{ dataFormacoes.data_emissao | date:'dd/MM/yyyy'}}</p>
         <p class="card-subtitle cpc-light-card ps-2">
-          {{
-            dataFormacoes.data_conclusao
-              ? dataFormacoes.data_conclusao
-              : "Trabalho nesta função atualmente"
-          }}
+          {{ dataFormacoes.data_conclusao ? (dataFormacoes.data_conclusao | date:'dd/MM/yyyy') : "Trabalho nesta função atualmente"}}
         </p>
       </div>
     </div>
@@ -127,8 +123,8 @@
       <h1 class="card-title cpc-medium-card">{{ dataCursos.curso }}</h1>
       <p class="card-subtitle cpc-light-card">{{ dataCursos.cargo_horaria }} horas</p>
       <div class="d-flex">
-        <p class="card-subtitle cpc-light-card">{{ dataCursos.pivot?.data_conclusao }}</p>
+        <p class="card-subtitle cpc-light-card">{{ dataCursos.pivot.data_conclusao ? (dataCursos.pivot.data_conclusao | date:'dd/MM/yyyy') : 'Ainda não foi concluído'}}</p>
       </div>
     </div>
   </div>
-}
+} 
