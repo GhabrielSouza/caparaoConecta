@@ -6,6 +6,8 @@ import { CardDefaultInformacoesComponent } from '../../../components/card-defaul
 import { CommonModule } from '@angular/common';
 import { IExperiencia } from '../../../interface/IExperiencias.interface';
 import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
+import { ICursos } from '../../../interface/ICursos.inteface';
+import { IHabilidades } from '../../../interface/IHabilidades.interface';
 
 @Component({
   selector: 'app-perfil-candidato',
@@ -21,8 +23,8 @@ import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.in
 export class PerfilCandidatoComponent implements OnInit {
   @Input() experiencias: IExperiencia[] = [];
   @Input() formacoes: IFormacoesAcademicas[] = [];
-  @Input() cursos: any[] = [];
-  @Input() habilidades: any[] = [];
+  @Input() cursos: ICursos[] = [];
+  @Input() habilidades: IHabilidades[] = [];
 
   @Input() IdUsuario: any;
 

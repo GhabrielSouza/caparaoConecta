@@ -1,58 +1,30 @@
 <header class="d-flex justify-content-between p-4 align-items-center">
-  <h3>Adicionar habilidades</h3>
+  <h3>Adicionar habilidades e competências</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
 </header>
 
 <mat-dialog-content>
-  <form>
-    <mat-form-field class="example-chip-list w-100">
-      <mat-label class="cpc-medium-010">Habilidades</mat-label>
+  <div class="habilidades-list">
+    @for (habilidade of allHabilidades(); track habilidade.id_habilidades) {
+      <div class="habilidade-item">
+        <mat-checkbox 
+          [checked]="selectedHabilidades().includes(habilidade.id_habilidades)"
+          (change)="toggleHabilidade(habilidade.id_habilidades)"
+        >
+          {{ habilidade.nome }}
+        </mat-checkbox>
+      </div>
+    }
+  </div>
 
-      <mat-chip-grid #chipGrid aria-label="Seleção de habilidades">
-        @for (fruit of habilidades(); track $index) {
-          @if (fruit !== '') {
-            <mat-chip-row (removed)="remove(fruit)">
-              {{ fruit }}
-              <button matChipRemove [attr.aria-label]="'Remover ' + fruit">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
-          }
-        }
-      </mat-chip-grid>
-
-      <input
-        placeholder="Nova habilidade..."
-        [value]="currentHabilidade()"
-        (input)="currentHabilidade.set($any($event.target).value)"
-        #fruitInput
-        [matChipInputFor]="chipGrid"
-        [matAutocomplete]="auto"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="add($event)"
-      />
-
-      <mat-autocomplete
-        #auto="matAutocomplete"
-        (optionSelected)="selected($event); fruitInput.value = ''"
-      >
-        @for (habilidade of filteredhabilidades(); track habilidade.id_habilidades) {
-          <mat-option [value]="habilidade.nome">
-            {{ habilidade.nome }}
-          </mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <div class="d-flex justify-content-end">
-      <app-button-primary
-        fonte="cpc-regular"
-        color="btn-secondary"
-        text="Salvar"
-        (click)="submit()"
-      />
-    </div>
-  </form>
+  <div class="d-flex justify-content-end">
+    <app-button-primary
+      fonte="cpc-regular"
+      color="btn-secondary"
+      text="Salvar"
+      (click)="submit()"
+    />
+  </div>
 </mat-dialog-content>
