@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="header">
+      <h2>Habilidades</h2>
+      <button class="btn-add">Adicionar Habilidade</button>
+    </div>
+  
+    <table class="table">
+      <thead>
+        <tr class="header-row">
+          <th class="th-lateral-esquerda">Nome da Habilidade</th>
+          <th class="th-centro">Status da Habilidade</th>
+          <th class="th-lateral-direita">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let habilidade of habilidades" [ngClass]="{'active': habilidade.status === 'Ativo'}">
+          <td class="td-lateral-esquerda">{{ habilidade.nome }}</td>
+          <td class="td-centro">{{ habilidade.status }}</td>
+          <td class="actions td-lateral-direita">
+            <button class="icon edit">
+              <img src='assets/icons/editTable.svg' alt="">
+            </button>
+            <button class="icon" [ngClass]="habilidade.status === 'Ativo' ? 'delete' : 'check'">
+                <img 
+                  [src]="habilidade.status === 'Ativo' ? 'assets/icons/closeTable.svg' : 'assets/icons/check.svg'" 
+                  alt="Ação" 
+                  width="20" 
+                  height="20"
+                />
+              </button>
+              
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <mat-paginator
+    class="matPaginator"
+    [pageSizeOptions]="[12, 20]"
+    showFirstLastButtons
+    hidePageSize>
+  </mat-paginator>
+  </div>
+  

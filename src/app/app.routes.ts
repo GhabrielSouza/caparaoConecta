@@ -8,6 +8,9 @@ import { DashboardComponent } from './modules/caparaoConecta/pages/dashboard/das
 import { PerfilComponent } from './modules/caparaoConecta/pages/perfil/perfil.component';
 import { DetalhesVagaComponent } from './modules/caparaoConecta/components/detalhes-vaga/detalhes-vaga.component';
 import { DetalheDaVagaComponent } from './modules/caparaoConecta/pages/detalhe-da-vaga/detalhe-da-vaga.component';
+import { HomeAdminComponent } from './modules/caparaoConecta/pages/home-admin/home-admin.component';
+import { HabilidadesComponent } from './modules/caparaoConecta/pages/habilidades/habilidades.component';
+import { CursosComponent } from './modules/caparaoConecta/pages/cursos/cursos.component';
 
 
 
@@ -35,6 +38,15 @@ export const routes: Routes = [
   {
     path: 'perfil',
     component:PerfilComponent,
+  },
+  { path: 'homeAdmin',
+    component:HomeAdminComponent, 
+  },
+  { path: 'homeHabilidades',
+    component:HabilidadesComponent, 
+  },
+  { path: 'homeCursos',
+    component:CursosComponent, 
   },
 
 ];
