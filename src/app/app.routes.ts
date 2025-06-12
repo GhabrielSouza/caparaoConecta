@@ -7,14 +7,15 @@ import { CardPerfilComponent } from './modules/caparaoConecta/components/cards/c
 import { DashboardComponent } from './modules/caparaoConecta/pages/dashboard/dashboard.component';
 import { PerfilComponent } from './modules/caparaoConecta/pages/perfil/perfil.component';
 import { DetalhesVagaComponent } from './modules/caparaoConecta/components/detalhes-vaga/detalhes-vaga.component';
+import { DetalheDaVagaComponent } from './modules/caparaoConecta/pages/detalhe-da-vaga/detalhe-da-vaga.component';
 
 
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-  },
+  
+    { path: '', component: HomeComponent },
+    { path: 'detalhe-da-vaga/:id', component: DetalheDaVagaComponent }
+  ,
   {
     path: 'login',
     component: FormLoginComponent,
@@ -35,9 +36,5 @@ export const routes: Routes = [
     path: 'perfil',
     component:PerfilComponent,
   },
-  {
-    path: 'detalhesVaga',
-    component: DetalhesVagaComponent
-  }
 
 ];

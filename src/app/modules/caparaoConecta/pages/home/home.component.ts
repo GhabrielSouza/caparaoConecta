@@ -12,6 +12,12 @@ import { CardVagaPublicaComponent } from '../../components/cards/card-vaga-publi
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empresa/card-vaga-empresa.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { DetalhesVagaComponent } from '../../components/detalhes-vaga/detalhes-vaga.component';
+import { IVaga } from '../../interface/IVaga.interface';
+import { VagasService } from '../../../../services/vagas.service';
+import { ContentObserver } from '@angular/cdk/observers';
 
 @Component({
   selector: 'app-home',
@@ -25,115 +31,58 @@ import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empre
     MatCheckboxModule,
     CardVagaPublicaComponent,
     CardVagaEmpresaComponent,
+    RouterModule,
+    DetalhesVagaComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  public role: ERoleUser | null = ERoleUser.GUEST;
+  public role: ERoleUser | null = ERoleUser.CANDIDATO;
   public roleEnum = ERoleUser;
 
-  vagasOfertadas: IVagas[] = [];
-  vagasEncerradas: IVagas[] = [];
-  idUsuario = 1;
+  vagasOfertadas: IVaga[] = [];
+  vagasEncerradas: IVaga[] = [];
+  idUsuario = 2;
 
-  vagasPublicas: IVagas[] = [];
+  vagasPublicas: IVaga[] = [];
 
-  constructor() {}
+  constructor(private router: Router, private route: ActivatedRoute, private vagasService:VagasService) {}
+
 
   ngOnInit(): void {
-    this.vagasPublicas = this.vagasOb();
-
-    this.vagasOfertadas = this.vagasOb().filter(
-      (vaga) =>
-        vaga.id_empresa === this.idUsuario &&
-        vaga.status === EStatusVaga.EM_ANDAMENTO
-    );
-    this.vagasEncerradas = this.vagasOb().filter(
-      (vaga) =>
-        vaga.id_empresa === this.idUsuario &&
-        vaga.status === EStatusVaga.FINALIZADO
-    );
+    this.getVagas();
+    console.log(this.vagasOfertadas);
+    console.log(this.vagasEncerradas)
   }
 
-  public vagasOb = signal<IVagas[]>([
-    {
-      id_vagas: 1,
-      titulo_vaga: 'Desenvolvedor Front-end',
-      descricao: 'Desenvolver interfaces web utilizando React e TypeScript',
-      salario: 8000,
-      status: EStatusVaga.EM_ANDAMENTO,
-      data_criacao: new Date('2023-05-10'),
-      data_fechamento: new Date('2023-06-10'),
-      qtd_vaga: 3,
-      qtd_vagas_preenchidas: 1,
-      modalidade_da_vaga: 'Remoto',
-      id_empresa: 1,
-    },
-    {
-      id_vagas: 2,
-      titulo_vaga: 'Analista de Dados',
-      descricao: 'Analisar dados e criar relatórios utilizando Power BI e SQL',
-      salario: 6500,
-      status: EStatusVaga.EM_ANDAMENTO,
-      data_criacao: new Date('2023-04-15'),
-      data_fechamento: new Date('2023-05-30'),
-      qtd_vaga: 2,
-      qtd_vagas_preenchidas: 0,
-      modalidade_da_vaga: 'Híbrido',
-      id_empresa: 1,
-    },
-    {
-      id_vagas: 3,
-      titulo_vaga: 'Gerente de Projetos',
-      descricao: 'Gerenciar projetos de TI utilizando metodologias ágeis',
-      salario: 12000,
-      status: EStatusVaga.FINALIZADO,
-      data_criacao: new Date('2023-01-20'),
-      data_fechamento: new Date('2023-03-20'),
-      qtd_vaga: 1,
-      qtd_vagas_preenchidas: 1,
-      modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
-    },
-    {
-      id_vagas: 4,
-      titulo_vaga: 'Gerente de Projetos',
-      descricao: 'Gerenciar projetos de TI utilizando metodologias ágeis',
-      salario: 12000,
-      status: EStatusVaga.FINALIZADO,
-      data_criacao: new Date('2023-01-20'),
-      data_fechamento: new Date('2023-03-20'),
-      qtd_vaga: 1,
-      qtd_vagas_preenchidas: 1,
-      modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
-    },
-    {
-      id_vagas: 5,
-      titulo_vaga: 'Gerente de Projetos',
-      descricao: 'Gerenciar projetos de TI utilizando metodologias ágeis',
-      salario: 12000,
-      status: EStatusVaga.FINALIZADO,
-      data_criacao: new Date('2023-01-20'),
-      data_fechamento: new Date('2023-03-20'),
-      qtd_vaga: 1,
-      qtd_vagas_preenchidas: 1,
-      modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
-    },
-    {
-      id_vagas: 6,
-      titulo_vaga: 'Gerente de Projetos',
-      descricao: 'Gerenciar projetos de TI utilizando metodologias ágeis',
-      salario: 12000,
-      status: EStatusVaga.FINALIZADO,
-      data_criacao: new Date('2023-01-20'),
-      data_fechamento: new Date('2023-03-20'),
-      qtd_vaga: 1,
-      qtd_vagas_preenchidas: 1,
-      modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
-    },
-  ]);
+  navegarParaDetalhe(vaga: any) {
+    if (vaga?.id_vagas) {
+      this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
+    }
+  }
+  
+
+  public getVagas(){
+    return this.vagasService.httpListVagas$().subscribe({
+      next: (data) => {
+        console.log(data)
+        this.vagasPublicas = data;
+
+        this.vagasOfertadas = data.filter(
+          (vaga) =>
+            vaga.id_empresas === this.idUsuario &&
+            vaga.status === EStatusVaga.EM_ANDAMENTO
+        );
+        this.vagasEncerradas = data.filter(
+          (vaga) =>
+            vaga.id_empresas === this.idUsuario &&
+            vaga.status === EStatusVaga.FINALIZADO
+        );
+      },
+      error: (error) => {
+        console.error('Erro ao buscar vagas:', error);
+      }
+    })
+  }
 }

@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { IVagas } from '../../../interface/IVagas.interface';
+import { IVaga } from '../../../interface/IVaga.interface';
 
 @Component({
   selector: 'app-card-vaga-empresa',
@@ -12,17 +13,23 @@ import { IVagas } from '../../../interface/IVagas.interface';
 })
 export class CardVagaEmpresaComponent {
   @Input() public imagem: string = 'assets/imgs/semFoto.jpg';
-  @Input() vagas: IVagas[] = [];
+  @Input() vagas: IVaga[] = [];
 
   currentPage: number = 0;
   pageSize: number = 3;
 
-  get paginatedVagas(): IVagas[] {
+  get paginatedVagas(): IVaga[] {
     const start = this.currentPage * this.pageSize;
     return this.vagas.slice(start, start + this.pageSize);
   }
 
   onPageChange(event: PaginatorState) {
     this.currentPage = event.page ?? 0;
+  }
+
+  @Output() vagaClicada = new EventEmitter<IVaga>();
+
+  onCardClick(vaga: IVaga) {
+    this.vagaClicada.emit(vaga);
   }
 }
