@@ -1,0 +1,39 @@
+<div class="profile-photo-modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Foto de Perfil</h2>
+      <button class="close-btn" (click)="onCloseModal()">
+        <img src="assets/icons/close.svg" alt="Botão para fechar o dialog">
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="avatar-container">
+        <div class="avatar-wrapper">
+          <img [src]="currentPhoto || 'assets/imgs/perfil-img.svg'" alt="Foto do Usuário" class="user-avatar">
+          <div class="avatar-overlay" (click)="triggerFileInput()">
+            <i class="fas fa-camera"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="action-btn edit-btn" (click)="editPhoto()">
+          <i class="fas fa-edit"></i>
+          <span>Editar Foto</span>
+        </button>
+        
+        <button class="action-btn add-btn" (click)="addPhoto()">
+          <i class="fas fa-plus"></i>
+          <span>Adicionar Foto</span>
+        </button>
+        
+        <button class="action-btn delete-btn" (click)="deletePhoto()" [disabled]="!currentPhoto">
+          <i class="fas fa-trash-alt"></i>
+          <span>Excluir Foto</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Input de arquivo oculto -->
+    <input type="file" #fileInput accept="image/*" (change)="onFileSelected($event)" style="display: none;">
+  </div>

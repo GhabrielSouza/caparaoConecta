@@ -14,7 +14,7 @@
   }
 
   .container_img,
-  aside {
+  .container_infos {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,7 +29,7 @@
     text-align: center;
 
     .container_img-perfil {
-      position: relative; // Mantém o botão posicionado em relação à imagem
+      position: relative;
       display: inline-block;
 
       .img-perfil {

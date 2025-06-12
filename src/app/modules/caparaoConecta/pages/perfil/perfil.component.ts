@@ -14,7 +14,10 @@ import { PerfilCandidatoComponent } from './perfil-candidato/perfil-candidato.co
 
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-
+import { ExperienciasService } from '../../../../services/experiencias/experiencias.service';
+import { FormacoesAcademicasService } from '../../../../services/formacoes/formacoes-academicas.service';
+import { HabilidadesSService } from '../../../../services/habilidades/habilidades-s.service';
+import { CursosSService } from '../../../../services/cursos/cursos-s.service';
 @Component({
   selector: 'app-perfil',
   imports: [
@@ -42,14 +45,20 @@ export class PerfilComponent implements OnInit {
   id_tipo_usuario: string = '';
 
   idUsuario = 1;
-  // Substitua pelo ID do usuário desejado
-  // Substitua pelo ID do tipo de usuário desejado
 
   carregarDados: boolean = false;
 
-  constructor(private apiService: RegisterService) {}
+  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService, private formacoesService: FormacoesAcademicasService, private habilidadesService: HabilidadesSService, private cursosService:CursosSService) {}
 
   ngOnInit() {
+    this.getDadosPessoais();
+    this.getExperiencias();
+    this.getFormacoes();
+    this.getHabilidades();
+    this.getCursos();
+  }
+
+  getDadosPessoais() {
     this.apiService.httpListCandidatosId$(this.idUsuario).subscribe((data) => {
       console.log(data);
       this.dadosPessoais = data;
@@ -57,6 +66,35 @@ export class PerfilComponent implements OnInit {
       this.id_tipo_usuario = this.dadosPessoais.usuario.id_tipo_usuarios;
       this.carregarDados = true;
       console.log(this.id_tipo_usuario);
+    });
+  }
+
+  getExperiencias() {
+    this.experienciaService.httpListExperienciaId$(this.idUsuario).subscribe((data) => {
+      this.experiencias = data;
+      this.carregarDados = true;
+    });
+  }
+
+  getFormacoes() {
+    this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
+      this.formacoes = data;
+      this.carregarDados = true;
+    });
+  }
+
+  getCursos() {
+    this.cursosService.httpListCursosOnPessoaId$(this.idUsuario).subscribe((data) => {
+      console.log(data);
+      this.cursos = data;
+      this.carregarDados = true;
+    });
+  }
+
+  getHabilidades() {
+    this.habilidadesService.httpListHabilidadesOnPessoas$(this.idUsuario).subscribe((data) => {
+      this.habilidades = data;
+      this.carregarDados = true;
     });
   }
 }
