@@ -3,16 +3,21 @@ import { ComponentDefaultPerfilComponent } from '../../components/component-defa
 import { CommonModule } from '@angular/common';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+
 import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
+
 import { CardDefaultInformacoesComponent } from '../../components/cards/card-default-informacoes/card-default-informacoes.component';
 import { PerfilEmpresaComponent } from './perfil-empresa/perfil-empresa.component';
 import { PerfilCandidatoComponent } from './perfil-candidato/perfil-candidato.component';
 
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-
+import { ExperienciasService } from '../../../../services/experiencias/experiencias.service';
+import { FormacoesAcademicasService } from '../../../../services/formacoes/formacoes-academicas.service';
+import { HabilidadesSService } from '../../../../services/habilidades/habilidades-s.service';
+import { CursosSService } from '../../../../services/cursos/cursos-s.service';
 @Component({
   selector: 'app-perfil',
   imports: [
@@ -43,11 +48,20 @@ export class PerfilComponent implements OnInit {
   // Substitua pelo ID do usuário desejado
   // Substitua pelo ID do tipo de usuário desejado
 
+
   carregarDados: boolean = false;
 
-  constructor(private apiService: RegisterService) {}
+  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService, private formacoesService: FormacoesAcademicasService, private habilidadesService: HabilidadesSService, private cursosService:CursosSService) {}
 
   ngOnInit() {
+    this.getDadosPessoais();
+    this.getExperiencias();
+    this.getFormacoes();
+    this.getHabilidades();
+    this.getCursos();
+  }
+
+  getDadosPessoais() {
     this.apiService.httpListCandidatosId$(this.idUsuario).subscribe((data) => {
       console.log(data);
       this.dadosPessoais = data;
@@ -55,6 +69,35 @@ export class PerfilComponent implements OnInit {
       this.id_tipo_usuario = this.dadosPessoais.usuario.id_tipo_usuarios;
       this.carregarDados = true;
       console.log(this.id_tipo_usuario);
+    });
+  }
+
+  getExperiencias() {
+    this.experienciaService.httpListExperienciaId$(this.idUsuario).subscribe((data) => {
+      this.experiencias = data;
+      this.carregarDados = true;
+    });
+  }
+
+  getFormacoes() {
+    this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
+      this.formacoes = data;
+      this.carregarDados = true;
+    });
+  }
+
+  getCursos() {
+    this.cursosService.httpListCursosOnPessoaId$(this.idUsuario).subscribe((data) => {
+      console.log(data);
+      this.cursos = data;
+      this.carregarDados = true;
+    });
+  }
+
+  getHabilidades() {
+    this.habilidadesService.httpListHabilidadesOnPessoas$(this.idUsuario).subscribe((data) => {
+      this.habilidades = data;
+      this.carregarDados = true;
     });
   }
 }

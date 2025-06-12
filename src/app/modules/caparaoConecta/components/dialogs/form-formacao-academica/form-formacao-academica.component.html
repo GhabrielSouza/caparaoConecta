@@ -1,86 +1,200 @@
-<header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>Adicionar formação acadêmica</h3>
-  <button class="btn" (click)="closeModal()">
-    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
-  </button>
-</header>
 
-<mat-dialog-content>
-  <form [formGroup]="form">
-    <app-primary-input
-      formControlName="instituicao"
-      type="text"
-      placeholder="Preencha sua Instituição"
-      inputName="instituicao"
-      label="Instituição de ensino"
-    />
-
-    <div class="d-flex">
-      <div>
-        <mat-label class="cpc-medium-010">Nível de escolaridade</mat-label>
-
-        <mat-form-field>
-          <mat-select
-            placeholder="Selecione uma escolaridade"
-            formControlName="escolaridade"
-            class="col"
+@if(this.data.id){
+  <header class="d-flex justify-content-between align-items-center px-4 pt-3">
+    <h3>Adicionar formação acadêmica</h3>
+    <button class="btn" (click)="closeModal()">
+      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+    </button>
+  </header>
+  
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <div class="col flex-grow-1 input-container">
+        <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input 
+            type="text" 
+            matInput 
+            formControlName="instituicao"
+            placeholder="Preencha sua Instituição" 
+            [matAutocomplete]="auto"
           >
-            <mat-option value="Masculino">Masculino</mat-option>
-          </mat-select>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            @for (option of filteredOptions | async; track option) {
+              <mat-option [value]="option">{{option.nome}}</mat-option>
+            }
+          </mat-autocomplete>
         </mat-form-field>
       </div>
-
+  
+      <div class="d-flex justify-content-between gap-2a">
+        <div class="col flex-grow-1 input-container ">
+          <mat-label class="cpc-medium-010">Nível de escolaridade</mat-label>
+          <mat-form-field class="w-100">
+            <mat-select
+              placeholder="Selecione uma escolaridade"
+              formControlName="escolaridade"
+            >
+              <mat-option value="Ensino Fundamental">Ensino Fundamental</mat-option>
+              <mat-option value="Ensino Médio">Ensino Médio</mat-option>
+              <mat-option value="Graduação">Graduação</mat-option>
+              <mat-option value="Pós-graduação">Pós-graduação</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <app-primary-input
+          formControlName="area_de_estudo"
+          type="text"
+          placeholder="Qual sua área de estudo?"
+          label="Área de estudo"
+          inputName="area_de_estudo"
+          class="col-6 ps-2"
+        />
+      </div>
+  
+      <div class="d-flex justify-content-between align-items-center p-2">
+        <div class="d-flex flex-column">
+          <mat-label class="cpc-medium-010 pb-2">Já concluiu?</mat-label>
+          <mat-radio-group formControlName="conclusao_formacao">
+            <mat-radio-button [value]="true">Sim</mat-radio-button>
+            <mat-radio-button [value]="false">Não</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="d-flex flex-column">
+          <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
+          <mat-radio-group formControlName="diploma_formacao">
+            <mat-radio-button [value]="true">Sim</mat-radio-button>
+            <mat-radio-button [value]="false">Não</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+  
       <app-primary-input
-        formControlName="areaEstudo"
-        type="text"
-        placeholder="Qual sua área de estudo?"
-        label="Área de estudo"
-        inputName="areaEstudo"
-        class="col"
+        formControlName="data_emissao"
+        type="date"
+        placeholder="Mês/Ano"
+        label="Data emissão"
+        inputName="data_emissao"
       />
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center p-2">
-      <div class="d-flex flex-column">
-        <mat-label class="cpc-medium-010 pb-2">Já concluiu?</mat-label>
-        <mat-radio-group formControlName="conclusao">
-          <mat-radio-button [value]="true">Sim</mat-radio-button>
-          <mat-radio-button [value]="false">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
-      <div class="d-flex flex-column">
-        <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
-        <mat-radio-group formControlName="diploma">
-          <mat-radio-button [value]="true">Sim</mat-radio-button>
-          <mat-radio-button [value]="false">Não</mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-
-    <app-primary-input
-      formControlName="dateEmissao"
-      type="date"
-      placeholder="Mês/Ano"
-      label="Data emissão"
-      inputName="dateTermino"
-    />
-
-    @if(form.get('diploma')?.value == true && form.get('conclusao')?.value ==
-    true) {
-    <app-primary-input
-      formControlName="dateConclusao"
-      type="date"
-      placeholder="Mês/Ano"
-      label="Data conclusão"
-      inputName="dateTermino"
-    />
-    }
-    <div class="d-flex justify-content-end">
-      <app-button-primary
-        fonte="cpc-regular"
-        color="btn-secondary"
-        text="Salvar"
+  
+      @if(form.get('diploma_formacao')?.value == true && form.get('conclusao_formacao')?.value ==
+      true) {
+      <app-primary-input
+        formControlName="data_conclusao"
+        type="date"
+        placeholder="Mês/Ano"
+        label="Data conclusão"
+        inputName="data_conclusao"
       />
-    </div>
-  </form>
-</mat-dialog-content>
+      }
+      <div class="d-flex justify-content-end">
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Salvar"
+          (click)="submit()"
+        />
+      </div>
+    </form>
+  </mat-dialog-content>
+}@else {
+  <header class="d-flex justify-content-between align-items-center px-4 pt-3">
+    <h3>Atualizar formação acadêmica</h3>
+    <button class="btn" (click)="closeModal()">
+      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+    </button>
+  </header>
+  
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <div class="col flex-grow-1 input-container">
+        <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input 
+            type="text" 
+            matInput 
+            formControlName="instituicao"
+            placeholder="Preencha sua Instituição" 
+            [matAutocomplete]="auto"
+          >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            @for (option of filteredOptions | async; track option) {
+              <mat-option [value]="option">{{option.nome}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+  
+      <div class="d-flex justify-content-between gap-2a">
+        <div class="col flex-grow-1 input-container ">
+          <mat-label class="cpc-medium-010">Nível de escolaridade</mat-label>
+          <mat-form-field class="w-100">
+            <mat-select
+              placeholder="Selecione uma escolaridade"
+              formControlName="escolaridade"
+            >
+              <mat-option value="Ensino Fundamental">Ensino Fundamental</mat-option>
+              <mat-option value="Ensino Médio">Ensino Médio</mat-option>
+              <mat-option value="Graduação">Graduação</mat-option>
+              <mat-option value="Pós-graduação">Pós-graduação</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <app-primary-input
+          formControlName="area_de_estudo"
+          type="text"
+          placeholder="Qual sua área de estudo?"
+          label="Área de estudo"
+          inputName="area_de_estudo"
+          class="col-6 ps-2"
+        />
+      </div>
+  
+      <div class="d-flex justify-content-between align-items-center p-2">
+        <div class="d-flex flex-column">
+          <mat-label class="cpc-medium-010 pb-2">Já concluiu?</mat-label>
+          <mat-radio-group formControlName="conclusao_formacao">
+            <mat-radio-button [value]="true">Sim</mat-radio-button>
+            <mat-radio-button [value]="false">Não</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="d-flex flex-column">
+          <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
+          <mat-radio-group formControlName="diploma_formacao">
+            <mat-radio-button [value]="true">Sim</mat-radio-button>
+            <mat-radio-button [value]="false">Não</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+  
+      <app-primary-input
+        formControlName="data_emissao"
+        type="date"
+        placeholder="Mês/Ano"
+        label="Data emissão"
+        inputName="data_emissao"
+      />
+  
+      @if(form.get('diploma_formacao')?.value == true && form.get('conclusao_formacao')?.value ==
+      true) {
+      <app-primary-input
+        formControlName="data_conclusao"
+        type="date"
+        placeholder="Mês/Ano"
+        label="Data conclusão"
+        inputName="data_conclusao"
+      />
+      }
+      <div class="d-flex justify-content-end">
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Salvar"
+          (click)="update()"
+        />
+      </div>
+    </form>
+  </mat-dialog-content>
+}

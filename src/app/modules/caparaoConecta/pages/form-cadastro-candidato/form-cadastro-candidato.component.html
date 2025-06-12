@@ -76,60 +76,70 @@
         <mat-error>{{ fieldErrors()["cpf"] }}</mat-error>
         }
       </app-cpf-and-cnpj-input>
-      <app-cep-input
-        formControlName="cep"
-        type="text"
-        placeholder="Digite seu CEP"
-        label="CEP"
-        inputName="cep"
-        class="col-6 ps-3"
-        >@if (cadastrarForm.get('cep')?.invalid &&
-        (cadastrarForm.get('cep')?.touched || cadastrarForm.get('cep')?.dirty ))
-        {
-        <mat-error>{{ fieldErrors()["cep"] }}</mat-error>
-        }</app-cep-input
-      >
-    </div>
-    <div class="d-flex">
-      <app-primary-input
-        formControlName="estado"
-        type="text"
-        placeholder="Ex: Espírito Santo"
-        label="Estado"
-        inputName="estado"
-        class="col-6"
-        >@if (cadastrarForm.get('estado')?.invalid &&
-        (cadastrarForm.get('estado')?.touched ||
-        cadastrarForm.get('estado')?.dirty )) {
-        <mat-error>{{ fieldErrors()["estado"] }}</mat-error>
-        }</app-primary-input
-      >
-      <app-primary-input
-        formControlName="cidade"
-        type="text"
-        placeholder="Ex: Alegre"
-        label="Cidade"
-        inputName="cidade"
-        class="col-6 ps-3"
-        >@if (cadastrarForm.get('endereco')?.invalid &&
-        (cadastrarForm.get('endereco')?.touched ||
-        cadastrarForm.get('endereco')?.dirty )) {
-        <mat-error>{{ fieldErrors()["endereco"] }}</mat-error>
-        }</app-primary-input
-      >
-    </div>
-    <app-telefone-input
+     
+      <app-telefone-input
       formControlName="telefone"
       type="tel"
       placeholder="Digite seu número"
       label="Telefone(DDD)"
       inputName="telefone"
+      class="col-6 ps-3"
       >@if (cadastrarForm.get('telefone')?.invalid &&
       (cadastrarForm.get('telefone')?.touched ||
       cadastrarForm.get('telefone')?.dirty )) {
       <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
       }</app-telefone-input
     >
+    </div>
+    <div class="d-flex gap-3 align-items-start">
+      <!-- Campo de Estado -->
+      <div class="flex-grow-1 input-container">
+        <mat-label class="d-block">Estado</mat-label>
+        <!-- Label posicionado acima -->
+        <mat-form-field class="w-100">
+          <mat-select
+            formControlName="estado"
+            placeholder="Selecione seu estado"
+            (selectionChange)="carregarCidadesPorEstado($event.value.id)"
+          >
+            @for(estado of estados; track estado.id){
+            <mat-option [value]="estado">
+              {{ estado.nome }}
+            </mat-option>
+            }
+          </mat-select>
+          @if (cadastrarForm.get('estado')?.invalid &&
+          (cadastrarForm.get('estado')?.touched ||
+          cadastrarForm.get('estado')?.dirty)) {
+          <mat-error>{{ fieldErrors()["estado"] }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- Campo de Cidade -->
+      <div class="flex-grow-1 input-container">
+        <mat-label class="d-block">Cidade</mat-label>
+        <!-- Label posicionado acima -->
+        <mat-form-field class="w-100">
+          <mat-select
+            formControlName="cidade"
+            placeholder="Selecione sua cidade"
+            [disabled]="!cadastrarForm.get('estado')?.value"
+          >
+            @for(cidade of cidades; track cidade.id){
+            <mat-option [value]="cidade.nome">
+              {{ cidade.nome }}
+            </mat-option>
+            }
+          </mat-select>
+          @if (cadastrarForm.get('cidade')?.invalid &&
+          (cadastrarForm.get('cidade')?.touched ||
+          cadastrarForm.get('cidade')?.dirty)) {
+          <mat-error>{{ fieldErrors()["cidade"] }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
     <app-primary-input
       formControlName="email"
       type="email"
