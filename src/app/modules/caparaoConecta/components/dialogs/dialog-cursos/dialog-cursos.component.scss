@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 ::ng-deep .dialog-container-projects .mdc-dialog__container {
     width: 525px;
 }
@@ -16,4 +18,14 @@ mat-option {
   input{
     font-family: var(--font-poppinsM);
   }
+
+  @include mat.radio-overrides(
+    (
+      selected-focus-icon-color: var(--primary-background-green),
+      selected-hover-icon-color: var(--primary-background-green),
+      selected-pressed-icon-color: var(--primary-background-green),
+      selected-icon-color: var(--primary-background-green),
+      checked-ripple-color: var(--primary-background-green),
+    )
+  );
 }

@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import { SelecionarVagaComponent } from '../dialogs/selecionar-vaga/selecionar-vaga.component';
+
 @Component({
   selector: 'app-cabecalho',
   imports: [RouterLink, CommonModule, MatBadgeModule, MatIconModule],
@@ -33,11 +35,11 @@ export class CabecalhoComponent {
     });
   }
 
-  openDialogVaga() {
-    this.#dialog.open(CadastroVagaDialogComponent, {
-      panelClass: EDialogEnum.PROJETOS,
-    });
-  }
+  openDialogSelecionarVaga():void{
+    this.#dialog.open(SelecionarVagaComponent,{
+      panelClass:EDialogEnum.PROJETOS,
+    })
+}
 
   @HostListener('window:scroll', ['$event']) onscroll() {
     if (window.scrollY > 50) {

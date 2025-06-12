@@ -1,0 +1,13 @@
+@use "@angular/material" as mat;
+
+
+@include mat.checkbox-overrides(
+    (
+      label-text-font: var(--font-poppinsR),
+      selected-icon-color: var(--secondary-background-green),
+      selected-hover-icon-color: var(--secondary-background-green),
+      selected-focus-icon-color: var(--secondary-background-green),
+      selected-focus-state-layer-color: var(--secondary-background-green),
+      unselected-pressed-state-layer-color: var(--secondary-background-green),
+    )
+  );

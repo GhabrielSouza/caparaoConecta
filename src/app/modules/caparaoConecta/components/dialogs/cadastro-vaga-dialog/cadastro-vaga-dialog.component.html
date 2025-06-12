@@ -1,87 +1,95 @@
 <div class="container_dialog">
-    <h1 class="cpc-bold p-4 ">Anuncie sua vaga</h1>
+  <h1 class="cpc-bold p-4">Anuncie sua vaga</h1>
+  <mat-dialog-content>
     <form>
-        <mat-label>Cargo*</mat-label>
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Qual cargo você desempenhou?">
-        </mat-form-field>
+      <mat-label>Cargo*</mat-label>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Qual cargo você desempenhou?" />
+      </mat-form-field>
 
-        <mat-label>Modalidade da vaga*</mat-label>
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Presencial, remoto ou híbrido?">
-        </mat-form-field>
+      <mat-label>Modalidade da vaga*</mat-label>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Presencial, remoto ou híbrido?" />
+      </mat-form-field>
 
-        <mat-label>Salário*</mat-label>
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="R$1509,00">
-        </mat-form-field>
+      <mat-label>Salário*</mat-label>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="R$1509,00" />
+      </mat-form-field>
 
-        <div class="dataEncerramentoLabel">
-            <mat-label>Data de encerramento* </mat-label>
-            <img class="info-icon" height="18" src="/assets/icons/circle-info-solid.svg" 
-                 matTooltip="Informamos que o prazo para conclusão do processo pode ser estendido e será prorrogado em até 20 (vinte) dias corridos, incluindo o prazo para a realização de entrevistas. Agradecemos pela compreensão e permanecemos à disposição para eventuais dúvidas.">
-        </div>
-        <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="picker" placeholder="Selecione a data">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+      <div class="dataEncerramentoLabel">
+        <mat-label>Data de encerramento* </mat-label>
+        <img
+          class="info-icon"
+          height="18"
+          src="/assets/icons/circle-info-solid.svg"
+          matTooltip="Informamos que o prazo para conclusão do processo pode ser estendido e será prorrogado em até 20 (vinte) dias corridos, incluindo o prazo para a realização de entrevistas. Agradecemos pela compreensão e permanecemos à disposição para eventuais dúvidas."
+        />
+      </div>
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          placeholder="Selecione a data"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-        <mat-label>Habilidades</mat-label>
-        <mat-form-field class="example-chip-list w-100">
-            <mat-chip-grid #chipGrid aria-label="Fruit selection">
-                @for (fruit of fruits(); track $index) { @if (fruit != '') {
-                <mat-chip-row (removed)="remove(fruit)">
-                {{ fruit }}
-                <button matChipRemove [attr.aria-label]="'remove ' + fruit">
-                    <mat-icon>cancel</mat-icon>
-                </button>
-                </mat-chip-row>
-                } }
-            </mat-chip-grid>
-            <input
-                name="currentFruit"
-                placeholder="Nova habilidade..."
-                #fruitInput
-                [(ngModel)]="currentFruit"
-                [ngModelOptions]="{ standalone: true }"
-                [matChipInputFor]="chipGrid"
-                [matAutocomplete]="auto"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)"
-            />
-            <mat-autocomplete
-                #auto="matAutocomplete"
-                (optionSelected)="selected($event); fruitInput.value = ''"
-            >
-                @for (fruit of filteredFruits(); track fruit) {
-                <mat-option [value]="fruit">{{ fruit }}</mat-option>
-                }
-            </mat-autocomplete>
-        </mat-form-field>
+      <mat-label>Habilidades</mat-label>
+      <mat-form-field class="example-chip-list w-100">
+        <mat-chip-grid #chipGrid aria-label="Fruit selection">
+          @for (fruit of fruits(); track $index) { @if (fruit != '') {
+          <mat-chip-row (removed)="remove(fruit)">
+            {{ fruit }}
+            <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          } }
+        </mat-chip-grid>
+        <input
+          name="currentFruit"
+          placeholder="Nova habilidade..."
+          #fruitInput
+          [(ngModel)]="currentFruit"
+          [ngModelOptions]="{ standalone: true }"
+          [matChipInputFor]="chipGrid"
+          [matAutocomplete]="auto"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event); fruitInput.value = ''"
+        >
+          @for (fruit of filteredFruits(); track fruit) {
+          <mat-option [value]="fruit">{{ fruit }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
 
-        <mat-label >Descrição</mat-label>
-        <mat-form-field class="example-full-width" (click)="openDialogHabilidades()">
-            <textarea matInput placeholder="Descreva a vaga..."></textarea>
-        </mat-form-field>
+      <mat-label>Descrição</mat-label>
+      <mat-form-field
+        class="example-full-width"
+        (click)="openDialogHabilidades()"
+      >
+        <textarea matInput placeholder="Descreva a vaga..."></textarea>
+      </mat-form-field>
 
-        <div class="d-flex justify-content-end">
-        </div>
+      <div class="d-flex justify-content-end"></div>
 
-        <mat-label>Quantidade de vagas*</mat-label>
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Quantas vagas estão sendo ofertadas?">
-        </mat-form-field>
+      <mat-label>Quantidade de vagas*</mat-label>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Quantas vagas estão sendo ofertadas?" />
+      </mat-form-field>
     </form>
 
     <footer>
-        <div class="d-flex justify-content-center gap-4 p-3">
-            <button class="btn btn-secondary">
-              Anunciar
-            </button>
-            <button class="btn btn-primary" (click)="closeModal()">
-              Fechar
-            </button>
-        </div>
+      <div class="d-flex justify-content-center gap-4 p-3">
+        <button class="btn btn-secondary">Anunciar</button>
+        <button class="btn btn-primary" (click)="closeModal()">Fechar</button>
+      </div>
     </footer>
+  </mat-dialog-content>
 </div>

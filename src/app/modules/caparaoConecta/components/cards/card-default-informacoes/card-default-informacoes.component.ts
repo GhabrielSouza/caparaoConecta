@@ -1,25 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EDialogEnum } from '../../enum/EDialogEnum.enum';
-import { FormExperienciaProfissionalComponent } from '../dialogs/form-experiencia-profissional/form-experiencia-profissional.component';
-import { IExperiencia } from '../../interface/IExperiencias.interface';
-import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
-import { ExperienciasService } from '../../../../services/experiencias/experiencias.service';
-import { IFormacoesAcademicas } from '../../interface/IFormacoesAcademicas.interface';
-import { FormFormacaoAcademicaComponent } from '../dialogs/form-formacao-academica/form-formacao-academica.component';
-import { FormacoesAcademicasService } from '../../../../services/formacoes/formacoes-academicas.service';
-import { ICursos } from '../../interface/ICursos.inteface';
-import { DialogHabilidadesComponent } from '../dialogs/dialog-habilidades/dialog-habilidades.component';
-import { DialogCursosComponent } from '../dialogs/dialog-cursos/dialog-cursos.component';
-import { CursosSService } from '../../../../services/cursos/cursos-s.service';
-import { ICursosOnPessoas } from '../../interface/ICursosOnPessoas.inteface';
+import { IExperiencia } from '../../../interface/IExperiencias.interface';
+import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
+import { ICursos } from '../../../interface/ICursos.inteface';
+import { ExperienciasService } from '../../../../../services/experiencias/experiencias.service';
+import { FormacoesAcademicasService } from '../../../../../services/formacoes/formacoes-academicas.service';
+import { CursosSService } from '../../../../../services/cursos/cursos-s.service';
+import { FormExperienciaProfissionalComponent } from '../../dialogs/form-experiencia-profissional/form-experiencia-profissional.component';
+import { FormFormacaoAcademicaComponent } from '../../dialogs/form-formacao-academica/form-formacao-academica.component';
+import { DialogCursosComponent } from '../../dialogs/dialog-cursos/dialog-cursos.component';
+import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+
 
 @Component({
   selector: 'app-card-default-informacoes',
   imports: [CommonModule],
   templateUrl: './card-default-informacoes.component.html',
-  styleUrl: './card-default-informacoes.component.scss'
+  styleUrl: './card-default-informacoes.component.scss',
 })
 export class CardDefaultInformacoesComponent {
   @Input() public imagem = '';

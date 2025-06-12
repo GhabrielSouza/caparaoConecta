@@ -2,12 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ComponentDefaultPerfilComponent } from '../../../components/component-default-perfil/component-default-perfil.component';
 
 import { MatChipsModule } from '@angular/material/chips';
-import { CardDefaultInformacoesComponent } from '../../../components/card-default-informacoes/card-default-informacoes.component';
+
 import { CommonModule } from '@angular/common';
 import { IExperiencia } from '../../../interface/IExperiencias.interface';
 import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
 import { ICursos } from '../../../interface/ICursos.inteface';
 import { IHabilidades } from '../../../interface/IHabilidades.interface';
+import { CardDefaultInformacoesComponent } from '../../../components/cards/card-default-informacoes/card-default-informacoes.component';
 
 @Component({
   selector: 'app-perfil-candidato',
