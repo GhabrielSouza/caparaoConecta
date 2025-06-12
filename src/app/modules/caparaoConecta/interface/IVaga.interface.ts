@@ -1,16 +1,19 @@
-import { Requisitos } from "./IRequisitos.interface";
+import { EStatusVaga } from "../enum/EStatusVaga.enum";
+import { ICursos } from "./ICursos.inteface";
+import { IHabilidades } from "./IHabilidades.interface";
 
-export interface Vaga {
-    titulo: string;
+export interface IVaga {
+    id_vagas: number;
+    titulo_vaga: string;
     descricao: string;
     salario: number;
-    status: number;
-    dataCriacao: string;
-    dataFechamento: string;
-    quantidadeVagas: string;
-    requisitos: Requisitos[];
-    quantidadeVagasPreenchidas: string;
-    imagem: string;
-    modalidade: string;
-    termo: number;
+    status?: EStatusVaga;
+    data_criacao: Date;
+    data_fechamento: Date;
+    qtd_vaga: number;
+    qtd_vagas_preenchidas: number;
+    modalidade_da_vaga: string;
+    id_empresas: number;
+    habilidades?: IHabilidades[];
+    cursos?: ICursos[];
   }  

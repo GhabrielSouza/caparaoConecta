@@ -1,6 +1,7 @@
 import { Component, Inject, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { IVaga } from '../../../interface/IVaga.interface';
 
 
 @Component({
@@ -16,7 +17,9 @@ export class VagaDialogComponent {
   favoritar:boolean = false;
 
   constructor(private _dialogRef:MatDialogRef<VagaDialogComponent>, 
-        @Inject(MAT_DIALOG_DATA) public data:string, private router: Router){}
+        @Inject(MAT_DIALOG_DATA) public data:any, private router: Router){
+          console.log(data)
+        }
     
   public closeModal():void{
     this._dialogRef.close();
