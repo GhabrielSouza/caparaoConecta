@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary.component';
 import { CommonModule, Location } from '@angular/common';
@@ -11,6 +11,10 @@ import { ComponentAccordionComponent } from "../component-accordion/component-ac
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
 import { CandidatoSelecionadoComponent } from '../candidato-selecionado/candidato-selecionado.component';
+import { CursosSService } from '../../../../services/cursos/cursos-s.service';
+import { VagasService } from '../../../../services/vagas.service';
+import { ActivatedRoute } from '@angular/router';
+import { IVaga } from '../../interface/IVaga.interface';
 
 @Component({
   selector: 'app-detalhes-vaga',
@@ -18,9 +22,9 @@ import { CandidatoSelecionadoComponent } from '../candidato-selecionado/candidat
   templateUrl: './detalhes-vaga.component.html',
   styleUrl: './detalhes-vaga.component.scss'
 })
-export class DetalhesVagaComponent {
+export class DetalhesVagaComponent implements OnInit{
  texto: string = "Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web. Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web.";
- containerFooter: boolean = false;
+ containerFooter: boolean = true;
  visaoCandidato: boolean = true;
 
  visaoDetalhes: boolean = true;
@@ -33,8 +37,10 @@ export class DetalhesVagaComponent {
  nomeCandidato: string = "Lucas Silva";
  habilidades: any[] = [];
 
+ vaga!: IVaga;
+
  
-constructor(private location: Location){}
+constructor(private location: Location, private vagaService: VagasService, private route: ActivatedRoute){}
 
  alterarImagemDetalhes: boolean = true;
  alterarImagemEstatistica: boolean = false;
@@ -70,4 +76,29 @@ public alterarEstatistica() {
     this.location.back();
   }
 
+  ngOnInit(): void {
+    this.getVagaId();
+  }
+
+  public getVagaId(){
+    const vagaIdString = this.route.snapshot.paramMap.get('id');
+
+    console.log(vagaIdString)
+
+    if(vagaIdString){
+      const vagaId = +vagaIdString
+
+      this.vagaService.httpListVagasId$(vagaId).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.vaga = data;
+        },
+        error: (error) => {
+          console.error('Erro ao buscar vaga:', error);
+        }
+      })
+    }else{
+      console.error('ID da vaga não encontrado na URL!');
+    }
+  }
 }

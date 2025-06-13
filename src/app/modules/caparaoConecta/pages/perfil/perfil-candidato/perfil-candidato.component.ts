@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ComponentDefaultPerfilComponent } from '../../../components/component-default-perfil/component-default-perfil.component';
 
 import { MatChipsModule } from '@angular/material/chips';
-import { CardDefaultInformacoesComponent } from '../../../components/cards/card-default-informacoes/card-default-informacoes.component';
 
 import { CommonModule } from '@angular/common';
 import { IExperiencia } from '../../../interface/IExperiencias.interface';

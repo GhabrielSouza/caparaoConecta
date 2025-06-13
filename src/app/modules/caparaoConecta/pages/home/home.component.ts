@@ -32,13 +32,12 @@ import { ContentObserver } from '@angular/cdk/observers';
     CardVagaPublicaComponent,
     CardVagaEmpresaComponent,
     RouterModule,
-    DetalhesVagaComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  public role: ERoleUser | null = ERoleUser.CANDIDATO;
+  public role: ERoleUser | null = ERoleUser.EMPRESA;
   public roleEnum = ERoleUser;
 
   vagasOfertadas: IVaga[] = [];
@@ -49,14 +48,13 @@ export class HomeComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, private vagasService:VagasService) {}
 
-
   ngOnInit(): void {
     this.getVagas();
     console.log(this.vagasOfertadas);
-    console.log(this.vagasEncerradas)
+    console.log(this.vagasEncerradas);
   }
 
-  navegarParaDetalhe(vaga: any) {
+  navegarParaDetalhe(vaga: IVaga) {
     if (vaga?.id_vagas) {
       this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
     }

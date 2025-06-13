@@ -4,11 +4,7 @@
     <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()">
       <mat-label>Cargo*</mat-label>
       <mat-form-field class="full-width-input">
-        <input
-          matInput
-          formControlName="titulo_vaga"
-          placeholder="Qual cargo você deseja anunciar?"
-        />
+        <input matInput formControlName="titulo_vaga" placeholder="Qual cargo você deseja anunciar?" />
         @if(vagaForm.get('titulo_vaga')?.hasError('required')){
         <mat-error> Cargo é obrigatório </mat-error>
         }
@@ -29,14 +25,8 @@
       <mat-label>Salário*</mat-label>
       <mat-form-field class="full-width-input">
         <span matTextPrefix>R$&nbsp;</span>
-        <input
-          matInput
-          formControlName="salario"
-          placeholder="1.509,00"
-          mask="separator.2"
-          thousandSeparator="."
-          decimalMarker=","
-        />
+        <input matInput formControlName="salario" placeholder="1.509,00" mask="separator.2" thousandSeparator="."
+          decimalMarker="," />
         @if(vagaForm.get('salario')?.hasError('required')){
         <mat-error> Salário é obrigatório </mat-error>
         }
@@ -44,111 +34,66 @@
 
       <div class="data-encerramento-label">
         <mat-label>Data de encerramento*</mat-label>
-        <img
-          class="info-icon"
-          height="18"
-          src="/assets/icons/circle-info-solid.svg"
-          matTooltip="A data de encerramento é calculada automaticamente para 20 dias a partir de hoje e não pode ser alterada."
-        />
+        <img class="info-icon" height="18" src="/assets/icons/circle-info-solid.svg"
+          matTooltip="A data de encerramento é calculada automaticamente para 20 dias a partir de hoje e não pode ser alterada." />
       </div>
       <mat-form-field class="full-width-input">
-        <input
-          matInput
-          formControlName="data_fechamento"
-          placeholder="dd/mm/aaaa"
-          mask="00/00/0000"
-          [disabled]="true"
-          type="text"
-        />
+        <input matInput formControlName="data_fechamento" placeholder="dd/mm/aaaa" mask="00/00/0000" [disabled]="true"
+          type="text" />
         @if(vagaForm.get('data_fechamento')?.hasError('required')){
         <mat-error> Data de encerramento é obrigatória </mat-error>
         }
       </mat-form-field>
-
       <mat-label>Habilidades</mat-label>
       <mat-form-field class="full-width-input mat-chip-list-container">
-        <mat-chip-grid #chipGridHabilidades aria-label="Seleção de Habilidades">
-          @for (habilidade of habilidadesFormArray.value; track $index) {
-          @if (habilidade != '') {
+        <mat-chip-grid #chipGridHabilidades>
+          @for (habilidade of habilidadesFormArray.value; track habilidade.id_habilidades) {
           <mat-chip-row (removed)="removeHabilidade(habilidade)">
-            {{ habilidade }}
-            <button matChipRemove [attr.aria-label]="'remover ' + habilidade">
+            {{ habilidade.nome }}
+            <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
-          } }
+          }
         </mat-chip-grid>
-        <input
-          placeholder="Nova habilidade..."
-          #habilidadeInput
-          [(ngModel)]="currentHabilidade"
-          [ngModelOptions]="{ standalone: true }"
-          [matChipInputFor]="chipGridHabilidades"
-          [matAutocomplete]="autoHabilidades"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="addHabilidade($event)"
-        />
-        <mat-autocomplete
-          #autoHabilidades="matAutocomplete"
-          (optionSelected)="selectedHabilidade($event); habilidadeInput.value = ''"
-        >
-          @for (habilidade of filteredHabilidades(); track habilidade) {
-          <mat-option [value]="habilidade">{{ habilidade }}</mat-option>
+        <input placeholder="Nova habilidade..." [formControl]="habilidadeInputCtrl"
+          [matAutocomplete]="autoHabilidades" [matChipInputFor]="chipGridHabilidades" />
+        <mat-autocomplete #autoHabilidades="matAutocomplete" (optionSelected)="selectedHabilidade($event)">
+          @for (habilidade of filteredHabilidades$ | async; track habilidade.id_habilidades) {
+          <mat-option [value]="habilidade">{{ habilidade.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-label>Cursos e Certificações</mat-label>
+      <mat-form-field class="full-width-input mat-chip-list-container">
+        <mat-chip-grid #chipGridCursos>
+          @for (curso of cursosFormArray.value; track curso.id_cursos) {
+          <mat-chip-row (removed)="removeCurso(curso)">
+            {{ curso.curso }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          }
+        </mat-chip-grid>
+        <input placeholder="Novo curso ou certificação..." [formControl]="cursoInputCtrl" [matAutocomplete]="autoCursos"
+          [matChipInputFor]="chipGridCursos" />
+        <mat-autocomplete #autoCursos="matAutocomplete" (optionSelected)="selectedCurso($event)">
+          @for (curso of filteredCursos$ | async; track curso.id_cursos) {
+          <mat-option [value]="curso">{{ curso.curso }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-label>Cursos e Certificações</mat-label>
-      <mat-form-field class="full-width-input mat-chip-list-container">
-        <mat-chip-grid #chipGridCursos aria-label="Seleção de Cursos">
-          @for (curso of cursosFormArray.value; track $index) {
-          @if (curso != '') {
-          <mat-chip-row (removed)="removeCurso(curso)">
-            {{ curso }}
-            <button matChipRemove [attr.aria-label]="'remover ' + curso">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip-row>
-          } }
-        </mat-chip-grid>
-        <input
-          placeholder="Novo curso ou certificação..."
-          #cursoInput
-          [(ngModel)]="currentCurso"
-          [ngModelOptions]="{ standalone: true }"
-          [matChipInputFor]="chipGridCursos"
-          [matAutocomplete]="autoCursos"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="addCurso($event)"
-        />
-        <mat-autocomplete
-          #autoCursos="matAutocomplete"
-          (optionSelected)="selectedCurso($event); cursoInput.value = ''"
-        >
-          @for (curso of filteredCursos(); track curso) {
-          <mat-option [value]="curso">{{ curso }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
 
       <mat-label>Descrição</mat-label>
       <mat-form-field class="full-width-input">
-        <textarea
-          matInput
-          formControlName="descricao"
-          placeholder="Descreva a vaga..."
-          rows="4"
-        ></textarea>
+        <textarea matInput formControlName="descricao" placeholder="Descreva a vaga..." rows="4"></textarea>
       </mat-form-field>
 
       <mat-label>Quantidade de vagas*</mat-label>
       <mat-form-field class="full-width-input">
-        <input
-          matInput
-          formControlName="qtd_vaga"
-          placeholder="Quantas vagas estão sendo ofertadas?"
-          type="number"
-        />
+        <input matInput formControlName="qtd_vaga" placeholder="Quantas vagas estão sendo ofertadas?" type="number" />
         @if(vagaForm.get('qtd_vaga')?.hasError('required')){
         <mat-error> Quantidade de vagas é obrigatória </mat-error>
         }

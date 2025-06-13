@@ -22,10 +22,10 @@ export class VagasService {
       );
     }
   
-    #setListVagaId = signal<IVaga[] | null>(null);
+    #setListVagaId = signal<IVaga | null>(null);
     public getListVagaId = this.#setListVagaId.asReadonly();
-    public httpListVagasId$(id: number): Observable<IVaga[]> {
-      return this.#http.get<IVaga[]>(`${this.#url}/api/pessoas/${id}`).pipe(
+    public httpListVagasId$(id: number): Observable<IVaga> {
+      return this.#http.get<IVaga>(`${this.#url}/api/vagas/${id}`).pipe(
         shareReplay(),
         tap((data) => {
           this.#setListVagaId.set(data);

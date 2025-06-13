@@ -1,6 +1,8 @@
 import { EStatusVaga } from "../enum/EStatusVaga.enum";
 import { ICursos } from "./ICursos.inteface";
+import { IEmpresa } from "./IEmpresa.inteface";
 import { IHabilidades } from "./IHabilidades.interface";
+import { IRedesSociais } from "./IRedesSociais.interface";
 
 export interface IVaga {
     id_vagas: number;
@@ -16,4 +18,5 @@ export interface IVaga {
     id_empresas: number;
     habilidades?: IHabilidades[];
     cursos?: ICursos[];
+    empresa: IEmpresa;
   }  
