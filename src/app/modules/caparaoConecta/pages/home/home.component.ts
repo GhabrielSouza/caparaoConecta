@@ -18,6 +18,7 @@ import { DetalhesVagaComponent } from '../../components/detalhes-vaga/detalhes-v
 import { IVaga } from '../../interface/IVaga.interface';
 import { VagasService } from '../../../../services/vagas.service';
 import { ContentObserver } from '@angular/cdk/observers';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,7 @@ import { ContentObserver } from '@angular/cdk/observers';
     CardVagaPublicaComponent,
     CardVagaEmpresaComponent,
     RouterModule,
+    MatIcon,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -46,7 +48,11 @@ export class HomeComponent implements OnInit {
 
   vagasPublicas: IVaga[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private vagasService:VagasService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private vagasService: VagasService
+  ) {}
 
   ngOnInit(): void {
     this.getVagas();
@@ -59,12 +65,11 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
     }
   }
-  
 
-  public getVagas(){
+  public getVagas() {
     return this.vagasService.httpListVagas$().subscribe({
       next: (data) => {
-        console.log(data)
+        console.log(data);
         this.vagasPublicas = data;
 
         this.vagasOfertadas = data.filter(
@@ -80,7 +85,7 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erro ao buscar vagas:', error);
-      }
-    })
+      },
+    });
   }
 }

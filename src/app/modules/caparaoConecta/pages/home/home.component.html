@@ -49,22 +49,26 @@
                   [vagas]="vagasPublicas"
                 ></app-card-vaga-publica>
               </app-component-container-vagas>
-              } @if(role == roleEnum.EMPRESA){
+              } @if(role == roleEnum.EMPRESA){ @if(vagasOfertadas &&
+              vagasOfertadas.length == 0){
+              <p>Não há vagas disponíveis</p>
+              }@else {
               <app-component-container-vagas titulo="Vagas Ofertadas">
                 <app-card-vaga-empresa
                   [vagas]="vagasOfertadas"
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
-
+              } @if(vagasEncerradas.length == 0){
+              <p>Não há vagas encerradas</p>
+              }@else {
               <app-component-container-vagas titulo="Vagas Encerradas">
                 <app-card-vaga-empresa
                   [vagas]="vagasEncerradas"
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
-              }
-            
+              } }
             </div>
           </div>
         </div>
@@ -73,4 +77,3 @@
   </main>
   <app-footer></app-footer>
 </div>
-

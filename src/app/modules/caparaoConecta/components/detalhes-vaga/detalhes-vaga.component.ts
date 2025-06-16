@@ -6,8 +6,8 @@ import {
   MatCheckboxChange,
   MatCheckboxModule,
 } from '@angular/material/checkbox';
-import { DashboardCardComponent } from "../../pages/dashboard/dashboard-card/dashboard-card.component";
-import { ComponentAccordionComponent } from "../component-accordion/component-accordion.component";
+import { DashboardCardComponent } from '../../pages/dashboard/dashboard-card/dashboard-card.component';
+import { ComponentAccordionComponent } from '../component-accordion/component-accordion.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
 import { CandidatoSelecionadoComponent } from '../candidato-selecionado/candidato-selecionado.component';
@@ -18,61 +18,74 @@ import { IVaga } from '../../interface/IVaga.interface';
 
 @Component({
   selector: 'app-detalhes-vaga',
-  imports: [ButtonPrimaryComponent, CommonModule, MatCheckboxModule, DashboardCardComponent,MatRadioModule ,ComponentAccordionComponent,MatChipsModule, CandidatoSelecionadoComponent],
+  imports: [
+    ButtonPrimaryComponent,
+    CommonModule,
+    MatCheckboxModule,
+    DashboardCardComponent,
+    MatRadioModule,
+    ComponentAccordionComponent,
+    MatChipsModule,
+    CandidatoSelecionadoComponent,
+  ],
   templateUrl: './detalhes-vaga.component.html',
-  styleUrl: './detalhes-vaga.component.scss'
+  styleUrl: './detalhes-vaga.component.scss',
 })
-export class DetalhesVagaComponent implements OnInit{
- texto: string = "Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web. Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web.";
- containerFooter: boolean = true;
- visaoCandidato: boolean = true;
+export class DetalhesVagaComponent implements OnInit {
+  texto: string =
+    'Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web. Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web.';
+  containerFooter: boolean = true;
+  visaoCandidato: boolean = true;
 
- visaoDetalhes: boolean = true;
- visaoEstatistica: boolean = false;
+  visaoDetalhes: boolean = true;
+  visaoEstatistica: boolean = false;
 
- public role: ERoleUser | null = ERoleUser.EMPRESA;
- public roleEnum = ERoleUser;
+  public role: ERoleUser | null = ERoleUser.EMPRESA;
+  public roleEnum = ERoleUser;
 
- nomeVaga: string = "Desenvolvedor Web JR";
- nomeCandidato: string = "Lucas Silva";
- habilidades: any[] = [];
+  nomeVaga: string = 'Desenvolvedor Web JR';
+  nomeCandidato: string = 'Lucas Silva';
+  habilidades: any[] = [];
 
- vaga!: IVaga;
+  vaga!: IVaga;
 
- 
-constructor(private location: Location, private vagaService: VagasService, private route: ActivatedRoute){}
+  constructor(
+    private location: Location,
+    private vagaService: VagasService,
+    private route: ActivatedRoute
+  ) {}
 
- alterarImagemDetalhes: boolean = true;
- alterarImagemEstatistica: boolean = false;
- alterarBackground: boolean = true;
- alterarCorFonteDetalhes: boolean = true;
- alterarCorFonteEstatistica: boolean = false;
+  alterarImagemDetalhes: boolean = true;
+  alterarImagemEstatistica: boolean = false;
+  alterarBackground: boolean = true;
+  alterarCorFonteDetalhes: boolean = true;
+  alterarCorFonteEstatistica: boolean = false;
 
-public alterarDetalhes() {
-  if (!this.alterarImagemDetalhes) {
-    this.alterarImagemDetalhes = true;
-    this.alterarImagemEstatistica = false;
-    this.alterarBackground = true;
-    this.alterarCorFonteDetalhes = true;
-    this.alterarCorFonteEstatistica = false;
-    this.visaoDetalhes = true;
-    this.visaoEstatistica = false;
+  public alterarDetalhes() {
+    if (!this.alterarImagemDetalhes) {
+      this.alterarImagemDetalhes = true;
+      this.alterarImagemEstatistica = false;
+      this.alterarBackground = true;
+      this.alterarCorFonteDetalhes = true;
+      this.alterarCorFonteEstatistica = false;
+      this.visaoDetalhes = true;
+      this.visaoEstatistica = false;
+    }
   }
-}
 
-public alterarEstatistica() {
-  if (!this.alterarImagemEstatistica) {
-    this.alterarImagemDetalhes = false;
-    this.alterarImagemEstatistica = true;
-    this.alterarBackground = false;
-    this.alterarCorFonteDetalhes = false;
-    this.alterarCorFonteEstatistica = true;
-    this.visaoDetalhes = false;
-    this.visaoEstatistica = true;
+  public alterarEstatistica() {
+    if (!this.alterarImagemEstatistica) {
+      this.alterarImagemDetalhes = false;
+      this.alterarImagemEstatistica = true;
+      this.alterarBackground = false;
+      this.alterarCorFonteDetalhes = false;
+      this.alterarCorFonteEstatistica = true;
+      this.visaoDetalhes = false;
+      this.visaoEstatistica = true;
+    }
   }
-}
 
-  voltar(){
+  voltar() {
     this.location.back();
   }
 
@@ -80,13 +93,13 @@ public alterarEstatistica() {
     this.getVagaId();
   }
 
-  public getVagaId(){
+  public getVagaId() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');
 
-    console.log(vagaIdString)
+    console.log(vagaIdString);
 
-    if(vagaIdString){
-      const vagaId = +vagaIdString
+    if (vagaIdString) {
+      const vagaId = +vagaIdString;
 
       this.vagaService.httpListVagasId$(vagaId).subscribe({
         next: (data) => {
@@ -95,10 +108,27 @@ public alterarEstatistica() {
         },
         error: (error) => {
           console.error('Erro ao buscar vaga:', error);
-        }
-      })
-    }else{
+        },
+      });
+    } else {
       console.error('ID da vaga não encontrado na URL!');
+    }
+  }
+
+  public finalizarVaga() {
+    const vagaIdString = this.route.snapshot.paramMap.get('id');
+    console.log(vagaIdString);
+    if (vagaIdString) {
+      const vagaId = +vagaIdString;
+      this.vagaService.httpDeleteVaga$(vagaId).subscribe({
+        next: (response) => {
+          console.log('Vaga finalizada com sucesso:', response);
+          this.location.back();
+        },
+        error: (error) => {
+          console.error('Erro ao finalizar vaga:', error);
+        },
+      });
     }
   }
 }
