@@ -15,13 +15,13 @@
       <div class="conteudoCompetencias">
         <h1 class="cpc-regular">Competências</h1>
         @for (habilidade of vaga.habilidades; track habilidade.id_habilidades) {
-        <p>{{ habilidade }}</p>
+        <p class="cpc-regular">{{ habilidade.nome }}</p>
         }
       </div>
       <div class="conteudoCursos">
         <h1>Cursos recomendados</h1>
-        @for(curso of vaga.cursos; track curso.id_cursos){
-        <p>{{ curso }}</p>
+        @for(curso of vaga.curso; track curso.id_cursos){
+        <p class="cpc-regular">{{ curso.curso }}</p>
         }
       </div>
     </div>
@@ -167,13 +167,13 @@
       <div class="conteudoCompetencias">
         <h1 class="cpc-regular">Competências</h1>
         @for (habilidade of vaga.habilidades; track habilidade.id_habilidades) {
-        <p>{{ habilidade }}</p>
+        <p class="cpc-regular-010">{{ habilidade.nome }}</p>
         }
       </div>
       <div class="conteudoCursos">
         <h1 class="cpc-regular">Cursos recomendados</h1>
-        @for(curso of vaga.cursos; track curso.id_cursos){
-        <p>{{ curso }}</p>
+        @for(curso of vaga.curso; track curso.id_cursos){
+        <p class="cpc-regular-010">{{ curso.curso }}</p>
         }
       </div>
     </div>

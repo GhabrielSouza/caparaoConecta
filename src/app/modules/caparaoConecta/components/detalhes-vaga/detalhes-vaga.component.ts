@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary.component';
 import { CommonModule, Location } from '@angular/common';
@@ -47,7 +47,7 @@ export class DetalhesVagaComponent implements OnInit {
   nomeCandidato: string = 'Lucas Silva';
   habilidades: any[] = [];
 
-  vaga!: IVaga;
+  @Input() vaga!: IVaga;
 
   constructor(
     private location: Location,
@@ -89,38 +89,39 @@ export class DetalhesVagaComponent implements OnInit {
     this.location.back();
   }
 
-  ngOnInit(): void {
-    this.getVagaId();
-  }
+  ngOnInit(): void {}
 
-  public getVagaId() {
-    const vagaIdString = this.route.snapshot.paramMap.get('id');
+  // public getVagaId() {
+  //   const vagaIdString = this.route.snapshot.paramMap.get('id');
 
-    console.log(vagaIdString);
+  //   console.log(vagaIdString);
 
-    if (vagaIdString) {
-      const vagaId = +vagaIdString;
+  //   if (vagaIdString) {
+  //     const vagaId = +vagaIdString;
 
-      this.vagaService.httpListVagasId$(vagaId).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.vaga = data;
-        },
-        error: (error) => {
-          console.error('Erro ao buscar vaga:', error);
-        },
-      });
-    } else {
-      console.error('ID da vaga não encontrado na URL!');
-    }
-  }
+  //     this.vagaService.httpListVagasId$(vagaId).subscribe({
+  //       next: (data) => {
+  //         console.log(data);
+  //         this.vaga = data;
+  //       },
+  //       error: (error) => {
+  //         console.error('Erro ao buscar vaga:', error);
+  //       },
+  //     });
+  //   } else {
+  //     console.error('ID da vaga não encontrado na URL!');
+  //   }
+  // }
 
   public finalizarVaga() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');
     console.log(vagaIdString);
+
+    const status = 'FINALIZADO';
+
     if (vagaIdString) {
       const vagaId = +vagaIdString;
-      this.vagaService.httpDeleteVaga$(vagaId).subscribe({
+      this.vagaService.httpFinalizarVaga$(vagaId, status).subscribe({
         next: (response) => {
           console.log('Vaga finalizada com sucesso:', response);
           this.location.back();

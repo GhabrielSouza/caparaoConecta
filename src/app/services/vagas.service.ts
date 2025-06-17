@@ -68,14 +68,16 @@ export class VagasService {
     );
   }
 
-  // #setPatchVaga = signal<IVaga | null>(null);
-  // public getFinalizarVaga = this.#setPatchVaga.asReadonly();
-  // public httpFinalizarVaga$(id: number): Observable<IVaga> {
-  //   return this.#http.patch<IVaga>(`${this.#url}/api/vagas/${id}`).pipe(
-  //     shareReplay(),
-  //     tap((data) => {
-  //       this.#setPatchVaga.set(data);
-  //     })
-  //   );
-  // }
+  #setPatchVaga = signal<string | null>(null);
+  public getFinalizarVaga = this.#setPatchVaga.asReadonly();
+  public httpFinalizarVaga$(id: number, status: string): Observable<string> {
+    return this.#http
+      .patch<string>(`${this.#url}/api/vagas/${id}`, status)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setPatchVaga.set(data);
+        })
+      );
+  }
 }

@@ -1,18 +1,42 @@
-import { Component, computed, inject, Inject, OnInit, ChangeDetectionStrategy, LOCALE_ID, model } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, FormArray, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
+import {
+  Component,
+  computed,
+  inject,
+  Inject,
+  OnInit,
+  ChangeDetectionStrategy,
+  LOCALE_ID,
+  model,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+  FormArray,
+  FormControl,
+} from '@angular/forms';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { VagasService } from '../../../../../services/vagas.service';
 import { NgxMaskDirective } from 'ngx-mask';
-import { registerLocaleData, CommonModule } from '@angular/common'; 
+import { registerLocaleData, CommonModule } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { HabilidadesSService } from '../../../../../services/habilidades/habilidades-s.service';
 import { CursosSService } from '../../../../../services/cursos/cursos-s.service';
@@ -50,7 +74,6 @@ export class CadastroVagaDialogComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   readonly announcer = inject(LiveAnnouncer);
 
-
   habilidadeInputCtrl = new FormControl('');
   allHabilidades: IHabilidades[] = [];
   filteredHabilidades$: Observable<IHabilidades[]>;
@@ -74,18 +97,24 @@ export class CadastroVagaDialogComponent implements OnInit {
       titulo_vaga: ['', Validators.required],
       modalidade_da_vaga: ['', Validators.required],
       salario: ['', Validators.required],
-      data_fechamento: [{ value: dataEncerramento, disabled: true }, Validators.required],
+      data_fechamento: [
+        { value: dataEncerramento, disabled: true },
+        Validators.required,
+      ],
       habilidades: this._fb.array([]),
       cursos: this._fb.array([]),
       descricao: [''],
       qtd_vaga: ['', [Validators.required, Validators.min(1)]],
-      id_empresas: 2, 
+      status: ['EM_ANDAMENTO', Validators.required],
+      id_empresas: this.data.id,
     });
 
     this.filteredHabilidades$ = this.habilidadeInputCtrl.valueChanges.pipe(
       startWith(null),
       map((nomeHabilidade: string | null) =>
-        nomeHabilidade ? this._filterHabilidades(nomeHabilidade) : this.allHabilidades.slice()
+        nomeHabilidade
+          ? this._filterHabilidades(nomeHabilidade)
+          : this.allHabilidades.slice()
       )
     );
 
@@ -111,20 +140,26 @@ export class CadastroVagaDialogComponent implements OnInit {
 
   private _filterHabilidades(value: string): IHabilidades[] {
     const filterValue = value;
-    const idsSelecionados = new Set(this.habilidadesFormArray.value.map((h: IHabilidades) => h.id_habilidades));
-    return this.allHabilidades.filter(habilidade =>
-      !idsSelecionados.has(habilidade.id_habilidades) && habilidade.nome.includes(filterValue)
+    const idsSelecionados = new Set(
+      this.habilidadesFormArray.value.map((h: IHabilidades) => h.id_habilidades)
+    );
+    return this.allHabilidades.filter(
+      (habilidade) =>
+        !idsSelecionados.has(habilidade.id_habilidades) &&
+        habilidade.nome.includes(filterValue)
     );
   }
 
   selectedHabilidade(event: MatAutocompleteSelectedEvent): void {
     const habilidade = event.option.value as IHabilidades;
     this.habilidadesFormArray.push(this._fb.control(habilidade));
-    this.habilidadeInputCtrl.setValue(''); 
+    this.habilidadeInputCtrl.setValue('');
   }
 
   removeHabilidade(habilidade: IHabilidades): void {
-    const index = this.habilidadesFormArray.value.findIndex((h: IHabilidades) => h.id_habilidades === habilidade.id_habilidades);
+    const index = this.habilidadesFormArray.value.findIndex(
+      (h: IHabilidades) => h.id_habilidades === habilidade.id_habilidades
+    );
     if (index >= 0) {
       this.habilidadesFormArray.removeAt(index);
     }
@@ -132,20 +167,26 @@ export class CadastroVagaDialogComponent implements OnInit {
 
   private _filterCursos(value: string): ICursos[] {
     const filterValue = value;
-    const idsSelecionados = new Set(this.cursosFormArray.value.map((c: ICursos) => c.id_cursos));
-    return this.allCursos.filter(curso =>
-      !idsSelecionados.has(curso.id_cursos) && curso.curso.includes(filterValue)
+    const idsSelecionados = new Set(
+      this.cursosFormArray.value.map((c: ICursos) => c.id_cursos)
+    );
+    return this.allCursos.filter(
+      (curso) =>
+        !idsSelecionados.has(curso.id_cursos) &&
+        curso.curso.includes(filterValue)
     );
   }
 
   selectedCurso(event: MatAutocompleteSelectedEvent): void {
     const curso = event.option.value as ICursos;
     this.cursosFormArray.push(this._fb.control(curso));
-    this.cursoInputCtrl.setValue(''); 
+    this.cursoInputCtrl.setValue('');
   }
 
   removeCurso(curso: ICursos): void {
-    const index = this.cursosFormArray.value.findIndex((c: ICursos) => c.id_cursos === curso.id_cursos);
+    const index = this.cursosFormArray.value.findIndex(
+      (c: ICursos) => c.id_cursos === curso.id_cursos
+    );
     if (index >= 0) {
       this.cursosFormArray.removeAt(index);
     }
@@ -157,13 +198,19 @@ export class CadastroVagaDialogComponent implements OnInit {
     if (this.vagaForm.valid) {
       const formValue = this.vagaForm.getRawValue();
 
-      formValue.habilidades = this.habilidadesFormArray.value.map((h: IHabilidades) => h.id_habilidades);
-      formValue.cursos = this.cursosFormArray.value.map((c: ICursos) => c.id_cursos);
+      formValue.habilidades = this.habilidadesFormArray.value.map(
+        (h: IHabilidades) => h.id_habilidades
+      );
+      formValue.cursos = this.cursosFormArray.value.map(
+        (c: ICursos) => c.id_cursos
+      );
 
       if (formValue.data_fechamento) {
-        formValue.data_fechamento = new Date(formValue.data_fechamento).toISOString().split('T')[0];
+        formValue.data_fechamento = new Date(formValue.data_fechamento)
+          .toISOString()
+          .split('T')[0];
       }
-      
+
       console.log('Enviando para o backend:', formValue);
 
       this.vagaService.httpRegisterVaga$(formValue).subscribe({
@@ -184,9 +231,9 @@ export class CadastroVagaDialogComponent implements OnInit {
     this.habilidadesService.httpListHabilidades$().subscribe({
       next: (data) => {
         this.allHabilidades = data;
-        this.habilidadeInputCtrl.setValue(''); 
+        this.habilidadeInputCtrl.setValue('');
       },
-      error: (error) => console.error('Erro ao buscar habilidades:', error)
+      error: (error) => console.error('Erro ao buscar habilidades:', error),
     });
   }
 
@@ -194,9 +241,9 @@ export class CadastroVagaDialogComponent implements OnInit {
     this.cursosService.httpListCursos$().subscribe({
       next: (data) => {
         this.allCursos = data;
-        this.cursoInputCtrl.setValue(''); 
+        this.cursoInputCtrl.setValue('');
       },
-      error: (error) => console.error('Erro ao buscar cursos:', error)
+      error: (error) => console.error('Erro ao buscar cursos:', error),
     });
   }
 

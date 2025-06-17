@@ -51,7 +51,15 @@
               </app-component-container-vagas>
               } @if(role == roleEnum.EMPRESA){ @if(vagasOfertadas &&
               vagasOfertadas.length == 0){
-              <p>Não há vagas disponíveis</p>
+              <div class="no-vacancies-container mx-4 my-4">
+                <div class="no-vacancies-icon">
+                  <i class="fas fa-file-contract fa-lg"></i>
+                </div>
+                <h3 class="no-vacancies-title">Nenhuma vaga ofertada</h3>
+                <p class="no-vacancies-description">
+                  Você ainda não publicou nenhuma vaga. Que tal começar agora?
+                </p>
+              </div>
               }@else {
               <app-component-container-vagas titulo="Vagas Ofertadas">
                 <app-card-vaga-empresa
@@ -60,7 +68,14 @@
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
               } @if(vagasEncerradas.length == 0){
-              <p>Não há vagas encerradas</p>
+              <div class="no-vacancies-container">
+                <i class="fas fa-archive fa-lg"></i>
+                <h3 class="no-vacancies-title">Nenhuma Vaga Encerrada</h3>
+                <p class="no-vacancies-description">
+                  As vagas que você finalizar aparecerão listadas aqui para o
+                  seu histórico.
+                </p>
+              </div>
               }@else {
               <app-component-container-vagas titulo="Vagas Encerradas">
                 <app-card-vaga-empresa

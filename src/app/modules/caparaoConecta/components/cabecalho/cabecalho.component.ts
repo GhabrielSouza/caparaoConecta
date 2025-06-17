@@ -22,6 +22,8 @@ export class CabecalhoComponent {
   public role: ERoleUser | null = ERoleUser.ADMIN;
   public roleEnum = ERoleUser;
 
+  public idUsuario = 2;
+
   #dialog = inject(MatDialog);
 
   public openMenu() {
@@ -35,11 +37,14 @@ export class CabecalhoComponent {
     });
   }
 
-  openDialogSelecionarVaga():void{
-    this.#dialog.open(SelecionarVagaComponent,{
-      panelClass:EDialogEnum.PROJETOS,
-    })
-}
+  openDialogSelecionarVaga(): void {
+    this.#dialog.open(SelecionarVagaComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+      data: {
+        id: this.idUsuario,
+      },
+    });
+  }
 
   @HostListener('window:scroll', ['$event']) onscroll() {
     if (window.scrollY > 50) {

@@ -94,7 +94,34 @@
     color: #666;
   }
 }
+.no-vacancies-container {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 95%;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
 
+.no-vacancies-container.secondary {
+  background-color: #f0f4f8;
+}
+
+.no-vacancies-icon {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.no-vacancies-title {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.no-vacancies-description {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+}
 :host {
   @include mat.checkbox-overrides(
     (
