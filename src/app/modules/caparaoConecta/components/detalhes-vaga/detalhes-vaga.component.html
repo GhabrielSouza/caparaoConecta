@@ -155,6 +155,17 @@
   </div>
   @if(visaoDetalhes){
   <div class="container">
+    <div>
+      <div class="d-flex justify-content-between align-items-center my-2">
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Editar Vaga"
+          (click)="editarVaga()"
+        />
+      </div>
+    </div>
+
     <img
       src="../../../../../assets/imgs/banner_vaga_padrao.svg"
       alt="imagemVaga"

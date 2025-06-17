@@ -15,6 +15,9 @@ import { CursosSService } from '../../../../services/cursos/cursos-s.service';
 import { VagasService } from '../../../../services/vagas.service';
 import { ActivatedRoute } from '@angular/router';
 import { IVaga } from '../../interface/IVaga.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
+import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 
 @Component({
   selector: 'app-detalhes-vaga',
@@ -52,7 +55,8 @@ export class DetalhesVagaComponent implements OnInit {
   constructor(
     private location: Location,
     private vagaService: VagasService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   alterarImagemDetalhes: boolean = true;
@@ -131,5 +135,11 @@ export class DetalhesVagaComponent implements OnInit {
         },
       });
     }
+  }
+
+  public editarVaga() {
+    this.dialog.open(CadastroVagaDialogComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+    });
   }
 }
