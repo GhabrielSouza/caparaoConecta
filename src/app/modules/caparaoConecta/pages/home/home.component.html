@@ -68,7 +68,14 @@
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
-              } }
+            }
+          }@if(role == roleEnum.ADMIN){
+            <section class="mt-5 ADMIN">
+              <app-dashboard-card />
+              <app-dashboard-card />
+          </section>
+          }
+            
             </div>
           </div>
         </div>

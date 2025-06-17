@@ -3,6 +3,7 @@ import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.compone
 import { FooterComponent } from '../../components/footer/footer.component';
 import { TableCursosComponent } from '../../components/table-cursos/table-cursos.component';
 
+
 @Component({
   selector: 'app-cursos',
   imports: [CabecalhoComponent, FooterComponent, TableCursosComponent],

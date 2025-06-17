@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-table-habilidades',
@@ -16,4 +17,5 @@ export class TableHabilidadesComponent {
     { nome: 'Java', status: 'Inativo' }
   ];
 
+  constructor(private dialog: MatDialog){}
 }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-table-cursos',
@@ -15,4 +16,8 @@ export class TableCursosComponent {
     { nome: 'TADS', carga: '05 horas', instituicao: 'UFES', tipo_de_curso: 'EAD', link: 'http', status: 'Ativo'},
     { nome: 'Agronomia', carga: '12 horas', instituicao: 'UFMG', tipo_de_curso: 'Presencial', link: 'http', status: 'Inativo'} 
   ];
+
+  constructor(private dialog: MatDialog){}
+
+  
 }

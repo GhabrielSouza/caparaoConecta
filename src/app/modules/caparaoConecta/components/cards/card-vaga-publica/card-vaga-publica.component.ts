@@ -1,7 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Carousel } from 'primeng/carousel';
-import { IVagas } from '../../../interface/IVagas.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { VagaDialogComponent } from '../../dialogs/vaga-dialog/vaga-dialog.component';
 import { EDialogEnum } from '../../../enum/EDialogEnum.enum';

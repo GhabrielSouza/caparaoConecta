@@ -117,6 +117,21 @@
             </a>
           </li>
           }
+          @if(role == roleEnum.ADMIN){
+            <li >
+              <a routerLink="/Habilidades" class="menu-item">
+                <img src="assets/icons/criarVaga.svg" alt="Criar vaga" />
+                <span>Criar Habilidades</span>
+              </a>
+            </li>
+          }@if(role == roleEnum.ADMIN){
+          <li >
+            <a routerLink="/Cursos" class="menu-item">
+              <img src="assets/icons/criarVaga.svg" alt="Criar vaga" />
+              <span>Criar Cursos</span>
+            </a>
+          </li>
+        }
         </ul>
       </nav>
 

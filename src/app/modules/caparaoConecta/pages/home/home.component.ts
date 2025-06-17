@@ -19,6 +19,7 @@ import { IVaga } from '../../interface/IVaga.interface';
 import { VagasService } from '../../../../services/vagas.service';
 import { ContentObserver } from '@angular/cdk/observers';
 import { MatIcon } from '@angular/material/icon';
+import { DashboardCardComponent } from '../dashboard/dashboard-card/dashboard-card.component';
 
 @Component({
   selector: 'app-home',
@@ -33,13 +34,14 @@ import { MatIcon } from '@angular/material/icon';
     CardVagaPublicaComponent,
     CardVagaEmpresaComponent,
     RouterModule,
-    MatIcon,
-  ],
+    DetalhesVagaComponent,
+    DashboardCardComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  public role: ERoleUser | null = ERoleUser.EMPRESA;
+  public role: ERoleUser | null = ERoleUser.ADMIN;
   public roleEnum = ERoleUser;
 
   vagasOfertadas: IVaga[] = [];
