@@ -1,56 +1,76 @@
-<footer [ngClass]="tela =='perfil' ? 'container_perfil' : 'container_footer'">
-  <section class="footer_container">
-    <section class="footer_container_logo-ifes">
+<footer
+  [ngClass]="{
+    'footer-perfil': tela === 'perfil',
+    'footer-default': tela !== 'perfil'
+  }"
+>
+  <div class="footer-main">
+    <div class="footer-brand">
       <img
         src="assets/imgs/alegre-horizontal-cor.svg"
-        alt="logo do Ifes campus de Alegre"
+        alt="Logo do Ifes campus de Alegre"
+        class="footer-logo"
       />
-    </section>
-    <section class="footer_container_links">
-      <div class="footer_container_links_sobre">
-        <h2>Sobre nós</h2>
-        <p><a href="">Quem somos</a></p>
+      <p class="footer-description">Conectando oportunidades no Caparaó</p>
+    </div>
+
+    <div class="footer-sections">
+      <div class="footer-section">
+        <h3 class="section-title">Sobre nós</h3>
+        <ul class="section-links">
+          <li><a href="#" class="footer-link">Quem somos</a></li>
+        </ul>
       </div>
-      <div class="footer_container_links_termos">
-        <h2>Termos</h2>
-        <p><a href="">Termos de uso</a></p>
-        <p><a href="">Política de privacidade</a></p>
+
+      <div class="footer-section">
+        <h3 class="section-title">Termos</h3>
+        <ul class="section-links">
+          <li><a href="#" class="footer-link">Termos de uso</a></li>
+          <li><a href="#" class="footer-link">Política de privacidade</a></li>
+        </ul>
       </div>
-      <div class="footer_container_links_ajuda">
-        <h2>Ajuda</h2>
-        <p><a href="">Apoiar</a></p>
+
+      <div class="footer-section">
+        <h3 class="section-title">Ajuda</h3>
+        <ul class="section-links">
+          <li><a href="#" class="footer-link">Apoiar</a></li>
+          <li><a href="#" class="footer-link">Tutoriais</a></li>
+        </ul>
       </div>
-      <div class="footer_container_links_redes">
-        <h2>Redes</h2>
-        <a href=""
-          ><img src="assets/icons/instagram.svg" alt="icone Instagram"
-        /></a>
+
+      <div class="footer-section">
+        <h3 class="section-title">Redes sociais</h3>
+        <div class="social-links">
+          <a href="#" class="social-icon" aria-label="Instagram">
+            <img src="assets/icons/instagram.svg" alt="Instagram" />
+          </a>
+        </div>
       </div>
-      <div class="footer_container_links_faleConosco">
-        <h2>Fale conosco</h2>
-        <ul>
+
+      <div class="footer-section">
+        <h3 class="section-title">Fale conosco</h3>
+        <ul class="contact-links">
           <li>
-            <a href=""
-              ><img
-                src="assets/icons/whatsapp.svg"
-                alt="icone do WhatsApp"
-              />WhatsApp</a
-            >
+            <a href="#" class="contact-link">
+              <img src="assets/icons/whatsapp.svg" alt="WhatsApp" />
+              <span>WhatsApp</span>
+            </a>
           </li>
           <li>
-            <a href=""
-              ><img src="assets/icons/email.svg" alt="Icone E-mail" />E-mail</a
-            >
+            <a href="#" class="contact-link">
+              <img src="assets/icons/email.svg" alt="E-mail" />
+              <span>E-mail</span>
+            </a>
           </li>
         </ul>
       </div>
-    </section>
-  </section>
+    </div>
+  </div>
 
-  <section class="footer_container_copy">
+  <div class="footer-copyright">
     <p>
-      &copy; {{ data() | date : "yyy" }} Caparaó Conecta.Todos os direitos
+      &copy; {{ data() | date : "yyy" }} Caparaó Conecta. Todos os direitos
       reservados.
     </p>
-  </section>
+  </div>
 </footer>

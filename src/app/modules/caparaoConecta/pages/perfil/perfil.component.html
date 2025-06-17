@@ -4,6 +4,7 @@
 <app-component-perfil-dados
   [data]="dadosPessoais"
   [IdUsuario]="idUsuario"
+  [idTipoUsuario]="id_tipo_usuario"
 ></app-component-perfil-dados>
 
 <app-component-default-perfil
@@ -15,6 +16,7 @@
 
 <div *ngIf="id_tipo_usuario == '2'">
   <app-perfil-candidato
+    [IdUsuario]="idUsuario"
     [experiencias]="experiencias"
     [formacoes]="formacoes"
     [cursos]="cursos"

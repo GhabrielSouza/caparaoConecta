@@ -25,7 +25,8 @@ import { CepInputComponent } from '../../components/inputs/cep-input/cep-input.c
 import { TelefoneInputComponent } from '../../components/inputs/telefone-input/telefone-input.component';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
-import { MessageService } from 'primeng/api';
+
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-form-cadastro-empresa',
@@ -39,21 +40,21 @@ import { MessageService } from 'primeng/api';
     MatIconModule,
     TelefoneInputComponent,
     CpfAndCnpjInputComponent,
-    CepInputComponent,
+    MatSelectModule,
   ],
   templateUrl: './form-cadastro-empresa.component.html',
   styleUrl: './form-cadastro-empresa.component.scss',
 })
 export class FormCadastroEmpresaComponent implements OnInit {
   public cadastrarForm: FormGroup;
-  
+  public estados: any[] = [];
+  public cidades: any[] = [];
 
   constructor(
     private _fb: FormBuilder,
-    private ViacepService: ViacepService,
     public router: Router,
-    private messageService: MessageService,
-    private apiService: RegisterService
+    private apiService: RegisterService,
+    private viacepService: ViacepService
   ) {
     this.cadastrarForm = this._fb.group(
       {
@@ -200,30 +201,33 @@ export class FormCadastroEmpresaComponent implements OnInit {
     return this.cadastrarForm.get('cep');
   }
 
-  public observerPreenchimentoCep() {
-    this.cadastrarForm.get('cep')?.valueChanges.subscribe((value) => {
-      if (value?.length == 9) {
-        this.buscarCep();
-      }
+  public carregarEstados() {
+    this.cadastrarForm.get('cidade')?.disable();
+    this.viacepService.getEstados().subscribe({
+      next: (resp) => {
+        console.log('Estados', resp);
+        this.estados = resp;
+      },
+      error: (error) => {
+        console.log('Erro ao carregar estados', error);
+      },
     });
   }
 
-  public buscarCep() {
-    const cep = this.cadastrarForm.get('cep')?.value.replace(/\.|-/g, '');
-    this.ViacepService.getEnderecobyCep(cep).subscribe({
-      next: (resp) => {
-        this.cadastrarForm.patchValue({
-          estado: resp.estado,
-          cidade: resp.localidade,
-        });
-      },
-      error: () => {
-        console.log('erro ao buscar o cep');
-      },
-      complete: () => {
-        console.log('completo');
-      },
-    });
+  public carregarCidadesPorEstado(idEstado: string) {
+    if (idEstado) {
+      this.cadastrarForm.get('cidade')?.reset();
+      this.cadastrarForm.get('cidade')?.enable();
+
+      this.viacepService.getMunicipioPorEstado(idEstado).subscribe({
+        next: (resp) => {
+          this.cidades = resp;
+        },
+        error: (error) => {
+          console.log('Erro ao carregar cidades', error);
+        },
+      });
+    }
   }
 
   updateErrorMessage(field: any) {
@@ -245,7 +249,7 @@ export class FormCadastroEmpresaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.observerPreenchimentoCep();
+    this.carregarEstados();
   }
 
   navigate() {
@@ -253,25 +257,16 @@ export class FormCadastroEmpresaComponent implements OnInit {
   }
 
   submit() {
-    return this.apiService
-      .httpRegisterEmpresa$(this.cadastrarForm.value)
-      .subscribe({
-        next: (resp) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Cadastro realizado com sucesso',
-          });
-          this.router.navigate(['login']);
-        },
-        error: (resp) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Erro ao cadastrar',
-          });
-          console.log('erro ao cadastrar');
-        },
-      });
+    const formdata = this.cadastrarForm.value;
+    formdata.estado = formdata.estado?.nome;
+
+    return this.apiService.httpRegisterEmpresa$(formdata).subscribe({
+      next: (resp) => {
+        this.router.navigate(['login']);
+      },
+      error: (resp) => {
+        console.log('erro ao cadastrar');
+      },
+    });
   }
 }

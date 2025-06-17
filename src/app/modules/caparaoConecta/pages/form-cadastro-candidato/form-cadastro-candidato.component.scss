@@ -3,20 +3,30 @@
     background-color: var(--background-notWhite);
   }
 }
-:host {
-  app-default-login-layout {
+
+app-default-login-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  flex-direction: column;
+
+  mat-error {
+    font-size: 13px;
     display: flex;
-    justify-content: center;
     align-items: center;
   }
+}
 
-  form {
-    flex-direction: column;
+mat-select,
+mat-option {
+  box-sizing: border-box;
+  font-family: var(--font-poppinsM);
 
-    mat-error {
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-    }
+  &:focus {
+    border-color: var(--primary-background-gray);
+    outline: none;
   }
 }

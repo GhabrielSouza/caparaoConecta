@@ -29,12 +29,9 @@ import { concat, concatMap } from 'rxjs';
   imports: [
     MatButtonModule,
     MatDialogContent,
-    MatDialogActions,
     RouterModule,
     MatInputModule,
     MatCheckboxModule,
-    PrimaryInputComponent,
-    DateInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,

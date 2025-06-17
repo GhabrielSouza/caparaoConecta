@@ -1,22 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { IViaCep } from '../modules/caparaoConecta/interface/IViaCep.interface';
-import { map } from 'rxjs';
+import { IEstadoIbge } from '../modules/caparaoConecta/interface/IEstadoIbge.interface';
+import { IMunicipioIbge } from '../modules/caparaoConecta/interface/IMunicipioIbge.interface';
+import { map, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ViacepService {
-  ApiViaCep: string = environment.viaCepUrl;
+  ApiViaCep: string = environment.ibgeUrl;
 
   constructor(private http: HttpClient) {}
 
-  getEnderecobyCep(cep: string) {
-    return this.http.get<IViaCep>(this.ApiViaCep + cep + '/json').pipe(
-      map((resp) => {
-        return resp;
-      })
-    );
+  getEstados() {
+    return this.http.get<IEstadoIbge[]>(this.ApiViaCep).pipe(shareReplay());
+  }
+
+  getMunicipioPorEstado(idEstado: string) {
+    return this.http
+      .get<IMunicipioIbge[]>(this.ApiViaCep + idEstado + '/municipios')
+      .pipe(
+        map((resp) => {
+          return resp;
+        })
+      );
   }
 }

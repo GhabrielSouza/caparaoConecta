@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogPerfilInformacoesComponent } from '../dialogs/dialog-perfil-informacoes/dialog-perfil-informacoes.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
+import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-usuario/dialog-editar-foto-usuario.component';
 
 @Component({
   selector: 'app-component-perfil-dados',
@@ -15,6 +16,7 @@ export class ComponentPerfilDadosComponent {
 
   @Input() public data!: IPessoa;
   @Input() public IdUsuario: any;
+  @Input() public idTipoUsuario: any;
 
   get telefoneWhatsApp(): string {
     return '55' + (this.data?.telefone?.replace(/\D/g, '') ?? '');
@@ -25,9 +27,25 @@ export class ComponentPerfilDadosComponent {
   }
 
   openDialog(data: IPessoa): void {
-    this.#dialog.open(DialogPerfilInformacoesComponent, {
+    const dialogRef = this.#dialog.open(DialogPerfilInformacoesComponent, {
       panelClass: EDialogEnum.FORMACAO,
-      data: { conteudo: data, id: this.IdUsuario },
+      data: {
+        conteudo: data,
+        id: this.IdUsuario,
+        idTipoUsuario: this.idTipoUsuario,
+      },
     });
+
+    dialogRef.afterClosed().subscribe((resposta:IPessoa)=>{
+      if(resposta){
+        this.data = resposta;
+      }
+    });
+  }
+
+  dialogEditImagem(){
+    const dialogRef = this.#dialog.open(DialogEditarFotoUsuarioComponent, {
+      panelClass: EDialogEnum.PROJETOS,
+    })
   }
 }

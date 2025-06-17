@@ -4,5 +4,5 @@ export interface IRedesSociais {
   instagram?: string;
   linkedin?: string;
   github?: string;
-  lattes?: string;
+  curriculo_lattes?: string;
 }

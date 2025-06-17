@@ -9,6 +9,12 @@ import { provideHttpClient } from '@angular/common/http';
 
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { registerLocaleData } from '@angular/common';
+
+import localePt from '@angular/common/locales/pt';
+import { LOCALE_ID } from '@angular/core';
+
+registerLocaleData(localePt, 'pt');
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideEnvironmentNgxMask(),
     provideHttpClient(),
+    { provide: LOCALE_ID, useValue: 'pt' },
     provideAnimationsAsync(),
         providePrimeNG({
             theme: {

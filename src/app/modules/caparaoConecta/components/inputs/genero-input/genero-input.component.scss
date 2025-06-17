@@ -1,11 +1,10 @@
-:host {
-  mat-select, mat-option {
-      box-sizing: border-box;
-      font-family: var(--font-poppinsM);
-  
-      &:focus {
-        border-color: var(--primary-background-gray);
-        outline: none;
-      }
-    }
+mat-select,
+mat-option {
+  box-sizing: border-box;
+  font-family: var(--font-poppinsM);
+
+  &:focus {
+    border-color: var(--primary-background-gray);
+    outline: none;
   }
+}

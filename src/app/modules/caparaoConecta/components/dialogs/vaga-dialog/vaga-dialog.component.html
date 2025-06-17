@@ -4,25 +4,29 @@
     </div>
     <section>
         <div class="d-flex justify-content-between align-items-center gap-2">
-            <h1 class="cpc-bold m-0">Web Devoloper</h1>
+            <h1 class="cpc-bold m-0">{{data.vaga.titulo_vaga}}</h1>
             <div class="d-flex align-items-center gap-2" (click)="favoritarVaga()">
                 <p class="cpc-light">Favoritar</p>
                 <img [src]="favoritar ? 'assets/icons/star_preenchida.svg': 'assets/icons/star.svg'" alt="Favoritar vaga">
             </div>
         </div>
         <div>
-            <p class="cpc-regular"></p>
+            <p class="cpc-regular">{{data.vaga.descricao}}</p>
         </div>
         <div>
-            <h2 class="cpc-regular">Requisitos da vaga</h2>
+            <h2 class="cpc-regular">Habilidades da vaga</h2>
             <ul>
-                <ul></ul>
+                @for (habilidade of data.vaga.habilidades; track habilidade.id_habilidades) {
+                    <li>{{habilidade.nome}}</li>
+                }
             </ul>
         </div>
         <div>
             <h2 class="cpc-regular">Cursos recomendados</h2>
             <ul>
-                <ul></ul>
+                @for (curso of data.vaga.curso; track curso.id_curso) {
+                    <li>{{curso.curso}}</li>
+                }
             </ul>
         </div>
         <div class="d-flex justify-content-center gap-4 p-3">

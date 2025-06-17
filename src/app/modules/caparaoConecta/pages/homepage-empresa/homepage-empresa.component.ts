@@ -7,6 +7,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 
 import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empresa/card-vaga-empresa.component';
+import { IVaga } from '../../interface/IVaga.interface';
 
 @Component({
   selector: 'app-home-empresa',
@@ -20,8 +21,8 @@ import { CardVagaEmpresaComponent } from '../../components/cards/card-vaga-empre
   ],
 })
 export class HomepageEmpresaComponent implements OnInit {
-  vagasOfertadas: IVagas[] = [];
-  vagasEncerradas: IVagas[] = [];
+  vagasOfertadas: IVaga[] = [];
+  vagasEncerradas: IVaga[] = [];
   idEmpresa = 1; // Substitua pelo ID da empresa logada
 
 
@@ -30,17 +31,17 @@ export class HomepageEmpresaComponent implements OnInit {
   ngOnInit(): void {
     this.vagasOfertadas = this.vagasOb().filter(
       (vaga) =>
-        vaga.id_empresa === this.idEmpresa &&
+        vaga.id_empresas === this.idEmpresa &&
         vaga.status === EStatusVaga.EM_ANDAMENTO
     );
     this.vagasEncerradas = this.vagasOb().filter(
       (vaga) =>
-        vaga.id_empresa === this.idEmpresa &&
+        vaga.id_empresas === this.idEmpresa &&
         vaga.status === EStatusVaga.FINALIZADO
     );
   }
 
-  public vagasOb = signal<IVagas[]>([
+  public vagasOb = signal<IVaga[]>([
     {
       id_vagas: 1,
       titulo_vaga: 'Desenvolvedor Front-end',
@@ -52,7 +53,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 3,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Remoto',
-      id_empresa: 1,
+      id_empresas: 1,
     },
     {
       id_vagas: 2,
@@ -65,7 +66,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 2,
       qtd_vagas_preenchidas: 0,
       modalidade_da_vaga: 'Híbrido',
-      id_empresa: 102,
+      id_empresas: 102,
     },
     {
       id_vagas: 3,
@@ -78,7 +79,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresas: 1,
     },
     {
       id_vagas: 4,
@@ -91,7 +92,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresas: 1,
     },
     {
       id_vagas: 5,
@@ -104,7 +105,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresas: 1,
     },
     {
       id_vagas: 6,
@@ -117,7 +118,7 @@ export class HomepageEmpresaComponent implements OnInit {
       qtd_vaga: 1,
       qtd_vagas_preenchidas: 1,
       modalidade_da_vaga: 'Presencial',
-      id_empresa: 1,
+      id_empresas: 1,
     },
   ]);
 }

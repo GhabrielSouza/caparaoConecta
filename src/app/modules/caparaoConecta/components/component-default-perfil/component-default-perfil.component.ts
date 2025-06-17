@@ -9,6 +9,10 @@ import { FormFormacaoAcademicaComponent } from '../dialogs/form-formacao-academi
 import { DialogHabilidadesComponent } from '../dialogs/dialog-habilidades/dialog-habilidades.component';
 import { DialogSobreComponent } from '../dialogs/dialog-sobre/dialog-sobre.component';
 import { DialogCursosComponent } from '../dialogs/dialog-cursos/dialog-cursos.component';
+import { IExperiencia } from '../../interface/IExperiencias.interface';
+import { IFormacoesAcademicas } from '../../interface/IFormacoesAcademicas.interface';
+import { IHabilidades } from '../../interface/IHabilidades.interface';
+import { ICursos } from '../../interface/ICursos.inteface';
 
 @Component({
   selector: 'app-component-default-perfil',
@@ -22,23 +26,57 @@ export class ComponentDefaultPerfilComponent {
   @Input() public title: string = '';
   @Input() public IdUsuario: any;
   @Input() public data: any;
+  @Input() public dataExperiencia: IExperiencia[] = [];
+  @Input() public dataFormacao: IFormacoesAcademicas[] = [];
+  @Input() public dataHabilidades: IHabilidades[] = [];
+  @Input() public dataCursos: ICursos[] = [];
 
-  openDialogFormacao(data: any): void {
-    this.#dialog.open(FormFormacaoAcademicaComponent, {
+  openDialogFormacao(): void {
+    const dialogRef = this.#dialog.open(FormFormacaoAcademicaComponent, {
       panelClass: EDialogEnum.FORMACAO,
-      data,
+      data: {
+        id: this.IdUsuario,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((resposta: IFormacoesAcademicas[]) => {
+      console.log(resposta);
+      if (resposta) {
+        this.dataFormacao = resposta; 
+      }
     });
   }
 
   openDialog(): void {
-    this.#dialog.open(FormExperienciaProfissionalComponent, {
+    const dialogRef = this.#dialog.open(FormExperienciaProfissionalComponent, {
       panelClass: EDialogEnum.PROJETOS,
+      data: {
+        id: this.IdUsuario,
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((resposta: IExperiencia[]) => {
+      console.log(resposta);
+      if (resposta) {
+        this.dataExperiencia = resposta; 
+      }
     });
   }
 
-  openDialogHabilidades(): void {
-    this.#dialog.open(DialogHabilidadesComponent, {
+  openDialogHabilidades(data:any): void {
+    const dialogRef = this.#dialog.open(DialogHabilidadesComponent, {
       panelClass: EDialogEnum.PROJETOS,
+      data: {
+        habilidades: data,
+        id: this.IdUsuario,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((resposta: IHabilidades[]) => {
+      console.log(resposta);
+      if (resposta) {
+        this.dataHabilidades = resposta; 
+      }
     });
   }
 
@@ -62,6 +100,41 @@ export class ComponentDefaultPerfilComponent {
   openDialogCursos(): void {
     this.#dialog.open(DialogCursosComponent, {
       panelClass: EDialogEnum.PROJETOS,
+      data: {
+        id: this.IdUsuario,
+      },
     });
+  }
+
+  // Método para verificar se mostra o botão
+  showAddButton(): boolean {
+    return [
+      'Formação acadêmica',
+      'Sobre',
+      'Experiência profissional',
+      'Habilidades e competências adicionais',
+      'Cursos realizados',
+    ].includes(this.title);
+  }
+
+  // Método único para lidar com todos os cliques
+  handleButtonClick(): void {
+    switch (this.title) {
+      case 'Formação acadêmica':
+        this.openDialogFormacao();
+        break;
+      case 'Sobre':
+        this.openDialogsSobre(this.data);
+        break;
+      case 'Experiência profissional':
+        this.openDialog();
+        break;
+      case 'Habilidades e competências adicionais':
+        this.openDialogHabilidades(this.dataHabilidades);
+        break;
+      case 'Cursos realizados':
+        this.openDialogCursos();
+        break;
+    }
   }
 }
