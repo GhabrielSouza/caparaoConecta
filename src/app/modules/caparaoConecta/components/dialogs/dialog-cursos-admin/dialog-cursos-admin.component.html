@@ -1,0 +1,60 @@
+<header class="d-flex justify-content-between p-4 align-items-center">
+  <h3>Adicionar habilidade</h3>
+  <button class="btn" (click)="closeModal()">
+    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+  </button>
+</header>
+
+<mat-dialog-content>
+  <div class="curso-list">
+    <form [formGroup]="formCurso">
+      <app-primary-input
+        formControlName="curso"
+        type="text"
+        placeholder="Digite uma nova curso"
+        label="curso"
+        inputName="curso"
+      >
+        @if (formCurso.get('curso')?.invalid && (formCurso.get('curso')?.touched
+        || formCurso.get('curso')?.dirty )) {
+        <mat-error>Este campo não pode estar vazio</mat-error>
+        }
+      </app-primary-input>
+
+      <app-primary-input
+        formControlName="link"
+        type="text"
+        placeholder="Digite uma nova link"
+        label="Link do curso"
+        inputName="link"
+      >
+        @if (formCurso.get('link')?.invalid && (formCurso.get('link')?.touched
+        || formCurso.get('link')?.dirty )) {
+        <mat-error>Este campo não pode estar vazio</mat-error>
+        }
+      </app-primary-input>
+
+      <app-primary-input
+        formControlName="instituicao"
+        type="text"
+        placeholder="Digite uma nova instituicao"
+        label="Instituiçâo"
+        inputName="instituicao"
+      >
+        @if (formCurso.get('instituicao')?.invalid &&
+        (formCurso.get('instituicao')?.touched ||
+        formCurso.get('instituicao')?.dirty )) {
+        <mat-error>Este campo não pode estar vazio</mat-error>
+        }
+      </app-primary-input>
+    </form>
+  </div>
+  <div class="d-flex justify-content-end">
+    <app-button-primary
+      fonte="cpc-regular"
+      color="btn-secondary"
+      text="Salvar"
+      (click)="submit()"
+    />
+  </div>
+</mat-dialog-content>

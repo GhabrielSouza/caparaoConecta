@@ -19,6 +19,10 @@ import { IVaga } from '../../interface/IVaga.interface';
 import { VagasService } from '../../../../services/vagas.service';
 import { ContentObserver } from '@angular/cdk/observers';
 import { MatIcon } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogHabilidadesAdminComponent } from '../../components/dialogs/dialog-habilidades-admin/dialog-habilidades-admin.component';
+import { EDialogEnum } from '../../enum/EDialogEnum.enum';
+import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-cursos-admin/dialog-cursos-admin.component';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +37,6 @@ import { MatIcon } from '@angular/material/icon';
     CardVagaPublicaComponent,
     CardVagaEmpresaComponent,
     RouterModule,
-    MatIcon,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -51,7 +54,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private vagasService: VagasService
+    private vagasService: VagasService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {

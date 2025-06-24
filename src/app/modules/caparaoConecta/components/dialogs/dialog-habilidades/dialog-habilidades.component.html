@@ -8,14 +8,14 @@
 <mat-dialog-content>
   <div class="habilidades-list">
     @for (habilidade of allHabilidades(); track habilidade.id_habilidades) {
-      <div class="habilidade-item">
-        <mat-checkbox 
-          [checked]="selectedHabilidades().includes(habilidade.id_habilidades)"
-          (change)="toggleHabilidade(habilidade.id_habilidades)"
-        >
-          {{ habilidade.nome }}
-        </mat-checkbox>
-      </div>
+    <div class="habilidade-item">
+      <mat-checkbox
+        [checked]="selectedHabilidades().includes(habilidade.id_habilidades)"
+        (change)="toggleHabilidade(habilidade.id_habilidades)"
+      >
+        {{ habilidade.nome }}
+      </mat-checkbox>
+    </div>
     }
   </div>
 

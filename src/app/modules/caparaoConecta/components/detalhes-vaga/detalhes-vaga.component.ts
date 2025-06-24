@@ -51,6 +51,7 @@ export class DetalhesVagaComponent implements OnInit {
   habilidades: any[] = [];
 
   @Input() vaga!: IVaga;
+  @Input() IdUsuario: any;
 
   constructor(
     private location: Location,
@@ -140,6 +141,9 @@ export class DetalhesVagaComponent implements OnInit {
   public editarVaga() {
     this.dialog.open(CadastroVagaDialogComponent, {
       panelClass: EDialogEnum.PROJETOS,
+      data: {
+        id: this.IdUsuario,
+      },
     });
   }
 }

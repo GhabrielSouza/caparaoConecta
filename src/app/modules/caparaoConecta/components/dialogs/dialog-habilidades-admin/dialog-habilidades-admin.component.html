@@ -1,0 +1,34 @@
+<header class="d-flex justify-content-between p-4 align-items-center">
+  <h3>Adicionar habilidade</h3>
+  <button class="btn" (click)="closeModal()">
+    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+  </button>
+</header>
+
+<mat-dialog-content>
+  <div class="habilidades-list">
+    <form [formGroup]="formHabilidade">
+      <app-primary-input
+        formControlName="habilidade"
+        type="text"
+        placeholder="Digite uma nova habilidade"
+        label="Habilidade"
+        inputName="habilidade"
+      >
+        @if (formHabilidade.get('habilidade')?.invalid &&
+        (formHabilidade.get('habilidade')?.touched ||
+        formHabilidade.get('habilidade')?.dirty )) {
+        <mat-error>Este campo não pode estar vazio</mat-error>
+        }
+      </app-primary-input>
+    </form>
+  </div>
+  <div class="d-flex justify-content-end">
+    <app-button-primary
+      fonte="cpc-regular"
+      color="btn-secondary"
+      text="Salvar"
+      (click)="submit()"
+    />
+  </div>
+</mat-dialog-content>

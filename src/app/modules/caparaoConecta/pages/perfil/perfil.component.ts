@@ -48,10 +48,15 @@ export class PerfilComponent implements OnInit {
   // Substitua pelo ID do usuário desejado
   // Substitua pelo ID do tipo de usuário desejado
 
-
   carregarDados: boolean = false;
 
-  constructor(private apiService: RegisterService, private experienciaService: ExperienciasService, private formacoesService: FormacoesAcademicasService, private habilidadesService: HabilidadesSService, private cursosService:CursosSService) {}
+  constructor(
+    private apiService: RegisterService,
+    private experienciaService: ExperienciasService,
+    private formacoesService: FormacoesAcademicasService,
+    private habilidadesService: HabilidadesSService,
+    private cursosService: CursosSService
+  ) {}
 
   ngOnInit() {
     this.getDadosPessoais();
@@ -73,31 +78,39 @@ export class PerfilComponent implements OnInit {
   }
 
   getExperiencias() {
-    this.experienciaService.httpListExperienciaId$(this.idUsuario).subscribe((data) => {
-      this.experiencias = data;
-      this.carregarDados = true;
-    });
+    this.experienciaService
+      .httpListExperienciaId$(this.idUsuario)
+      .subscribe((data) => {
+        this.experiencias = data;
+        this.carregarDados = true;
+      });
   }
 
   getFormacoes() {
-    this.formacoesService.httpListFormacoesId$(this.idUsuario).subscribe((data) => {
-      this.formacoes = data;
-      this.carregarDados = true;
-    });
+    this.formacoesService
+      .httpListFormacoesId$(this.idUsuario)
+      .subscribe((data) => {
+        this.formacoes = data;
+        this.carregarDados = true;
+      });
   }
 
   getCursos() {
-    this.cursosService.httpListCursosOnPessoaId$(this.idUsuario).subscribe((data) => {
-      console.log(data);
-      this.cursos = data;
-      this.carregarDados = true;
-    });
+    this.cursosService
+      .httpListCursosOnPessoaId$(this.idUsuario)
+      .subscribe((data) => {
+        console.log(data);
+        this.cursos = data;
+        this.carregarDados = true;
+      });
   }
 
   getHabilidades() {
-    this.habilidadesService.httpListHabilidadesOnPessoas$(this.idUsuario).subscribe((data) => {
-      this.habilidades = data;
-      this.carregarDados = true;
-    });
+    this.habilidadesService
+      .httpListHabilidadesOnPessoas$(this.idUsuario)
+      .subscribe((data) => {
+        this.habilidades = data;
+        this.carregarDados = true;
+      });
   }
 }
