@@ -1,3 +1,4 @@
+import { EStatusVaga } from './../../enum/EStatusVaga.enum';
 import { Component, Input, OnInit } from '@angular/core';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary.component';
@@ -18,6 +19,7 @@ import { IVaga } from '../../interface/IVaga.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
+import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-detalhes-vaga',
@@ -35,8 +37,6 @@ import { EDialogEnum } from '../../enum/EDialogEnum.enum';
   styleUrl: './detalhes-vaga.component.scss',
 })
 export class DetalhesVagaComponent implements OnInit {
-  texto: string =
-    'Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web. Reconhecida fábrica de Software, com forte atuação em desenvolvimento  de soluções completas de Desktop, Mobile, IIoT e Industria 4.0, busca Desenvolvedor  Web JR focado em HTML e CSS para integrar sua equipe e atuar no desenvolvimento e evolução de soluções Web.';
   containerFooter: boolean = true;
   visaoCandidato: boolean = true;
 
@@ -45,6 +45,8 @@ export class DetalhesVagaComponent implements OnInit {
 
   public role: ERoleUser | null = ERoleUser.EMPRESA;
   public roleEnum = ERoleUser;
+
+  public statusVagaEnum = EStatusVaga;
 
   nomeVaga: string = 'Desenvolvedor Web JR';
   nomeCandidato: string = 'Lucas Silva';
@@ -138,12 +140,48 @@ export class DetalhesVagaComponent implements OnInit {
     }
   }
 
+  public deletarVaga() {
+    const vagaIdString = this.route.snapshot.paramMap.get('id');
+    console.log(vagaIdString);
+
+    const status = 'FINALIZADO';
+
+    if (vagaIdString) {
+      const vagaId = +vagaIdString;
+      this.vagaService.httpDeleteVaga$(vagaId).subscribe({
+        next: (response) => {
+          console.log('Vaga excluida com sucesso:', response);
+          this.location.back();
+        },
+        error: (error) => {
+          console.error('Erro ao excluir vaga:', error);
+        },
+      });
+    }
+  }
+
   public editarVaga() {
     this.dialog.open(CadastroVagaDialogComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {
+        conteudoVaga: this.vaga,
         id: this.IdUsuario,
       },
+    });
+  }
+
+  confirmDelete(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmar exclusão',
+        message: `Tem certeza que deseja excluir a vaga?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deletarVaga();
+      }
     });
   }
 }

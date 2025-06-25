@@ -9,7 +9,7 @@ export interface IVaga {
   titulo_vaga: string;
   descricao: string;
   salario: number;
-  status?: EStatusVaga;
+  status: EStatusVaga;
   data_criacao: Date;
   data_fechamento: Date;
   qtd_vaga: number;

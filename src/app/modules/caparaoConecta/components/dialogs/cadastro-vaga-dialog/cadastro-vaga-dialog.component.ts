@@ -126,6 +126,23 @@ export class CadastroVagaDialogComponent implements OnInit {
     );
   }
 
+  private loadFormData(vaga: any): void {
+    this.vagaForm.patchValue({
+      titulo_vaga: vaga.titulo_vaga,
+      modalidade_da_vaga: vaga.modalidade_da_vaga,
+      salario: vaga.salario,
+      data_fechamento: vaga.data_fechamento,
+      habilidades: vaga.habilidades,
+      cursos: vaga.cursos,
+      qtd_vaga: !vaga.qtd_vaga,
+      id_empresas: this.data.id,
+    });
+
+    if (!vaga.data_conclusao) {
+      this.vagaForm.get('data_conclusao')?.disable();
+    }
+  }
+
   ngOnInit(): void {
     this.getHabilidades();
     this.getCursos();
@@ -214,6 +231,41 @@ export class CadastroVagaDialogComponent implements OnInit {
       console.log('Enviando para o backend:', formValue);
 
       this.vagaService.httpRegisterVaga$(formValue).subscribe({
+        next: (response) => {
+          console.log('Vaga cadastrada com sucesso:', response);
+          this._dialogRef.close(response);
+        },
+        error: (error) => {
+          console.error('Erro ao cadastrar vaga:', error);
+        },
+      });
+    } else {
+      console.log('Formulário inválido');
+    }
+  }
+
+  public onUpdate() {
+    this.markFormGroupTouched(this.vagaForm);
+
+    if (this.vagaForm.valid) {
+      const formValue = this.vagaForm.getRawValue();
+
+      formValue.habilidades = this.habilidadesFormArray.value.map(
+        (h: IHabilidades) => h.id_habilidades
+      );
+      formValue.cursos = this.cursosFormArray.value.map(
+        (c: ICursos) => c.id_cursos
+      );
+
+      if (formValue.data_fechamento) {
+        formValue.data_fechamento = new Date(formValue.data_fechamento)
+          .toISOString()
+          .split('T')[0];
+      }
+
+      console.log('Enviando para o backend:', formValue);
+
+      this.vagaService.httpUpdateVaga$(formValue).subscribe({
         next: (response) => {
           console.log('Vaga cadastrada com sucesso:', response);
           this._dialogRef.close(response);

@@ -11,6 +11,39 @@
     img {
       width: 100%;
     }
+
+    .card-actions {
+      display: flex;
+      gap: 4px;
+
+      button {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-edit {
+        background-color: var(--primary-background-green);
+
+        &:hover {
+          background-color: var(--secondary-background-green);
+        }
+      }
+
+      .btn-delete {
+        background-color: var(--background-red);
+
+        &:hover {
+          background-color: var(--background-red-010);
+        }
+      }
+    }
   }
 
   .detalhesVagaContainer {
