@@ -1,12 +1,10 @@
 import {
   Component,
-  computed,
   inject,
   Inject,
   OnInit,
   ChangeDetectionStrategy,
   LOCALE_ID,
-  model,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -25,8 +23,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MatAutocompleteModule,
@@ -71,7 +68,8 @@ registerLocaleData(localePt);
 })
 export class CadastroVagaDialogComponent implements OnInit {
   vagaForm: FormGroup;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  isEditMode = false;
+
   readonly announcer = inject(LiveAnnouncer);
 
   habilidadeInputCtrl = new FormControl('');
@@ -94,11 +92,12 @@ export class CadastroVagaDialogComponent implements OnInit {
     dataEncerramento.setDate(dataEncerramento.getDate() + 20);
 
     this.vagaForm = this._fb.group({
+      id_vagas: [null], // Campo para o ID da vaga em modo de edição
       titulo_vaga: ['', Validators.required],
       modalidade_da_vaga: ['', Validators.required],
       salario: ['', Validators.required],
       data_fechamento: [
-        { value: dataEncerramento, disabled: true },
+        { value: dataEncerramento.toISOString().split('T')[0], disabled: true },
         Validators.required,
       ],
       habilidades: this._fb.array([]),
@@ -126,44 +125,63 @@ export class CadastroVagaDialogComponent implements OnInit {
     );
   }
 
+  ngOnInit(): void {
+    this.getHabilidades();
+    this.getCursos();
+
+    // Verifica se dados da vaga foram passados para entrar em modo de edição
+    if (this.data && this.data.conteudoVaga) {
+      this.isEditMode = true;
+      this.loadFormData(this.data.conteudoVaga);
+    }
+  }
+
   private loadFormData(vaga: any): void {
     this.vagaForm.patchValue({
+      id_vagas: vaga.id_vagas,
       titulo_vaga: vaga.titulo_vaga,
       modalidade_da_vaga: vaga.modalidade_da_vaga,
       salario: vaga.salario,
       data_fechamento: vaga.data_fechamento,
-      habilidades: vaga.habilidades,
-      cursos: vaga.cursos,
-      qtd_vaga: !vaga.qtd_vaga,
-      id_empresas: this.data.id,
+      descricao: vaga.descricao,
+      qtd_vaga: vaga.qtd_vaga,
+      status: vaga.status,
     });
 
-    if (!vaga.data_conclusao) {
-      this.vagaForm.get('data_conclusao')?.disable();
+    // Limpa e preenche o FormArray de Habilidades
+    this.habilidadesFormArray.clear();
+    if (vaga.habilidades && Array.isArray(vaga.habilidades)) {
+      vaga.habilidades.forEach((habilidade: IHabilidades) => {
+        this.habilidadesFormArray.push(this._fb.control(habilidade));
+      });
     }
-  }
 
-  ngOnInit(): void {
-    this.getHabilidades();
-    this.getCursos();
+    // Limpa e preenche o FormArray de Cursos
+    this.cursosFormArray.clear();
+    if (vaga.curso && Array.isArray(vaga.curso)) {
+      vaga.curso.forEach((curso: ICursos) => {
+        this.cursosFormArray.push(this._fb.control(curso));
+      });
+    }
   }
 
   get habilidadesFormArray(): FormArray {
     return this.vagaForm.get('habilidades') as FormArray;
   }
+
   get cursosFormArray(): FormArray {
     return this.vagaForm.get('cursos') as FormArray;
   }
 
   private _filterHabilidades(value: string): IHabilidades[] {
-    const filterValue = value;
+    const filterValue = value.toLowerCase();
     const idsSelecionados = new Set(
       this.habilidadesFormArray.value.map((h: IHabilidades) => h.id_habilidades)
     );
     return this.allHabilidades.filter(
       (habilidade) =>
         !idsSelecionados.has(habilidade.id_habilidades) &&
-        habilidade.nome.includes(filterValue)
+        habilidade.nome.toLowerCase().includes(filterValue)
     );
   }
 
@@ -183,14 +201,14 @@ export class CadastroVagaDialogComponent implements OnInit {
   }
 
   private _filterCursos(value: string): ICursos[] {
-    const filterValue = value;
+    const filterValue = value.toLowerCase();
     const idsSelecionados = new Set(
       this.cursosFormArray.value.map((c: ICursos) => c.id_cursos)
     );
     return this.allCursos.filter(
       (curso) =>
         !idsSelecionados.has(curso.id_cursos) &&
-        curso.curso.includes(filterValue)
+        curso.curso.toLowerCase().includes(filterValue)
     );
   }
 
@@ -209,9 +227,17 @@ export class CadastroVagaDialogComponent implements OnInit {
     }
   }
 
+  // Método unificado que será chamado pelo (ngSubmit) do formulário
+  public save(): void {
+    if (this.isEditMode) {
+      this.onUpdate();
+    } else {
+      this.onSubmit();
+    }
+  }
+
   public onSubmit() {
     this.markFormGroupTouched(this.vagaForm);
-
     if (this.vagaForm.valid) {
       const formValue = this.vagaForm.getRawValue();
 
@@ -228,7 +254,7 @@ export class CadastroVagaDialogComponent implements OnInit {
           .split('T')[0];
       }
 
-      console.log('Enviando para o backend:', formValue);
+      console.log('Enviando para o backend (CRIAR):', formValue);
 
       this.vagaService.httpRegisterVaga$(formValue).subscribe({
         next: (response) => {
@@ -246,7 +272,6 @@ export class CadastroVagaDialogComponent implements OnInit {
 
   public onUpdate() {
     this.markFormGroupTouched(this.vagaForm);
-
     if (this.vagaForm.valid) {
       const formValue = this.vagaForm.getRawValue();
 
@@ -263,15 +288,17 @@ export class CadastroVagaDialogComponent implements OnInit {
           .split('T')[0];
       }
 
-      console.log('Enviando para o backend:', formValue);
+      console.log(this.data.idVagas);
 
-      this.vagaService.httpUpdateVaga$(formValue).subscribe({
+      console.log('Enviando para o backend (ATUALIZAR):', formValue);
+
+      this.vagaService.httpUpdateVaga$(formValue, this.data.idVaga).subscribe({
         next: (response) => {
-          console.log('Vaga cadastrada com sucesso:', response);
+          console.log('Vaga atualizada com sucesso:', response);
           this._dialogRef.close(response);
         },
         error: (error) => {
-          console.error('Erro ao cadastrar vaga:', error);
+          console.error('Erro ao atualizar vaga:', error);
         },
       });
     } else {

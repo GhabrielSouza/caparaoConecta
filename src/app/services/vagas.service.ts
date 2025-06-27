@@ -46,15 +46,13 @@ export class VagasService {
 
   #setUpdateVaga = signal<IVaga | null>(null);
   public getUpdateVaga = this.#setUpdateVaga.asReadonly();
-  public httpUpdateVaga$(empresa: IVaga): Observable<IVaga> {
-    return this.#http
-      .put<IVaga>(`${this.#url}/api/cadPessoas/${empresa}`, empresa)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setUpdateVaga.set(data);
-        })
-      );
+  public httpUpdateVaga$(vaga: IVaga, id: number): Observable<IVaga> {
+    return this.#http.put<IVaga>(`${this.#url}/api/vagas/${id}`, vaga).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setUpdateVaga.set(data);
+      })
+    );
   }
 
   #setDeleteVaga = signal<IVaga | null>(null);

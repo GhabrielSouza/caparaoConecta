@@ -161,11 +161,13 @@ export class DetalhesVagaComponent implements OnInit {
   }
 
   public editarVaga() {
+    const vagaIdString = this.route.snapshot.paramMap.get('id');
     this.dialog.open(CadastroVagaDialogComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {
         conteudoVaga: this.vaga,
         id: this.IdUsuario,
+        idVaga: vagaIdString ? +vagaIdString : null,
       },
     });
   }
