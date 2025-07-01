@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable, shareReplay, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IVaga } from '../modules/caparaoConecta/interface/IVaga.interface';
@@ -11,7 +11,7 @@ export class VagasService {
   #http = inject(HttpClient);
   #url = environment.apiAuth;
 
-  #setListVaga = signal<IVaga[] | null>(null);
+  #setListVaga = signal<IVaga[]>([]);
   public getListVaga = this.#setListVaga.asReadonly();
   public httpListVagas$(): Observable<IVaga[]> {
     return this.#http.get<IVaga[]>(`${this.#url}/api/vagasShowAll`).pipe(
@@ -31,6 +31,17 @@ export class VagasService {
         this.#setListVagaId.set(data);
       })
     );
+  }
+
+  public atualizarStatusVagas$(
+    ids: number[],
+    novoStatus: string
+  ): Observable<any> {
+    const payload = {
+      ids: ids,
+      status: novoStatus,
+    };
+    return this.#http.patch(`${this.#url}/api/vagas/reativar`, payload);
   }
 
   #setCreateVaga = signal<IVaga | null>(null);

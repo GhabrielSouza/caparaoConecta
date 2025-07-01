@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
         this.vagasOfertadas = data.filter(
           (vaga) =>
             vaga.id_empresas === this.idUsuario &&
-            vaga.status === EStatusVaga.EM_ANDAMENTO
+            (vaga.status === EStatusVaga.EM_ANDAMENTO || EStatusVaga.INATIVO)
         );
         this.vagasEncerradas = data.filter(
           (vaga) =>
