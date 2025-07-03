@@ -1,0 +1,21 @@
+::ng-deep .dialog-container-projects .mdc-dialog__container {
+  max-width: 100%;
+  width: 825px;
+}
+
+mat-select,
+mat-option {
+  box-sizing: border-box;
+  font-family: var(--font-poppinsM);
+
+  &:focus {
+    border-color: var(--primary-background-gray);
+    outline: none;
+  }
+}
+
+:host {
+  input {
+    font-family: var(--font-poppinsM);
+  }
+}

@@ -1,95 +1,163 @@
 <div class="container_dialog">
-  <h1 class="cpc-bold p-4">Anuncie sua vaga</h1>
+  <h1 class="cpc-bold p-4">
+    {{ isEditMode ? "Editar Vaga" : "Anuncie sua vaga" }}
+  </h1>
   <mat-dialog-content>
-    <form>
+    <form [formGroup]="vagaForm" (ngSubmit)="save()">
       <mat-label>Cargo*</mat-label>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Qual cargo você desempenhou?" />
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          formControlName="titulo_vaga"
+          placeholder="Qual cargo você deseja anunciar?"
+        />
+        @if(vagaForm.get('titulo_vaga')?.hasError('required')){
+        <mat-error> Cargo é obrigatório </mat-error>
+        }
       </mat-form-field>
 
       <mat-label>Modalidade da vaga*</mat-label>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Presencial, remoto ou híbrido?" />
+      <mat-form-field class="full-width-input">
+        <mat-select
+          formControlName="modalidade_da_vaga"
+          placeholder="Selecione a modalidade"
+        >
+          <mat-option value="Presencial">Presencial</mat-option>
+          <mat-option value="Remoto">Remoto</mat-option>
+          <mat-option value="Híbrido">Híbrido</mat-option>
+        </mat-select>
+        @if(vagaForm.get('modalidade_da_vaga')?.hasError('required')){
+        <mat-error> Modalidade é obrigatória </mat-error>
+        }
       </mat-form-field>
 
       <mat-label>Salário*</mat-label>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="R$1509,00" />
+      <mat-form-field class="full-width-input">
+        <span matTextPrefix>R$&nbsp;</span>
+        <input
+          matInput
+          formControlName="salario"
+          placeholder="1.509,00"
+          mask="separator.2"
+          thousandSeparator="."
+          decimalMarker=","
+        />
+        @if(vagaForm.get('salario')?.hasError('required')){
+        <mat-error> Salário é obrigatório </mat-error>
+        }
       </mat-form-field>
 
-      <div class="dataEncerramentoLabel">
-        <mat-label>Data de encerramento* </mat-label>
+      <div class="data-encerramento-label">
+        <mat-label>Data de encerramento*</mat-label>
         <img
           class="info-icon"
           height="18"
           src="/assets/icons/circle-info-solid.svg"
-          matTooltip="Informamos que o prazo para conclusão do processo pode ser estendido e será prorrogado em até 20 (vinte) dias corridos, incluindo o prazo para a realização de entrevistas. Agradecemos pela compreensão e permanecemos à disposição para eventuais dúvidas."
+          matTooltip="A data de encerramento é calculada automaticamente para 20 dias a partir de hoje e não pode ser alterada."
         />
       </div>
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="full-width-input">
         <input
           matInput
-          [matDatepicker]="picker"
-          placeholder="Selecione a data"
+          formControlName="data_fechamento"
+          placeholder="dd/mm/aaaa"
+          [disabled]="true"
         />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <mat-label>Habilidades</mat-label>
-      <mat-form-field class="example-chip-list w-100">
-        <mat-chip-grid #chipGrid aria-label="Fruit selection">
-          @for (fruit of fruits(); track $index) { @if (fruit != '') {
-          <mat-chip-row (removed)="remove(fruit)">
-            {{ fruit }}
-            <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+      <mat-form-field class="full-width-input mat-chip-list-container">
+        <mat-chip-grid #chipGridHabilidades>
+          @for (habilidade of habilidadesFormArray.value; track
+          habilidade.id_habilidades) {
+          <mat-chip-row (removed)="removeHabilidade(habilidade)">
+            {{ habilidade.nome }}
+            <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
-          } }
+          }
         </mat-chip-grid>
         <input
-          name="currentFruit"
           placeholder="Nova habilidade..."
-          #fruitInput
-          [(ngModel)]="currentFruit"
-          [ngModelOptions]="{ standalone: true }"
-          [matChipInputFor]="chipGrid"
-          [matAutocomplete]="auto"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="add($event)"
+          [formControl]="habilidadeInputCtrl"
+          [matAutocomplete]="autoHabilidades"
+          [matChipInputFor]="chipGridHabilidades"
         />
         <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="selected($event); fruitInput.value = ''"
+          #autoHabilidades="matAutocomplete"
+          (optionSelected)="selectedHabilidade($event)"
         >
-          @for (fruit of filteredFruits(); track fruit) {
-          <mat-option [value]="fruit">{{ fruit }}</mat-option>
+          @for (habilidade of filteredHabilidades$ | async; track
+          habilidade.id_habilidades) {
+          <mat-option [value]="habilidade">{{ habilidade.nome }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-label>Cursos e Certificações</mat-label>
+      <mat-form-field class="full-width-input mat-chip-list-container">
+        <mat-chip-grid #chipGridCursos>
+          @for (curso of cursosFormArray.value; track curso.id_cursos) {
+          <mat-chip-row (removed)="removeCurso(curso)">
+            {{ curso.curso }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          }
+        </mat-chip-grid>
+        <input
+          placeholder="Novo curso ou certificação..."
+          [formControl]="cursoInputCtrl"
+          [matAutocomplete]="autoCursos"
+          [matChipInputFor]="chipGridCursos"
+        />
+        <mat-autocomplete
+          #autoCursos="matAutocomplete"
+          (optionSelected)="selectedCurso($event)"
+        >
+          @for (curso of filteredCursos$ | async; track curso.id_cursos) {
+          <mat-option [value]="curso">{{ curso.curso }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
 
       <mat-label>Descrição</mat-label>
-      <mat-form-field
-        class="example-full-width"
-        (click)="openDialogHabilidades()"
-      >
-        <textarea matInput placeholder="Descreva a vaga..."></textarea>
+      <mat-form-field class="full-width-input">
+        <textarea
+          matInput
+          formControlName="descricao"
+          placeholder="Descreva a vaga..."
+          rows="4"
+        ></textarea>
       </mat-form-field>
-
-      <div class="d-flex justify-content-end"></div>
 
       <mat-label>Quantidade de vagas*</mat-label>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Quantas vagas estão sendo ofertadas?" />
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          formControlName="qtd_vaga"
+          placeholder="Quantas vagas estão sendo ofertadas?"
+          type="number"
+        />
+        @if(vagaForm.get('qtd_vaga')?.hasError('required')){
+        <mat-error> Quantidade de vagas é obrigatória </mat-error>
+        }
       </mat-form-field>
-    </form>
 
-    <footer>
-      <div class="d-flex justify-content-center gap-4 p-3">
-        <button class="btn btn-secondary">Anunciar</button>
-        <button class="btn btn-primary" (click)="closeModal()">Fechar</button>
-      </div>
-    </footer>
+      <footer>
+        <div class="d-flex justify-content-center gap-4 p-3">
+          @if (isEditMode) {
+          <button type="submit" class="btn btn-secondary">Atualizar</button>
+          } @else {
+          <button type="submit" class="btn btn-secondary">Anunciar</button>
+          }
+          <button type="button" class="btn btn-primary" (click)="closeModal()">
+            Fechar
+          </button>
+        </div>
+      </footer>
+    </form>
   </mat-dialog-content>
 </div>

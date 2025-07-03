@@ -1,19 +1,19 @@
-:host{
-    .container{
-        border-radius: 15px;
-        position: relative;
-        width: 100%;
+:host {
+  .container_vagas {
+    border-radius: 15px;
+    position: relative;
+    width: 100%;
 
-        .container_vaga{
-            border-radius: 8px;
-        }
-
-        .container_ver-mais{
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            padding-right: 1em;
-            cursor: pointer;
-        }
+    .container_vaga_vagas {
+      border-radius: 8px;
     }
+
+    .container_ver-mais {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      padding-right: 1em;
+      cursor: pointer;
+    }
+  }
 }

@@ -1,14 +1,27 @@
 @use "@angular/material" as mat;
 
-:host{
+mat-select,
+mat-option {
+  box-sizing: border-box;
+  font-family: var(--font-poppinsM);
 
-    @include mat.radio-overrides(
-        (
-          selected-focus-icon-color: var(--primary-background-green),
-          selected-hover-icon-color: var(--primary-background-green),
-          selected-pressed-icon-color: var(--primary-background-green),
-          selected-icon-color: var(--primary-background-green),
-          checked-ripple-color: var(--primary-background-green),
-        )
-      );
+  &:focus {
+    border-color: var(--primary-background-gray);
+    outline: none;
+  }
+}
+:host{
+  input{
+    font-family: var(--font-poppinsM);
+  }
+
+  @include mat.radio-overrides(
+    (
+      selected-focus-icon-color: var(--primary-background-green),
+      selected-hover-icon-color: var(--primary-background-green),
+      selected-pressed-icon-color: var(--primary-background-green),
+      selected-icon-color: var(--primary-background-green),
+      checked-ripple-color: var(--primary-background-green),
+    )
+  );
 }

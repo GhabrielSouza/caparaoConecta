@@ -49,22 +49,43 @@
                   [vagas]="vagasPublicas"
                 ></app-card-vaga-publica>
               </app-component-container-vagas>
-              } @if(role == roleEnum.EMPRESA){
+              } @if(role == roleEnum.EMPRESA){ @if(vagasOfertadas &&
+              vagasOfertadas.length == 0){
+              <div
+                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
+              >
+                <i class="fas fa-archive fa-lg pb-3"></i>
+                <h3 class="text-dark mb-2">Nenhuma vaga ofertada</h3>
+                <p class="text-muted text-center mb-4">
+                  Você ainda não publicou nenhuma vaga. Que tal começar agora?
+                </p>
+              </div>
+              }@else {
               <app-component-container-vagas titulo="Vagas Ofertadas">
                 <app-card-vaga-empresa
                   [vagas]="vagasOfertadas"
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
+              } @if(vagasEncerradas.length == 0){
 
+              <div
+                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
+              >
+                <i class="fas fa-archive fa-lg pb-3"></i>
+                <h3 class="text-dark mb-2">Nenhuma vaga encerrada</h3>
+                <p class="text-muted text-center">
+                  Você ainda não finalizou o processo de nenhuma vaga.
+                </p>
+              </div>
+              }@else {
               <app-component-container-vagas titulo="Vagas Encerradas">
                 <app-card-vaga-empresa
                   [vagas]="vagasEncerradas"
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
-              }
-            
+              } }
             </div>
           </div>
         </div>

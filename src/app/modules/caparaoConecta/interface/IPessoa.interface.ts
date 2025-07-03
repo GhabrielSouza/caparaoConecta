@@ -18,9 +18,9 @@ export interface IPessoa {
   empresas?: IEmpresa;
   candidatos?: ICandidato;
   endereco?: IEndereco;
-  redes?: IRedesSociais;
+  rede_social?: IRedesSociais;
   formacoes?: IFormacoesAcademicas[];
   experiencias?: IExperiencia[];
-  cursos?: ICursos[];
+  cursos: ICursos[];
   habilidades?: IHabilidades[];
 }

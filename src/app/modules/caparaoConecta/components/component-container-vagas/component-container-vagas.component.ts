@@ -9,7 +9,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-component-container-vagas',
-  imports: [RouterModule,CommonModule, Carousel, ButtonModule, Tag, PaginatorModule],
+  imports: [RouterModule,CommonModule, ButtonModule, PaginatorModule],
   templateUrl: './component-container-vagas.component.html',
   styleUrl: './component-container-vagas.component.scss'
 })

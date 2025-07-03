@@ -1,0 +1,55 @@
+.dialog-title {
+    color: var(--primary-background-green);
+    margin: 0 0 16px 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  
+  .dialog-content {
+    padding: 8px 0 16px;
+    color: var(--text-color-dark);
+    font-size: 1rem;
+    line-height: 1.5;
+    
+    p {
+      margin: 0;
+    }
+  }
+  
+  .dialog-actions {
+    padding: 16px 0 0;
+    margin: 0;
+    min-height: auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  
+  .cancel-btn {
+    border: 1px solid var(--primary-background-green);
+    color: var(--primary-background-green);
+    border-radius: 4px;
+    padding: 6px 16px;
+    
+    &:hover {
+      background-color: rgba(46, 125, 50, 0.04);
+    }
+  }
+  
+  .confirm-btn {
+    background-color: #f44336;
+    color: white;
+    border-radius: 4px;
+    padding: 6px 16px;
+    
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
+  
+  // Ajustes para o container do dialog
+  ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 12px !important;
+    padding: 24px !important;
+  }

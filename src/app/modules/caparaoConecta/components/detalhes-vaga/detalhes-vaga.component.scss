@@ -1,97 +1,129 @@
 @use "@angular/material" as mat;
-:host{
+:host {
+  .container {
+    background-color: #ffff;
+    width: 100%;
+    height: 80%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 15px;
 
-    .container{
-        background-color: #FFFF;
-        width: 100%;
-        height: 80%;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        padding: 15px;
-    
-        img{
-            width: 100%;
-        }
+    img {
+      width: 100%;
     }
-    
-    .detalhesVagaContainer{
+
+    .card-actions {
+      display: flex;
+      gap: 4px;
+
+      button {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
         display: flex;
-        flex-direction: column;
-        width: 70%;
-        justify-self: center;
-        padding: 2em;
-    
-        .cpc-border-radius-detalhes{
-            border-radius: 8px 0 0 8px;
-        }
-    
-        .cpc-border-radius-estatistica{
-            border-radius: 0 8px 8px 0;
-        }
-    }
-    
-    .containerInterno{
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-between;
-        p{
-            font-family: var(--font-poppinsM);
-            font-size: 11px;
-        }
-    }
-    
-    .conteudoContatos{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 60%;
-        padding-right: 1vw;
-    }
-    
-    .containerFooter{
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .conteudoEndereco{
-        display: flex;
-        justify-content: center;
         align-items: center;
-        width: 20%;
-        img{
-            width: 25px;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-edit {
+        background-color: var(--primary-background-green);
+
+        &:hover {
+          background-color: var(--secondary-background-green);
         }
+      }
+
+      .btn-delete {
+        background-color: var(--background-red);
+
+        &:hover {
+          background-color: var(--background-red-010);
+        }
+      }
     }
-    
-    .containerSelecaoVaga{
-        border-radius: 15px;
-        div, a{
-            border-radius: 8px;
-        }
-    }
-    
-    .linkContainerText{
-        display: flex;
-        flex-direction: row;
-        img{
-            width:25px;
-        }
+  }
+
+  .detalhesVagaContainer {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    justify-self: center;
+    padding: 2em;
+
+    .cpc-border-radius-detalhes {
+      border-radius: 8px 0 0 8px;
+      cursor: pointer;
     }
 
-    @include mat.radio-overrides(
-        (
-          selected-focus-icon-color: var(--primary-background-green),
-          selected-hover-icon-color: var(--primary-background-green),
-          selected-pressed-icon-color: var(--primary-background-green),
-          selected-icon-color: var(--primary-background-green),
-          checked-ripple-color: var(--primary-background-green),
-        )
-      );
+    .cpc-border-radius-estatistica {
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+  }
 
-      @include mat.checkbox-overrides(
+  .containerInterno {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .conteudoContatos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 60%;
+    padding-right: 1vw;
+  }
+
+  .containerFooter {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .conteudoEndereco {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 40%;
+    img {
+      width: 20px;
+    }
+  }
+
+  .containerSelecaoVaga {
+    border-radius: 15px;
+    div,
+    a {
+      border-radius: 8px;
+    }
+  }
+
+  .linkContainerText {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em 0;
+    img {
+      width: 25px;
+    }
+  }
+
+  @include mat.radio-overrides(
+    (
+      selected-focus-icon-color: var(--primary-background-green),
+      selected-hover-icon-color: var(--primary-background-green),
+      selected-pressed-icon-color: var(--primary-background-green),
+      selected-icon-color: var(--primary-background-green),
+      checked-ripple-color: var(--primary-background-green),
+    )
+  );
+
+  @include mat.checkbox-overrides(
     (
       label-text-font: var(--font-poppinsR),
       selected-icon-color: var(--secondary-background-green),

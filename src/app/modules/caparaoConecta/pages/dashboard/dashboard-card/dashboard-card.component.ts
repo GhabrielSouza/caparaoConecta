@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-card',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './dashboard-card.component.html',
-  styleUrl: './dashboard-card.component.scss'
+  styleUrl: './dashboard-card.component.scss',
 })
 export class DashboardCardComponent {
-
+  @Input() label: string = '';
+  @Input() valor: string = '0';
 }

@@ -4,7 +4,7 @@
 
     &::before {
       content: "";
-      display: flex;
+      display: block;
       width: 100%;
       height: 150px;
       margin-bottom: -65px;
@@ -13,82 +13,59 @@
     }
   }
 
-  .container_img,
-  aside {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
   .container_img {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
 
-    .container_img-perfil {
-      position: relative; // Mantém o botão posicionado em relação à imagem
-      display: inline-block;
+  .container_img-perfil {
+    position: relative;
+    display: inline-block;
 
-      .img-perfil {
+    .img-perfil {
+      border-radius: 50%;
+      border: 5px solid var(--primary-background-green);
+      object-fit: cover;
+      padding: 3px;
+    }
+
+    .container_img-edit {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+
+      .btn {
+        background-color: var(--primary-background-green);
         border-radius: 50%;
-        border: 5px solid var(--primary-background-green);
-        object-fit: cover;
-        padding: 3px;
-      }
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border: none;
+        padding: 0;
 
-      .container_img-edit {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-
-        .btn {
-          background-color: var(--primary-background-green);
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          cursor: pointer;
-          border: none;
-          padding: 0;
-
-          .img-perfil-edit {
-            width: 20px;
-            height: 20px;
-          }
+        .img-perfil-edit {
+          width: 20px;
+          height: 20px;
         }
       }
     }
   }
 
-  aside {
-    p {
-      text-align: center;
-    }
+  .container_infos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 1.5rem;
+  }
 
-    nav ul,
-    section {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-    }
-
-    nav {
-      margin: 20px 0;
-
-      ul {
-        li {
-          a {
-            width: 250px;
-          }
-        }
-      }
-    }
+  aside nav {
+    margin-top: 1rem;
   }
 }

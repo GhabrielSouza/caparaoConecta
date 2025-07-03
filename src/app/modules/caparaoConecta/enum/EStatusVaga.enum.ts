@@ -1,5 +1,5 @@
 export enum EStatusVaga {
-    EM_ANDAMENTO = 'emAndamento',
-    FINALIZADO = 'finalizado',
+  EM_ANDAMENTO = 'EM_ANDAMENTO',
+  FINALIZADO = 'FINALIZADO',
+  INATIVO = 'INATIVO',
 }
-  
