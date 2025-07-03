@@ -145,7 +145,7 @@ export class CadastroVagaDialogComponent implements OnInit {
       data_fechamento: vaga.data_fechamento,
       descricao: vaga.descricao,
       qtd_vaga: vaga.qtd_vaga,
-      status: vaga.status,
+      status: vaga.status === 'INATIVO' ? 'EM_ANDAMENTO' : 'EM_ANDAMENTO',
     });
 
     // Limpa e preenche o FormArray de Habilidades

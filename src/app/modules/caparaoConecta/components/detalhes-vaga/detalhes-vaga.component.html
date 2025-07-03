@@ -298,8 +298,15 @@
     <section
       class="mt-3 d-flex justify-content-center align-items-center gap-5"
     >
-      <app-dashboard-card titulo="Candidaturas" />
-      <app-dashboard-card titulo="Visualizações" />
+      <app-dashboard-card
+        label="Candidaturas"
+        valor="{{ candidaturas.length }}"
+      >
+        <i class="fa-solid fa-user-tie fa-2xl"></i>
+      </app-dashboard-card>
+      <app-dashboard-card label="Visualizações">
+        <i class="fa-solid fa-eye fa-2xl"></i>
+      </app-dashboard-card>
     </section>
     <section
       class="my-5 cpc-background-gray p-4 mx-5 containerSelecaoVaga cpc-shadow-black"
@@ -310,7 +317,10 @@
           <p class="cpc-regular">Seleção de candidatos a vaga</p>
         </div>
         <div class="my-3">
-          <app-component-accordion title="{{ nomeCandidato }}">
+          @for (candidato of candidaturas; track $index) {
+          <app-component-accordion
+            title="{{ candidato.pessoa.nome + ' ' + candidato.sobrenome }}"
+          >
             <div>
               <p class="cpc-regular mb-3">Perfil do candidato</p>
               <a class="cpc-background-green cpc-color-white p-2" href=""
@@ -318,13 +328,43 @@
               >
             </div>
             <div class="py-3">
-              <p class="cpc-regular">Habilidades></p>
-              <p>Faltam as seguintes habilidades adicionais:</p>
+              <p class="cpc-regular">Habilidades</p>
+
+              @if (habilidadesFaltantes.length > 0) {
+              <p>Faltam as seguintes habilidades exigidas pela vaga:</p>
+
               <div>
                 <mat-chip-set>
-                  <mat-chip>One fish</mat-chip>
+                  @for (habilidade of habilidadesFaltantes; track
+                  habilidade.id_habilidades) {
+                  <mat-chip color="warn">{{ habilidade.nome }}</mat-chip>
+                  }
                 </mat-chip-set>
               </div>
+              } @else {
+              <p class="cpc-color-green">
+                O candidato possui todas as habilidades necessárias!
+              </p>
+              }
+            </div>
+            <div class="py-3">
+              <p class="cpc-regular">Cursos</p>
+
+              @if (cursosFaltantes.length > 0) {
+              <p>Faltam as seguintes habilidades exigidas pela vaga:</p>
+
+              <div>
+                <mat-chip-set>
+                  @for (curso of cursosFaltantes; track curso.id_cursos) {
+                  <mat-chip color="warn">{{ curso.curso }}</mat-chip>
+                  }
+                </mat-chip-set>
+              </div>
+              } @else {
+              <p class="cpc-color-green">
+                O candidato possui todos os cursos necessários!
+              </p>
+              }
             </div>
             <div>
               <p class="cpc-regular">Ações</p>
@@ -346,9 +386,7 @@
               text="Salvar"
             />
           </app-component-accordion>
-        </div>
-        <div class="my-3">
-          <app-component-accordion title="candidato"></app-component-accordion>
+          }
         </div>
       </div>
     </section>

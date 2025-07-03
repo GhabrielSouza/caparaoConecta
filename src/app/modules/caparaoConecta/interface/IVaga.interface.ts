@@ -17,6 +17,6 @@ export interface IVaga {
   modalidade_da_vaga: string;
   id_empresas: number;
   habilidades?: IHabilidades[];
-  curso?: ICursos[];
+  curso: ICursos[];
   empresa: IEmpresa;
 }

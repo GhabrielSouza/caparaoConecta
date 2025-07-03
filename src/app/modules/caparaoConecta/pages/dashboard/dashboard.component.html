@@ -1,21 +1,25 @@
 <app-cabecalho />
 
-<section class="mt-5">
-    <app-dashboard-card />
-    <app-dashboard-card />
+<section class="mt-5 d-flex justify-content-center align-items-center gap-5">
+  <app-dashboard-card label="Vagas">
+    <i class="fa-solid fa-briefcase fa-2xl"></i>
+  </app-dashboard-card>
+  <app-dashboard-card label="Candidatos">
+    <i class="fa-solid fa-user-tie fa-2xl"></i>
+  </app-dashboard-card>
 </section>
 
 <main>
-    <div class="bloco-conteudo">
-        <div class="tabela-wrapper">
-            <h1 class="titulo-tabela">Vagas</h1>
-            <app-dashboard-tabela></app-dashboard-tabela>
-        </div>
-
-        <div class="grafico-wrapper">
-            <app-grafico></app-grafico>
-        </div>
+  <div class="bloco-conteudo">
+    <div class="tabela-wrapper">
+      <h1 class="titulo-tabela">Vagas</h1>
+      <app-dashboard-tabela></app-dashboard-tabela>
     </div>
+
+    <div class="grafico-wrapper">
+      <app-grafico></app-grafico>
+    </div>
+  </div>
 </main>
 
 <app-footer></app-footer>

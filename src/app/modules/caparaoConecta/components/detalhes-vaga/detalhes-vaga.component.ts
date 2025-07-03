@@ -20,6 +20,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { IPessoa } from '../../interface/IPessoa.interface';
+import { IPessoaFisica } from '../../interface/IPessoaFisica.interface';
+import { IHabilidades } from '../../interface/IHabilidades.interface';
+import { ICursos } from '../../interface/ICursos.inteface';
 
 @Component({
   selector: 'app-detalhes-vaga',
@@ -53,7 +57,11 @@ export class DetalhesVagaComponent implements OnInit {
   habilidades: any[] = [];
 
   @Input() vaga!: IVaga;
+  @Input() candidaturas: IPessoaFisica[] = [];
   @Input() IdUsuario: any;
+
+  public habilidadesFaltantes: IHabilidades[] = [];
+  public cursosFaltantes: ICursos[] = [];
 
   constructor(
     private location: Location,
@@ -96,29 +104,57 @@ export class DetalhesVagaComponent implements OnInit {
     this.location.back();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getCandidaturas();
+    this.getCompetenciasFaltantes();
+  }
 
-  // public getVagaId() {
-  //   const vagaIdString = this.route.snapshot.paramMap.get('id');
+  public getCandidaturas() {
+    const vagaIdString = this.route.snapshot.paramMap.get('id');
 
-  //   console.log(vagaIdString);
+    console.log(vagaIdString);
 
-  //   if (vagaIdString) {
-  //     const vagaId = +vagaIdString;
+    if (vagaIdString) {
+      const vagaId = +vagaIdString;
 
-  //     this.vagaService.httpListVagasId$(vagaId).subscribe({
-  //       next: (data) => {
-  //         console.log(data);
-  //         this.vaga = data;
-  //       },
-  //       error: (error) => {
-  //         console.error('Erro ao buscar vaga:', error);
-  //       },
-  //     });
-  //   } else {
-  //     console.error('ID da vaga não encontrado na URL!');
-  //   }
-  // }
+      this.vagaService.httpListCandidaturas$(vagaId).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.candidaturas = data;
+        },
+        error: (error) => {
+          console.error('Erro ao buscar vaga:', error);
+        },
+      });
+    } else {
+      console.error('ID da vaga não encontrado na URL!');
+    }
+  }
+
+  private getCompetenciasFaltantes() {
+    this.candidaturas.forEach((candidato: IPessoaFisica) => {
+      if (!this.vaga?.habilidades || !candidato?.pessoa.habilidades) {
+        return;
+      }
+
+      const idsHabilidadesDoCandidato = new Set(
+        candidato.pessoa.habilidades.map((h) => h.id_habilidades)
+      );
+
+      const idsCursosDoCandidato = new Set(
+        candidato.pessoa.cursos.map((c) => c.id_cursos)
+      );
+
+      this.habilidadesFaltantes = this.vaga.habilidades.filter(
+        (habilidadeDaVaga) =>
+          !idsHabilidadesDoCandidato.has(habilidadeDaVaga.id_habilidades)
+      );
+
+      this.cursosFaltantes = this.vaga.curso.filter(
+        (cursoDaVaga) => !idsCursosDoCandidato.has(cursoDaVaga.id_cursos)
+      );
+    });
+  }
 
   public finalizarVaga() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');

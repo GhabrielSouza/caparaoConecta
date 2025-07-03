@@ -3,6 +3,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable, shareReplay, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IVaga } from '../modules/caparaoConecta/interface/IVaga.interface';
+import { IPessoa } from '../modules/caparaoConecta/interface/IPessoa.interface';
+import { IPessoaFisica } from '../modules/caparaoConecta/interface/IPessoaFisica.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +22,19 @@ export class VagasService {
         this.#setListVaga.set(data);
       })
     );
+  }
+
+  #setListCandidaturas = signal<IPessoaFisica[]>([]);
+  public getListCandidaturas = this.#setListCandidaturas.asReadonly();
+  public httpListCandidaturas$(id: number): Observable<IPessoaFisica[]> {
+    return this.#http
+      .get<IPessoaFisica[]>(`${this.#url}/api/vagas/${id}/candidatos`)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setListCandidaturas.set(data);
+        })
+      );
   }
 
   #setListVagaId = signal<IVaga | null>(null);

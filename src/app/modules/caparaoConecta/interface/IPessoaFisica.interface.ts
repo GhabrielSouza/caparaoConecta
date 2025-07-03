@@ -5,22 +5,16 @@ import { IEndereco } from './IEndereco.interface';
 import { IExperiencia } from './IExperiencias.interface';
 import { IFormacoesAcademicas } from './IFormacoesAcademicas.interface';
 import { IHabilidades } from './IHabilidades.interface';
+import { IPessoa } from './IPessoa.interface';
 import { IRedesSociais } from './IRedesSociais.interface';
 import { IUsuario } from './IUsuario.interface';
 
-export interface IPessoa {
+export interface IPessoaFisica {
   id?: number;
-  nome: string;
-  sobre: string;
-  telefone: string;
-  imagem?: File;
-  usuario: IUsuario;
-  empresas?: IEmpresa;
-  candidatos?: ICandidato;
-  endereco?: IEndereco;
-  rede_social?: IRedesSociais;
-  formacoes?: IFormacoesAcademicas[];
-  experiencias?: IExperiencia[];
-  cursos: ICursos[];
-  habilidades?: IHabilidades[];
+  sobrenome: string;
+  genero: string;
+  cpf: string;
+  cadUnico?: string;
+  data_de_nascimento: string;
+  pessoa: IPessoa;
 }

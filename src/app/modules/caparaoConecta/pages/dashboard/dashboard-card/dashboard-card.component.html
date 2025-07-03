@@ -1,14 +1,10 @@
-<div class="card">
-    <h1 class="cardTitle">{{titulo}}</h1>
-    <div class="cardIneer">
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <h1 class="cpc-light">Disponiveis</h1>
-            <h2>11</h2>
-        </div>
-        <div class="divider"></div>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <h1 class="cpc-light">Aplicadas</h1>
-            <h2>117</h2>
-        </div>
-    </div>
+<div class="dashboard-card cpc-background-gray cpc-shadow-black">
+  <div class="card-icon cpc-background-green">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="card-content">
+    <span class="card-label cpc-color-white">{{ label }}</span>
+    <h2 class="card-value cpc-color-white">{{ valor }}</h2>
+  </div>
 </div>
