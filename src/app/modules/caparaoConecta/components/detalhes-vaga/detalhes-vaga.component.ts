@@ -24,6 +24,7 @@ import { IPessoa } from '../../interface/IPessoa.interface';
 import { IPessoaFisica } from '../../interface/IPessoaFisica.interface';
 import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-detalhes-vaga',
@@ -36,6 +37,7 @@ import { ICursos } from '../../interface/ICursos.inteface';
     ComponentAccordionComponent,
     MatChipsModule,
     CandidatoSelecionadoComponent,
+    FormsModule,
   ],
   templateUrl: './detalhes-vaga.component.html',
   styleUrl: './detalhes-vaga.component.scss',
@@ -52,9 +54,7 @@ export class DetalhesVagaComponent implements OnInit {
 
   public statusVagaEnum = EStatusVaga;
 
-  nomeVaga: string = 'Desenvolvedor Web JR';
-  nomeCandidato: string = 'Lucas Silva';
-  habilidades: any[] = [];
+  // habilidades: any[] = [];
 
   @Input() vaga!: IVaga;
   @Input() candidaturas: IPessoaFisica[] = [];
@@ -154,6 +154,27 @@ export class DetalhesVagaComponent implements OnInit {
         (cursoDaVaga) => !idsCursosDoCandidato.has(cursoDaVaga.id_cursos)
       );
     });
+  }
+
+  public atualizarStatusDeContratacao(candidato: IPessoaFisica) {
+    const vagaIdString = this.route.snapshot.paramMap.get('id');
+    const candidatoId = candidato.id_pessoas;
+    const status = candidato.pivot.status;
+
+    if (vagaIdString) {
+      const vagaId = +vagaIdString;
+      this.vagaService
+        .httpAtualizarStatusCandidato$(vagaId, candidatoId, status)
+        .subscribe({
+          next: (response) => {
+            console.log('Status atualizado com sucesso:', response);
+            this.getCandidaturas();
+          },
+          error: (error) => {
+            console.error('Erro ao atualizar status:', error);
+          },
+        });
+    }
   }
 
   public finalizarVaga() {

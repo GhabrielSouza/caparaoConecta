@@ -366,25 +366,35 @@
               </p>
               }
             </div>
-            <div>
+            <!-- Este bloco de código vai dentro da célula de "Ações" da sua tabela, para cada candidato -->
+
+            <div class="mb-5">
               <p class="cpc-regular">Ações</p>
               <div>
-                <mat-radio-group>
-                  <mat-radio-button [value]="true"
+                <mat-radio-group
+                  [(ngModel)]="candidato.pivot.status"
+                  aria-label="Selecione um novo status"
+                >
+                  <mat-radio-button value="Entrevista"
                     >Entrevistar</mat-radio-button
                   >
-                  <mat-radio-button [value]="false">Contratar</mat-radio-button>
-                  <mat-radio-button [value]="false"
+                  <mat-radio-button value="Contratado"
+                    >Contratar</mat-radio-button
+                  >
+                  <mat-radio-button value="Rejeitado"
                     >Desclassificar</mat-radio-button
                   >
                 </mat-radio-group>
               </div>
             </div>
             <app-button-primary
+              class="mt-2 d-flex justify-content-end"
               fonte="cpc-regular"
               color="btn-secondary"
               text="Salvar"
-            />
+              (click)="atualizarStatusDeContratacao(candidato)"
+            >
+            </app-button-primary>
           </app-component-accordion>
           }
         </div>

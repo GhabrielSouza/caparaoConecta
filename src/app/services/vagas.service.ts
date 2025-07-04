@@ -59,6 +59,22 @@ export class VagasService {
     return this.#http.patch(`${this.#url}/api/vagas/reativar`, payload);
   }
 
+  public httpAtualizarStatusCandidato$(
+    vagaId: number,
+    candidatoId: number,
+    status: string
+  ): Observable<any> {
+    const payload = {
+      status: status,
+    };
+    return this.#http
+      .patch(
+        `${this.#url}/api/vagas/${vagaId}/candidatos/${candidatoId}`,
+        payload
+      )
+      .pipe(shareReplay());
+  }
+
   #setCreateVaga = signal<IVaga | null>(null);
   public getCreateVaga = this.#setCreateVaga.asReadonly();
   public httpRegisterVaga$(empresa: IVaga): Observable<IVaga> {
