@@ -24,7 +24,7 @@ import { IPessoa } from '../../interface/IPessoa.interface';
 import { IPessoaFisica } from '../../interface/IPessoaFisica.interface';
 import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-detalhes-vaga',
