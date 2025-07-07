@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
 
   vagasOfertadas: IVaga[] = [];
   vagasEncerradas: IVaga[] = [];
-  idUsuario = 2;
+  idUsuario = 1;
 
   vagasPublicas: IVaga[] = [];
 

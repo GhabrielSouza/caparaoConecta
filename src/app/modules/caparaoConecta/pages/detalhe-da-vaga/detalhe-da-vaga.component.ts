@@ -22,7 +22,7 @@ import { IVaga } from '../../interface/IVaga.interface';
 })
 export class DetalheDaVagaComponent implements OnInit {
   vaga!: IVaga;
-  idUsuario = 2;
+  idUsuario = 1;
 
   constructor(
     private route: ActivatedRoute,
