@@ -2,11 +2,11 @@
 <mat-dialog-content class="dialog-content">
   <p class="cpc-regular">{{ data.message }}</p>
 </mat-dialog-content>
-<mat-dialog-actions  class="dialog-actions">
-  <button  (click)="onNoClick()" class="btn btn-secondary">
+<mat-dialog-actions class="dialog-actions justify-content-between">
+  <button (click)="onNoClick()" class="btn btn-secondary">
     {{ data.cancelText }}
   </button>
-  <button  (click)="onConfirm()" color="warn" class="btn btn-primary">
+  <button (click)="onConfirm()" color="warn" class="btn btn-primary">
     {{ data.confirmText }}
   </button>
 </mat-dialog-actions>

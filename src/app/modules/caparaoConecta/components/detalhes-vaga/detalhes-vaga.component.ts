@@ -215,6 +215,22 @@ export class DetalhesVagaComponent implements OnInit {
     }
   }
 
+  private executarProrrogacao(): void {
+    const vagaId = this.vaga.id_vagas;
+
+    const dataProrrogacao = new Date();
+    dataProrrogacao.setDate(this.vaga.data_fechamento.getDate() + 5);
+
+    this.vagaService.httpProrrogarVaga$(vagaId, dataProrrogacao).subscribe({
+      next: () => {
+        console.log('Vaga prorrogada com sucesso!');
+      },
+      error: (err) => {
+        console.error('Falha ao prorrogar vaga', err);
+      },
+    });
+  }
+
   public editarVaga() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');
     this.dialog.open(CadastroVagaDialogComponent, {
@@ -238,6 +254,36 @@ export class DetalhesVagaComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deletarVaga();
+      }
+    });
+  }
+
+  confirmFinalizarVaga(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmar finalização',
+        message: `Tem certeza que deseja finalizar a vaga?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.finalizarVaga();
+      }
+    });
+  }
+
+  confirmProrrogarVaga(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmar Ação',
+        message: `Você tem certeza que deseja prorrogar esta vaga por mais 5 dias?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.executarProrrogacao();
       }
     });
   }

@@ -22,7 +22,7 @@ export class CabecalhoComponent {
   public role: ERoleUser | null = ERoleUser.ADMIN;
   public roleEnum = ERoleUser;
 
-  public idUsuario = 1;
+  public idUsuario = 2;
 
   #dialog = inject(MatDialog);
 

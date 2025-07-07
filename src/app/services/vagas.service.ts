@@ -120,4 +120,17 @@ export class VagasService {
         })
       );
   }
+
+  #setProrrogarVaga = signal<string | null>(null);
+  public getProrrogarVaga = this.#setProrrogarVaga.asReadonly();
+  public httpProrrogarVaga$(id: number, data: Date): Observable<string> {
+    return this.#http
+      .patch<string>(`${this.#url}/api/vagas/${id}/prorrogar`, data)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setProrrogarVaga.set(data);
+        })
+      );
+  }
 }

@@ -277,14 +277,17 @@
     </div>
     @if(vaga.status == statusVagaEnum.EM_ANDAMENTO){
     <div class="d-flex justify-content-between my-3">
-      <div>
-        <mat-checkbox> Prorrogar 5 dias </mat-checkbox>
-      </div>
+      <app-button-primary
+        fonte="cpc-regular"
+        color="btn-secondary"
+        text="Prorrogar por 5 dias"
+        (click)="confirmProrrogarVaga()"
+      />
       <app-button-primary
         fonte="cpc-regular"
         color="btn-secondary"
         text="Finalizar Vaga"
-        (click)="finalizarVaga()"
+        (click)="confirmFinalizarVaga()"
       />
     </div>
     }@else {
