@@ -54,7 +54,7 @@ export class DetalhesVagaComponent implements OnInit {
 
   public statusVagaEnum = EStatusVaga;
 
-  // habilidades: any[] = [];
+  habilidades: any[] = [];
 
   @Input() vaga!: IVaga;
   @Input() candidaturas: IPessoaFisica[] = [];
@@ -111,8 +111,6 @@ export class DetalhesVagaComponent implements OnInit {
 
   public getCandidaturas() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');
-
-    console.log(vagaIdString);
 
     if (vagaIdString) {
       const vagaId = +vagaIdString;
