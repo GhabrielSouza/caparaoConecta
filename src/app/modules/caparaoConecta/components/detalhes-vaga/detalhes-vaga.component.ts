@@ -217,11 +217,19 @@ export class DetalhesVagaComponent implements OnInit {
 
   private executarProrrogacao(): void {
     const vagaId = this.vaga.id_vagas;
+    const dataFechamentoString = this.vaga.data_fechamento;
 
-    const dataProrrogacao = new Date();
-    dataProrrogacao.setDate(this.vaga.data_fechamento.getDate() + 5);
+    if (!dataFechamentoString) {
+      console.error('Data de fechamento da vaga não está definida.');
+      return;
+    }
 
-    this.vagaService.httpProrrogarVaga$(vagaId, dataProrrogacao).subscribe({
+    const dataAtual = new Date(dataFechamentoString);
+
+    const data_fechamento = new Date(dataAtual);
+    data_fechamento.setDate(dataAtual.getDate() + 5);
+
+    this.vagaService.httpProrrogarVaga$(vagaId, data_fechamento).subscribe({
       next: () => {
         console.log('Vaga prorrogada com sucesso!');
       },

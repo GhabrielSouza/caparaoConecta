@@ -15,6 +15,7 @@ export interface IVaga {
   qtd_vaga: number;
   qtd_vagas_preenchidas: number;
   modalidade_da_vaga: string;
+  prorrogavel: boolean;
   id_empresas: number;
   habilidades?: IHabilidades[];
   curso: ICursos[];

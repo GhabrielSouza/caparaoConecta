@@ -121,16 +121,18 @@ export class VagasService {
       );
   }
 
-  #setProrrogarVaga = signal<string | null>(null);
-  public getProrrogarVaga = this.#setProrrogarVaga.asReadonly();
-  public httpProrrogarVaga$(id: number, data: Date): Observable<string> {
-    return this.#http
-      .patch<string>(`${this.#url}/api/vagas/${id}/prorrogar`, data)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setProrrogarVaga.set(data);
-        })
-      );
+  public httpProrrogarVaga$(
+    vagaId: number,
+    novaData: Date
+  ): Observable<string> {
+    const dataFormatada = novaData.toISOString().split('T')[0];
+
+    const payload = {
+      data_fechamento: dataFormatada,
+    };
+
+    const url = `${this.#url}/api/vagas/${vagaId}/prorrogar`;
+
+    return this.#http.patch<string>(url, payload);
   }
 }
