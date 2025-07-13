@@ -10,4 +10,21 @@ import { TableComponent } from '../../components/table/table.component';
   templateUrl: './cursos.component.html',
   styleUrl: './cursos.component.scss',
 })
-export class CursosComponent {}
+export class CursosComponent {
+  // cursosColumns = [
+  //   { header: 'Nome do Curso', property: 'nome' },
+  //   { header: 'Carga horária', property: 'carga' },
+  //   { header: 'Instituição', property: 'instituicao' },
+  //   { header: 'Tipo', property: 'tipo_de_curso' },
+  //   { header: 'Link', property: 'link' },
+  // ];
+
+  cursosColumns: string[] = [
+    'Nome do Curso',
+    'Nome do Curso',
+    'Nome do Curso',
+    'Tipo',
+    'Link',
+    'Status',
+  ];
+}

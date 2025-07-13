@@ -10,4 +10,10 @@ import { TableComponent } from '../../components/table/table.component';
   templateUrl: './habilidades.component.html',
   styleUrl: './habilidades.component.scss',
 })
-export class HabilidadesComponent {}
+export class HabilidadesComponent {
+  habilidadesColumns: string[] = [
+    'Nome da Habilidade',
+    'Status da Habilidade',
+    'Status',
+  ];
+}

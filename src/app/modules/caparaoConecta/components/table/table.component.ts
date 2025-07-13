@@ -18,7 +18,7 @@ export class TableComponent {
 
   @Input() data: any[] = [];
 
-  @Input() columns = [];
+  @Input() columns: string[] = [];
 
   @Output() addAction = new EventEmitter<void>();
 

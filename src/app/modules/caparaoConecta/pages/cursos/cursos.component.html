@@ -1,7 +1,12 @@
 <app-cabecalho></app-cabecalho>
 
 <section>
-  <app-table [title]="'Cursos'" [addLabel]="'Adicionar Curso'"> </app-table>
+  <app-table
+    [title]="'Cursos'"
+    [addLabel]="'Adicionar Curso'"
+    [columns]="cursosColumns"
+  >
+  </app-table>
 </section>
 
 <app-footer></app-footer>

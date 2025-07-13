@@ -2,11 +2,11 @@
   <div class="header">
     <h2>{{ title }}</h2>
     <app-button-primary
-          fonte="cpc-regular"
-          color="btn-secondary"
-          text="{{addLabel}}"
-          (click)="onAdd()"
-        />
+      fonte="cpc-regular"
+      color="btn-secondary"
+      text="{{ addLabel }}"
+      (click)="onAdd()"
+    />
   </div>
 
   <table class="table">
@@ -14,7 +14,7 @@
       <tr class="header-row">
         <th
           *ngFor="let column of columns"
-          [ngClass]="{ 'th-centro': column !== columns[0] }"
+          [ngClass]="{ 'th-centro': column !== column[0] }"
         >
           {{ column }}
         </th>

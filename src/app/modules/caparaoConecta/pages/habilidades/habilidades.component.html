@@ -1,7 +1,11 @@
 <app-cabecalho></app-cabecalho>
 
 <section>
-  <app-table [title]="'Habilidades'" [addLabel]="'Adicionar Habilidade'">
+  <app-table
+    [title]="'Habilidades'"
+    [addLabel]="'Adicionar Habilidade'"
+    [columns]="habilidadesColumns"
+  >
   </app-table>
 </section>
 
