@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="header">
+    <h2>{{ title }}</h2>
+    <app-button-primary
+      fonte="cpc-regular"
+      color="btn-secondary"
+      text="{{ addLabel }}"
+      (click)="onAdd()"
+    />
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr class="header-row">
+        <th
+          *ngFor="let column of columns"
+          [ngClass]="{ 'th-centro': column !== column[0] }"
+        >
+          {{ column }}
+        </th>
+        <th class="th-lateral-direita">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of data"
+        [ngClass]="{ active: item.status === 'Ativo' }"
+      >
+        <td *ngFor="let column of columns" class="td-centro">
+          {{ item[column] }}
+        </td>
+
+        <td class="actions td-lateral-direita">
+          <button class="icon edit" (click)="onEdit(item)">
+            <img src="assets/icons/editTable.svg" alt="Editar" />
+          </button>
+          <button
+            class="icon"
+            [ngClass]="item.status === 'Ativo' ? 'delete' : 'check'"
+            (click)="onToggleStatus(item)"
+          >
+            <img
+              [src]="
+                item.status === 'Ativo'
+                  ? 'assets/icons/closeTable.svg'
+                  : 'assets/icons/check.svg'
+              "
+              alt="Ação"
+              width="20"
+              height="20"
+            />
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <mat-paginator
+    class="matPaginator"
+    [pageSizeOptions]="[12, 20]"
+    showFirstLastButtons
+    hidePageSize
+  >
+  </mat-paginator>
+</div>

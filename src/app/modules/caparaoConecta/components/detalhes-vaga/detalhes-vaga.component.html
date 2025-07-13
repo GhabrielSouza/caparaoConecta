@@ -197,8 +197,22 @@
       alt="imagemVaga"
     />
 
-    <h1 class="my-4 cpc-bold">{{ vaga.titulo_vaga }}</h1>
-    <p class="my-4 cpc-regular">{{ vaga.descricao }}</p>
+    <div class="d-flex justify-content-between align-items-center my-2">
+      <h1 class="cpc-bold">{{ vaga.titulo_vaga }}</h1>
+      @if(vaga.status == statusVagaEnum.FINALIZADO){
+      <p class="cpc-regular-010">Vaga finalizada</p>
+      }@else {
+      <p class="cpc-regular-010 m-0 text-end">
+        Encerramento
+        <span class="cpc-medium-010 d-flex align-items-center"
+          ><strong class="cpc-color-red-010">{{
+            vaga.data_fechamento | date
+          }}</strong></span
+        >
+      </p>
+      }
+    </div>
+    <p class="my-3 cpc-regular">{{ vaga.descricao }}</p>
 
     <div class="containerInterno">
       <div class="conteudoCompetencias">
@@ -260,6 +274,8 @@
               />
             </a>
           </div>
+          }@else {
+          <p class="cpc-regular-010">Nenhuma rede social cadastrada</p>
           }
         </div>
       </div>
@@ -275,18 +291,30 @@
         </p>
       </div>
     </div>
-    @if(vaga.status == 'EM_ANDAMENTO'){
-    <div class="d-flex justify-content-between my-3">
+    @if(vaga.status == statusVagaEnum.EM_ANDAMENTO){
+    <div class="d-flex justify-content-between align-items-center my-3">
       <div>
-        <mat-checkbox formControlName="trabalhoAtual">
-          Prorrogar 5 dias
-        </mat-checkbox>
+        @if(vaga.prorrogavel){
+        <app-button-primary
+          fonte="cpc-regular"
+          color="btn-secondary"
+          text="Prorrogar por 5 dias"
+          (click)="confirmProrrogarVaga()"
+        />
+        }@else {
+        <div class="cpc-background-red p-2 rounded">
+          <p class="cpc-color-white cpc-regular-010 m-0">
+            Você não pode prorrogar essa vaga, pois ela já foi prorrogada.
+          </p>
+        </div>
+        }
       </div>
+
       <app-button-primary
         fonte="cpc-regular"
         color="btn-secondary"
         text="Finalizar Vaga"
-        (click)="finalizarVaga()"
+        (click)="confirmFinalizarVaga()"
       />
     </div>
     }@else {
@@ -366,25 +394,33 @@
               </p>
               }
             </div>
-            <div>
+            <div class="mb-5">
               <p class="cpc-regular">Ações</p>
               <div>
-                <mat-radio-group>
-                  <mat-radio-button [value]="true"
+                <mat-radio-group
+                  [(ngModel)]="candidato.pivot.status"
+                  aria-label="Selecione um novo status"
+                >
+                  <mat-radio-button value="Entrevista"
                     >Entrevistar</mat-radio-button
                   >
-                  <mat-radio-button [value]="false">Contratar</mat-radio-button>
-                  <mat-radio-button [value]="false"
+                  <mat-radio-button value="Contratado"
+                    >Contratar</mat-radio-button
+                  >
+                  <mat-radio-button value="Rejeitado"
                     >Desclassificar</mat-radio-button
                   >
                 </mat-radio-group>
               </div>
             </div>
             <app-button-primary
+              class="mt-2 d-flex justify-content-end"
               fonte="cpc-regular"
               color="btn-secondary"
               text="Salvar"
-            />
+              (click)="atualizarStatusDeContratacao(candidato)"
+            >
+            </app-button-primary>
           </app-component-accordion>
           }
         </div>

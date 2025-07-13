@@ -6,15 +6,17 @@ import { IExperiencia } from './IExperiencias.interface';
 import { IFormacoesAcademicas } from './IFormacoesAcademicas.interface';
 import { IHabilidades } from './IHabilidades.interface';
 import { IPessoa } from './IPessoa.interface';
+import { IPessoaFisicaOnVagas } from './IPessoaFisicaOnVagas.interface';
 import { IRedesSociais } from './IRedesSociais.interface';
 import { IUsuario } from './IUsuario.interface';
 
 export interface IPessoaFisica {
-  id?: number;
+  id_pessoas: number;
   sobrenome: string;
   genero: string;
   cpf: string;
   cadUnico?: string;
   data_de_nascimento: string;
   pessoa: IPessoa;
+  pivot: IPessoaFisicaOnVagas;
 }

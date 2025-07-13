@@ -24,6 +24,7 @@ import { IPessoa } from '../../interface/IPessoa.interface';
 import { IPessoaFisica } from '../../interface/IPessoaFisica.interface';
 import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-detalhes-vaga',
@@ -36,6 +37,7 @@ import { ICursos } from '../../interface/ICursos.inteface';
     ComponentAccordionComponent,
     MatChipsModule,
     CandidatoSelecionadoComponent,
+    FormsModule,
   ],
   templateUrl: './detalhes-vaga.component.html',
   styleUrl: './detalhes-vaga.component.scss',
@@ -52,8 +54,6 @@ export class DetalhesVagaComponent implements OnInit {
 
   public statusVagaEnum = EStatusVaga;
 
-  nomeVaga: string = 'Desenvolvedor Web JR';
-  nomeCandidato: string = 'Lucas Silva';
   habilidades: any[] = [];
 
   @Input() vaga!: IVaga;
@@ -112,8 +112,6 @@ export class DetalhesVagaComponent implements OnInit {
   public getCandidaturas() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');
 
-    console.log(vagaIdString);
-
     if (vagaIdString) {
       const vagaId = +vagaIdString;
 
@@ -156,6 +154,27 @@ export class DetalhesVagaComponent implements OnInit {
     });
   }
 
+  public atualizarStatusDeContratacao(candidato: IPessoaFisica) {
+    const vagaIdString = this.route.snapshot.paramMap.get('id');
+    const candidatoId = candidato.id_pessoas;
+    const status = candidato.pivot.status;
+
+    if (vagaIdString) {
+      const vagaId = +vagaIdString;
+      this.vagaService
+        .httpAtualizarStatusCandidato$(vagaId, candidatoId, status)
+        .subscribe({
+          next: (response) => {
+            console.log('Status atualizado com sucesso:', response);
+            this.getCandidaturas();
+          },
+          error: (error) => {
+            console.error('Erro ao atualizar status:', error);
+          },
+        });
+    }
+  }
+
   public finalizarVaga() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');
     console.log(vagaIdString);
@@ -196,6 +215,30 @@ export class DetalhesVagaComponent implements OnInit {
     }
   }
 
+  private executarProrrogacao(): void {
+    const vagaId = this.vaga.id_vagas;
+    const dataFechamentoString = this.vaga.data_fechamento;
+
+    if (!dataFechamentoString) {
+      console.error('Data de fechamento da vaga não está definida.');
+      return;
+    }
+
+    const dataAtual = new Date(dataFechamentoString);
+
+    const data_fechamento = new Date(dataAtual);
+    data_fechamento.setDate(dataAtual.getDate() + 5);
+
+    this.vagaService.httpProrrogarVaga$(vagaId, data_fechamento).subscribe({
+      next: () => {
+        console.log('Vaga prorrogada com sucesso!');
+      },
+      error: (err) => {
+        console.error('Falha ao prorrogar vaga', err);
+      },
+    });
+  }
+
   public editarVaga() {
     const vagaIdString = this.route.snapshot.paramMap.get('id');
     this.dialog.open(CadastroVagaDialogComponent, {
@@ -219,6 +262,36 @@ export class DetalhesVagaComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deletarVaga();
+      }
+    });
+  }
+
+  confirmFinalizarVaga(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmar finalização',
+        message: `Tem certeza que deseja finalizar a vaga?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.finalizarVaga();
+      }
+    });
+  }
+
+  confirmProrrogarVaga(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirmar Ação',
+        message: `Você tem certeza que deseja prorrogar esta vaga por mais 5 dias?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.executarProrrogacao();
       }
     });
   }
