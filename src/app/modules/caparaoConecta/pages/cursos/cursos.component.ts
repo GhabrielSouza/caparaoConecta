@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { TableCursosComponent } from '../../components/table-cursos/table-cursos.component';
 import { TableComponent } from '../../components/table/table.component';
 
 @Component({

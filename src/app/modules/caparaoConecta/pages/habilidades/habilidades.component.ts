@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { TableHabilidadesComponent } from '../../components/table-habilidades/table-habilidades.component';
+
 import { TableComponent } from '../../components/table/table.component';
 
 @Component({
