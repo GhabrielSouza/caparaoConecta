@@ -2,6 +2,7 @@
   <app-cabecalho />
   <main class="conteudo">
     <section class="container-fluid">
+      @if(role != roleEnum.ADMIN){
       <div class="row">
         <!-- Filtros - ocupa 2 colunas em telas grandes, 12 (full width) em telas pequenas -->
         <div class="col-12 col-lg-2">
@@ -90,6 +91,9 @@
           </div>
         </div>
       </div>
+      } @if(role == roleEnum.ADMIN){
+      <app-home-admin></app-home-admin>
+      }
     </section>
   </main>
   <app-footer></app-footer>

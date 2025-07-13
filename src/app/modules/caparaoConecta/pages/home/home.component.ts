@@ -23,6 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogHabilidadesAdminComponent } from '../../components/dialogs/dialog-habilidades-admin/dialog-habilidades-admin.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-cursos-admin/dialog-cursos-admin.component';
+import { HomeAdminComponent } from '../home-admin/home-admin.component';
 
 @Component({
   selector: 'app-home',
@@ -37,6 +38,7 @@ import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-curs
     CardVagaPublicaComponent,
     CardVagaEmpresaComponent,
     RouterModule,
+    HomeAdminComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

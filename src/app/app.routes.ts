@@ -12,13 +12,9 @@ import { HomeAdminComponent } from './modules/caparaoConecta/pages/home-admin/ho
 import { HabilidadesComponent } from './modules/caparaoConecta/pages/habilidades/habilidades.component';
 import { CursosComponent } from './modules/caparaoConecta/pages/cursos/cursos.component';
 
-
-
 export const routes: Routes = [
-  
-    { path: '', component: HomeComponent },
-    { path: 'detalhe-da-vaga/:id', component: DetalheDaVagaComponent }
-  ,
+  { path: '', component: HomeComponent },
+  { path: 'detalhe-da-vaga/:id', component: DetalheDaVagaComponent },
   {
     path: 'login',
     component: FormLoginComponent,
@@ -37,16 +33,8 @@ export const routes: Routes = [
   },
   {
     path: 'perfil',
-    component:PerfilComponent,
+    component: PerfilComponent,
   },
-  { path: 'homeAdmin',
-    component:HomeAdminComponent, 
-  },
-  { path: 'homeHabilidades',
-    component:HabilidadesComponent, 
-  },
-  { path: 'homeCursos',
-    component:CursosComponent, 
-  },
-
+  { path: 'habilidades', component: HabilidadesComponent },
+  { path: 'cursos', component: CursosComponent },
 ];
