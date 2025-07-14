@@ -11,6 +11,7 @@ import { DetalheDaVagaComponent } from './modules/caparaoConecta/pages/detalhe-d
 import { HomeAdminComponent } from './modules/caparaoConecta/pages/home-admin/home-admin.component';
 import { HabilidadesComponent } from './modules/caparaoConecta/pages/habilidades/habilidades.component';
 import { CursosComponent } from './modules/caparaoConecta/pages/cursos/cursos.component';
+import { FavoritasComponent } from './modules/caparaoConecta/pages/favoritas/favoritas.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,4 +38,8 @@ export const routes: Routes = [
   },
   { path: 'habilidades', component: HabilidadesComponent },
   { path: 'cursos', component: CursosComponent },
+  {
+    path: 'favoritas',
+    component: FavoritasComponent,
+  },
 ];

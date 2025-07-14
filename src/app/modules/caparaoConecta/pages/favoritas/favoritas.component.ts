@@ -5,6 +5,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { IVaga } from '../../interface/IVaga.interface';
+import { CardVagaFavoritaComponent } from '../../components/cards/card-vaga-favorita/card-vaga-favorita.component';
 
 @Component({
   selector: 'app-favoritas',
@@ -12,6 +13,7 @@ import { IVaga } from '../../interface/IVaga.interface';
     CabecalhoComponent,
     ComponentContainerVagasComponent,
     FooterComponent,
+    CardVagaFavoritaComponent,
   ],
   templateUrl: './favoritas.component.html',
   styleUrl: './favoritas.component.scss',

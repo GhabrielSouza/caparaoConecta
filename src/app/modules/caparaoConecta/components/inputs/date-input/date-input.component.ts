@@ -4,22 +4,22 @@ import { TInputType } from '../../../types/TInputType.type';
 import { CpfAndCnpjInputComponent } from '../cpf-and-cnpj-input/cpf-and-cnpj-input.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-date-input',
-  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, NgxMaskPipe],
+  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective],
   templateUrl: './date-input.component.html',
   styleUrl: './date-input.component.scss',
   providers: [
-      {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => CpfAndCnpjInputComponent),
-        multi: true,
-      },
-    ],
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CpfAndCnpjInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class DateInputComponent implements ControlValueAccessor{
+export class DateInputComponent implements ControlValueAccessor {
   @Input() public type: TInputType = 'text';
   @Input() public inputName: string = '';
   @Input() public placeholder: string = '';

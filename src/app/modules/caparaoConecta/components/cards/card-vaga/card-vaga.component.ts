@@ -13,7 +13,7 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-card-vaga',
-  imports: [CommonModule, Carousel, ButtonModule, Tag, PaginatorModule],
+  imports: [CommonModule, Carousel, ButtonModule, PaginatorModule],
   standalone: true,
   templateUrl: './card-vaga.component.html',
   styleUrl: './card-vaga.component.scss',

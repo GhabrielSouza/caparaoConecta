@@ -5,15 +5,15 @@
     <div class="">
       @if(role == roleEnum.CANDIDATO ){
       <app-component-container-vagas titulo="Vagas Favoritas">
-        <app-card-vagas-favoritas
+        <app-card-vaga-favorita
           [vagas]="vagasPublicas"
-        ></app-card-vagas-favoritas>
+        ></app-card-vaga-favorita>
       </app-component-container-vagas>
       }
       <app-component-container-vagas titulo="Vagas Encerradas">
-        <app-card-vagas-favoritas
+        <app-card-vaga-favorita
           [vagas]="vagasEncerradas"
-        ></app-card-vagas-favoritas>
+        ></app-card-vaga-favorita>
       </app-component-container-vagas>
     </div>
   </div>

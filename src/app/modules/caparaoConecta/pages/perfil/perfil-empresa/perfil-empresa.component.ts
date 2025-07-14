@@ -3,7 +3,7 @@ import { ComponentDefaultPerfilComponent } from '../../../components/component-d
 
 @Component({
   selector: 'app-perfil-empresa',
-  imports: [ComponentDefaultPerfilComponent],
+  imports: [],
   templateUrl: './perfil-empresa.component.html',
   styleUrls: ['./perfil-empresa.component.scss'],
 })

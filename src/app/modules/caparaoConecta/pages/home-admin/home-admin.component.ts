@@ -6,10 +6,8 @@ import { CardVagaComponent } from '../../components/cards/card-vaga/card-vaga.co
 
 @Component({
   selector: 'app-home-admin',
-  imports: [CabecalhoComponent, FooterComponent, DashboardCardComponent,],
+  imports: [DashboardCardComponent],
   templateUrl: './home-admin.component.html',
-  styleUrl: './home-admin.component.scss'
+  styleUrl: './home-admin.component.scss',
 })
-export class HomeAdminComponent {
-
-}
+export class HomeAdminComponent {}
