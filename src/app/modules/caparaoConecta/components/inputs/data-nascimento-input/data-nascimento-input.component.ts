@@ -1,26 +1,29 @@
-import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective } from 'ngx-mask';
 import { TInputType } from '../../../types/TInputType.type';
 
-
 @Component({
   selector: 'app-data-nascimento-input',
-  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective],
+  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, FormsModule],
   templateUrl: './data-nascimento-input.component.html',
   styleUrl: './data-nascimento-input.component.scss',
   providers: [
-      {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DataNascimentoInputComponent),
-        multi: true,
-      },
-    ],
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DataNascimentoInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class DataNascimentoInputComponent implements ControlValueAccessor{
+export class DataNascimentoInputComponent implements ControlValueAccessor {
   @Input() public type: TInputType = 'text';
   @Input() public inputName: string = '';
   @Input() public placeholder: string = '';
@@ -31,6 +34,8 @@ export class DataNascimentoInputComponent implements ControlValueAccessor{
   onChange: any = () => {};
   onTouched: any = () => {};
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   updateValue(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
     this.value = inputValue;
@@ -39,7 +44,21 @@ export class DataNascimentoInputComponent implements ControlValueAccessor{
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    console.log('Tentando escrever o valor:', value);
+    if (typeof value === 'string' && value.includes('-')) {
+      const parts = value.split('-');
+      if (parts.length === 3) {
+        const [year, month, day] = parts;
+
+        this.value = `${day}/${month}/${year}`;
+      } else {
+        this.value = '';
+      }
+    } else {
+      this.value = value || '';
+    }
+
+    this.cdr.detectChanges();
   }
 
   registerOnChange(fn: any): void {
