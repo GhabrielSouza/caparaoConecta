@@ -44,7 +44,7 @@ export class PerfilComponent implements OnInit {
   cursos: any[] = [];
   id_tipo_usuario: string = '';
 
-  idUsuario = 1;
+  idUsuario = 2;
   // Substitua pelo ID do usuário desejado
   // Substitua pelo ID do tipo de usuário desejado
 
