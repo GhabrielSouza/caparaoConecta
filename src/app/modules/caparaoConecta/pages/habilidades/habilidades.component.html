@@ -5,6 +5,11 @@
     [title]="'Habilidades'"
     [addLabel]="'Adicionar Habilidade'"
     [columns]="habilidadesColumns"
+    [data]="habilidadesData"
+    (itemAdded)="onHabilidadeRecebida($event)"
+    (itemEdited)="onHabilidadeAtualizada($event)"
+    (itemDeleted)="onHabilidadeDeletada($event)"
+    (itemStatusToggled)="onHabilidadeStatusToggled($event)"
   >
   </app-table>
 </section>

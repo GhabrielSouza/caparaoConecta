@@ -1,4 +1,4 @@
-import { ICursosOnPessoas } from "./ICursosOnPessoas.inteface";
+import { ICursosOnPessoas } from './ICursosOnPessoas.inteface';
 
 export interface ICursos {
   id_cursos: number;
@@ -6,5 +6,5 @@ export interface ICursos {
   cargo_horaria: number;
   tipo_curso: string;
   id_instituicoes?: number;
-  pivot: ICursosOnPessoas;
+  pivot?: ICursosOnPessoas;
 }
