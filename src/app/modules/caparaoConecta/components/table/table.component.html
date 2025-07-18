@@ -12,13 +12,8 @@
   <table class="table">
     <thead>
       <tr class="header-row">
-        <th
-          *ngFor="let column of columns"
-          class="cpc-regular-010"
-          [ngClass]="{ 'th-centro': column != column[0] }"
-          [ngStyle]="{}"
-        >
-          {{ column | capitalize }}
+        <th *ngFor="let col of columns" class="cpc-regular-010">
+          {{ col.header | capitalize }}
         </th>
         <th class="th-lateral-direita cpc-regular-010">Ações</th>
       </tr>
@@ -26,11 +21,11 @@
     <tbody>
       <tr
         *ngFor="let item of data"
-        [ngClass]="{ 'row-active': item.status === 'Ativo' }"
+        [ngClass]="{ 'row-active': statusFn(item) === 'Ativo' }"
         class="cpc-regular-010"
       >
-        <td *ngFor="let column of columns" class="td-centro">
-          {{ item[column] }}
+        <td *ngFor="let col of columns" class="td-centro">
+          {{ getCellValue(item, col) }}
         </td>
 
         <td class="actions td-lateral-direita">
@@ -40,13 +35,13 @@
 
           <button
             class="icon-btn"
-            [ngClass]="item.status === 'Ativo' ? 'deactivate' : 'activate'"
+            [ngClass]="statusFn(item) === 'Ativo' ? 'deactivate' : 'activate'"
             (click)="onToggleStatus(item)"
           >
-            <span *ngIf="item.status === 'Ativo'" class="material-icons"
+            <span *ngIf="statusFn(item) === 'Ativo'" class="material-icons"
               >toggle_off</span
             >
-            <span *ngIf="item.status !== 'Ativo'" class="material-icons"
+            <span *ngIf="statusFn(item) !== 'Ativo'" class="material-icons"
               >toggle_on</span
             >
           </button>

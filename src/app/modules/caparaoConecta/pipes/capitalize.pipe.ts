@@ -10,6 +10,8 @@ export class CapitalizePipe implements PipeTransform {
       return value;
     }
 
-    return value.charAt(0).toUpperCase() + value.slice(1);
+    const textWithSpaces = value.replace(/_/g, ' ');
+
+    return textWithSpaces.charAt(0).toUpperCase() + textWithSpaces.slice(1);
   }
 }

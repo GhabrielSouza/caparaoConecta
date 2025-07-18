@@ -1,5 +1,5 @@
 <header class="d-flex justify-content-between p-4 align-items-center">
-  <h3>Adicionar habilidade</h3>
+  <h3>{{ titulo }}</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
@@ -8,11 +8,32 @@
 <mat-dialog-content>
   <div class="curso-list">
     <form [formGroup]="formCurso">
+      <div class="col flex-grow-1 input-container">
+        <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+        <mat-form-field class="example-full-width w-100">
+          <input
+            type="text"
+            matInput
+            formControlName="instituicao"
+            placeholder="Preencha sua Instituição"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="displayFnInstituicao"
+          >
+            @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option">{{ option.nome }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
       <app-primary-input
         formControlName="curso"
         type="text"
-        placeholder="Digite uma nova curso"
-        label="curso"
+        placeholder="Digite um novo curso"
+        label="Curso"
         inputName="curso"
       >
         @if (formCurso.get('curso')?.invalid && (formCurso.get('curso')?.touched
@@ -20,6 +41,39 @@
         <mat-error>Este campo não pode estar vazio</mat-error>
         }
       </app-primary-input>
+
+      <app-primary-input
+        formControlName="cargo_horaria"
+        type="text"
+        placeholder="Ex: 40 horas"
+        label="Cargo Horária"
+        inputName="link"
+      >
+        @if (formCurso.get('link')?.invalid && (formCurso.get('link')?.touched
+        || formCurso.get('link')?.dirty )) {
+        <mat-error>Este campo não pode estar vazio</mat-error>
+        }
+      </app-primary-input>
+
+      <div>
+        <mat-label class="cpc-medium-010">Tipo do curso</mat-label>
+        <mat-form-field class="w-100">
+          <mat-select
+            formControlName="tipo_de_curso"
+            placeholder="Presencial, Online, Híbrido"
+          >
+            <mat-option [value]="1">Presencial</mat-option>
+            <mat-option [value]="2">Online</mat-option>
+            <mat-option [value]="3">Híbrido</mat-option>
+          </mat-select>
+
+          @if (formCurso.get('tipo_de_curso')?.invalid &&
+          (formCurso.get('tipo_de_curso')?.touched ||
+          formCurso.get('tipo_de_curso')?.dirty )) {
+          <mat-error>Por favor, selecione uma opção</mat-error>
+          }
+        </mat-form-field>
+      </div>
 
       <app-primary-input
         formControlName="link"
@@ -30,20 +84,6 @@
       >
         @if (formCurso.get('link')?.invalid && (formCurso.get('link')?.touched
         || formCurso.get('link')?.dirty )) {
-        <mat-error>Este campo não pode estar vazio</mat-error>
-        }
-      </app-primary-input>
-
-      <app-primary-input
-        formControlName="instituicao"
-        type="text"
-        placeholder="Digite uma nova instituicao"
-        label="Instituiçâo"
-        inputName="instituicao"
-      >
-        @if (formCurso.get('instituicao')?.invalid &&
-        (formCurso.get('instituicao')?.touched ||
-        formCurso.get('instituicao')?.dirty )) {
         <mat-error>Este campo não pode estar vazio</mat-error>
         }
       </app-primary-input>

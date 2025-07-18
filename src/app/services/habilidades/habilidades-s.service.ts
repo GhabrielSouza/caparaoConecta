@@ -59,7 +59,7 @@ export class HabilidadesSService {
       .pipe(
         shareReplay(),
         tap((data) => {
-          this.#setCreateHabilidades.set(data);
+          this.#setStatusHabilidades.set(data);
         })
       );
   }

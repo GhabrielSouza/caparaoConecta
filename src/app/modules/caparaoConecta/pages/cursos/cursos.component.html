@@ -5,6 +5,14 @@
     [title]="'Cursos'"
     [addLabel]="'Adicionar Curso'"
     [columns]="cursosColumns"
+    [dialogComponent]="CursosFormComponent"
+    [data]="cursoData"
+    [idFn]="getIdCurso"
+    [statusFn]="getStatusCurso"
+    (itemAdded)="onCursoRecebido($event)"
+    (itemEdited)="onCursoAtualizado($event)"
+    (itemDeleted)="onCursoDeletado($event)"
+    (itemStatusToggled)="onCursoStatusToggled($event)"
   >
   </app-table>
 </section>

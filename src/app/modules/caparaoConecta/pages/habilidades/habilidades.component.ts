@@ -5,7 +5,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { TableComponent } from '../../components/table/table.component';
 import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { HabilidadesSService } from '../../../../services/habilidades/habilidades-s.service';
-import { I } from '@angular/cdk/keycodes';
+
+import { DialogHabilidadesAdminComponent } from '../../components/dialogs/dialog-habilidades-admin/dialog-habilidades-admin.component';
+import { ITableColumn } from '../../interface/ITableColumn.interface';
 
 @Component({
   selector: 'app-habilidades',
@@ -14,8 +16,23 @@ import { I } from '@angular/cdk/keycodes';
   styleUrl: './habilidades.component.scss',
 })
 export class HabilidadesComponent {
-  habilidadesColumns: string[] = ['nome', 'status'];
+  dialogHabilidades = DialogHabilidadesAdminComponent;
+
+  habilidadesColumns: ITableColumn<IHabilidades>[] = [
+    {
+      key: 'nome',
+      header: 'Habilidade',
+    },
+    {
+      key: 'status',
+      header: 'Status',
+    },
+  ];
   habilidadesData: IHabilidades[] = [];
+
+  getIdHabilidade = (item: IHabilidades) => item.id_habilidades;
+  getNomeHabilidade = (item: IHabilidades) => item.nome;
+  getStatusHabilidade = (item: IHabilidades) => item.status;
 
   constructor(private habilidadesService: HabilidadesSService) {
     this.onHabilidadesListadas();
@@ -51,6 +68,7 @@ export class HabilidadesComponent {
     return this.habilidadesService.httpDeleteHabilidades$(id).subscribe({
       next: (data) => {
         console.log('Habilidade deletada com sucesso:', data);
+        this.onHabilidadesListadas();
       },
       error: (error) => {
         console.error('Erro ao deletar habilidade:', error);
