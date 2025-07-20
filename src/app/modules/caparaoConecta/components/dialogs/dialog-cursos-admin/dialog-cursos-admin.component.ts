@@ -66,9 +66,9 @@ export class DialogCursosAdminComponent {
     this.formCurso = this._fb.group({
       curso: ['', Validators.required],
       link: ['', Validators.required],
-      instituicao: ['', Validators.required],
+      id_instituicoes: ['', Validators.required],
       cargo_horaria: ['', [Validators.required, Validators.min(1)]],
-      tipo_de_curso: ['', Validators.required],
+      id_tipo_de_cursos: ['', Validators.required],
     });
 
     if (this.data && this.data.item) {
@@ -77,9 +77,9 @@ export class DialogCursosAdminComponent {
       this.formCurso.patchValue({
         curso: this.data.item.curso,
         link: this.data.item.link,
-        instituicao: this.data.item.instituicao,
+        id_instituicoes: this.data.item.instituicao,
         cargo_horaria: this.data.item.cargo_horaria,
-        tipo_de_curso: this.data.item.tipo_curso,
+        id_tipo_de_cursos: this.data.item.id_tipo_de_cursos,
       });
     } else {
       this.modo = 'add';
@@ -88,6 +88,8 @@ export class DialogCursosAdminComponent {
   }
 
   submit() {
+    console.log(this.formCurso.value);
+
     // 1. Verificamos se o formulário é válido
     if (this.formCurso.invalid) {
       this.formCurso.markAllAsTouched(); // Marca campos como tocados para exibir erros
@@ -96,10 +98,12 @@ export class DialogCursosAdminComponent {
 
     // 2. Pegamos os dados do formulário
     const dadosDoFormulario = this.formCurso.value;
+    dadosDoFormulario.id_instituicoes =
+      dadosDoFormulario.id_instituicoes.id_instituicoes;
 
     // Se estivermos editando, é bom enviar o ID de volta
     if (this.modo === 'edit') {
-      dadosDoFormulario.id = this.data.item.id;
+      dadosDoFormulario.id_cursos = this.data.item.id_cursos;
     }
 
     // 3. Fechamos o diálogo, passando os dados como argumento
@@ -126,7 +130,7 @@ export class DialogCursosAdminComponent {
       next: (data) => {
         this.options = data;
         this.filteredOptions = this.formCurso
-          .get('instituicao')!
+          .get('id_instituicoes')!
           .valueChanges.pipe(
             startWith(''),
             map((value) => {

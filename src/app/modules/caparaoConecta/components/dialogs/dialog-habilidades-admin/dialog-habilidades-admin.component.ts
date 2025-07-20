@@ -66,7 +66,7 @@ export class DialogHabilidadesAdminComponent {
 
     // Se estivermos editando, é bom enviar o ID de volta
     if (this.modo === 'edit') {
-      dadosDoFormulario.id = this.data.item.id;
+      dadosDoFormulario.id_habilidades = this.data.item.id_habilidades;
     }
 
     // 3. Fechamos o diálogo, passando os dados como argumento

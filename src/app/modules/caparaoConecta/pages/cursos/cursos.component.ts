@@ -49,6 +49,7 @@ export class CursosComponent {
     return this.cursosService.httpCreateCursos$(curso).subscribe({
       next: (data) => {
         console.log('Curso criado com sucesso:', data);
+        this.onCursosListados();
       },
       error: (error) => {
         console.error('Erro ao criar curso:', error);
@@ -62,6 +63,7 @@ export class CursosComponent {
       .subscribe({
         next: (data) => {
           console.log('Curso atualizado com sucesso:', data);
+          this.onCursosListados();
         },
         error: (error) => {
           console.error('Erro ao atualizar curso:', error);
@@ -73,6 +75,7 @@ export class CursosComponent {
     return this.cursosService.httpDeleteCursos$(id).subscribe({
       next: (data) => {
         console.log('Curso deletado com sucesso:', data);
+        this.onCursosListados();
       },
       error: (error) => {
         console.error('Erro ao deletar curso:', error);

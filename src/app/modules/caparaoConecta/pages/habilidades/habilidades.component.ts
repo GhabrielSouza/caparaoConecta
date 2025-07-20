@@ -43,6 +43,7 @@ export class HabilidadesComponent {
       .httpCreateHabilidades$(habilidade)
       .subscribe({
         next: (data) => {
+          this.onHabilidadesListadas();
           console.log('Habilidade criada com sucesso:', data);
         },
         error: (error) => {
@@ -56,6 +57,7 @@ export class HabilidadesComponent {
       .httpUpdateHabilidades$(habilidade.id_habilidades, habilidade)
       .subscribe({
         next: (data) => {
+          this.onHabilidadesListadas();
           console.log('Habilidade atualizada com sucesso:', data);
         },
         error: (error) => {

@@ -14,7 +14,7 @@
           <input
             type="text"
             matInput
-            formControlName="instituicao"
+            formControlName="id_instituicoes"
             placeholder="Preencha sua Instituição"
             [matAutocomplete]="auto"
           />
@@ -59,7 +59,7 @@
         <mat-label class="cpc-medium-010">Tipo do curso</mat-label>
         <mat-form-field class="w-100">
           <mat-select
-            formControlName="tipo_de_curso"
+            formControlName="id_tipo_de_cursos"
             placeholder="Presencial, Online, Híbrido"
           >
             <mat-option [value]="1">Presencial</mat-option>
@@ -67,9 +67,9 @@
             <mat-option [value]="3">Híbrido</mat-option>
           </mat-select>
 
-          @if (formCurso.get('tipo_de_curso')?.invalid &&
-          (formCurso.get('tipo_de_curso')?.touched ||
-          formCurso.get('tipo_de_curso')?.dirty )) {
+          @if (formCurso.get('id_tipo_de_cursos')?.invalid &&
+          (formCurso.get('id_tipo_de_cursos')?.touched ||
+          formCurso.get('id_tipo_de_cursos')?.dirty )) {
           <mat-error>Por favor, selecione uma opção</mat-error>
           }
         </mat-form-field>

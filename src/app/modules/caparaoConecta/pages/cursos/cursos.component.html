@@ -8,6 +8,7 @@
     [dialogComponent]="CursosFormComponent"
     [data]="cursoData"
     [idFn]="getIdCurso"
+    [displayFn]="getNomeCurso"
     [statusFn]="getStatusCurso"
     (itemAdded)="onCursoRecebido($event)"
     (itemEdited)="onCursoAtualizado($event)"

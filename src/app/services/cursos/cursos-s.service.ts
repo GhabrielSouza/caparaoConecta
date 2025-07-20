@@ -66,7 +66,7 @@ export class CursosSService {
   public getUpdateCursos = this.#setUpdateCursos.asReadonly();
   public httpUpdateCursos$(id: number, curso: ICursos): Observable<ICursos[]> {
     return this.#http
-      .put<ICursos[]>(`${this.#url}/api/curso/${id}`, curso)
+      .put<ICursos[]>(`${this.#url}/api/cursos/${id}`, curso)
       .pipe(
         shareReplay(),
         tap((data) => {
