@@ -13,7 +13,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
 import { CandidatoSelecionadoComponent } from '../candidato-selecionado/candidato-selecionado.component';
 import { CursosSService } from '../../../../services/cursos/cursos-s.service';
-import { VagasService } from '../../../../services/vagas.service';
+import { VagasService } from '../../../../services/vaga/vagas.service';
 import { ActivatedRoute } from '@angular/router';
 import { IVaga } from '../../interface/IVaga.interface';
 import { MatDialog } from '@angular/material/dialog';

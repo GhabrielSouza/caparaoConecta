@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { IHabilidades } from '../../modules/caparaoConecta/interface/IHabilidades.interface';
@@ -15,12 +15,33 @@ export class HabilidadesSService {
   #setListHabilidades = signal<IHabilidades[] | null>(null);
   public getListHabilidades = this.#setListHabilidades.asReadonly();
   public httpListHabilidades$(): Observable<IHabilidades[]> {
-    return this.#http.get<IHabilidades[]>(`${this.#url}/api/habilidades`).pipe(
-      shareReplay(),
-      tap((data) => {
-        this.#setListHabilidades.set(data);
-      })
-    );
+    return this.#http
+      .get<IHabilidades[]>(`${this.#url}/api/showAllHabilidades`)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setListHabilidades.set(data);
+        })
+      );
+  }
+
+  #setListHabilidadesPag = signal<IHabilidades[] | null>(null);
+  public getListHabilidadesPag = this.#setListHabilidadesPag.asReadonly();
+  public httpListHabilidadesPag$(
+    page: number,
+    pageSize: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', pageSize.toString());
+    return this.#http
+      .get<IHabilidades[]>(`${this.#url}/api/habilidades`, { params })
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setListHabilidadesPag.set(data);
+        })
+      );
   }
 
   #setListHabilidadesId = signal<IHabilidades[] | null>(null);

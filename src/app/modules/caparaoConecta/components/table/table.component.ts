@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/portal'; // Importação importante!
 
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary.component';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CapitalizePipe } from '../../pipes/capitalize.pipe';
@@ -33,6 +33,10 @@ export class TableComponent<T> {
   @Output() itemEdited = new EventEmitter<T>();
   @Output() itemDeleted = new EventEmitter<number>();
   @Output() itemStatusToggled = new EventEmitter<T>();
+
+  @Input() totalDataLength: number = 0;
+
+  @Output() pageChanged = new EventEmitter<PageEvent>();
 
   constructor(private dialog: MatDialog) {}
 
@@ -87,5 +91,9 @@ export class TableComponent<T> {
 
   onToggleStatus(item: T): void {
     this.itemStatusToggled.emit(item);
+  }
+
+  public onPageChange(event: PageEvent): void {
+    this.pageChanged.emit(event);
   }
 }

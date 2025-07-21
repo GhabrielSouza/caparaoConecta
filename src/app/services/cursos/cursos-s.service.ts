@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ICursos } from '../../modules/caparaoConecta/interface/ICursos.inteface';
@@ -15,7 +15,7 @@ export class CursosSService {
   #setListCursos = signal<ICursos[] | null>(null);
   public getListCursos = this.#setListCursos.asReadonly();
   public httpListCursos$(): Observable<ICursos[]> {
-    return this.#http.get<ICursos[]>(`${this.#url}/api/cursos`).pipe(
+    return this.#http.get<ICursos[]>(`${this.#url}/api/showAllCursos`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListCursos.set(data);
@@ -60,6 +60,22 @@ export class CursosSService {
         this.#setCreateCursos.set(data);
       })
     );
+  }
+
+  #setListCursosPag = signal<ICursos[] | null>(null);
+  public getListCursosPag = this.#setListCursosPag.asReadonly();
+  public httpListCursosPag$(page: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', pageSize.toString());
+    return this.#http
+      .get<ICursos[]>(`${this.#url}/api/cursos`, { params })
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setListCursosPag.set(data);
+        })
+      );
   }
 
   #setUpdateCursos = signal<ICursos[] | null>(null);

@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { DetalhesVagaComponent } from '../../components/detalhes-vaga/detalhes-vaga.component';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { VagasService } from '../../../../services/vagas.service';
+import { VagasService } from '../../../../services/vaga/vagas.service';
 import { IVaga } from '../../interface/IVaga.interface';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { TableComponent } from '../../components/table/table.component';
@@ -6,6 +6,7 @@ import { CursosSService } from '../../../../services/cursos/cursos-s.service';
 import { ICursos } from '../../interface/ICursos.inteface';
 import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-cursos-admin/dialog-cursos-admin.component';
 import { ITableColumn } from '../../interface/ITableColumn.interface';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-cursos',
@@ -13,8 +14,13 @@ import { ITableColumn } from '../../interface/ITableColumn.interface';
   templateUrl: './cursos.component.html',
   styleUrl: './cursos.component.scss',
 })
-export class CursosComponent {
+export class CursosComponent implements OnInit {
   cursoData: ICursos[] = [];
+
+  totalCursos = 0;
+
+  currentPage = 0;
+  pageSize = 10;
 
   cursosColumns: ITableColumn<ICursos>[] = [
     { key: 'curso', header: 'Curso' },
@@ -41,9 +47,11 @@ export class CursosComponent {
 
   CursosFormComponent = DialogCursosAdminComponent;
 
-  constructor(private cursosService: CursosSService) {
+  ngOnInit(): void {
     this.onCursosListados();
   }
+
+  constructor(private cursosService: CursosSService) {}
 
   onCursoRecebido(curso: ICursos) {
     return this.cursosService.httpCreateCursos$(curso).subscribe({
@@ -84,15 +92,25 @@ export class CursosComponent {
   }
 
   onCursosListados() {
-    return this.cursosService.httpListCursos$().subscribe({
-      next: (data) => {
-        console.log('Cursos listados com sucesso:', data);
-        this.cursoData = data;
-      },
-      error: (error) => {
-        console.error('Erro ao listar cursos:', error);
-      },
-    });
+    const pageIndexForApi = this.currentPage + 1;
+    return this.cursosService
+      .httpListCursosPag$(pageIndexForApi, this.pageSize)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.cursoData = response.data;
+          this.totalCursos = response.total;
+        },
+        error: (error) => {
+          console.error('Erro ao listar cursos:', error);
+        },
+      });
+  }
+
+  updatePaginatedData(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.onCursosListados();
   }
 
   onCursoStatusToggled(habilidade: ICursos) {

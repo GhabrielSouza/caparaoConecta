@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 
@@ -15,7 +15,7 @@ import { ITableColumn } from '../../interface/ITableColumn.interface';
   templateUrl: './habilidades.component.html',
   styleUrl: './habilidades.component.scss',
 })
-export class HabilidadesComponent {
+export class HabilidadesComponent implements OnInit {
   dialogHabilidades = DialogHabilidadesAdminComponent;
 
   habilidadesColumns: ITableColumn<IHabilidades>[] = [
@@ -28,15 +28,23 @@ export class HabilidadesComponent {
       header: 'Status',
     },
   ];
+
   habilidadesData: IHabilidades[] = [];
+
+  totalHabilidades = 0;
+
+  currentPage = 0;
+  pageSize = 10;
 
   getIdHabilidade = (item: IHabilidades) => item.id_habilidades;
   getNomeHabilidade = (item: IHabilidades) => item.nome;
   getStatusHabilidade = (item: IHabilidades) => item.status;
 
-  constructor(private habilidadesService: HabilidadesSService) {
+  ngOnInit(): void {
     this.onHabilidadesListadas();
   }
+
+  constructor(private habilidadesService: HabilidadesSService) {}
 
   onHabilidadeRecebida(habilidade: IHabilidades) {
     return this.habilidadesService
@@ -79,15 +87,19 @@ export class HabilidadesComponent {
   }
 
   onHabilidadesListadas() {
-    return this.habilidadesService.httpListHabilidades$().subscribe({
-      next: (data) => {
-        console.log('Lista de habilidades:', data);
-        this.habilidadesData = data;
-      },
-      error: (error) => {
-        console.error('Erro ao listar habilidades:', error);
-      },
-    });
+    const pageIndexForApi = this.currentPage + 1;
+    return this.habilidadesService
+      .httpListHabilidadesPag$(pageIndexForApi, this.pageSize)
+      .subscribe({
+        next: (response) => {
+          console.log('Lista de habilidades:', response);
+          this.habilidadesData = response.data;
+          this.totalHabilidades = response.total;
+        },
+        error: (error) => {
+          console.error('Erro ao listar habilidades:', error);
+        },
+      });
   }
 
   onHabilidadeStatusToggled(habilidade: IHabilidades) {

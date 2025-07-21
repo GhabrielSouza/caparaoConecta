@@ -31,7 +31,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
-import { VagasService } from '../../../../../services/vagas.service';
+import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { NgxMaskDirective } from 'ngx-mask';
 import { registerLocaleData, CommonModule } from '@angular/common';
 import localePt from '@angular/common/locales/pt';

@@ -31,8 +31,12 @@
                 <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
                 <mat-form-field>
                   <mat-select placeholder="Selecione um item">
-                    <mat-option value="one">First option</mat-option>
-                    <mat-option value="two">Second option</mat-option>
+                    <mat-option value="">Todas</mat-option>
+                    @for (area of areasAtuacao; track $index) {
+                    <mat-option [value]="area.nome_area">{{
+                      area.nome_area
+                    }}</mat-option>
+                    }
                   </mat-select>
                 </mat-form-field>
               </div>

@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { DetalhesVagaComponent } from '../../components/detalhes-vaga/detalhes-vaga.component';
 import { IVaga } from '../../interface/IVaga.interface';
-import { VagasService } from '../../../../services/vagas.service';
+import { VagasService } from '../../../../services/vaga/vagas.service';
 import { ContentObserver } from '@angular/cdk/observers';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +24,8 @@ import { DialogHabilidadesAdminComponent } from '../../components/dialogs/dialog
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-cursos-admin/dialog-cursos-admin.component';
 import { HomeAdminComponent } from '../home-admin/home-admin.component';
+import { AreasAtuacaoService } from '../../../../services/areasAtuacao/areas-atuacao.service';
+import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
 
 @Component({
   selector: 'app-home',
@@ -53,15 +55,19 @@ export class HomeComponent implements OnInit {
 
   vagasPublicas: IVaga[] = [];
 
+  areasAtuacao: IAreasAtuacao[] = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private vagasService: VagasService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private areasService: AreasAtuacaoService
   ) {}
 
   ngOnInit(): void {
     this.getVagas();
+    this.onListAreasAtuacao();
     console.log(this.vagasOfertadas);
     console.log(this.vagasEncerradas);
   }
@@ -92,6 +98,18 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erro ao buscar vagas:', error);
+      },
+    });
+  }
+
+  onListAreasAtuacao() {
+    return this.areasService.httpListAreas$().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.areasAtuacao = response;
+      },
+      error: (error) => {
+        console.log(error);
       },
     });
   }
