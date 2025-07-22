@@ -40,6 +40,8 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { ViacepService } from '../../../../../services/viacep.service';
 import { IEstadoIbge } from '../../../interface/IEstadoIbge.interface';
 import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
+import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
+import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
@@ -65,11 +67,13 @@ import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
   styleUrl: './dialog-perfil-informacoes.component.scss',
   providers: [MessageService],
 })
-export class DialogPerfilInformacoesComponent implements OnInit{
+export class DialogPerfilInformacoesComponent implements OnInit {
   public cadastrarForm: FormGroup;
 
   estados: IEstadoIbge[] = [];
   cidades: IMunicipioIbge[] = [];
+
+  areasAtuacao: IAreasAtuacao[] = [];
 
   constructor(
     private _fb: FormBuilder,
@@ -78,7 +82,8 @@ export class DialogPerfilInformacoesComponent implements OnInit{
     private router: Router,
     private messageService: MessageService,
     private apiService: RegisterService,
-    private viacepService: ViacepService
+    private viacepService: ViacepService,
+    private areasService: AreasAtuacaoService
   ) {
     this.cadastrarForm = this._fb.group({
       nome: ['', [Validators.required]],
@@ -94,10 +99,10 @@ export class DialogPerfilInformacoesComponent implements OnInit{
       estado: ['', []],
       cidade: ['', []],
       email: ['', [Validators.required, Validators.email]],
+      id_areas_atuacao: [null],
       id_tipo_usuarios: this.data.idTipoUsuario,
     });
 
-  
     const emailControl = this.email;
     if (emailControl) {
       merge(emailControl.statusChanges, emailControl.valueChanges)
@@ -196,8 +201,9 @@ export class DialogPerfilInformacoesComponent implements OnInit{
     }
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.carregarEstados();
+    this.onListAreas();
   }
 
   public submit() {
@@ -206,7 +212,9 @@ export class DialogPerfilInformacoesComponent implements OnInit{
     formdata.estado = formdata.estado?.nome;
     return this.apiService
       .httpUpdateCandidato$(this.data.id, formdata)
-      .pipe(concatMap(()=> this.apiService.httpListCandidatosId$(this.data.id)))
+      .pipe(
+        concatMap(() => this.apiService.httpListCandidatosId$(this.data.id))
+      )
       .subscribe({
         next: (resposta) => {
           console.log(resposta);
@@ -216,7 +224,18 @@ export class DialogPerfilInformacoesComponent implements OnInit{
           console.error('Error updating data', error);
         },
       });
-  } 
+  }
+
+  public onListAreas() {
+    this.areasService.httpListAreas$().subscribe({
+      next: (resp) => {
+        this.areasAtuacao = resp;
+      },
+      error: (error) => {
+        console.log('Erro ao carregar estados', error);
+      },
+    });
+  }
 
   public carregarEstados() {
     this.cadastrarForm.get('cidade')?.disable();
@@ -314,7 +333,6 @@ export class DialogPerfilInformacoesComponent implements OnInit{
   get cep() {
     return this.cadastrarForm.get('cep');
   }
-
 
   updateErrorMessage(field: any) {
     const control = this.cadastrarForm.get(field);

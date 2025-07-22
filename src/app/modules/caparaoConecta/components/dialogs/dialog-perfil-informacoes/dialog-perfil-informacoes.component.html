@@ -21,52 +21,52 @@
       }
     </app-primary-input>
     @if(data.conteudo.usuario.id_tipo_usuarios == 2) {
-      <app-primary-input
-        formControlName="sobrenome"
+    <app-primary-input
+      formControlName="sobrenome"
+      type="text"
+      placeholder="Digite seu nome"
+      label="Sobrenome"
+      inputName="sobrenome"
+      class="col-12"
+    >
+      @if (cadastrarForm.get('sobrenome')?.invalid &&
+      (cadastrarForm.get('sobrenome')?.touched ||
+      cadastrarForm.get('sobrenome')?.dirty )) {
+      <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
+      }
+    </app-primary-input>
+
+    <div class="d-flex">
+      <app-data-nascimento-input
+        formControlName="data_de_nascimento"
         type="text"
-        placeholder="Digite seu nome"
-        label="Sobrenome"
-        inputName="sobrenome"
-        class="col-12"
+        placeholder="dd/mm/yyyy"
+        label="Data de nascimento"
+        inputName="data_de_nascimento"
+        class="col-6"
       >
-        @if (cadastrarForm.get('sobrenome')?.invalid &&
-        (cadastrarForm.get('sobrenome')?.touched ||
-        cadastrarForm.get('sobrenome')?.dirty )) {
-          <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
+        @if (cadastrarForm.get('data_de_nascimento')?.invalid &&
+        (cadastrarForm.get('data_de_nascimento')?.touched ||
+        cadastrarForm.get('data_de_nascimento')?.dirty )) {
+        <mat-error>{{ fieldErrors()["data_de_nascimento"] }}</mat-error>
         }
-      </app-primary-input>
-      
-      <div class="d-flex">
-        <app-data-nascimento-input
-          formControlName="data_de_nascimento"
-          type="text"
-          placeholder="dd/mm/yyyy"
-          label="Data de nascimento"
-          inputName="data_de_nascimento"
-          class="col-6"
-        >
-          @if (cadastrarForm.get('data_de_nascimento')?.invalid &&
-          (cadastrarForm.get('data_de_nascimento')?.touched ||
-          cadastrarForm.get('data_de_nascimento')?.dirty )) {
-            <mat-error>{{ fieldErrors()["data_de_nascimento"] }}</mat-error>
-          }
-        </app-data-nascimento-input>
-        
-        <app-genero-input
-          formControlName="genero"
-          type="text"
-          placeholder="Selecione seu gênero"
-          label="Gênero"
-          inputName="genero"
-          class="col-6 ps-3"
-        >
-          @if (cadastrarForm.get('genero')?.invalid &&
-          (cadastrarForm.get('genero')?.touched ||
-          cadastrarForm.get('genero')?.dirty )) {
-            <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
-          }
-        </app-genero-input>
-      </div>
+      </app-data-nascimento-input>
+
+      <app-genero-input
+        formControlName="genero"
+        type="text"
+        placeholder="Selecione seu gênero"
+        label="Gênero"
+        inputName="genero"
+        class="col-6 ps-3"
+      >
+        @if (cadastrarForm.get('genero')?.invalid &&
+        (cadastrarForm.get('genero')?.touched ||
+        cadastrarForm.get('genero')?.dirty )) {
+        <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
+        }
+      </app-genero-input>
+    </div>
     }
 
     <app-primary-input
@@ -190,6 +190,29 @@
         </mat-form-field>
       </div>
     </div>
+    @if(data.conteudo.usuario.id_tipo_usuarios == 2) {
+    <div class="flex-grow-1 input-container">
+      <mat-label class="d-block">Área de Atuação</mat-label>
+      <!-- Label posicionado acima -->
+      <mat-form-field class="w-100">
+        <mat-select
+          formControlName="id_areas_atuacao"
+          placeholder="Selecione sua área de atuação"
+        >
+          @for(area of areasAtuacao; track area.id_areas_atuacao){
+          <mat-option [value]="area.id_areas_atuacao">
+            {{ area.nome_area }}
+          </mat-option>
+          }
+        </mat-select>
+        @if (cadastrarForm.get('id_areas_atuacao')?.invalid &&
+        (cadastrarForm.get('id_areas_atuacao')?.touched ||
+        cadastrarForm.get('id_areas_atuacao')?.dirty)) {
+        <mat-error>{{ fieldErrors()["id_areas_atuacao"] }}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    }
     <app-primary-input
       formControlName="email"
       type="email"

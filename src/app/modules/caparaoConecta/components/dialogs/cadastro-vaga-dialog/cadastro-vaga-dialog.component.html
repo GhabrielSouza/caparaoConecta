@@ -123,6 +123,25 @@
         </mat-autocomplete>
       </mat-form-field>
 
+      <mat-label>Área de Atuação</mat-label>
+      <!-- Label posicionado acima -->
+      <mat-form-field class="full-width-input mat-chip-list-container">
+        <mat-select
+          formControlName="id_areas_atuacao"
+          placeholder="Selecione a área de atuação"
+        >
+          @for(area of areasAtuacao; track area.id_areas_atuacao){
+          <mat-option [value]="area.id_areas_atuacao">
+            {{ area.nome_area }}
+          </mat-option>
+          }
+        </mat-select>
+        @if (vagaForm.get('estado')?.invalid && (vagaForm.get('estado')?.touched
+        || vagaForm.get('estado')?.dirty)) {
+        <mat-error>ai é triste</mat-error>
+        }
+      </mat-form-field>
+
       <mat-label>Descrição</mat-label>
       <mat-form-field class="full-width-input">
         <textarea

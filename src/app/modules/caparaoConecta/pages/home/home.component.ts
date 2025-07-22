@@ -26,7 +26,10 @@ import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-curs
 import { HomeAdminComponent } from '../home-admin/home-admin.component';
 import { AreasAtuacaoService } from '../../../../services/areasAtuacao/areas-atuacao.service';
 import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
-
+export interface GrupoDeVagas {
+  area: IAreasAtuacao;
+  vagas: IVaga[];
+}
 @Component({
   selector: 'app-home',
   imports: [
@@ -46,14 +49,18 @@ import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  public role: ERoleUser | null = ERoleUser.EMPRESA;
+  public role: ERoleUser | null = ERoleUser.CANDIDATO;
   public roleEnum = ERoleUser;
 
   vagasOfertadas: IVaga[] = [];
   vagasEncerradas: IVaga[] = [];
-  idUsuario = 2;
+  idUsuario = 1;
+  private idAreaAtuacaoUsuario: number = 2;
 
   vagasPublicas: IVaga[] = [];
+
+  public vagasRecomendadas: IVaga[] = [];
+  public vagasAgrupadasPorArea: GrupoDeVagas[] = [];
 
   areasAtuacao: IAreasAtuacao[] = [];
 
@@ -82,8 +89,7 @@ export class HomeComponent implements OnInit {
     return this.vagasService.httpListVagas$().subscribe({
       next: (data) => {
         console.log(data);
-        this.vagasPublicas = data;
-
+        this.processarEAgruparVagas(data);
         this.vagasOfertadas = data.filter(
           (vaga) =>
             vaga.id_empresas === this.idUsuario &&
@@ -112,5 +118,36 @@ export class HomeComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  private processarEAgruparVagas(todasAsVagas: IVaga[]): void {
+    this.vagasRecomendadas = todasAsVagas.filter(
+      (vaga) =>
+        vaga.area_atuacao?.id_areas_atuacao === this.idAreaAtuacaoUsuario
+    );
+
+    const vagasRestantes = todasAsVagas.filter(
+      (vaga) =>
+        vaga.area_atuacao?.id_areas_atuacao !== this.idAreaAtuacaoUsuario
+    );
+
+    const mapaDeGrupos = new Map<number, GrupoDeVagas>();
+
+    for (const vaga of vagasRestantes) {
+      if (!vaga.area_atuacao) continue;
+
+      const areaId = vaga.area_atuacao.id_areas_atuacao;
+
+      if (!mapaDeGrupos.has(areaId)) {
+        mapaDeGrupos.set(areaId, {
+          area: vaga.area_atuacao,
+          vagas: [],
+        });
+      }
+
+      mapaDeGrupos.get(areaId)!.vagas.push(vaga);
+    }
+
+    this.vagasAgrupadasPorArea = Array.from(mapaDeGrupos.values());
   }
 }

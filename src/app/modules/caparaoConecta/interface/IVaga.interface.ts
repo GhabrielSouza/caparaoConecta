@@ -1,4 +1,5 @@
 import { EStatusVaga } from '../enum/EStatusVaga.enum';
+import { IAreasAtuacao } from './IAreasAtuacao.interface';
 import { ICursos } from './ICursos.inteface';
 import { IEmpresa } from './IEmpresa.inteface';
 import { IHabilidades } from './IHabilidades.interface';
@@ -9,6 +10,8 @@ export interface IVaga {
   titulo_vaga: string;
   descricao: string;
   salario: number;
+  area_atuacao: IAreasAtuacao;
+  id_areas_atuacao: string;
   status: EStatusVaga;
   data_criacao: Date;
   data_fechamento: Date;

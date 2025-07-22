@@ -48,13 +48,26 @@
         <div class="col-12 col-lg-10">
           <div class="row">
             <div class="col-12 col-lg-11">
-              @if(role == roleEnum.CANDIDATO || role == roleEnum.GUEST){
-              <app-component-container-vagas titulo="Vagas em Alta">
+              @if (role == roleEnum.CANDIDATO && vagasRecomendadas.length > 0) {
+              <app-component-container-vagas
+                titulo="Vagas Recomendadas para Você"
+              >
                 <app-card-vaga-publica
-                  [vagas]="vagasPublicas"
+                  [vagas]="vagasRecomendadas"
                 ></app-card-vaga-publica>
               </app-component-container-vagas>
-              } @if(role == roleEnum.EMPRESA){ @if(vagasOfertadas &&
+              }
+
+              <!-- LOOP PARA CRIAR UM CONTAINER PARA CADA ÁREA DE ATUAÇÃO -->
+              @if (role == roleEnum.CANDIDATO || role == roleEnum.GUEST) {
+              @for(grupo of vagasAgrupadasPorArea; track
+              grupo.area.id_areas_atuacao) {
+              <app-component-container-vagas [titulo]="grupo.area.nome_area">
+                <app-card-vaga-publica
+                  [vagas]="grupo.vagas"
+                ></app-card-vaga-publica>
+              </app-component-container-vagas>
+              } } @if(role == roleEnum.EMPRESA){ @if(vagasOfertadas &&
               vagasOfertadas.length == 0){
               <div
                 class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"

@@ -20,6 +20,13 @@
           </div>
         </div>
         <h1 class="cpc-bold mt-3">{{ data.nome }}</h1>
+        @if(data.usuario.id_tipo_usuarios == '2'){
+        <p
+          class="cpc-regular-010 cpc-background-yellow cpc-color-white p-1 rounded"
+        >
+          {{ data.pessoas_fisica?.area_atuacao?.nome_area }}
+        </p>
+        }
       </div>
 
       <aside>

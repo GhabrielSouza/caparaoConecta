@@ -15,8 +15,8 @@ export interface IPessoa {
   telefone: string;
   imagem?: File;
   usuario: IUsuario;
-  empresas?: IEmpresa;
-  candidatos?: ICandidato;
+  empresa?: IEmpresa;
+  pessoas_fisica?: ICandidato;
   endereco?: IEndereco;
   rede_social?: IRedesSociais;
   formacoes?: IFormacoesAcademicas[];

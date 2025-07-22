@@ -1,13 +1,13 @@
-:host{
-    .container{
-        .container_img-vaga{
-            width: 100%;
-           
-            & img{
-                border-radius: 15px;
-                width: 100%;
-                height: 100px;
-            }
-        }
+:host {
+  .container {
+    .container_img-vaga {
+      width: 100%;
+
+      & img {
+        border-radius: 15px;
+        width: 100%;
+        height: 100px;
+      }
     }
+  }
 }
