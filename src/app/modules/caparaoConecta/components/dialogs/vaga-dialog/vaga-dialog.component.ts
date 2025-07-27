@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { IVaga } from '../../../interface/IVaga.interface';
@@ -31,5 +31,9 @@ export class VagaDialogComponent {
 
   public favoritarVaga() {
     this.favoritar = !this.favoritar;
+  }
+
+  public candidatarUser() {
+    this._dialogRef.close(this.data.vaga.id_vagas);
   }
 }

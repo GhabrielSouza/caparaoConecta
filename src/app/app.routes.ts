@@ -12,14 +12,9 @@ import { HomeAdminComponent } from './modules/caparaoConecta/pages/home-admin/ho
 import { HabilidadesComponent } from './modules/caparaoConecta/pages/habilidades/habilidades.component';
 import { CursosComponent } from './modules/caparaoConecta/pages/cursos/cursos.component';
 import { FavoritasComponent } from './modules/caparaoConecta/pages/favoritas/favoritas.component';
+import { authGuardGuard } from './guard/auth-guard.guard';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'detalhe-da-vaga/:id', component: DetalheDaVagaComponent },
-  {
-    path: 'login',
-    component: FormLoginComponent,
-  },
   {
     path: 'singUpEnterprise',
     component: FormCadastroEmpresaComponent,
@@ -29,17 +24,38 @@ export const routes: Routes = [
     component: FormCadastroCandidatoComponent,
   },
   {
+    path: 'login',
+    component: FormLoginComponent,
+  },
+  { path: '', component: HomeComponent },
+  {
+    path: 'detalhe-da-vaga/:id',
+    component: DetalheDaVagaComponent,
+    canActivate: [authGuardGuard],
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [authGuardGuard],
   },
   {
     path: 'perfil',
     component: PerfilComponent,
+    canActivate: [authGuardGuard],
   },
-  { path: 'habilidades', component: HabilidadesComponent },
-  { path: 'cursos', component: CursosComponent },
+  {
+    path: 'habilidades',
+    component: HabilidadesComponent,
+    canActivate: [authGuardGuard],
+  },
+  { path: 'cursos', component: CursosComponent, canActivate: [authGuardGuard] },
   {
     path: 'favoritas',
     component: FavoritasComponent,
+    canActivate: [authGuardGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];

@@ -11,7 +11,7 @@
   </div>
   <section>
     <div class="d-flex justify-content-between align-items-center gap-2">
-      <h1 class="cpc-bold m-0">{{ data.vaga.titulo_vaga }}</h1>
+      <h1 class="cpc-medium m-0">{{ data.vaga.titulo_vaga }}</h1>
       <div class="d-flex align-items-center gap-2" (click)="favoritarVaga()">
         <p class="cpc-light">Favoritar</p>
         <img
@@ -28,24 +28,26 @@
       <p class="cpc-regular">{{ data.vaga.descricao }}</p>
     </div>
     <div>
-      <h2 class="cpc-regular">Habilidades da vaga</h2>
+      <h2 class="cpc-medium-010">Habilidades da vaga</h2>
       <ul>
         @for (habilidade of data.vaga.habilidades; track
         habilidade.id_habilidades) {
-        <li>{{ habilidade.nome }}</li>
+        <li class="cpc-regular-010">{{ habilidade.nome }}</li>
         }
       </ul>
     </div>
     <div>
-      <h2 class="cpc-regular">Cursos recomendados</h2>
+      <h2 class="cpc-medium-010">Cursos recomendados</h2>
       <ul>
         @for (curso of data.vaga.curso; track curso.id_curso) {
-        <li>{{ curso.curso }}</li>
+        <li class="cpc-regular-010">{{ curso.curso }}</li>
         }
       </ul>
     </div>
     <div class="d-flex justify-content-center gap-4 p-3">
-      <button class="btn btn-secondary">Candidatar</button>
+      <button class="btn btn-secondary" (click)="candidatarUser()">
+        Candidatar
+      </button>
       <button class="btn btn-primary" (click)="closeModal()">Fechar</button>
     </div>
   </section>

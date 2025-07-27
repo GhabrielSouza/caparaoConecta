@@ -1,4 +1,160 @@
+<!--
+  ARQUIVO: cabecalho.component.html (CORRIGIDO)
+-->
 <header (scroll)="onscroll()" [ngClass]="navbarFixed ? 'fixed' : 'nofixed'">
+  <div class="header-container">
+    <div class="header_logo">
+      <a [routerLink]="['']">
+        <img
+          src="assets/imgs/logo.svg"
+          alt="Logo do site Carapaó Conecta"
+          class="header_logo_imagem"
+        />
+      </a>
+    </div>
+
+    <div class="header_aplicacao">
+      @if(!user()) {
+      <div class="header_aplicacao_acesso">
+        <ul>
+          <li><a routerLink="/login" class="login-btn">Entrar</a></li>
+          <li><a (click)="openDialog()" class="signup-btn">Inscrever-se</a></li>
+        </ul>
+      </div>
+      } @else {
+      <div class="header_actions">
+        <button class="btn-notificacoes">
+          <mat-icon class="notificacao" matBadge="15">notifications</mat-icon>
+        </button>
+
+        <div class="menu-toggle">
+          <input
+            type="checkbox"
+            id="menu-toggle"
+            [checked]="isMenuOpen"
+            (change)="toggleMenu()"
+          />
+          <label for="menu-toggle" class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  @if(user(); as loggedUser) {
+  <div class="side-menu" [class.menu-open]="isMenuOpen">
+    <div class="menu-overlay" (click)="toggleMenu()"></div>
+
+    <div class="menu-content">
+      <div class="user-profile">
+        <div class="profile-image-container">
+          <img
+            [src]="loggedUser.pessoa.imagem || 'assets/imgs/perfil.svg'"
+            alt="Foto do usuário"
+            class="profile-image"
+          />
+        </div>
+        <div class="profile-info">
+          <h2>{{ loggedUser.pessoa.nome }}</h2>
+          <p>{{ loggedUser.tipo_usuario.nome | titlecase }}</p>
+        </div>
+      </div>
+
+      <nav class="menu-nav">
+        <ul>
+          <li>
+            <a routerLink="/" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/home.svg" alt="Home" />
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/perfil" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/perfil.svg" alt="Perfil" />
+              <span>Perfil</span>
+            </a>
+          </li>
+          @if(loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO ||
+          loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
+          <li>
+            <a routerLink="/favoritas" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/perfil.svg" alt="Perfil" />
+              <span>Minhas vagas</span>
+            </a>
+          </li>
+          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA ||
+          loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/empresa.svg" alt="Empresa" />
+              <span>Empresa</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/Candidato.svg" alt="Candidatos" />
+              <span>Candidatos</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/dashboard" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/dashboard.svg" alt="Dashboard" />
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="menu-item">
+              <img src="assets/icons/relatorio.svg" alt="Relatórios" />
+              <span>Relatórios</span>
+            </a>
+          </li>
+          <li>
+            <a
+              (click)="openDialogSelecionarVaga(); toggleMenu()"
+              class="menu-item"
+            >
+              <img src="assets/icons/criarVaga.svg" alt="Criar vaga" />
+              <span>Criar vaga</span>
+            </a>
+          </li>
+          } @if( loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
+          <li>
+            <a routerLink="/cursos" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/criarVaga.svg" alt="Criar vaga" />
+              <span>Criar Cursos</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              routerLink="/habilidades"
+              (click)="toggleMenu()"
+              class="menu-item"
+            >
+              <img src="assets/icons/criarVaga.svg" alt="Criar vaga" />
+              <span>Criar Habilidades</span>
+            </a>
+          </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="menu-footer">
+        <button class="logout-btn btn btn-primary" (click)="logout()">
+          <img src="assets/icons/sair.svg" alt="Sair" />
+          <span>Sair</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</header>
+
+<!-- <header (scroll)="onscroll()" [ngClass]="navbarFixed ? 'fixed' : 'nofixed'">
   <div class="header-container">
     <div class="header_logo">
       <a [routerLink]="['']">
@@ -18,8 +174,9 @@
           <li><a (click)="openDialog()" class="signup-btn">Inscrever-se</a></li>
         </ul>
       </div>
-      } @if(role == roleEnum.ADMIN || role == roleEnum.CANDIDATO || role ==
-      roleEnum.EMPRESA) {
+      } @if(user?.tipo_usuario?.nome == roleEnum.ADMIN ||
+      user?.tipo_usuario?.nome == roleEnum.CANDIDATO || user?.tipo_usuario?.nome
+      == roleEnum.EMPRESA) {
       <div class="header_actions">
         <button class="btn-notificacoes">
           <mat-icon class="notificacao" matBadge="15">notifications</mat-icon>
@@ -38,8 +195,8 @@
     </div>
   </div>
 
-  @if(role == roleEnum.ADMIN || role == roleEnum.CANDIDATO || role ==
-  roleEnum.EMPRESA) {
+  @if(user?.tipo_usuario?.nome == roleEnum.ADMIN || user?.tipo_usuario?.nome ==
+  roleEnum.CANDIDATO || user?.tipo_usuario?.nome == roleEnum.EMPRESA) {
   <div class="side-menu" [class.menu-open]="isMenuOpen">
     <div class="menu-overlay" (click)="toggleMenu()"></div>
 
@@ -111,7 +268,10 @@
             </a>
           </li>
           <li>
-            <a (click)="openDialogSelecionarVaga(); toggleMenu()" class="menu-item">
+            <a
+              (click)="openDialogSelecionarVaga(); toggleMenu()"
+              class="menu-item"
+            >
               <img src="assets/icons/criarVaga.svg" alt="Criar vaga" />
               <span>Criar vaga</span>
             </a>
@@ -129,4 +289,4 @@
     </div>
   </div>
   }
-</header>
+</header> -->

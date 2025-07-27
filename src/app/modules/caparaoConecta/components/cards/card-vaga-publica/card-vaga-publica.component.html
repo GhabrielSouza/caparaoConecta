@@ -6,7 +6,7 @@
   [autoplayInterval]="5000"
 >
   <ng-template let-vaga #item>
-    <div class="vaga-card" (click)="openModel(vaga)">
+    <div class="vaga-card" (click)="handleCardClick(vaga)">
       <div class="vaga-card-header">
         <img
           [src]="

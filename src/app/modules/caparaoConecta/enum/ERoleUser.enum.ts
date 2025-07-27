@@ -1,6 +1,6 @@
 export enum ERoleUser {
-  ADMIN = 'admin',
-  CANDIDATO = 'candidato',
-  EMPRESA = 'empresa',
-  GUEST = 'guest',
+  ADMIN = 'ADMIN',
+  CANDIDATO = 'CANDIDATO',
+  EMPRESA = 'EMPRESA',
+  GUEST = 'GUEST',
 }

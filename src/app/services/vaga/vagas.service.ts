@@ -135,4 +135,11 @@ export class VagasService {
 
     return this.#http.patch<string>(url, payload);
   }
+
+  public httpCandidatarVaga$(vagaId: number): Observable<number> {
+    return this.#http.post<number>(
+      `${this.#url}/api/vagas/${vagaId}/candidatar`,
+      {}
+    );
+  }
 }

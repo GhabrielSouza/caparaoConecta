@@ -14,7 +14,7 @@ import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-
 export class ComponentPerfilDadosComponent {
   #dialog = inject(MatDialog);
 
-  @Input() public data!: IPessoa;
+  @Input() public data!: IPessoa | null;
   @Input() public IdUsuario: any;
   @Input() public idTipoUsuario: any;
 
@@ -26,7 +26,7 @@ export class ComponentPerfilDadosComponent {
     return this.data?.usuario?.email ?? '';
   }
 
-  openDialog(data: IPessoa): void {
+  openDialog(data: IPessoa | null): void {
     const dialogRef = this.#dialog.open(DialogPerfilInformacoesComponent, {
       panelClass: EDialogEnum.FORMACAO,
       data: {
@@ -36,16 +36,16 @@ export class ComponentPerfilDadosComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((resposta:IPessoa)=>{
-      if(resposta){
+    dialogRef.afterClosed().subscribe((resposta: IPessoa) => {
+      if (resposta) {
         this.data = resposta;
       }
     });
   }
 
-  dialogEditImagem(){
+  dialogEditImagem() {
     const dialogRef = this.#dialog.open(DialogEditarFotoUsuarioComponent, {
       panelClass: EDialogEnum.PROJETOS,
-    })
+    });
   }
 }

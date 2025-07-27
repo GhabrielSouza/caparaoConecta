@@ -10,7 +10,7 @@ export interface ICandidato {
   genero: string;
   cpf: string;
   area_atuacao: IAreasAtuacao;
-  id_areas_atuacao: string;
+  id_areas_atuacao: number;
   cadUnico?: string;
   data_de_nascimento: string;
 }

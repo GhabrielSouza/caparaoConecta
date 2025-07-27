@@ -2,9 +2,8 @@
   <app-cabecalho />
   <main class="conteudo">
     <section class="container-fluid">
-      @if(role != roleEnum.ADMIN){
+      @if(role() != roleEnum.ADMIN){
       <div class="row">
-        <!-- Filtros - ocupa 2 colunas em telas grandes, 12 (full width) em telas pequenas -->
         <div class="col-12 col-lg-2">
           <div class="container_filtros_filtro m-4">
             <h1 class="cpc-regular py-2">Filtrar</h1>
@@ -19,7 +18,7 @@
                 </div>
               </div>
               <div class="selects d-flex flex-column my-3">
-                @if(role == roleEnum.CANDIDATO || role == roleEnum.GUEST){
+                @if(role() == roleEnum.CANDIDATO || role() == roleEnum.GUEST){
                 <mat-label class="cpc-regular-010">Empresa</mat-label>
                 <mat-form-field>
                   <mat-select placeholder="Selecione um item">
@@ -32,7 +31,8 @@
                 <mat-form-field>
                   <mat-select placeholder="Selecione um item">
                     <mat-option value="">Todas</mat-option>
-                    @for (area of areasAtuacao; track $index) {
+
+                    @for (area of areasAtuacao(); track area.id_areas_atuacao) {
                     <mat-option [value]="area.nome_area">{{
                       area.nome_area
                     }}</mat-option>
@@ -44,31 +44,28 @@
           </div>
         </div>
 
-        <!-- Vagas - ocupa 10 colunas em telas grandes, 12 em telas pequenas -->
         <div class="col-12 col-lg-10">
           <div class="row">
             <div class="col-12 col-lg-11">
-              @if (role == roleEnum.CANDIDATO && vagasRecomendadas.length > 0) {
+              @if (role() == roleEnum.CANDIDATO || role() == roleEnum.GUEST) {
+              @if (vagasRecomendadas().length > 0) {
               <app-component-container-vagas
                 titulo="Vagas Recomendadas para Você"
               >
                 <app-card-vaga-publica
-                  [vagas]="vagasRecomendadas"
+                  [vagas]="vagasRecomendadas()"
                 ></app-card-vaga-publica>
               </app-component-container-vagas>
-              }
-
-              <!-- LOOP PARA CRIAR UM CONTAINER PARA CADA ÁREA DE ATUAÇÃO -->
-              @if (role == roleEnum.CANDIDATO || role == roleEnum.GUEST) {
-              @for(grupo of vagasAgrupadasPorArea; track
+              } @for (grupo of vagasAgrupadasPorArea(); track
               grupo.area.id_areas_atuacao) {
               <app-component-container-vagas [titulo]="grupo.area.nome_area">
                 <app-card-vaga-publica
                   [vagas]="grupo.vagas"
+                  [role]="role()"
                 ></app-card-vaga-publica>
               </app-component-container-vagas>
-              } } @if(role == roleEnum.EMPRESA){ @if(vagasOfertadas &&
-              vagasOfertadas.length == 0){
+              } } @if(role() == roleEnum.EMPRESA){ @if(vagasOfertadas().length
+              === 0){
               <div
                 class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
               >
@@ -81,12 +78,11 @@
               }@else {
               <app-component-container-vagas titulo="Vagas Ofertadas">
                 <app-card-vaga-empresa
-                  [vagas]="vagasOfertadas"
+                  [vagas]="vagasOfertadas()"
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
-              } @if(vagasEncerradas.length == 0){
-
+              } @if(vagasEncerradas().length === 0){
               <div
                 class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
               >
@@ -99,7 +95,7 @@
               }@else {
               <app-component-container-vagas titulo="Vagas Encerradas">
                 <app-card-vaga-empresa
-                  [vagas]="vagasEncerradas"
+                  [vagas]="vagasEncerradas()"
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
@@ -108,7 +104,7 @@
           </div>
         </div>
       </div>
-      } @if(role == roleEnum.ADMIN){
+      } @if(role() == roleEnum.ADMIN){
       <app-home-admin></app-home-admin>
       }
     </section>

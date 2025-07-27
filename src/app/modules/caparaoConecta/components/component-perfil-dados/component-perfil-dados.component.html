@@ -19,12 +19,12 @@
             </button>
           </div>
         </div>
-        <h1 class="cpc-bold mt-3">{{ data.nome }}</h1>
-        @if(data.usuario.id_tipo_usuarios == '2'){
+        <h1 class="cpc-bold mt-3">{{ data?.nome }}</h1>
+        @if(data?.usuario?.id_tipo_usuarios == '2'){
         <p
           class="cpc-regular-010 cpc-background-yellow cpc-color-white p-1 rounded"
         >
-          {{ data.pessoas_fisica?.area_atuacao?.nome_area }}
+          {{ data?.pessoas_fisica?.area_atuacao?.nome_area }}
         </p>
         }
       </div>
@@ -37,8 +37,8 @@
               class="pe-1"
               alt="Localização"
             />
-            {{ data.endereco?.cidade?.nome_cidade }},
-            {{ data.endereco?.estado }}
+            {{ data?.endereco?.cidade?.nome_cidade }},
+            {{ data?.endereco?.estado }}
           </p>
 
           <button class="btn btn-quaternary my-3" (click)="openDialog(data)">
@@ -54,7 +54,7 @@
             <ul
               class="d-flex flex-wrap justify-content-center list-unstyled gap-3 p-0 m-0"
             >
-              @if(data.telefone != null){
+              @if(data?.telefone != null){
               <li>
                 <a [href]="'https://wa.me/' + telefoneWhatsApp" target="_blank">
                   <img
@@ -63,25 +63,25 @@
                   />
                 </a>
               </li>
-              } @if(data.rede_social?.instagram != null){
+              } @if(data?.rede_social?.instagram != null){
               <li>
-                <a [href]="data.rede_social?.instagram" target="_blank"
+                <a [href]="data?.rede_social?.instagram" target="_blank"
                   ><img
                     src="assets/icons/icons_perfil/insta.svg"
                     alt="Rede social Instagram"
                 /></a>
               </li>
-              } @if(data.rede_social?.github != null){
+              } @if(data?.rede_social?.github != null){
               <li>
-                <a [href]="data.rede_social?.github" target="_blank"
+                <a [href]="data?.rede_social?.github" target="_blank"
                   ><img
                     src="assets/icons/icons_perfil/git.svg"
                     alt="Rede social GitHub"
                 /></a>
               </li>
-              } @if(data.rede_social?.linkedin != null){
+              } @if(data?.rede_social?.linkedin != null){
               <li>
-                <a [href]="data.rede_social?.linkedin" target="_blank"
+                <a [href]="data?.rede_social?.linkedin" target="_blank"
                   ><img
                     src="assets/icons/icons_perfil/linkedin.svg"
                     alt="Rede social LinkedIn"
@@ -95,17 +95,17 @@
                     alt="Rede social Email"
                 /></a>
               </li>
-              } @if(data.telefone != null){
+              } @if(data?.telefone != null){
               <li>
-                <a [href]="data.telefone" target="_blank"
+                <a [href]="data?.telefone" target="_blank"
                   ><img
                     src="assets/icons/icons_perfil/telefone.svg"
                     alt="Telefone"
                 /></a>
               </li>
-              } @if(data.rede_social?.curriculo_lattes != null){
+              } @if(data?.rede_social?.curriculo_lattes != null){
               <li>
-                <a [href]="data.rede_social?.curriculo_lattes" target="_blank"
+                <a [href]="data?.rede_social?.curriculo_lattes" target="_blank"
                   ><img
                     src="assets/icons/icons_perfil/lattes.svg"
                     alt="Rede social Lattes"

@@ -24,7 +24,7 @@ import { PasswordInputComponent } from '../../components/inputs/password-input/p
 import { MatDialog } from '@angular/material/dialog';
 import { SelectRegisterDialogComponent } from '../../components/dialogs/select-register-dialog/select-register-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
-import { LoginService } from '../../../../services/auth-caparao/login.service';
+import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -49,7 +49,7 @@ export class FormLoginComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     readonly dialog: MatDialog,
-    private authLogin: LoginService,
+    private authLogin: AuthService,
     private route: Router
   ) {
     this.loginForm = this._fb.group({
@@ -118,19 +118,21 @@ export class FormLoginComponent implements OnInit {
   }
 
   submit() {
-    const { email, password } = this.loginForm.value;
-    this.authLogin.httpLoginUser$(email, password).subscribe({
-      next: (resp) => {
-        if (resp.password === password) {
-          sessionStorage.setItem('email', email);
-          this.route.navigate(['']);
-        }
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    const credentials = this.loginForm.value;
+    console.log(credentials);
+
+    this.authLogin.login(credentials).subscribe({
+      next: (user) => {
+        console.log('Login bem-sucedido para:', user);
+        this.route.navigate(['/home']);
       },
       error: (error) => {
-        console.log(error);
-      },
-      complete: () => {
-        console.log('deu tudo certo!');
+        console.error('Falha no login:', error);
       },
     });
   }
