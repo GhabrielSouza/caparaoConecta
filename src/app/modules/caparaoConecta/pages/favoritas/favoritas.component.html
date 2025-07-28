@@ -3,14 +3,20 @@
 <div class="centralizar">
   <div class="row">
     <div class="">
-      @if(role == roleEnum.CANDIDATO ){
-      <app-component-container-vagas titulo="Vagas Favoritas">
+      @if(role() == roleEnum.CANDIDATO ){
+      <app-component-container-vagas titulo="Favoritas">
+        <app-card-vaga-favorita
+          [vagas]="vagasPublicas"
+        ></app-card-vaga-favorita>
+      </app-component-container-vagas>
+
+      <app-component-container-vagas titulo="Candidaturas">
         <app-card-vaga-favorita
           [vagas]="vagasPublicas"
         ></app-card-vaga-favorita>
       </app-component-container-vagas>
       }
-      <app-component-container-vagas titulo="Vagas Encerradas">
+      <app-component-container-vagas titulo="Encerradas">
         <app-card-vaga-favorita
           [vagas]="vagasEncerradas"
         ></app-card-vaga-favorita>

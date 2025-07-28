@@ -22,5 +22,5 @@ export interface IPessoa {
   formacoes?: IFormacoesAcademicas[];
   experiencias?: IExperiencia[];
   cursos: ICursos[];
-  habilidades?: IHabilidades[];
+  habilidades: IHabilidades[];
 }

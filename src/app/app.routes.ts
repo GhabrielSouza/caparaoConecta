@@ -16,11 +16,11 @@ import { authGuardGuard } from './guard/auth-guard.guard';
 
 export const routes: Routes = [
   {
-    path: 'singUpEnterprise',
+    path: 'cadastroEmpresa',
     component: FormCadastroEmpresaComponent,
   },
   {
-    path: 'singUp',
+    path: 'cadastroCandidato',
     component: FormCadastroCandidatoComponent,
   },
   {
@@ -42,6 +42,12 @@ export const routes: Routes = [
     path: 'perfil',
     component: PerfilComponent,
     canActivate: [authGuardGuard],
+    children: [
+      {
+        path: 'perfil:id',
+        component: PerfilComponent,
+      },
+    ],
   },
   {
     path: 'habilidades',
@@ -50,7 +56,7 @@ export const routes: Routes = [
   },
   { path: 'cursos', component: CursosComponent, canActivate: [authGuardGuard] },
   {
-    path: 'favoritas',
+    path: 'Minhas Vagas',
     component: FavoritasComponent,
     canActivate: [authGuardGuard],
   },

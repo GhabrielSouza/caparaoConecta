@@ -24,11 +24,11 @@ export class VagasService {
     );
   }
 
-  #setListCandidaturas = signal<IPessoaFisica[]>([]);
+  #setListCandidaturas = signal<IVaga | null>(null);
   public getListCandidaturas = this.#setListCandidaturas.asReadonly();
-  public httpListCandidaturas$(id: number): Observable<IPessoaFisica[]> {
+  public httpListCandidaturas$(id: number): Observable<IVaga> {
     return this.#http
-      .get<IPessoaFisica[]>(`${this.#url}/api/vagas/${id}/candidatos`)
+      .get<IVaga>(`${this.#url}/api/vagas/${id}/candidatos`)
       .pipe(
         shareReplay(),
         tap((data) => {

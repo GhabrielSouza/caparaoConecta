@@ -53,7 +53,26 @@ export class CardVagaPublicaComponent {
   }
 
   public candidatarUser(vagaId: number) {
-    return this.#vagaService.httpCandidatarVaga$(vagaId).subscribe();
+    return this.#vagaService.httpCandidatarVaga$(vagaId).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso!',
+          text: 'Sua candidatura foi enviada!',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text:
+            err.error?.message ||
+            'Não foi possível realizar a candidatura. Tente novamente.',
+        });
+      },
+    });
   }
 
   private showAlert(): void {

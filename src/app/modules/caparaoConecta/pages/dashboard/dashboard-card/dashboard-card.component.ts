@@ -9,5 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class DashboardCardComponent {
   @Input() label: string = '';
-  @Input() valor: string = '0';
+  @Input() valor: any = 0;
 }

@@ -1,5 +1,13 @@
 import { EStatusVaga } from './../../enum/EStatusVaga.enum';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary.component';
 import { CommonModule, Location } from '@angular/common';
@@ -14,7 +22,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CandidatoSelecionadoComponent } from '../candidato-selecionado/candidato-selecionado.component';
 import { CursosSService } from '../../../../services/cursos/cursos-s.service';
 import { VagasService } from '../../../../services/vaga/vagas.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IVaga } from '../../interface/IVaga.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
@@ -26,6 +34,11 @@ import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
 import { FormsModule, NgModel } from '@angular/forms';
 
+interface CandidatoViewModel extends IPessoaFisica {
+  habilidadesFaltantes: IHabilidades[];
+  cursosFaltantes: ICursos[];
+  novoStatusSelecionado: string;
+}
 @Component({
   selector: 'app-detalhes-vaga',
   imports: [
@@ -38,145 +51,95 @@ import { FormsModule, NgModel } from '@angular/forms';
     MatChipsModule,
     CandidatoSelecionadoComponent,
     FormsModule,
+    RouterLink,
   ],
   templateUrl: './detalhes-vaga.component.html',
   styleUrl: './detalhes-vaga.component.scss',
 })
-export class DetalhesVagaComponent implements OnInit {
-  containerFooter: boolean = true;
-  visaoCandidato: boolean = true;
-
-  visaoDetalhes: boolean = true;
-  visaoEstatistica: boolean = false;
-
-  public role: ERoleUser | null = ERoleUser.EMPRESA;
-  public roleEnum = ERoleUser;
-
-  public statusVagaEnum = EStatusVaga;
-
-  habilidades: any[] = [];
+export class DetalhesVagaComponent implements OnChanges {
+  private location = inject(Location);
+  private vagaService = inject(VagasService);
+  private dialog = inject(MatDialog);
 
   @Input() vaga!: IVaga;
-  @Input() candidaturas: IPessoaFisica[] = [];
+  @Input() role!: ERoleUser;
   @Input() IdUsuario: any;
 
-  public habilidadesFaltantes: IHabilidades[] = [];
-  public cursosFaltantes: ICursos[] = [];
+  public candidaturasViewModel = signal<CandidatoViewModel[]>([]);
 
-  constructor(
-    private location: Location,
-    private vagaService: VagasService,
-    private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) {}
+  public roleEnum = ERoleUser;
+  public statusVagaEnum = EStatusVaga;
 
-  alterarImagemDetalhes: boolean = true;
-  alterarImagemEstatistica: boolean = false;
-  alterarBackground: boolean = true;
-  alterarCorFonteDetalhes: boolean = true;
-  alterarCorFonteEstatistica: boolean = false;
+  public visaoDetalhes = signal(true);
 
-  public alterarDetalhes() {
-    if (!this.alterarImagemDetalhes) {
-      this.alterarImagemDetalhes = true;
-      this.alterarImagemEstatistica = false;
-      this.alterarBackground = true;
-      this.alterarCorFonteDetalhes = true;
-      this.alterarCorFonteEstatistica = false;
-      this.visaoDetalhes = true;
-      this.visaoEstatistica = false;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['vaga'] && this.vaga) {
+      this.prepararViewModels(this.vaga);
     }
   }
 
-  public alterarEstatistica() {
-    if (!this.alterarImagemEstatistica) {
-      this.alterarImagemDetalhes = false;
-      this.alterarImagemEstatistica = true;
-      this.alterarBackground = false;
-      this.alterarCorFonteDetalhes = false;
-      this.alterarCorFonteEstatistica = true;
-      this.visaoDetalhes = false;
-      this.visaoEstatistica = true;
+  private prepararViewModels(vaga: IVaga): void {
+    if (!vaga?.candidatos) {
+      this.candidaturasViewModel.set([]);
+      return;
     }
+
+    const viewModels = vaga.candidatos.map((candidatos): CandidatoViewModel => {
+      const idsHabilidadesDoCandidato = new Set(
+        candidatos.pessoa.habilidades.map((h) => h.id_habilidades)
+      );
+      const idsCursosDoCandidato = new Set(
+        candidatos.pessoa.cursos.map((c) => c.id_cursos)
+      );
+
+      const habilidadesFaltantes = vaga.habilidades.filter(
+        (h) => !idsHabilidadesDoCandidato.has(h.id_habilidades)
+      );
+      const cursosFaltantes = vaga.curso.filter(
+        (c) => !idsCursosDoCandidato.has(c.id_cursos)
+      );
+
+      return {
+        ...candidatos,
+        habilidadesFaltantes,
+        cursosFaltantes,
+        novoStatusSelecionado: candidatos.pivot.status,
+      };
+    });
+
+    this.candidaturasViewModel.set(viewModels);
   }
 
-  voltar() {
+  public atualizarStatusDeContratacao(candidato: CandidatoViewModel): void {
+    if (candidato.novoStatusSelecionado === candidato.pivot.status) return;
+
+    const vagaId = this.vaga.id_vagas;
+    const candidatoId = candidato.id_pessoas;
+    const status = candidato.novoStatusSelecionado;
+
+    this.vagaService
+      .httpAtualizarStatusCandidato$(vagaId, candidatoId, status)
+      .subscribe({
+        next: () => {
+          candidato.pivot.status = status;
+        },
+        error: (error) => {
+          candidato.novoStatusSelecionado = candidato.pivot.status;
+          console.error('Erro ao atualizar status:', error);
+        },
+      });
+  }
+
+  public alterarVisao(paraEstatistica: boolean): void {
+    this.visaoDetalhes.set(!paraEstatistica);
+  }
+
+  public voltar(): void {
     this.location.back();
   }
 
-  ngOnInit(): void {
-    this.getCandidaturas();
-    this.getCompetenciasFaltantes();
-  }
-
-  public getCandidaturas() {
-    const vagaIdString = this.route.snapshot.paramMap.get('id');
-
-    if (vagaIdString) {
-      const vagaId = +vagaIdString;
-
-      this.vagaService.httpListCandidaturas$(vagaId).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.candidaturas = data;
-        },
-        error: (error) => {
-          console.error('Erro ao buscar vaga:', error);
-        },
-      });
-    } else {
-      console.error('ID da vaga não encontrado na URL!');
-    }
-  }
-
-  private getCompetenciasFaltantes() {
-    this.candidaturas.forEach((candidato: IPessoaFisica) => {
-      if (!this.vaga?.habilidades || !candidato?.pessoa.habilidades) {
-        return;
-      }
-
-      const idsHabilidadesDoCandidato = new Set(
-        candidato.pessoa.habilidades.map((h) => h.id_habilidades)
-      );
-
-      const idsCursosDoCandidato = new Set(
-        candidato.pessoa.cursos.map((c) => c.id_cursos)
-      );
-
-      this.habilidadesFaltantes = this.vaga.habilidades.filter(
-        (habilidadeDaVaga) =>
-          !idsHabilidadesDoCandidato.has(habilidadeDaVaga.id_habilidades)
-      );
-
-      this.cursosFaltantes = this.vaga.curso.filter(
-        (cursoDaVaga) => !idsCursosDoCandidato.has(cursoDaVaga.id_cursos)
-      );
-    });
-  }
-
-  public atualizarStatusDeContratacao(candidato: IPessoaFisica) {
-    const vagaIdString = this.route.snapshot.paramMap.get('id');
-    const candidatoId = candidato.id_pessoas;
-    const status = candidato.pivot.status;
-
-    if (vagaIdString) {
-      const vagaId = +vagaIdString;
-      this.vagaService
-        .httpAtualizarStatusCandidato$(vagaId, candidatoId, status)
-        .subscribe({
-          next: (response) => {
-            console.log('Status atualizado com sucesso:', response);
-            this.getCandidaturas();
-          },
-          error: (error) => {
-            console.error('Erro ao atualizar status:', error);
-          },
-        });
-    }
-  }
-
   public finalizarVaga() {
-    const vagaIdString = this.route.snapshot.paramMap.get('id');
+    const vagaIdString = this.vaga.id_vagas;
     console.log(vagaIdString);
 
     const status = 'FINALIZADO';
@@ -196,7 +159,7 @@ export class DetalhesVagaComponent implements OnInit {
   }
 
   public deletarVaga() {
-    const vagaIdString = this.route.snapshot.paramMap.get('id');
+    const vagaIdString = this.vaga.id_vagas;
     console.log(vagaIdString);
 
     const status = 'FINALIZADO';
@@ -240,7 +203,7 @@ export class DetalhesVagaComponent implements OnInit {
   }
 
   public editarVaga() {
-    const vagaIdString = this.route.snapshot.paramMap.get('id');
+    const vagaIdString = this.vaga.id_vagas;
     this.dialog.open(CadastroVagaDialogComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {

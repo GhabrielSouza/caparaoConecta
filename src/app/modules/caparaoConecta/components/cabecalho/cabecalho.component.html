@@ -1,6 +1,3 @@
-<!--
-  ARQUIVO: cabecalho.component.html (CORRIGIDO)
--->
 <header (scroll)="onscroll()" [ngClass]="navbarFixed ? 'fixed' : 'nofixed'">
   <div class="header-container">
     <div class="header_logo">
@@ -81,19 +78,25 @@
           @if(loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO ||
           loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
           <li>
-            <a routerLink="/favoritas" (click)="toggleMenu()" class="menu-item">
+            <a
+              routerLink="/Minhas Vagas"
+              (click)="toggleMenu()"
+              class="menu-item"
+            >
               <img src="assets/icons/perfil.svg" alt="Perfil" />
               <span>Minhas vagas</span>
             </a>
           </li>
-          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA ||
-          loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
+          } @if( loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO ||
+          loggedUser.tipo_usuario.nome === roleEnum.ADMIN){
           <li>
             <a href="#" class="menu-item">
               <img src="assets/icons/empresa.svg" alt="Empresa" />
-              <span>Empresa</span>
+              <span>Empresas</span>
             </a>
           </li>
+          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA ||
+          loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
           <li>
             <a href="#" class="menu-item">
               <img src="assets/icons/Candidato.svg" alt="Candidatos" />

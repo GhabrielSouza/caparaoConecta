@@ -1,281 +1,128 @@
-@if(role == roleEnum.CANDIDATO){
+<!-- Template unificado que reage ao 'role()' -->
+@if(vaga; as vagaData) {
 <div class="detalhesVagaContainer">
-  <h1 class="my-4 cpc-bold">Detalhes da vaga</h1>
-
-  <div class="container">
-    <img
-      src="../../../../../assets/imgs/banner_vaga_padrao.svg"
-      alt="imagemVaga"
-    />
-
-    <h1 class="my-4 cpc-bold">{{ vaga.titulo_vaga }}</h1>
-    <p class="my-4 cpc-descricao">{{ vaga.descricao }}</p>
-
-    <div class="containerInterno">
-      <div class="conteudoCompetencias">
-        <h1 class="cpc-regular">Competências</h1>
-        @for (habilidade of vaga.habilidades; track habilidade.id_habilidades) {
-        <p class="cpc-regular">{{ habilidade.nome }}</p>
-        }
-      </div>
-      <div class="conteudoCursos">
-        <h1>Cursos recomendados</h1>
-        @for(curso of vaga.curso; track curso.id_cursos){
-        <p class="cpc-regular">{{ curso.curso }}</p>
-        }
-      </div>
-    </div>
-
-    @if(vaga.empresa.pessoa.rede_social){
-    <h1 class="cpc-regular">Contatos</h1>
-    <div class="containerFooter">
-      <div class="conteudoContatos">
-        <div class="linkContainer">
-          @if(vaga.empresa.pessoa.rede_social.github){
-          <div class="linkContainerText">
-            <a
-              class="cpc-regular"
-              target="_blank"
-              [href]="vaga.empresa.pessoa.rede_social.github"
-            >
-              <img
-                class="mx-2"
-                src="assets/icons/iconeGithub.svg"
-                alt="Icone do github"
-              />
-            </a>
-          </div>
-          } @if(vaga.empresa.pessoa.rede_social.instagram){
-          <div class="linkContainerText">
-            <a
-              target="_blank"
-              [href]="vaga.empresa.pessoa.rede_social.instagram"
-            >
-              <img
-                class="mx-2"
-                src="assets/icons/iconeInstagram.svg"
-                alt="Icone do Instagram"
-              />
-            </a>
-          </div>
-          } @if(vaga.empresa.pessoa.rede_social.linkedin){
-          <div class="linkContainerText">
-            <a
-              target="_blank"
-              [href]="vaga.empresa.pessoa.rede_social.linkedin"
-            >
-              <img
-                class="mx-2"
-                src="assets/icons/iconeLinkedin.svg"
-                alt="Icone do linkedin"
-              />
-            </a>
-          </div>
-          }
-        </div>
-      </div>
-      <div class="conteudoEndereco">
+  <!-- CABEÇALHO: Muda com base no perfil -->
+  @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="my-1 cpc-bold">Detalhes da vaga</h1>
+    <div class="d-flex align-items-center">
+      <!-- Botões de Alternância de Visão -->
+      <div
+        class="btn-toggle"
+        [class.active]="visaoDetalhes()"
+        (click)="alterarVisao(false)"
+      >
         <img
-          class="me-2"
-          src="assets/icons/iconeLocalizacao.svg"
-          alt="icone de localização"
+          [src]="
+            visaoDetalhes()
+              ? 'assets/icons/detalhesBranco.svg'
+              : 'assets/icons/detalhes.svg'
+          "
+          alt="Detalhes"
         />
-        <p class="cpc-regular-010">
-          {{ vaga.empresa.pessoa.endereco?.cidade }}-{{
-            vaga.empresa.pessoa.endereco?.estado
-          }}
-        </p>
+        <p>Detalhes</p>
+      </div>
+      <div
+        class="btn-toggle"
+        [class.active]="!visaoDetalhes()"
+        (click)="alterarVisao(true)"
+      >
+        <img
+          [src]="
+            !visaoDetalhes()
+              ? 'assets/icons/estatisticaBranca.svg'
+              : 'assets/icons/estatistica.svg'
+          "
+          alt="Estatísticas"
+        />
+        <p>Estatísticas</p>
+      </div>
+      <app-button-primary text="Voltar" (click)="voltar()" />
+    </div>
+  </div>
+  } @else {
+  <h1 class="my-4 cpc-bold">Detalhes da vaga</h1>
+  }
+
+  <!-- CORPO PRINCIPAL -->
+  <div class="container">
+    <!-- Visão de Detalhes (Comum a todos, mas com ações diferentes) -->
+    @if(visaoDetalhes()){
+    <!-- Bloco de Status e Ações (só para empresa/admin) -->
+    @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
+    <div class="d-flex justify-content-between align-items-center my-2">
+      <!-- Status da Vaga -->
+      <div>
+        @switch (vagaData.status) { @case (statusVagaEnum.INATIVO) {
+        <div class="status-chip status-inativo">Inativo até editar</div>
+        } @case (statusVagaEnum.EM_ANDAMENTO) {
+        <div class="status-chip status-andamento">Em andamento</div>
+        } @case (statusVagaEnum.FINALIZADO) {
+        <div class="status-chip status-finalizado">Finalizada</div>
+        } }
+      </div>
+      <!-- Botões de Ação -->
+      <div class="card-actions">
+        <button class="btn-edit" (click)="editarVaga()">
+          <img src="assets/icons/pen-solid.svg" alt="Editar" />
+        </button>
+        <button class="btn-delete" (click)="confirmDelete()">
+          <img src="assets/icons/trash-solid.svg" alt="Deletar" />
+        </button>
       </div>
     </div>
     }
-  </div>
-</div>
-} @if(role == roleEnum.EMPRESA || role == roleEnum.ADMIN){
-<div class="detalhesVagaContainer">
-  <div class="d-flex aling-items-center justify-content-between mb-3 h-25">
-    <h1 class="my-1 cpc-bold">Detalhes da vaga</h1>
-    <div class="d-flex aling-items-center">
-      <div
-        [ngClass]="
-          alterarBackground ? 'cpc-background-green' : 'cpc-background-gray'
-        "
-        class="d-flex aling-items-center px-2 cpc-border-radius-detalhes"
-        (click)="alterarDetalhes()"
-      >
-        <div class="d-flex align-items-center">
-          <img
-            class="pe-2 w-25"
-            [src]="
-              alterarImagemDetalhes
-                ? 'assets/icons/detalhesBranco.svg'
-                : 'assets/icons/detalhes.svg'
-            "
-            alt=""
-          />
-          <p
-            [ngClass]="alterarCorFonteDetalhes ? 'cpc-color-white' : ''"
-            class="my-1 cpc-regular"
-          >
-            Detalhes
-          </p>
-        </div>
-      </div>
-      <div
-        [ngClass]="
-          alterarBackground ? 'cpc-background-gray' : 'cpc-background-green'
-        "
-        class="d-flex aling-items-center me-4 px-2 cpc-border-radius-estatistica"
-        (click)="alterarEstatistica()"
-      >
-        <div class="d-flex align-items-center">
-          <img
-            class="pe-2 w-25"
-            [src]="
-              alterarImagemEstatistica
-                ? 'assets/icons/estatisticaBranca.svg'
-                : 'assets/icons/estatistica.svg'
-            "
-            alt=""
-          />
-          <p
-            [ngClass]="alterarCorFonteEstatistica ? 'cpc-color-white' : ''"
-            class="my-1 cpc-regular"
-          >
-            Estatísticas
-          </p>
-        </div>
-      </div>
-      <app-button-primary
-        fonte="cpc-regular"
-        color="btn-secondary"
-        text="Voltar"
-        (click)="voltar()"
-      />
-    </div>
-  </div>
-  @if(visaoDetalhes){
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center my-2">
-      <div>
-        @if(vaga.status == statusVagaEnum.INATIVO){
-        <div class="cpc-background-red p-2 rounded">
-          <p class="cpc-color-white cpc-regular m-0">Inativo até editar</p>
-        </div>
-        } @if(vaga.status == statusVagaEnum.EM_ANDAMENTO){
-        <div class="cpc-background-yellow p-2 rounded">
-          <p class="cpc-color-white cpc-regular m-0">Em andamento</p>
-        </div>
-        } @if(vaga.status == statusVagaEnum.FINALIZADO){
-        <div class="cpc-background-red p-2 rounded">
-          <p class="cpc-color-white cpc-regular m-0">Finalizada</p>
-        </div>
-        }
-      </div>
-      <div class="card-actions">
-        <button class="btn-edit" (click)="editarVaga()">
-          <img
-            src="assets/icons/pen-solid.svg"
-            alt="Editar"
-            width="16"
-            height="16"
-          />
-        </button>
-        <button class="btn-delete">
-          <img
-            src="assets/icons/trash-solid.svg"
-            alt="Deletar"
-            width="16"
-            height="16"
-            (click)="confirmDelete()"
-          />
-        </button>
-      </div>
-    </div>
 
-    <img
-      src="../../../../../assets/imgs/banner_vaga_padrao.svg"
-      alt="imagemVaga"
-    />
-
+    <!-- Conteúdo da Vaga (Comum a todos) -->
+    <img src="assets/imgs/banner_vaga_padrao.svg" alt="imagemVaga" />
     <div class="d-flex justify-content-between align-items-center my-2">
-      <h1 class="cpc-bold">{{ vaga.titulo_vaga }}</h1>
-      @if(vaga.status == statusVagaEnum.FINALIZADO){
-      <p class="cpc-regular-010">Vaga finalizada</p>
-      }@else {
+      <h1 class="cpc-bold">{{ vagaData.titulo_vaga }}</h1>
+      @if(vagaData.status !== statusVagaEnum.FINALIZADO){
       <p class="cpc-regular-010 m-0 text-end">
-        Encerramento
-        <span class="cpc-medium-010 d-flex align-items-center"
-          ><strong class="cpc-color-red-010">{{
-            vaga.data_fechamento | date
-          }}</strong></span
-        >
+        Encerramento <strong>{{ vagaData.data_fechamento | date }}</strong>
       </p>
       }
     </div>
-    <p class="my-3 cpc-regular">{{ vaga.descricao }}</p>
+    <p class="my-3 cpc-regular">{{ vagaData.descricao }}</p>
 
+    <!-- INÍCIO DO CÓDIGO COMPLETADO 1 -->
     <div class="containerInterno">
       <div class="conteudoCompetencias">
         <h1 class="cpc-regular">Competências</h1>
-        @for (habilidade of vaga.habilidades; track habilidade.id_habilidades) {
+        @for (habilidade of vagaData.habilidades; track
+        habilidade.id_habilidades) {
         <p class="cpc-regular-010">{{ habilidade.nome }}</p>
         }
       </div>
       <div class="conteudoCursos">
         <h1 class="cpc-regular">Cursos recomendados</h1>
-        @for(curso of vaga.curso; track curso.id_cursos){
+        @for(curso of vagaData.curso; track curso.id_cursos){
         <p class="cpc-regular-010">{{ curso.curso }}</p>
         }
       </div>
     </div>
 
-    @if(vaga.empresa.pessoa.rede_social){
+    @if(vagaData.empresa.pessoa.rede_social){
     <h1 class="cpc-regular">Contatos</h1>
     <div class="containerFooter">
       <div class="conteudoContatos">
         <div class="linkContainer">
-          @if(vaga.empresa.pessoa.rede_social.github){
-          <div class="linkContainerText">
-            <a
-              class="cpc-regular"
-              target="_blank"
-              [href]="vaga.empresa.pessoa.rede_social.github"
-            >
-              <img
-                class="mx-2"
-                src="assets/icons/iconeGithub.svg"
-                alt="Icone do github"
-              />
-            </a>
-          </div>
-          } @if(vaga.empresa.pessoa.rede_social.instagram){
-          <div class="linkContainerText">
-            <a
-              target="_blank"
-              [href]="vaga.empresa.pessoa.rede_social.instagram"
-            >
-              <img
-                class="mx-2"
-                src="assets/icons/iconeInstagram.svg"
-                alt="Icone do Instagram"
-              />
-            </a>
-          </div>
-          } @if(vaga.empresa.pessoa.rede_social.linkedin){
-          <div class="linkContainerText">
-            <a
-              target="_blank"
-              [href]="vaga.empresa.pessoa.rede_social.linkedin"
-            >
-              <img
-                class="mx-2"
-                src="assets/icons/iconeLinkedin.svg"
-                alt="Icone do linkedin"
-              />
-            </a>
-          </div>
-          }@else {
-          <p class="cpc-regular-010">Nenhuma rede social cadastrada</p>
+          @if(vagaData.empresa.pessoa.rede_social.github){
+          <a target="_blank" [href]="vagaData.empresa.pessoa.rede_social.github"
+            ><img src="assets/icons/iconeGithub.svg" alt="Github"
+          /></a>
+          } @if(vagaData.empresa.pessoa.rede_social.instagram){
+          <a
+            target="_blank"
+            [href]="vagaData.empresa.pessoa.rede_social.instagram"
+            ><img src="assets/icons/iconeInstagram.svg" alt="Instagram"
+          /></a>
+          } @if(vagaData.empresa.pessoa.rede_social.linkedin){
+          <a
+            target="_blank"
+            [href]="vagaData.empresa.pessoa.rede_social.linkedin"
+            ><img src="assets/icons/iconeLinkedin.svg" alt="Linkedin"
+          /></a>
           }
         </div>
       </div>
@@ -283,87 +130,87 @@
         <img
           class="me-2"
           src="assets/icons/iconeLocalizacao.svg"
-          alt="icone de localização"
+          alt="Localização"
         />
         <p class="cpc-regular-010">
-          {{ vaga.empresa.pessoa.endereco?.cidade?.nome_cidade }} -
-          {{ vaga.empresa.pessoa.endereco?.estado }}
+          {{ vagaData.empresa.pessoa.endereco?.cidade?.nome_cidade }} -
+          {{ vagaData.empresa.pessoa.endereco?.estado }}
         </p>
       </div>
     </div>
-    @if(vaga.status == statusVagaEnum.EM_ANDAMENTO){
-    <div class="d-flex justify-content-between align-items-center my-3">
-      <div>
-        @if(vaga.prorrogavel){
-        <app-button-primary
-          fonte="cpc-regular"
-          color="btn-secondary"
-          text="Prorrogar por 5 dias"
-          (click)="confirmProrrogarVaga()"
-        />
-        }@else {
-        <div class="cpc-background-red p-2 rounded">
-          <p class="cpc-color-white cpc-regular-010 m-0">
-            Você não pode prorrogar essa vaga, pois ela já foi prorrogada.
-          </p>
-        </div>
-        }
-      </div>
+    }
+    <!-- FIM DO CÓDIGO COMPLETADO 1 -->
 
+    <!-- Ações de Prorrogar/Finalizar (só para empresa/admin) -->
+    @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
+    @if(vagaData.status === statusVagaEnum.EM_ANDAMENTO){
+    <div class="d-flex justify-content-between align-items-center my-3">
+      @if(vagaData.prorrogavel){
       <app-button-primary
-        fonte="cpc-regular"
-        color="btn-secondary"
+        text="Prorrogar por 5 dias"
+        (click)="confirmProrrogarVaga()"
+      />
+      } @else {
+      <div class="status-chip status-finalizado">
+        Limite de prorrogações atingido
+      </div>
+      }
+      <app-button-primary
         text="Finalizar Vaga"
         (click)="confirmFinalizarVaga()"
       />
     </div>
-    }@else {
+    } @else if (vagaData.status === statusVagaEnum.FINALIZADO) {
+    <!-- Componente do candidato selecionado é mostrado aqui quando a vaga está finalizada -->
     <app-candidato-selecionado></app-candidato-selecionado>
-    } }
-  </div>
-  } @if(visaoEstatistica){
-  <div class="container">
+    } } }
+
+    <!-- Visão de Estatísticas (só para empresa/admin) -->
+    @if(!visaoDetalhes() && (role === roleEnum.EMPRESA || role ===
+    roleEnum.ADMIN)){
     <section
       class="mt-3 d-flex justify-content-center align-items-center gap-5"
     >
       <app-dashboard-card
         label="Candidaturas"
-        valor="{{ candidaturas.length }}"
+        [valor]="candidaturasViewModel().length"
       >
         <i class="fa-solid fa-user-tie fa-2xl"></i>
       </app-dashboard-card>
-      <app-dashboard-card label="Visualizações">
+      <app-dashboard-card label="Visualizações" valor="N/A">
         <i class="fa-solid fa-eye fa-2xl"></i>
       </app-dashboard-card>
     </section>
     <section
       class="my-5 cpc-background-gray p-4 mx-5 containerSelecaoVaga cpc-shadow-black"
     >
-      <h2 class="cpc-bold">{{ vaga.titulo_vaga }}</h2>
+      <h2 class="cpc-bold">{{ vagaData.titulo_vaga }}</h2>
       <div>
         <div class="cpc-background-green-010 px-4 py-1 my-3">
           <p class="cpc-regular">Seleção de candidatos a vaga</p>
         </div>
         <div class="my-3">
-          @for (candidato of candidaturas; track $index) {
+          @for (candidato of candidaturasViewModel(); track
+          candidato.id_pessoas) {
           <app-component-accordion
-            title="{{ candidato.pessoa.nome + ' ' + candidato.sobrenome }}"
+            [title]="candidato.pessoa.nome + ' ' + candidato.sobrenome"
           >
+            <!-- INÍCIO DO CÓDIGO COMPLETADO 2 -->
             <div>
               <p class="cpc-regular mb-3">Perfil do candidato</p>
-              <a class="cpc-background-green cpc-color-white p-2" href=""
+              <a
+                class="cpc-background-green cpc-color-white p-2"
+                [routerLink]="['/perfil', candidato.id_pessoas]"
                 >Visualizar perfil</a
               >
             </div>
             <div class="py-3">
               <p class="cpc-regular">Habilidades</p>
-
-              @if (habilidadesFaltantes.length > 0) {
+              @if (candidato.habilidadesFaltantes.length > 0) {
               <p>Faltam as seguintes habilidades exigidas pela vaga:</p>
-
               <div>
                 <mat-chip-set>
-                  @for (habilidade of habilidadesFaltantes; track
+                  @for (habilidade of candidato.habilidadesFaltantes; track
                   habilidade.id_habilidades) {
                   <mat-chip color="warn">{{ habilidade.nome }}</mat-chip>
                   }
@@ -377,13 +224,12 @@
             </div>
             <div class="py-3">
               <p class="cpc-regular">Cursos</p>
-
-              @if (cursosFaltantes.length > 0) {
-              <p>Faltam as seguintes habilidades exigidas pela vaga:</p>
-
+              @if (candidato.cursosFaltantes.length > 0) {
+              <p>Faltam os seguintes cursos exigidos pela vaga:</p>
               <div>
                 <mat-chip-set>
-                  @for (curso of cursosFaltantes; track curso.id_cursos) {
+                  @for (curso of candidato.cursosFaltantes; track
+                  curso.id_cursos) {
                   <mat-chip color="warn">{{ curso.curso }}</mat-chip>
                   }
                 </mat-chip-set>
@@ -394,39 +240,31 @@
               </p>
               }
             </div>
+            <!-- FIM DO CÓDIGO COMPLETADO 2 -->
             <div class="mb-5">
               <p class="cpc-regular">Ações</p>
-              <div>
-                <mat-radio-group
-                  [(ngModel)]="candidato.pivot.status"
-                  aria-label="Selecione um novo status"
+              <mat-radio-group [(ngModel)]="candidato.novoStatusSelecionado">
+                <mat-radio-button value="Entrevista"
+                  >Entrevistar</mat-radio-button
                 >
-                  <mat-radio-button value="Entrevista"
-                    >Entrevistar</mat-radio-button
-                  >
-                  <mat-radio-button value="Contratado"
-                    >Contratar</mat-radio-button
-                  >
-                  <mat-radio-button value="Rejeitado"
-                    >Desclassificar</mat-radio-button
-                  >
-                </mat-radio-group>
-              </div>
+                <mat-radio-button value="Contratado"
+                  >Contratar</mat-radio-button
+                >
+                <mat-radio-button value="Rejeitado"
+                  >Desclassificar</mat-radio-button
+                >
+              </mat-radio-group>
             </div>
             <app-button-primary
-              class="mt-2 d-flex justify-content-end"
-              fonte="cpc-regular"
-              color="btn-secondary"
               text="Salvar"
               (click)="atualizarStatusDeContratacao(candidato)"
-            >
-            </app-button-primary>
+            />
           </app-component-accordion>
           }
         </div>
       </div>
     </section>
+    }
   </div>
-  }
 </div>
 }

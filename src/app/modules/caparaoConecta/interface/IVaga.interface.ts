@@ -1,8 +1,11 @@
 import { EStatusVaga } from '../enum/EStatusVaga.enum';
 import { IAreasAtuacao } from './IAreasAtuacao.interface';
+import { ICandidato } from './ICandidato.interface';
 import { ICursos } from './ICursos.inteface';
 import { IEmpresa } from './IEmpresa.inteface';
 import { IHabilidades } from './IHabilidades.interface';
+import { IPessoa } from './IPessoa.interface';
+import { IPessoaFisica } from './IPessoaFisica.interface';
 import { IRedesSociais } from './IRedesSociais.interface';
 
 export interface IVaga {
@@ -20,7 +23,8 @@ export interface IVaga {
   modalidade_da_vaga: string;
   prorrogavel: boolean;
   id_empresas: number;
-  habilidades?: IHabilidades[];
+  habilidades: IHabilidades[];
   curso: ICursos[];
   empresa: IEmpresa;
+  candidatos: IPessoaFisica[];
 }
