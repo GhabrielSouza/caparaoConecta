@@ -26,5 +26,5 @@ export interface IVaga {
   habilidades: IHabilidades[];
   curso: ICursos[];
   empresa: IEmpresa;
-  candidatos: IPessoaFisica[];
+  candidato: IPessoaFisica[];
 }

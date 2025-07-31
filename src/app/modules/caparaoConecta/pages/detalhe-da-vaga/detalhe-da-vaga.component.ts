@@ -48,7 +48,7 @@ export class DetalheDaVagaComponent implements OnInit {
     if (vagaIdString) {
       const vagaId = +vagaIdString;
 
-      this.vagasService.httpListCandidaturas$(vagaId).subscribe({
+      this.vagasService.httpListVagasId$(vagaId).subscribe({
         next: (data) => {
           console.log(data);
           this.vaga = data;

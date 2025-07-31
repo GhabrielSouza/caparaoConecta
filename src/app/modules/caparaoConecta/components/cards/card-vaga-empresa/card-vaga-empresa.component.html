@@ -1,18 +1,45 @@
-<div class="d-flex gap-4 pb-4">
-  <div
-    *ngFor="let vaga of paginatedVagas" (click)="onCardClick(vaga)"
-    class="container cpc-background-gray d-flex align-items-center p-2 gap-4"
-  >
-    <div class="container_informacoes d-flex flex-column py-2">
-      <h1 class="cpc-medium-card">{{ vaga.titulo_vaga }}</h1>
-      <p class="cpc-light-card">{{ vaga.descricao }}</p>
-      <p class="cpc-light-card">Vagas: {{ vaga.qtd_vaga }}</p>
+<div class="vagas-empresa-container">
+  <div class="vagas-grid">
+    @for (vaga of paginatedVagas; track vaga.id_vagas) {
+
+    <div class="empresa-vaga-card" (click)="onCardClick(vaga)">
+      <div class="card-header">
+        <h3 class="card-titulo cpc-regular">{{ vaga.titulo_vaga }}</h3>
+        <span
+          class="card-status"
+          [ngClass]="'status-' + vaga.status.toLowerCase()"
+        >
+          {{ vaga.status.replace("_", " ") }}
+        </span>
+      </div>
+
+      <p class="card-descricao cpc-regular-010">{{ vaga.descricao }}</p>
+
+      <div class="card-footer">
+        <div class="detalhe-item">
+          <i class="fa-solid fa-briefcase"></i>
+          <span class="cpc-light-010">{{
+            vaga.modalidade_da_vaga | capitalize
+          }}</span>
+        </div>
+        <div class="detalhe-item">
+          <i class="fa-solid fa-dollar-sign"></i>
+          <span class="cpc-light-010">{{
+            vaga.salario | currency : "BRL"
+          }}</span>
+        </div>
+        <div class="detalhe-item">
+          <i class="fa-solid fa-users"></i>
+          <span class="cpc-light-010">{{ vaga.qtd_vaga }} Vaga(s)</span>
+        </div>
+      </div>
     </div>
+    }
   </div>
+
+  <p-paginator
+    [rows]="pageSize"
+    [totalRecords]="vagas.length"
+    (onPageChange)="onPageChange($event)"
+  ></p-paginator>
 </div>
-<p-paginator
-  [rows]="pageSize"
-  [totalRecords]="vagas.length"
-  (onPageChange)="onPageChange($event)"
->
-</p-paginator>

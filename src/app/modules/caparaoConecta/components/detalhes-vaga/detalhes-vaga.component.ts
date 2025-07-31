@@ -1,6 +1,7 @@
 import { EStatusVaga } from './../../enum/EStatusVaga.enum';
 import {
   Component,
+  computed,
   inject,
   Input,
   OnChanges,
@@ -33,6 +34,7 @@ import { IPessoaFisica } from '../../interface/IPessoaFisica.interface';
 import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
 import { FormsModule, NgModel } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 interface CandidatoViewModel extends IPessoaFisica {
   habilidadesFaltantes: IHabilidades[];
@@ -75,35 +77,42 @@ export class DetalhesVagaComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['vaga'] && this.vaga) {
       this.prepararViewModels(this.vaga);
+      console.log(this.vaga);
     }
   }
 
   private prepararViewModels(vaga: IVaga): void {
-    if (!vaga?.candidatos) {
+    if (!vaga?.candidato) {
       this.candidaturasViewModel.set([]);
       return;
     }
 
-    const viewModels = vaga.candidatos.map((candidatos): CandidatoViewModel => {
+    const viewModels = vaga.candidato.map((candidato): CandidatoViewModel => {
+      const habilidadesDoCandidato = candidato.pessoa?.habilidades || [];
+      const cursosDoCandidato = candidato.pessoa?.cursos || [];
+
       const idsHabilidadesDoCandidato = new Set(
-        candidatos.pessoa.habilidades.map((h) => h.id_habilidades)
+        habilidadesDoCandidato.map((h) => h.id_habilidades)
       );
       const idsCursosDoCandidato = new Set(
-        candidatos.pessoa.cursos.map((c) => c.id_cursos)
+        cursosDoCandidato.map((c) => c.id_cursos)
       );
 
-      const habilidadesFaltantes = vaga.habilidades.filter(
+      const habilidadesDaVaga = vaga.habilidades || [];
+      const cursosDaVaga = vaga.curso || [];
+
+      const habilidadesFaltantes = habilidadesDaVaga.filter(
         (h) => !idsHabilidadesDoCandidato.has(h.id_habilidades)
       );
-      const cursosFaltantes = vaga.curso.filter(
+      const cursosFaltantes = cursosDaVaga.filter(
         (c) => !idsCursosDoCandidato.has(c.id_cursos)
       );
 
       return {
-        ...candidatos,
+        ...candidato,
         habilidadesFaltantes,
         cursosFaltantes,
-        novoStatusSelecionado: candidatos.pivot.status,
+        novoStatusSelecionado: candidato.pivot.status,
       };
     });
 
@@ -113,19 +122,35 @@ export class DetalhesVagaComponent implements OnChanges {
   public atualizarStatusDeContratacao(candidato: CandidatoViewModel): void {
     if (candidato.novoStatusSelecionado === candidato.pivot.status) return;
 
-    const vagaId = this.vaga.id_vagas;
+    const vagaId = this.vaga!.id_vagas;
     const candidatoId = candidato.id_pessoas;
     const status = candidato.novoStatusSelecionado;
 
     this.vagaService
       .httpAtualizarStatusCandidato$(vagaId, candidatoId, status)
       .subscribe({
-        next: () => {
+        next: (response) => {
           candidato.pivot.status = status;
+
+          if (response.vaga.status === 'FINALIZADO') {
+            this.vaga = response.vaga;
+          }
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: 'O status do candidato foi atualizado.',
+            timer: 1500,
+          });
         },
-        error: (error) => {
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.error?.message || 'Não foi possível atualizar o status.',
+          });
+
           candidato.novoStatusSelecionado = candidato.pivot.status;
-          console.error('Erro ao atualizar status:', error);
         },
       });
   }
@@ -137,6 +162,12 @@ export class DetalhesVagaComponent implements OnChanges {
   public voltar(): void {
     this.location.back();
   }
+
+  public candidatosContratados = computed(() => {
+    return this.candidaturasViewModel().filter(
+      (c) => c.pivot.status === 'Contratado'
+    );
+  });
 
   public finalizarVaga() {
     const vagaIdString = this.vaga.id_vagas;

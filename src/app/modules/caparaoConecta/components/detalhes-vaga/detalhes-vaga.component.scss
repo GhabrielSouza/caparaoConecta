@@ -1,98 +1,150 @@
 @use "@angular/material" as mat;
+
 :host {
-  .container {
-    background-color: #ffff;
-    width: 100%;
-    height: 80%;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding: 15px;
-
-    img {
-      width: 100%;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 4px;
-
-      button {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .btn-edit {
-        background-color: var(--primary-background-green);
-
-        &:hover {
-          background-color: var(--secondary-background-green);
-        }
-      }
-
-      .btn-delete {
-        background-color: var(--background-red);
-
-        &:hover {
-          background-color: var(--background-red-010);
-        }
-      }
-    }
-  }
-
   .detalhesVagaContainer {
     display: flex;
     flex-direction: column;
-    width: 70%;
     justify-self: center;
+    width: 70%;
     padding: 2em;
+  }
 
-    .cpc-border-radius-detalhes {
+  .container {
+    background-color: #ffff;
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 1.5rem;
+
+    > img {
+      width: 100%;
+      border-radius: 8px;
+    }
+  }
+
+  .btn-toggle {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background-color: var(--background-gray);
+    transition: background-color 0.3s ease;
+    border: 1px solid #e0e0e0;
+
+    &:first-of-type {
       border-radius: 8px 0 0 8px;
-      cursor: pointer;
+    }
+    &:last-of-type {
+      border-radius: 0 8px 8px 0;
     }
 
-    .cpc-border-radius-estatistica {
-      border-radius: 0 8px 8px 0;
+    img {
+      width: 16px;
+      margin-right: 0.5rem;
+    }
+
+    p {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    &.active {
+      background-color: var(--primary-background-green);
+      color: white;
+    }
+  }
+
+  .status-chip {
+    padding: 0.5rem 1rem;
+    border-radius: 16px;
+    font-weight: 500;
+    color: white;
+    display: inline-block;
+  }
+  .status-inativo,
+  .status-finalizado {
+    background-color: var(--background-red);
+  }
+  .status-andamento {
+    background-color: #f0ad4e;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+
+    button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
       cursor: pointer;
+      transition: all 0.2s ease;
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .btn-edit {
+      background-color: var(--primary-background-green);
+      &:hover {
+        background-color: var(--secondary-background-green);
+      }
+    }
+
+    .btn-delete {
+      background-color: var(--background-red);
+      &:hover {
+        background-color: var(--background-red-010);
+      }
     }
   }
 
   .containerInterno {
     display: flex;
     flex-direction: row;
+    gap: 2rem;
     width: 100%;
-    justify-content: space-between;
-  }
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 
-  .conteudoContatos {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 60%;
-    padding-right: 1vw;
+    .conteudoCompetencias,
+    .conteudoCursos {
+      flex: 1;
+    }
   }
 
   .containerFooter {
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .conteudoContatos .linkContainer {
+    display: flex;
+    gap: 1rem;
   }
 
   .conteudoEndereco {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    width: 40%;
+    gap: 0.5rem;
     img {
       width: 20px;
+    }
+    p {
+      margin: 0;
     }
   }
 
@@ -101,15 +153,6 @@
     div,
     a {
       border-radius: 8px;
-    }
-  }
-
-  .linkContainerText {
-    display: flex;
-    flex-direction: row;
-    margin: 0.5em 0;
-    img {
-      width: 25px;
     }
   }
 

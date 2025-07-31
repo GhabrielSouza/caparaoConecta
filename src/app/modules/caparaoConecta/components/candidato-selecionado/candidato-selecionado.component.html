@@ -1,24 +1,67 @@
-<h3 class="cpc-medium">Candidatos Contratados</h3>
+<div class="candidato-list-container">
+  <h3 class="cpc-medium">Candidatos Contratados</h3>
 
-<div class="card-container cpc-medium-010">
-  <div class="card">
-    
-    <div class="info">
-      <p>Nome:</p>
-      <p class="nome">{{candidato.nome}}</p>
-    </div>
-
-    <div class="contatos">
-      <p class="contatos-label">Contatos:</p>
-      <div class="icones">
-        <img src="assets/icons/iconeWhatsapp.svg" alt="Whatsapp">
-        <img src="assets/icons/iconeInstagram.svg" alt="Instagram">
-        <img src="assets/icons/iconeGithub.svg" alt="Github">
-        <img src="assets/icons/iconeLinkedin.svg" alt="Linkedin">
-        <img src="assets/icons/iconeEmail.svg" alt="Email">
-        <img src="assets/icons/icons_perfil/telefone.svg" alt="Telefone">
+  @for (candidato of candidatos; track candidato.id_pessoas) {
+  <div class="candidato-card">
+    <div class="candidato-info">
+      <img
+        [src]="candidato.pessoa.imagem || 'assets/imgs/perfil.svg'"
+        alt="Foto do candidato"
+        class="candidato-avatar"
+      />
+      <div class="candidato-details">
+        <p class="candidato-nome cpc-regular-010">
+          {{ candidato.pessoa.nome }} {{ candidato.sobrenome }}
+        </p>
       </div>
     </div>
 
+    <div class="candidato-contatos">
+      @if(candidato.pessoa.telefone){
+      <a [href]="getWhatsAppLink(candidato)" target="_blank" title="WhatsApp">
+        <img src="assets/icons/icons_perfil/whats.svg" alt="WhatsApp" />
+      </a>
+      } @if(candidato.pessoa.rede_social?.linkedin){
+      <a
+        [href]="candidato.pessoa.rede_social?.linkedin"
+        target="_blank"
+        title="LinkedIn"
+      >
+        <img src="assets/icons/icons_perfil/linkedin.svg" alt="LinkedIn" />
+      </a>
+      } @if(candidato.pessoa.rede_social?.github){
+      <a
+        [href]="candidato.pessoa.rede_social?.github"
+        target="_blank"
+        title="GitHub"
+      >
+        <img src="assets/icons/icons_perfil/git.svg" alt="GitHub" />
+      </a>
+      } @if(candidato.pessoa.rede_social?.curriculo_lattes){
+      <li>
+        <a
+          [href]="candidato?.pessoa?.rede_social?.curriculo_lattes"
+          target="_blank"
+          ><img
+            src="assets/icons/icons_perfil/lattes.svg"
+            alt="Rede social Lattes"
+        /></a>
+      </li>
+      } @if(candidato.pessoa.rede_social?.instagram){
+      <li>
+        <a [href]="candidato?.pessoa?.rede_social?.instagram" target="_blank"
+          ><img
+            src="assets/icons/icons_perfil/insta.svg"
+            alt="Rede social Instagram"
+        /></a>
+      </li>
+      }
+    </div>
   </div>
+  } @empty {
+
+  <div class="no-candidates-message">
+    <p>Nenhum candidato foi contratado para esta vaga ainda.</p>
+  </div>
+  }
 </div>
