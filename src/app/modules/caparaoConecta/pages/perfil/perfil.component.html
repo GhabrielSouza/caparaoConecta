@@ -1,36 +1,38 @@
 <app-cabecalho />
 
-@defer (when carregarDados) {
+<!-- O @defer agora espera o status ser 'concluido' -->
+@defer (when statusCarregamento() === 'concluido') {
+
+<!-- Usamos o valor do signal com dadosPessoais() -->
 <app-component-perfil-dados
-  [data]="dadosPessoais"
-  [IdUsuario]="idUsuario"
-  [idTipoUsuario]="id_tipo_usuario"
+  [data]="dadosPessoais()"
+  [IdUsuario]="user()?.id_pessoas"
+  [idTipoUsuario]="user()?.id_tipo_usuarios"
 ></app-component-perfil-dados>
 
 <app-component-default-perfil
   title="Sobre"
-  [IdUsuario]="idUsuario"
-  [data]="sobre"
+  [IdUsuario]="user()?.id_pessoas"
+  [data]="dadosPessoais()?.sobre"
 >
 </app-component-default-perfil>
 
-<div *ngIf="id_tipo_usuario == '2'">
-  <app-perfil-candidato
-    [IdUsuario]="idUsuario"
-    [experiencias]="experiencias"
-    [formacoes]="formacoes"
-    [cursos]="cursos"
-    [habilidades]="habilidades"
-  >
-  </app-perfil-candidato>
-</div>
-
-<div *ngIf="id_tipo_usuario == '3'">
-  <app-perfil-empresa [dadosEmpresa]="dadosEmpresa"> </app-perfil-empresa>
-</div>
-} @placeholder(minimum 3s) {
+<!-- A condição agora usa o signal reativo 'role()' -->
+@if(role() === roleEnum.CANDIDATO) {
+<app-perfil-candidato
+  [IdUsuario]="user()?.id_pessoas"
+  [experiencias]="experiencias()"
+  [formacoes]="formacoes()"
+  [cursos]="cursos()"
+  [habilidades]="habilidades()"
+>
+</app-perfil-candidato>
+} @if(role() === roleEnum.EMPRESA) {
+<app-perfil-empresa [dadosEmpresa]="dadosPessoais()?.empresa">
+</app-perfil-empresa>
+} } @placeholder(minimum 1s) {
 <app-spinner />
-}@loading(minimum 3s) {
+} @loading(minimum 1s) {
 <div class="loading-message">
   <p>Carregando dados do perfil...</p>
 </div>

@@ -1,54 +1,53 @@
 <div class="container">
   <div class="header">
-    <h2>{{ title }}</h2>
+    <h2 class="cpc-medium">{{ title }}</h2>
     <app-button-primary
       fonte="cpc-regular"
       color="btn-secondary"
       text="{{ addLabel }}"
-      (click)="onAdd()"
+      (click)="openItemDialog()"
     />
   </div>
 
   <table class="table">
     <thead>
       <tr class="header-row">
-        <th
-          *ngFor="let column of columns"
-          [ngClass]="{ 'th-centro': column !== column[0] }"
-        >
-          {{ column }}
+        <th *ngFor="let col of columns" class="cpc-regular-010">
+          {{ col.header | capitalize }}
         </th>
-        <th class="th-lateral-direita">Ações</th>
+        <th class="th-lateral-direita cpc-regular-010">Ações</th>
       </tr>
     </thead>
     <tbody>
       <tr
         *ngFor="let item of data"
-        [ngClass]="{ active: item.status === 'Ativo' }"
+        [ngClass]="{ 'row-active': statusFn(item) === 'Ativo' }"
+        class="cpc-regular-010"
       >
-        <td *ngFor="let column of columns" class="td-centro">
-          {{ item[column] }}
+        <td *ngFor="let col of columns" class="td-centro">
+          {{ getCellValue(item, col) }}
         </td>
 
         <td class="actions td-lateral-direita">
-          <button class="icon edit" (click)="onEdit(item)">
-            <img src="assets/icons/editTable.svg" alt="Editar" />
+          <button class="icon-btn edit" (click)="openItemDialog(item)">
+            <span class="material-icons">edit</span>
           </button>
+
           <button
-            class="icon"
-            [ngClass]="item.status === 'Ativo' ? 'delete' : 'check'"
+            class="icon-btn"
+            [ngClass]="statusFn(item) === 'Ativo' ? 'deactivate' : 'activate'"
             (click)="onToggleStatus(item)"
           >
-            <img
-              [src]="
-                item.status === 'Ativo'
-                  ? 'assets/icons/closeTable.svg'
-                  : 'assets/icons/check.svg'
-              "
-              alt="Ação"
-              width="20"
-              height="20"
-            />
+            <span *ngIf="statusFn(item) === 'Ativo'" class="material-icons"
+              >toggle_off</span
+            >
+            <span *ngIf="statusFn(item) !== 'Ativo'" class="material-icons"
+              >toggle_on</span
+            >
+          </button>
+
+          <button class="icon-btn deactivate" (click)="onDeleteItem(item)">
+            <span class="material-icons">delete</span>
           </button>
         </td>
       </tr>
@@ -57,9 +56,11 @@
 
   <mat-paginator
     class="matPaginator"
-    [pageSizeOptions]="[12, 20]"
+    [length]="totalDataLength"
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="10"
+    (page)="onPageChange($event)"
     showFirstLastButtons
-    hidePageSize
   >
   </mat-paginator>
 </div>

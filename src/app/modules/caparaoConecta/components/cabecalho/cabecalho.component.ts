@@ -1,77 +1,69 @@
+/* * ARQUIVO: cabecalho.component.ts (CORRIGIDO)
+ */
+
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { SelectRegisterDialogComponent } from '../dialogs/select-register-dialog/select-register-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { MatDialog } from '@angular/material/dialog';
-import { CadastroVagaDialogComponent } from '../dialogs/cadastro-vaga-dialog/cadastro-vaga-dialog.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { SelecionarVagaComponent } from '../dialogs/selecionar-vaga/selecionar-vaga.component';
+import { AuthService } from '../../../../services/auth-caparao/login.service';
 
 @Component({
   selector: 'app-cabecalho',
+  standalone: true,
   imports: [RouterLink, CommonModule, MatBadgeModule, MatIconModule],
   templateUrl: './cabecalho.component.html',
   styleUrl: './cabecalho.component.scss',
 })
 export class CabecalhoComponent {
-  public valorMenu: boolean = false;
-  public navbarFixed: boolean = false;
-  public role: ERoleUser | null = ERoleUser.ADMIN;
+  private dialog = inject(MatDialog);
+  private userAuth = inject(AuthService);
+  private router = inject(Router);
+
+  public user = this.userAuth.currentUser;
+
   public roleEnum = ERoleUser;
 
-  public idUsuario = 1;
-
-  #dialog = inject(MatDialog);
-
-  public openMenu() {
-    this.valorMenu = !this.valorMenu;
-  }
+  public navbarFixed = false;
+  public isMenuOpen = false;
 
   openDialog(): void {
-    this.#dialog.open(SelectRegisterDialogComponent, {
+    this.dialog.open(SelectRegisterDialogComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: 'Como você deseja se cadastrar?',
     });
   }
 
   openDialogSelecionarVaga(): void {
-    this.#dialog.open(SelecionarVagaComponent, {
+    this.dialog.open(SelecionarVagaComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {
-        id: this.idUsuario,
+        id: this.user()?.id_pessoas,
       },
     });
   }
 
-  @HostListener('window:scroll', ['$event']) onscroll() {
-    if (window.scrollY > 50) {
-      this.navbarFixed = true;
-    } else {
-      this.navbarFixed = false;
-    }
+  logout(): void {
+    this.userAuth.logout().subscribe({
+      next: () => {
+        this.toggleMenu();
+        this.router.navigate(['/login']);
+      },
+      error: (err) => console.error('Falha ao fazer logout', err),
+    });
   }
 
-  isMenuOpen = false;
+  @HostListener('window:scroll', ['$event']) onscroll() {
+    this.navbarFixed = window.scrollY > 50;
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-    // Bloquear scroll do body quando menu está aberto
     document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
-  }
-
-  // Fechar menu ao clicar em um link
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (
-      !target.closest('.menu-content') &&
-      !target.closest('.menu-toggle') &&
-      this.isMenuOpen
-    ) {
-      this.toggleMenu();
-    }
   }
 }

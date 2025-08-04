@@ -190,6 +190,29 @@
         </mat-form-field>
       </div>
     </div>
+    @if(data.conteudo.usuario.id_tipo_usuarios == 2) {
+    <div class="flex-grow-1 input-container">
+      <mat-label class="d-block">Área de Atuação</mat-label>
+      <!-- Label posicionado acima -->
+      <mat-form-field class="w-100">
+        <mat-select
+          formControlName="id_areas_atuacao"
+          placeholder="Selecione sua área de atuação"
+        >
+          @for(area of areasAtuacao; track area.id_areas_atuacao){
+          <mat-option [value]="area.id_areas_atuacao">
+            {{ area.nome_area }}
+          </mat-option>
+          }
+        </mat-select>
+        @if (cadastrarForm.get('id_areas_atuacao')?.invalid &&
+        (cadastrarForm.get('id_areas_atuacao')?.touched ||
+        cadastrarForm.get('id_areas_atuacao')?.dirty)) {
+        <mat-error>{{ fieldErrors()["id_areas_atuacao"] }}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    }
     <app-primary-input
       formControlName="email"
       type="email"

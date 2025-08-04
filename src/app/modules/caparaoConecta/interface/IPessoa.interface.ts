@@ -9,18 +9,18 @@ import { IRedesSociais } from './IRedesSociais.interface';
 import { IUsuario } from './IUsuario.interface';
 
 export interface IPessoa {
-  id?: number;
+  id_pessoas: number;
   nome: string;
   sobre: string;
   telefone: string;
   imagem?: File;
   usuario: IUsuario;
-  empresas?: IEmpresa;
-  candidatos?: ICandidato;
+  empresa?: IEmpresa;
+  pessoas_fisica?: ICandidato;
   endereco?: IEndereco;
   rede_social?: IRedesSociais;
   formacoes?: IFormacoesAcademicas[];
   experiencias?: IExperiencia[];
   cursos: ICursos[];
-  habilidades?: IHabilidades[];
+  habilidades: IHabilidades[];
 }

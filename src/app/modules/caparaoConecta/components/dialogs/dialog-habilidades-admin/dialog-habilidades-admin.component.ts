@@ -31,6 +31,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class DialogHabilidadesAdminComponent {
   public formHabilidade: FormGroup;
+  public modo: 'add' | 'edit';
+  public titulo: string;
 
   constructor(
     private _dialogRef: MatDialogRef<DialogHabilidadesAdminComponent>,
@@ -39,20 +41,45 @@ export class DialogHabilidadesAdminComponent {
     private _fb: FormBuilder
   ) {
     this.formHabilidade = this._fb.group({
-      habilidade: ['', Validators.required],
+      nome: ['', Validators.required],
     });
+
+    if (this.data && this.data.item) {
+      this.modo = 'edit';
+      this.titulo = 'Editar habilidade';
+      this.formHabilidade.patchValue({ nome: this.data.item.nome });
+    } else {
+      this.modo = 'add';
+      this.titulo = 'Adicionar habilidade';
+    }
   }
 
-  submit() {
-    this.habilidadesService
-      .httpCreateHabilidadesOnPessoas$(this.formHabilidade.value)
-      .subscribe({
-        next: () => this._dialogRef.close(true),
-        error: (error) => console.error('Erro ao salvar habilidades', error),
-      });
+  submit(): void {
+    // 1. Verificamos se o formulário é válido
+    if (this.formHabilidade.invalid) {
+      this.formHabilidade.markAllAsTouched(); // Marca campos como tocados para exibir erros
+      return; // Para a execução se o formulário não for válido
+    }
+
+    // 2. Pegamos os dados do formulário
+    const dadosDoFormulario = this.formHabilidade.value;
+
+    // Se estivermos editando, é bom enviar o ID de volta
+    if (this.modo === 'edit') {
+      dadosDoFormulario.id_habilidades = this.data.item.id_habilidades;
+    }
+
+    // 3. Fechamos o diálogo, passando os dados como argumento
+    this._dialogRef.close(dadosDoFormulario);
   }
 
   closeModal() {
     this._dialogRef.close();
+  }
+
+  public oldValue() {
+    this.formHabilidade.patchValue({
+      nome: this.data.item.nome,
+    });
   }
 }

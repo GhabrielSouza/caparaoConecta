@@ -1,48 +1,92 @@
-  
-  
-  .card-container{
-    margin-top: 1em;
+.candidato-list-container {
+  margin-top: 1.5rem;
+  width: 100%;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 1rem;
+  }
+}
+
+.candidato-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.candidato-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.candidato-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+}
+
+.candidato-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.candidato-nome {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #212529;
+  margin: 0;
+}
+
+.candidato-area {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.candidato-contatos {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  a {
+    display: inline-block;
+    line-height: 0;
   }
 
-  .card-container h3{
-    font-size: 24px;
+  img {
+    width: 24px;
+    height: 24px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
   }
+}
 
-  .card {
-    background-color: #F2F2F2;
-    border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.418);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 97px;
-  }
-
-  .nomes{
-    margin-bottom: 2em;
-    display: flex;
-    align-items: flex-start;
-  }
-  
-  .nome {
-    font-weight: bold;
-    text-decoration: underline;
-    font-size: 24px;
-    color: #000000;
-  }
-  
-  .contatos {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
- }
-
- .icones{
-    gap: 2em;
-    display: flex;
- }
-
-
-  
+.no-candidates-message {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: #6c757d;
+  border: 1px dashed #dee2e6;
+}

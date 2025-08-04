@@ -31,7 +31,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
-import { VagasService } from '../../../../../services/vagas.service';
+import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { NgxMaskDirective } from 'ngx-mask';
 import { registerLocaleData, CommonModule } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
@@ -41,6 +41,8 @@ import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IHabilidades } from '../../../interface/IHabilidades.interface';
 import { ICursos } from '../../../interface/ICursos.inteface';
+import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
+import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
 
 registerLocaleData(localePt);
 
@@ -79,6 +81,7 @@ export class CadastroVagaDialogComponent implements OnInit {
   cursoInputCtrl = new FormControl('');
   allCursos: ICursos[] = [];
   filteredCursos$: Observable<ICursos[]>;
+  areasAtuacao: IAreasAtuacao[] = [];
 
   constructor(
     private _dialogRef: MatDialogRef<CadastroVagaDialogComponent>,
@@ -86,7 +89,8 @@ export class CadastroVagaDialogComponent implements OnInit {
     private _fb: FormBuilder,
     private vagaService: VagasService,
     private habilidadesService: HabilidadesSService,
-    private cursosService: CursosSService
+    private cursosService: CursosSService,
+    private areasService: AreasAtuacaoService
   ) {
     const dataEncerramento = new Date();
     dataEncerramento.setDate(dataEncerramento.getDate() + 20);
@@ -100,6 +104,7 @@ export class CadastroVagaDialogComponent implements OnInit {
         { value: dataEncerramento.toISOString().split('T')[0], disabled: true },
         Validators.required,
       ],
+      id_areas_atuacao: [''],
       habilidades: this._fb.array([]),
       cursos: this._fb.array([]),
       descricao: [''],
@@ -128,6 +133,7 @@ export class CadastroVagaDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getHabilidades();
     this.getCursos();
+    this.onListAreas();
 
     // Verifica se dados da vaga foram passados para entrar em modo de edição
     if (this.data && this.data.conteudoVaga) {
@@ -336,6 +342,17 @@ export class CadastroVagaDialogComponent implements OnInit {
       if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
       }
+    });
+  }
+
+  public onListAreas() {
+    this.areasService.httpListAreas$().subscribe({
+      next: (resp) => {
+        this.areasAtuacao = resp;
+      },
+      error: (error) => {
+        console.log('Erro ao carregar estados', error);
+      },
     });
   }
 }

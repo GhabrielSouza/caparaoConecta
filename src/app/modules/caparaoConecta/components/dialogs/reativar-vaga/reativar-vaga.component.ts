@@ -12,7 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { VagasService } from '../../../../../services/vagas.service';
+import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { IVaga } from '../../../interface/IVaga.interface';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';

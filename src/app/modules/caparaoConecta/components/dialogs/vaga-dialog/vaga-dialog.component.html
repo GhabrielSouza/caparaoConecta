@@ -1,41 +1,82 @@
-<div class="container">
-    <div class="container_img-vaga py-3">
-        <img [src]="'assets/imgs/banner_vaga_padrao.svg'" alt="Logo da empresa">
+<!-- O container principal do dialog, com padding -->
+<div class="vaga-dialog-container">
+  <!-- CABEÇALHO: Título da vaga, logo da empresa e ação de favoritar -->
+  <header class="dialog-header">
+    <div class="header-main-info">
+      <img
+        [src]="
+          'http://localhost:8000/img/pessoas/' +
+            data.vaga.empresa?.pessoa?.imagem || imagem
+        "
+        alt="Logo da empresa"
+        class="empresa-logo"
+      />
+      <div class="header-text">
+        <h1 class="vaga-titulo cpc-regular">{{ data.vaga.titulo_vaga }}</h1>
+        <p class="empresa-nome cpc-regular">
+          {{ data.vaga.empresa?.pessoa?.nome }}
+        </p>
+      </div>
     </div>
-    <section>
-        <div class="d-flex justify-content-between align-items-center gap-2">
-            <h1 class="cpc-bold m-0">{{data.vaga.titulo_vaga}}</h1>
-            <div class="d-flex align-items-center gap-2" (click)="favoritarVaga()">
-                <p class="cpc-light">Favoritar</p>
-                <img [src]="favoritar ? 'assets/icons/star_preenchida.svg': 'assets/icons/star.svg'" alt="Favoritar vaga">
-            </div>
-        </div>
-        <div>
-            <p class="cpc-regular">{{data.vaga.descricao}}</p>
-        </div>
-        <div>
-            <h2 class="cpc-regular">Habilidades da vaga</h2>
-            <ul>
-                @for (habilidade of data.vaga.habilidades; track habilidade.id_habilidades) {
-                    <li>{{habilidade.nome}}</li>
-                }
-            </ul>
-        </div>
-        <div>
-            <h2 class="cpc-regular">Cursos recomendados</h2>
-            <ul>
-                @for (curso of data.vaga.curso; track curso.id_curso) {
-                    <li>{{curso.curso}}</li>
-                }
-            </ul>
-        </div>
-        <div class="d-flex justify-content-center gap-4 p-3">
-            <button class="btn btn-secondary">
-              Candidatar
-            </button>
-            <button class="btn btn-primary" (click)="closeModal()">
-              Fechar
-            </button>
-        </div>
+    <div class="header-actions" (click)="favoritarVaga()">
+      <mat-icon>{{ favoritar ? "star" : "star_border" }}</mat-icon>
+      <span class="cpc-regular-010">Favoritar</span>
+    </div>
+  </header>
+
+  <!-- BARRA DE DETALHES RÁPIDOS -->
+  <section class="details-bar">
+    <div class="detail-item">
+      <mat-icon>paid</mat-icon>
+      <span class="cpc-regular-010">{{
+        data.vaga.salario | currency : "BRL"
+      }}</span>
+    </div>
+    <div class="detail-item">
+      <mat-icon>work</mat-icon>
+      <span class="cpc-regular-010">{{
+        data.vaga.modalidade_da_vaga | capitalize
+      }}</span>
+    </div>
+    <!-- <div class="detail-item">
+      <mat-icon>location_on</mat-icon>
+      <span>{{
+        data.vaga.empresa?.pessoa?.endereco?.cidade?.nome_cidade
+      }}</span>
+    </div> -->
+  </section>
+
+  <!-- CORPO PRINCIPAL DO DIALOG -->
+  <mat-dialog-content class="dialog-content">
+    <section class="content-section">
+      <h2 class="section-title cpc-regular">Descrição da Vaga</h2>
+      <p class="vaga-descricao cpc-regular-010">{{ data.vaga.descricao }}</p>
     </section>
+
+    <section class="content-section">
+      <h2 class="section-title cpc-regular">Habilidades Necessárias</h2>
+      <mat-chip-listbox aria-label="Habilidades da vaga">
+        @for (habilidade of data.vaga.habilidades; track
+        habilidade.id_habilidades) {
+        <mat-chip>{{ habilidade.nome }}</mat-chip>
+        }
+      </mat-chip-listbox>
+    </section>
+
+    <section class="content-section">
+      <h2 class="section-title cpc-regular">Cursos Recomendados</h2>
+      <mat-chip-listbox aria-label="Cursos recomendados">
+        @for (curso of data.vaga.curso; track curso.id_cursos) {
+        <mat-chip>{{ curso.curso }}</mat-chip>
+        }
+      </mat-chip-listbox>
+    </section>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button class="btn btn-primary" (click)="closeModal()">Fechar</button>
+    <button class="btn btn-secondary" (click)="candidatarUser()">
+      Candidatar-se
+    </button>
+  </mat-dialog-actions>
 </div>

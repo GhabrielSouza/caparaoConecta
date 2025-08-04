@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { IVagas } from '../../../interface/IVagas.interface';
 import { IVaga } from '../../../interface/IVaga.interface';
+import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-card-vaga-empresa',
   standalone: true,
-  imports: [CommonModule, PaginatorModule],
+  imports: [CommonModule, PaginatorModule, CapitalizePipe],
   templateUrl: './card-vaga-empresa.component.html',
   styleUrl: './card-vaga-empresa.component.scss',
 })

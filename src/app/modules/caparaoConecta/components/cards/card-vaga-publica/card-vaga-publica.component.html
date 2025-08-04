@@ -6,17 +6,43 @@
   [autoplayInterval]="5000"
 >
   <ng-template let-vaga #item>
-    <div
-      class="container cpc-background-gray d-flex align-items-center p-2 gap-4"
-      (click)="openModel(vaga)"
-    >
-      <div class="container_img py-2">
-        <img [src]="imagem" alt="Logo da empresa" />
+    <div class="vaga-card" (click)="handleCardClick(vaga)">
+      <div class="vaga-card-header">
+        <img
+          [src]="
+            vaga.empresa?.pessoa?.imagem != null
+              ? 'http://localhost:8000/img/pessoas/' +
+                vaga.empresa?.pessoa?.imagem
+              : imagem
+          "
+          alt="Logo da empresa"
+          class="empresa-logo"
+        />
+        <span class="empresa-nome cpc-regular">{{
+          vaga.empresa?.pessoa?.nome
+        }}</span>
       </div>
-      <div class="container_informacoes d-flex flex-column py-2">
-        <h1 class="cpc-medium-card">{{ vaga.titulo_vaga }}</h1>
-        <p class="cpc-light-card">{{ vaga.descricao }}</p>
-        <p class="cpc-light-card">Vagas: {{ vaga.qtd_vaga }}</p>
+
+      <hr class="card-divider" />
+
+      <div class="vaga-card-body">
+        <h3 class="vaga-titulo cpc-regular">{{ vaga.titulo_vaga }}</h3>
+        <p class="vaga-descricao cpc-regular">{{ vaga.descricao }}</p>
+        <div class="d-flex">
+          <span class="cpc-regular-010 pe-3"
+            ><i class="fa-solid fa-user-tie fa-lg pe-1"></i>
+            {{ vaga.modalidade_da_vaga | capitalize }}</span
+          >
+          <span class="cpc-regular-010"
+            ><i class="fa-solid fa-money-bill fa-lg pe-1"></i
+            >{{
+              vaga.salario | currency : "BRL" : "symbol" : "1.2-2" : "pt-BR"
+            }}</span
+          >
+        </div>
+        <span class="vaga-quantidade cpc-regular"
+          >Vagas: {{ vaga.qtd_vaga }}</span
+        >
       </div>
     </div>
   </ng-template>

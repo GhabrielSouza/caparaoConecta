@@ -1,5 +1,5 @@
 <header class="d-flex justify-content-between p-4 align-items-center">
-  <h3>Adicionar habilidade</h3>
+  <h3>{{ titulo }}</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
@@ -9,7 +9,7 @@
   <div class="habilidades-list">
     <form [formGroup]="formHabilidade">
       <app-primary-input
-        formControlName="habilidade"
+        formControlName="nome"
         type="text"
         placeholder="Digite uma nova habilidade"
         label="Habilidade"

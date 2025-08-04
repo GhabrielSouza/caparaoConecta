@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable, shareReplay, tap } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { IVaga } from '../modules/caparaoConecta/interface/IVaga.interface';
-import { IPessoa } from '../modules/caparaoConecta/interface/IPessoa.interface';
-import { IPessoaFisica } from '../modules/caparaoConecta/interface/IPessoaFisica.interface';
+import { environment } from '../../../environments/environment';
+import { IVaga } from '../../modules/caparaoConecta/interface/IVaga.interface';
+import { IPessoa } from '../../modules/caparaoConecta/interface/IPessoa.interface';
+import { IPessoaFisica } from '../../modules/caparaoConecta/interface/IPessoaFisica.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,11 +24,11 @@ export class VagasService {
     );
   }
 
-  #setListCandidaturas = signal<IPessoaFisica[]>([]);
+  #setListCandidaturas = signal<IVaga | null>(null);
   public getListCandidaturas = this.#setListCandidaturas.asReadonly();
-  public httpListCandidaturas$(id: number): Observable<IPessoaFisica[]> {
+  public httpListCandidaturas$(id: number): Observable<IVaga> {
     return this.#http
-      .get<IPessoaFisica[]>(`${this.#url}/api/vagas/${id}/candidatos`)
+      .get<IVaga>(`${this.#url}/api/vagas/${id}/candidatos`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -134,5 +134,12 @@ export class VagasService {
     const url = `${this.#url}/api/vagas/${vagaId}/prorrogar`;
 
     return this.#http.patch<string>(url, payload);
+  }
+
+  public httpCandidatarVaga$(vagaId: number): Observable<number> {
+    return this.#http.post<number>(
+      `${this.#url}/api/vagas/${vagaId}/candidatar`,
+      {}
+    );
   }
 }

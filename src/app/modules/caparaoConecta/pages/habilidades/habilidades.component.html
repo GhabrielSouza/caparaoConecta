@@ -5,6 +5,16 @@
     [title]="'Habilidades'"
     [addLabel]="'Adicionar Habilidade'"
     [columns]="habilidadesColumns"
+    [data]="habilidadesData"
+    [dialogComponent]="dialogHabilidades"
+    [idFn]="getIdHabilidade"
+    [displayFn]="getNomeHabilidade"
+    [statusFn]="getStatusHabilidade"
+    [totalDataLength]="totalHabilidades"
+    (itemAdded)="onHabilidadeRecebida($event)"
+    (itemEdited)="onHabilidadeAtualizada($event)"
+    (itemDeleted)="onHabilidadeDeletada($event)"
+    (itemStatusToggled)="onHabilidadeStatusToggled($event)"
   >
   </app-table>
 </section>

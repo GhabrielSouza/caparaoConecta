@@ -4,6 +4,7 @@ import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogPerfilInformacoesComponent } from '../dialogs/dialog-perfil-informacoes/dialog-perfil-informacoes.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-usuario/dialog-editar-foto-usuario.component';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 @Component({
   selector: 'app-component-perfil-dados',
@@ -13,8 +14,9 @@ import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-
 })
 export class ComponentPerfilDadosComponent {
   #dialog = inject(MatDialog);
+  #pessoaService = inject(RegisterService);
 
-  @Input() public data!: IPessoa;
+  @Input() public data!: IPessoa | null;
   @Input() public IdUsuario: any;
   @Input() public idTipoUsuario: any;
 
@@ -26,7 +28,7 @@ export class ComponentPerfilDadosComponent {
     return this.data?.usuario?.email ?? '';
   }
 
-  openDialog(data: IPessoa): void {
+  openDialog(data: IPessoa | null): void {
     const dialogRef = this.#dialog.open(DialogPerfilInformacoesComponent, {
       panelClass: EDialogEnum.FORMACAO,
       data: {
@@ -36,16 +38,33 @@ export class ComponentPerfilDadosComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((resposta:IPessoa)=>{
-      if(resposta){
+    dialogRef.afterClosed().subscribe((resposta: IPessoa) => {
+      if (resposta) {
         this.data = resposta;
       }
     });
   }
 
-  dialogEditImagem(){
+  dialogEditImagem() {
     const dialogRef = this.#dialog.open(DialogEditarFotoUsuarioComponent, {
       panelClass: EDialogEnum.PROJETOS,
-    })
+    });
+
+    dialogRef.afterClosed().subscribe((imagem: File | null) => {
+      if (imagem) {
+        this.imagemPessoa(this.IdUsuario, imagem);
+      }
+    });
+  }
+
+  public imagemPessoa(idUsuario: number, imagem: File): void {
+    this.#pessoaService.httpUpdatePessoaImagem$(idUsuario, imagem).subscribe({
+      next: (resposta) => {
+        this.data = resposta;
+      },
+      error: (error) => {
+        console.error('Erro ao atualizar imagem:', error);
+      },
+    });
   }
 }

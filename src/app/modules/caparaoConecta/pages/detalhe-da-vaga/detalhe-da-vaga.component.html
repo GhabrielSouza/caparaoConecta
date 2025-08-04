@@ -1,7 +1,11 @@
 <app-cabecalho></app-cabecalho>
 
 <div *ngIf="vaga">
-  <app-detalhes-vaga [IdUsuario]="idUsuario" [vaga]="vaga"></app-detalhes-vaga>
+  <app-detalhes-vaga
+    [IdUsuario]="user()?.id_pessoas"
+    [vaga]="vaga"
+    [role]="role()"
+  ></app-detalhes-vaga>
 </div>
 
 <app-footer></app-footer>

@@ -4,7 +4,7 @@
   --text-color: var(--black-010);
   --white: #ffffff;
   --light-gray: #f5f5f5;
-  --footer-padding: 2.5rem;
+  --footer-padding: 1.8rem;
 
   footer {
     width: 100%;
@@ -27,7 +27,7 @@
       gap: 2rem;
       max-width: 1200px;
       margin: 0 auto;
-      padding: var(--footer-padding) var(--footer-padding) 1.5rem;
+      padding: var(--footer-padding) var(--footer-padding) 1.25rem;
 
       @media (min-width: 768px) {
         flex-direction: row;
@@ -195,7 +195,7 @@
       background-color: var(--primary-color);
       color: var(--white);
       text-align: center;
-      padding: 1rem;
+      padding: 0.1rem;
       font-size: 0.85rem;
       display: flex;
       flex-direction: column;

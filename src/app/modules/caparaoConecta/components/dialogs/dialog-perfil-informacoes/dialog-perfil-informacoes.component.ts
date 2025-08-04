@@ -40,7 +40,12 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { ViacepService } from '../../../../../services/viacep.service';
 import { IEstadoIbge } from '../../../interface/IEstadoIbge.interface';
 import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
+
+import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
+import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
+
 import { IPessoa } from '../../../interface/IPessoa.interface';
+
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
@@ -72,6 +77,8 @@ export class DialogPerfilInformacoesComponent implements OnInit {
   estados: IEstadoIbge[] = [];
   cidades: IMunicipioIbge[] = [];
 
+  areasAtuacao: IAreasAtuacao[] = [];
+
   constructor(
     private _fb: FormBuilder,
     private _dialogRef: MatDialogRef<DialogPerfilInformacoesComponent>,
@@ -79,7 +86,8 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private apiService: RegisterService,
-    private viacepService: ViacepService
+    private viacepService: ViacepService,
+    private areasService: AreasAtuacaoService
   ) {
     this.cadastrarForm = this._fb.group({
       nome: ['', [Validators.required]],
@@ -95,6 +103,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       estado: ['', []],
       cidade: ['', []],
       email: ['', [Validators.required, Validators.email]],
+      id_areas_atuacao: [null],
       id_tipo_usuarios: this.data.idTipoUsuario,
     });
 
@@ -198,6 +207,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
 
   ngOnInit() {
     this.carregarEstados();
+    this.onListAreas();
 
     if (this.data.id) {
       this.oldValue();
@@ -231,6 +241,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
         cnpj: this.data.conteudo.empresa?.cnpj,
       });
     }
+
   }
 
   public submit() {
@@ -251,6 +262,17 @@ export class DialogPerfilInformacoesComponent implements OnInit {
           console.error('Error updating data', error);
         },
       });
+  }
+
+  public onListAreas() {
+    this.areasService.httpListAreas$().subscribe({
+      next: (resp) => {
+        this.areasAtuacao = resp;
+      },
+      error: (error) => {
+        console.log('Erro ao carregar estados', error);
+      },
+    });
   }
 
   public carregarEstados() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IVagas } from '../../interface/IVagas.interface';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
@@ -6,8 +6,10 @@ import { CommonModule } from '@angular/common';
 import { DetalhesVagaComponent } from '../../components/detalhes-vaga/detalhes-vaga.component';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { VagasService } from '../../../../services/vagas.service';
+import { VagasService } from '../../../../services/vaga/vagas.service';
 import { IVaga } from '../../interface/IVaga.interface';
+import { AuthService } from '../../../../services/auth-caparao/login.service';
+import { ERoleUser } from '../../enum/ERoleUser.enum';
 
 @Component({
   selector: 'app-detalhe-da-vaga',
@@ -22,12 +24,17 @@ import { IVaga } from '../../interface/IVaga.interface';
 })
 export class DetalheDaVagaComponent implements OnInit {
   vaga!: IVaga;
-  idUsuario = 2;
 
-  constructor(
-    private route: ActivatedRoute,
-    private vagasService: VagasService
-  ) {}
+  private route = inject(ActivatedRoute);
+  private vagasService = inject(VagasService);
+  private userAuth = inject(AuthService);
+
+  public user = this.userAuth.currentUser;
+
+  public role = computed(() => {
+    const roleName = this.user()?.tipo_usuario?.nome;
+    return (roleName as ERoleUser) || ERoleUser.GUEST;
+  });
 
   ngOnInit(): void {
     this.getVagaId();

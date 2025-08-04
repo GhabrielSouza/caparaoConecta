@@ -108,4 +108,17 @@ export class RegisterService {
         })
       );
   }
+
+  #setUpdatePessoaIamgem = signal<IPessoa | null>(null);
+  public setUpdatePessoaIamgem = this.#setUpdatePessoaIamgem.asReadonly();
+  public httpUpdatePessoaImagem$(
+    id: number,
+    imagem: File
+  ): Observable<IPessoa> {
+    const formData = new FormData();
+    formData.append('imagem', imagem, imagem.name);
+
+    const url = `${this.#url}/api/pessoas/${id}/imagem`;
+    return this.#http.post<IPessoa>(url, formData);
+  }
 }
