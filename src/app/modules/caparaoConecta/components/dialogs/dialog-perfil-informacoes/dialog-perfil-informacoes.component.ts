@@ -224,6 +224,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
         data_de_nascimento:
           this.data.conteudo.pessoas_fisica?.data_de_nascimento,
         genero: this.data.conteudo.pessoas_fisica?.genero,
+        area_atuacao: this.data.conteudo.area_atuacao.nome_area,
       });
     } else if (this.data.idTipoUsuario === 3) {
       this.cadastrarForm.patchValue({
