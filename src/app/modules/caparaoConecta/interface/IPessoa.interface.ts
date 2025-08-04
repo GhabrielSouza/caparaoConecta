@@ -9,7 +9,7 @@ import { IRedesSociais } from './IRedesSociais.interface';
 import { IUsuario } from './IUsuario.interface';
 
 export interface IPessoa {
-  id?: number;
+  id_pessoas: number;
   nome: string;
   sobre: string;
   telefone: string;

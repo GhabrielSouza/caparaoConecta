@@ -26,6 +26,8 @@
     display: inline-block;
 
     .img-perfil {
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
       border: 5px solid var(--primary-background-green);
       object-fit: cover;

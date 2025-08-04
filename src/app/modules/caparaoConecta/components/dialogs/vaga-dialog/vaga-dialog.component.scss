@@ -1,18 +1,133 @@
-:host {
-  .container {
-    ul {
-      list-style: circle;
-      margin: 0 0 16px;
-      padding: 0 0 0 32px;
-    }
-    .container_img-vaga {
-      width: 100%;
+@use "@angular/material" as mat;
 
-      & img {
-        border-radius: 15px;
-        width: 100%;
-        height: 100px;
-      }
+:host {
+  .vaga-dialog-container {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-main-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .empresa-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f0f0f0;
+  }
+
+  .header-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vaga-titulo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #212529;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .empresa-nome {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f8f9fa;
+      color: var(--primary-background-green);
     }
+
+    mat-icon {
+      font-size: 24px;
+    }
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  .details-bar {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #495057;
+    font-size: 0.9rem;
+
+    mat-icon {
+      color: #6c757d;
+    }
+  }
+
+  .dialog-content {
+    padding: 0;
+    max-height: 40vh;
+  }
+
+  .content-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--primary-background-green);
+    padding-left: 0.75rem;
+  }
+
+  .vaga-descricao {
+    color: #495057;
+    line-height: 1.6;
+  }
+
+  mat-chip-listbox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .dialog-actions {
+    justify-content: flex-end;
+    justify-content: space-between;
+    gap: 2em;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
   }
 }

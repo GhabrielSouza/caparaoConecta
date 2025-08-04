@@ -50,7 +50,12 @@
       <div class="user-profile">
         <div class="profile-image-container">
           <img
-            [src]="loggedUser.pessoa.imagem || 'assets/imgs/perfil.svg'"
+            [src]="
+              loggedUser.pessoa.imagem != null
+                ? 'http://localhost:8000/img/pessoas/' +
+                  loggedUser.pessoa.imagem
+                : 'assets/imgs/perfil.svg'
+            "
             alt="Foto do usuário"
             class="profile-image"
           />

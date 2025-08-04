@@ -4,6 +4,7 @@ import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogPerfilInformacoesComponent } from '../dialogs/dialog-perfil-informacoes/dialog-perfil-informacoes.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-usuario/dialog-editar-foto-usuario.component';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 @Component({
   selector: 'app-component-perfil-dados',
@@ -13,6 +14,7 @@ import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-
 })
 export class ComponentPerfilDadosComponent {
   #dialog = inject(MatDialog);
+  #pessoaService = inject(RegisterService);
 
   @Input() public data!: IPessoa | null;
   @Input() public IdUsuario: any;
@@ -46,6 +48,23 @@ export class ComponentPerfilDadosComponent {
   dialogEditImagem() {
     const dialogRef = this.#dialog.open(DialogEditarFotoUsuarioComponent, {
       panelClass: EDialogEnum.PROJETOS,
+    });
+
+    dialogRef.afterClosed().subscribe((imagem: File | null) => {
+      if (imagem) {
+        this.imagemPessoa(this.IdUsuario, imagem);
+      }
+    });
+  }
+
+  public imagemPessoa(idUsuario: number, imagem: File): void {
+    this.#pessoaService.httpUpdatePessoaImagem$(idUsuario, imagem).subscribe({
+      next: (resposta) => {
+        this.data = resposta;
+      },
+      error: (error) => {
+        console.error('Erro ao atualizar imagem:', error);
+      },
     });
   }
 }

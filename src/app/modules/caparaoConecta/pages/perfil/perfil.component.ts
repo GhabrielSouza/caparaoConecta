@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin, of } from 'rxjs'; // Importe forkJoin e of
+import { forkJoin, Observable, of } from 'rxjs'; // Importe forkJoin e of
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
@@ -17,6 +17,7 @@ import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { ExperienciasService } from './../../../../services/experiencias/experiencias.service';
 import { ComponentDefaultPerfilComponent } from '../../components/component-default-perfil/component-default-perfil.component';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
+import { IUsuario } from '../../interface/IUsuario.interface';
 
 @Component({
   selector: 'app-perfil',
@@ -66,23 +67,41 @@ export class PerfilComponent {
     effect(() => {
       const currentUser = this.user();
       if (currentUser) {
-        this.carregarDadosDoPerfil(currentUser.id_pessoas);
+        this.carregarDadosDoPerfil(currentUser);
       }
     });
   }
 
-  private carregarDadosDoPerfil(userId: number): void {
+  private carregarDadosDoPerfil(currentUser: IUsuario): void {
     this.statusCarregamento.set('carregando');
 
-    forkJoin({
-      dadosPessoais: this.userAuth.getUserData(userId),
-      experiencias: this.experienciaService.httpListExperienciaId$(userId),
-      formacoes: this.formacoesService.httpListFormacoesId$(userId),
-      cursos: this.cursosService.httpListCursosOnPessoaId$(userId),
-      habilidades:
-        this.habilidadesService.httpListHabilidadesOnPessoas$(userId),
-    }).subscribe({
-      next: (resultados) => {
+    const requests: { [key: string]: Observable<any> } = {
+      dadosPessoais: this.userAuth.getUserData(currentUser.id_pessoas),
+    };
+
+    if (currentUser.tipo_usuario?.nome === ERoleUser.CANDIDATO) {
+      requests['experiencias'] = this.experienciaService.httpListExperienciaId$(
+        currentUser.id_pessoas
+      );
+      requests['formacoes'] = this.formacoesService.httpListFormacoesId$(
+        currentUser.id_pessoas
+      );
+      requests['cursos'] = this.cursosService.httpListCursosOnPessoaId$(
+        currentUser.id_pessoas
+      );
+      requests['habilidades'] =
+        this.habilidadesService.httpListHabilidadesOnPessoas$(
+          currentUser.id_pessoas
+        );
+    } else {
+      requests['experiencias'] = of([]);
+      requests['formacoes'] = of([]);
+      requests['cursos'] = of([]);
+      requests['habilidades'] = of([]);
+    }
+
+    forkJoin(requests).subscribe({
+      next: (resultados: any) => {
         this.dadosPessoais.set(resultados.dadosPessoais);
         this.experiencias.set(resultados.experiencias);
         this.formacoes.set(resultados.formacoes);

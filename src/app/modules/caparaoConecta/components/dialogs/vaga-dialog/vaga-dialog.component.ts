@@ -1,11 +1,28 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+  MatDialogActions,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { IVaga } from '../../../interface/IVaga.interface';
+import { MatIcon } from '@angular/material/icon';
+import { MatChipListbox, MatChip } from '@angular/material/chips';
+import { CommonModule } from '@angular/common';
+import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-vaga-dialog',
-  imports: [],
+  imports: [
+    MatIcon,
+    MatDialogContent,
+    MatChipListbox,
+    MatChip,
+    MatDialogActions,
+    CommonModule,
+    CapitalizePipe,
+  ],
   templateUrl: './vaga-dialog.component.html',
   styleUrl: './vaga-dialog.component.scss',
 })

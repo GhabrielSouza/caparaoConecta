@@ -5,7 +5,11 @@
         <div class="container_img-perfil">
           <img
             class="img-perfil img-fluid"
-            src="assets/imgs/perfil-img.svg"
+            [src]="
+              data?.imagem != null
+                ? 'http://localhost:8000/img/pessoas/' + data?.imagem
+                : 'assets/imgs/perfil.svg'
+            "
             alt="Foto de perfil"
             loading="eager"
           />

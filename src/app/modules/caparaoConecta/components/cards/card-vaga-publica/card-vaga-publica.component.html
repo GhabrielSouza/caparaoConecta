@@ -11,7 +11,8 @@
         <img
           [src]="
             vaga.empresa?.pessoa?.imagem != null
-              ? vaga.empresa?.pessoa?.imagem
+              ? 'http://localhost:8000/img/pessoas/' +
+                vaga.empresa?.pessoa?.imagem
               : imagem
           "
           alt="Logo da empresa"
