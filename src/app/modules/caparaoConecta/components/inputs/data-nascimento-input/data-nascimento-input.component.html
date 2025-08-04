@@ -6,8 +6,9 @@
         matInput
         [type]="type"
         [placeholder]="placeholder"
-        [value]="value"
-        (input)="updateValue($event)"
+        [(ngModel)]="value"
+        (ngModelChange)="onChange($event)"
+        (blur)="onTouched()"
         required
         mask="d0/M0/0000"
       />
