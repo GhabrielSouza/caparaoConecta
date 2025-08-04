@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin, Observable, of } from 'rxjs'; // Importe forkJoin e of
+import { forkJoin, Observable, of } from 'rxjs';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
@@ -21,7 +21,7 @@ import { IUsuario } from '../../interface/IUsuario.interface';
 
 @Component({
   selector: 'app-perfil',
-  standalone: true, // Adicionado para clareza
+  standalone: true, 
   imports: [
     ComponentDefaultPerfilComponent,
     CabecalhoComponent,
@@ -37,26 +37,24 @@ import { IUsuario } from '../../interface/IUsuario.interface';
   styleUrl: './perfil.component.scss',
 })
 export class PerfilComponent {
-  // --- Injeção de Serviços ---
+  
   private experienciaService = inject(ExperienciasService);
   private formacoesService = inject(FormacoesAcademicasService);
   private habilidadesService = inject(HabilidadesSService);
   private cursosService = inject(CursosSService);
   private userAuth = inject(AuthService);
 
-  // --- Sinais de Estado ---
   public dadosPessoais = signal<IPessoa | null>(null);
   public habilidades = signal<any[]>([]);
   public experiencias = signal<any[]>([]);
   public formacoes = signal<any[]>([]);
   public cursos = signal<any[]>([]);
 
-  // O estado de carregamento agora é mais explícito
+
   public statusCarregamento = signal<
     'pendente' | 'carregando' | 'concluido' | 'erro'
   >('pendente');
 
-  // --- Sinais Computados ---
   public user = this.userAuth.currentUser;
   public role = computed(
     () => (this.user()?.tipo_usuario?.nome as ERoleUser) || ERoleUser.GUEST

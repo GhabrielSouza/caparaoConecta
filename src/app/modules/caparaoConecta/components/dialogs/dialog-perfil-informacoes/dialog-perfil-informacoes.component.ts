@@ -40,8 +40,12 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { ViacepService } from '../../../../../services/viacep.service';
 import { IEstadoIbge } from '../../../interface/IEstadoIbge.interface';
 import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
+
 import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
 import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
+
+import { IPessoa } from '../../../interface/IPessoa.interface';
+
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
@@ -204,6 +208,40 @@ export class DialogPerfilInformacoesComponent implements OnInit {
   ngOnInit() {
     this.carregarEstados();
     this.onListAreas();
+
+    if (this.data.id) {
+      this.oldValue();
+    }
+  }
+
+  public oldValue() {
+    console.log(this.data.conteudo.pessoas_fisica?.data_de_nascimento);
+    this.cadastrarForm.patchValue({
+      nome: this.data.conteudo.nome,
+      telefone: this.data.conteudo.telefone,
+      email: this.data.conteudo.usuario.email,
+      instagram: this.data.conteudo.rede_social?.instagram || '',
+      linkedin: this.data.conteudo.rede_social?.linkedin || '',
+      lattes: this.data.conteudo.rede_social?.lattes || '',
+      github: this.data.conteudo.rede_social?.github || '',
+      estado: this.data.conteudo.endereco?.estado,
+      cidade: this.data.conteudo.endereco?.cidade,
+    });
+
+    if (this.data.idTipoUsuario === 2) {
+      this.cadastrarForm.patchValue({
+        sobrenome: this.data.conteudo.pessoas_fisica.sobrenome,
+        data_de_nascimento:
+          this.data.conteudo.pessoas_fisica?.data_de_nascimento,
+        genero: this.data.conteudo.pessoas_fisica?.genero,
+        area_atuacao: this.data.conteudo.area_atuacao.nome_area,
+      });
+    } else if (this.data.idTipoUsuario === 3) {
+      this.cadastrarForm.patchValue({
+        cnpj: this.data.conteudo.empresa?.cnpj,
+      });
+    }
+
   }
 
   public submit() {

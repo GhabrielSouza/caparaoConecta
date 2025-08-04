@@ -1,6 +1,9 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +12,7 @@ import { TInputType } from '../../../types/TInputType.type';
 
 @Component({
   selector: 'app-telefone-input',
-  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective],
+  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, FormsModule],
   templateUrl: './telefone-input.component.html',
   styleUrl: './telefone-input.component.scss',
   providers: [
