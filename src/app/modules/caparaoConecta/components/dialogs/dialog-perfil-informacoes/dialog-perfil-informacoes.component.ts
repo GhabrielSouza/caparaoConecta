@@ -223,7 +223,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
   }
 
   public oldValue() {
-    console.log(this.data.conteudo.pessoas_fisica?.data_de_nascimento);
     const conteudo = this.data.conteudo;
     this.cadastrarForm.patchValue({
       nome: this.data.conteudo.nome,
@@ -250,9 +249,11 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       });
     }
 
-    const estadoSalvo = this.data.conteudo.endereco?.estado;
-    if (estadoSalvo) {
-      const estadoCompleto = this.estados.find((e) => e.sigla === estadoSalvo);
+    const nomeEstadoSalvo = conteudo.endereco?.estado;
+    if (nomeEstadoSalvo) {
+      const estadoCompleto = this.estados.find(
+        (e) => e.nome === nomeEstadoSalvo
+      );
       if (estadoCompleto) {
         this.cadastrarForm.get('estado')?.setValue(estadoCompleto);
         this.carregarCidadesPorEstado(estadoCompleto.id.toString());
@@ -307,15 +308,17 @@ export class DialogPerfilInformacoesComponent implements OnInit {
 
   public carregarCidadesPorEstado(idEstado: string) {
     if (idEstado) {
-      this.cadastrarForm.get('cidade')?.reset();
-      this.cadastrarForm.get('cidade')?.enable();
+      const cidadeControl = this.cadastrarForm.get('cidade');
+      cidadeControl?.reset();
+      cidadeControl?.enable();
 
       this.viacepService.getMunicipioPorEstado(idEstado).subscribe({
         next: (resp) => {
           this.cidades = resp;
-          const nomeCidadeInicial = this.data.conteudo.endereco?.cidade;
-          if (nomeCidadeInicial) {
-            this.cadastrarForm.get('cidade')?.patchValue(nomeCidadeInicial);
+          const nomeCidadeSalva =
+            this.data.conteudo.endereco?.cidade?.nome_cidade;
+          if (nomeCidadeSalva) {
+            cidadeControl?.setValue(nomeCidadeSalva);
           }
         },
         error: (error) => {

@@ -44,7 +44,6 @@ export class DataNascimentoInputComponent implements ControlValueAccessor {
   }
 
   writeValue(value: any): void {
-    console.log('Tentando escrever o valor:', value);
     if (typeof value === 'string' && value.includes('-')) {
       const parts = value.split('-');
       if (parts.length === 3) {
