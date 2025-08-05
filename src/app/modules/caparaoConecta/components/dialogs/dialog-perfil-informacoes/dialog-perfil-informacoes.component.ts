@@ -10,7 +10,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { concatMap, identity, merge } from 'rxjs';
+import { concatMap, forkJoin, identity, merge } from 'rxjs';
 
 import { VPasswordConfirm } from '../../../validators/VPasswordConfirm.validator';
 import { VPasswordPattern } from '../../../validators/VPasswordPattern.validator';
@@ -45,7 +45,6 @@ import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
 import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
 
 import { IPessoa } from '../../../interface/IPessoa.interface';
-
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
@@ -100,8 +99,8 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       github: ['', [Validators.required]],
       telefone: ['', [Validators.required]],
       cep: ['', [Validators.required]],
-      estado: ['', []],
-      cidade: ['', []],
+      estado: [null, []],
+      cidade: [null, []],
       email: ['', [Validators.required, Validators.email]],
       id_areas_atuacao: [null],
       id_tipo_usuarios: this.data.idTipoUsuario,
@@ -206,16 +205,26 @@ export class DialogPerfilInformacoesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.carregarEstados();
-    this.onListAreas();
+    forkJoin({
+      estados: this.viacepService.getEstados(),
+      areas: this.areasService.httpListAreas$(),
+    }).subscribe({
+      next: (resultados) => {
+        this.estados = resultados.estados;
+        this.areasAtuacao = resultados.areas;
 
-    if (this.data.id) {
-      this.oldValue();
-    }
+        if (this.data.id) {
+          this.oldValue();
+        }
+      },
+      error: (err) =>
+        console.error('Erro ao carregar dados iniciais do formulário', err),
+    });
   }
 
   public oldValue() {
     console.log(this.data.conteudo.pessoas_fisica?.data_de_nascimento);
+    const conteudo = this.data.conteudo;
     this.cadastrarForm.patchValue({
       nome: this.data.conteudo.nome,
       telefone: this.data.conteudo.telefone,
@@ -225,16 +234,15 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       lattes: this.data.conteudo.rede_social?.lattes || '',
       github: this.data.conteudo.rede_social?.github || '',
       estado: this.data.conteudo.endereco?.estado,
-      cidade: this.data.conteudo.endereco?.cidade,
     });
 
-    if (this.data.idTipoUsuario === 2) {
+    if (this.data.idTipoUsuario === 2 && conteudo.pessoas_fisica) {
       this.cadastrarForm.patchValue({
         sobrenome: this.data.conteudo.pessoas_fisica.sobrenome,
         data_de_nascimento:
           this.data.conteudo.pessoas_fisica?.data_de_nascimento,
         genero: this.data.conteudo.pessoas_fisica?.genero,
-        area_atuacao: this.data.conteudo.area_atuacao.nome_area,
+        id_areas_atuacao: this.data.conteudo.pessoas_fisica.id_areas_atuacao,
       });
     } else if (this.data.idTipoUsuario === 3) {
       this.cadastrarForm.patchValue({
@@ -242,12 +250,22 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       });
     }
 
+    const estadoSalvo = this.data.conteudo.endereco?.estado;
+    if (estadoSalvo) {
+      const estadoCompleto = this.estados.find((e) => e.sigla === estadoSalvo);
+      if (estadoCompleto) {
+        this.cadastrarForm.get('estado')?.setValue(estadoCompleto);
+        this.carregarCidadesPorEstado(estadoCompleto.id.toString());
+      }
+    }
   }
 
   public submit() {
-    const formdata = this.cadastrarForm.value;
-    console.log(formdata);
-    formdata.estado = formdata.estado?.nome;
+    const formdata = { ...this.cadastrarForm.value };
+
+    if (formdata.estado && typeof formdata.estado === 'object') {
+      formdata.estado = formdata.estado.sigla;
+    }
     return this.apiService
       .httpUpdateCandidato$(this.data.id, formdata)
       .pipe(
@@ -295,12 +313,20 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       this.viacepService.getMunicipioPorEstado(idEstado).subscribe({
         next: (resp) => {
           this.cidades = resp;
+          const nomeCidadeInicial = this.data.conteudo.endereco?.cidade;
+          if (nomeCidadeInicial) {
+            this.cadastrarForm.get('cidade')?.patchValue(nomeCidadeInicial);
+          }
         },
         error: (error) => {
           console.log('Erro ao carregar cidades', error);
         },
       });
     }
+  }
+
+  public compararEstados(o1: IEstadoIbge, o2: IEstadoIbge): boolean {
+    return o1 && o2 ? o1.id === o2.id : o1 === o2;
   }
 
   public errorMessages: Record<string, string> = {

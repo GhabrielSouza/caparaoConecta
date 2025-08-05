@@ -143,15 +143,14 @@
       }</app-telefone-input
     >
     <div class="d-flex gap-3 align-items-start">
-      <!-- Campo de Estado -->
       <div class="flex-grow-1 input-container">
         <mat-label class="d-block">Estado</mat-label>
-        <!-- Label posicionado acima -->
         <mat-form-field class="w-100">
           <mat-select
             formControlName="estado"
             placeholder="Selecione seu estado"
             (selectionChange)="carregarCidadesPorEstado($event.value.id)"
+            [compareWith]="compararEstados"
           >
             @for(estado of estados; track estado.id){
             <mat-option [value]="estado">

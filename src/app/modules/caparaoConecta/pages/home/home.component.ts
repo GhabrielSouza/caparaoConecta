@@ -45,32 +45,26 @@ export interface GrupoDeVagas {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  // --- Injeção de Serviços ---
   private router = inject(Router);
   private vagasService = inject(VagasService);
   private areasService = inject(AreasAtuacaoService);
   private userAuth = inject(AuthService);
 
-  // --- Sinais de Estado (Fonte da Verdade) ---
   private todasAsVagas = signal<IVaga[]>([]);
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
-  public user = this.userAuth.currentUser; // Aponta diretamente para o signal do serviço de auth
+  public user = this.userAuth.currentUser;
 
-  // --- Sinais Computados (Derivados do Estado) ---
-
-  // O role agora é reativo e muda conforme o usuário loga/desloga
   public role = computed(() => {
     const roleName = this.user()?.tipo_usuario?.nome;
     return (roleName as ERoleUser) || ERoleUser.GUEST;
   });
   public roleEnum = ERoleUser;
 
-  // Filtra as vagas recomendadas para o candidato logado
   public vagasRecomendadas = computed(() => {
     const user = this.user();
     const vagas = this.todasAsVagas();
     const userAreaId =
-      user?.pessoa?.pessoas_fisica?.area_atuacao.id_areas_atuacao;
+      user?.pessoa?.pessoas_fisica?.area_atuacao.id_areas_atuacao || null;
 
     if (this.role() !== ERoleUser.CANDIDATO || !userAreaId) {
       return [];
@@ -78,7 +72,6 @@ export class HomeComponent implements OnInit {
     return vagas.filter((v) => v.area_atuacao?.id_areas_atuacao === userAreaId);
   });
 
-  // Agrupa as vagas restantes por área de atuação
   public vagasAgrupadasPorArea = computed(() => {
     const todas = this.todasAsVagas();
     const recomendadas = this.vagasRecomendadas();
@@ -100,7 +93,6 @@ export class HomeComponent implements OnInit {
     return Array.from(mapaDeGrupos.values());
   });
 
-  // Filtra as vagas da empresa logada
   public vagasOfertadas = computed(() => {
     const user = this.user();
     if (this.role() !== ERoleUser.EMPRESA || !user) return [];

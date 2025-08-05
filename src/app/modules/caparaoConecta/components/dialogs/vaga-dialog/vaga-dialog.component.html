@@ -5,8 +5,10 @@
     <div class="header-main-info">
       <img
         [src]="
-          'http://localhost:8000/img/pessoas/' +
-            data.vaga.empresa?.pessoa?.imagem || imagem
+          data.vaga.empresa?.pessoa?.imagem
+            ? 'http://localhost:8000/img/pessoas/' +
+              data.vaga.empresa?.pessoa?.imagem
+            : imagem
         "
         alt="Logo da empresa"
         class="empresa-logo"
