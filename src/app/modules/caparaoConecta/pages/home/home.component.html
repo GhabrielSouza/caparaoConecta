@@ -22,8 +22,11 @@
                 <mat-label class="cpc-regular-010">Empresa</mat-label>
                 <mat-form-field>
                   <mat-select placeholder="Selecione um item">
-                    <mat-option value="one">First option</mat-option>
-                    <mat-option value="two">Second option</mat-option>
+                    @for (empresa of empresas(); track empresa.id_pessoas) {
+                    <mat-option [value]="empresa.nome">{{
+                      empresa.nome
+                    }}</mat-option>
+                    }
                   </mat-select>
                 </mat-form-field>
                 }
