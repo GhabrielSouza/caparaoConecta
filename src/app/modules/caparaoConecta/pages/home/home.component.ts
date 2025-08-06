@@ -18,6 +18,8 @@ import { HomeAdminComponent } from '../home-admin/home-admin.component';
 import { AreasAtuacaoService } from '../../../../services/areasAtuacao/areas-atuacao.service';
 import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
+import { IPessoa } from '../../interface/IPessoa.interface';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -26,9 +28,9 @@ export interface GrupoDeVagas {
 
 @Component({
   selector: 'app-home',
-  standalone: true, // Adicionado para clareza
+  standalone: true,
   imports: [
-    CommonModule, // Adicionado para diretivas como @if, @for
+    CommonModule,
     CabecalhoComponent,
     FooterComponent,
     ComponentContainerVagasComponent,
@@ -48,10 +50,12 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
   private vagasService = inject(VagasService);
   private areasService = inject(AreasAtuacaoService);
+  private pessoasService = inject(RegisterService);
   private userAuth = inject(AuthService);
 
   private todasAsVagas = signal<IVaga[]>([]);
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
+  public empresas = signal<IPessoa[]>([]);
   public user = this.userAuth.currentUser;
 
   public role = computed(() => {
@@ -118,6 +122,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getVagas();
     this.onListAreasAtuacao();
+    this.onListEmpresas();
   }
 
   public getVagas() {
@@ -131,6 +136,16 @@ export class HomeComponent implements OnInit {
     this.areasService.httpListAreas$().subscribe({
       next: (response) => this.areasAtuacao.set(response),
       error: (error) => console.log('Erro ao buscar áreas:', error),
+    });
+  }
+
+  public onListEmpresas() {
+    this.pessoasService.httpListEmpresas$().subscribe({
+      next: (response) => {
+        const empresasFiltradas = response.filter((pessoa) => pessoa.empresa);
+        this.empresas.set(empresasFiltradas);
+      },
+      error: (error) => console.log('Erro ao buscar empresas:', error),
     });
   }
 
