@@ -63,10 +63,11 @@ export class HomeComponent implements OnInit {
   public vagasRecomendadas = computed(() => {
     const user = this.user();
     const vagas = this.todasAsVagas();
-    const userAreaId =
-      user?.pessoa?.pessoas_fisica?.area_atuacao.id_areas_atuacao || null;
 
-    if (this.role() !== ERoleUser.CANDIDATO || !userAreaId) {
+    const userAreaId =
+      user?.pessoa?.pessoas_fisica?.area_atuacao?.id_areas_atuacao;
+
+    if (this.role() !== ERoleUser.CANDIDATO || userAreaId == null) {
       return [];
     }
     return vagas.filter((v) => v.area_atuacao?.id_areas_atuacao === userAreaId);
