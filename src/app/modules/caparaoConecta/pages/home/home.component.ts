@@ -20,6 +20,8 @@ import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -42,6 +44,7 @@ export interface GrupoDeVagas {
     CardVagaEmpresaComponent,
     RouterModule,
     HomeAdminComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -52,11 +55,13 @@ export class HomeComponent implements OnInit {
   private areasService = inject(AreasAtuacaoService);
   private pessoasService = inject(RegisterService);
   private userAuth = inject(AuthService);
+  private fb = inject(FormBuilder);
 
   private todasAsVagas = signal<IVaga[]>([]);
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
   public empresas = signal<IPessoa[]>([]);
   public user = this.userAuth.currentUser;
+  public filtroForm!: FormGroup;
 
   public role = computed(() => {
     const roleName = this.user()?.tipo_usuario?.nome;
@@ -120,13 +125,30 @@ export class HomeComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.filtroForm = this.fb.group({
+      modalidade: this.fb.group({
+        presencial: [false],
+        hibrido: [false],
+        remoto: [false],
+      }),
+      id_empresa: [''],
+      atuacao: [''],
+    });
+
+    this.filtroForm.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((formValue) => {
+        console.log('Filtros aplicados:', formValue);
+        this.getVagas(formValue);
+      });
+
     this.getVagas();
     this.onListAreasAtuacao();
     this.onListEmpresas();
   }
 
-  public getVagas() {
-    this.vagasService.httpListVagas$().subscribe({
+  public getVagas(filtros?: any) {
+    this.vagasService.httpListVagas$(filtros).subscribe({
       next: (data) => this.todasAsVagas.set(data),
       error: (error) => console.error('Erro ao buscar vagas:', error),
     });

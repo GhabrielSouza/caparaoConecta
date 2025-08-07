@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable, shareReplay, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -15,13 +15,25 @@ export class VagasService {
 
   #setListVaga = signal<IVaga[]>([]);
   public getListVaga = this.#setListVaga.asReadonly();
-  public httpListVagas$(): Observable<IVaga[]> {
-    return this.#http.get<IVaga[]>(`${this.#url}/api/vagasShowAll`).pipe(
-      shareReplay(),
-      tap((data) => {
-        this.#setListVaga.set(data);
-      })
-    );
+  public httpListVagas$(filtros?: any): Observable<IVaga[]> {
+    let params = new HttpParams();
+    if (filtros) {
+      if (filtros.modalidade) {
+        const modalidadesSelecionadas = Object.keys(filtros.modalidade).filter(
+          (key) => filtros.modalidade[key]
+        );
+        if (modalidadesSelecionadas.length > 0) {
+          params = params.set('modalidade', modalidadesSelecionadas.join(','));
+        }
+      }
+      if (filtros.id_empresa) {
+        params = params.set('id_empresa', filtros.id_empresa);
+      }
+      if (filtros.atuacao) {
+        params = params.set('atuacao', filtros.atuacao);
+      }
+    }
+    return this.#http.get<IVaga[]>(`${this.#url}/api/vagasShowAll`, { params });
   }
 
   #setListCandidaturas = signal<IVaga | null>(null);

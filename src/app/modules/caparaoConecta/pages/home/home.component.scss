@@ -82,7 +82,6 @@
   }
 }
 
-/* Ajustes para os campos do Angular Material */
 .mat-form-field {
   width: 100%;
 
@@ -96,6 +95,17 @@
 
   .mat-select-arrow {
     color: #666;
+  }
+}
+
+mat-select,
+mat-option {
+  box-sizing: border-box;
+  font-family: var(--font-poppinsM);
+
+  &:focus {
+    border-color: var(--primary-background-gray);
+    outline: none;
   }
 }
 
