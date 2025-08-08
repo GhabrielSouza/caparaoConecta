@@ -13,7 +13,7 @@
   border-right: 1px solid #f0f0f0;
   overflow-y: auto;
 
-  @media (max-width: 992px) {
+  @media (max-width: 900px) {
     height: auto;
     position: relative;
     border-right: none;
@@ -39,6 +39,9 @@
     color: #666;
     margin-bottom: 0;
   }
+}
+.container-filtros-horizontal{
+  box-sizing: border-box;
 }
 
 .filter-section {
@@ -111,3 +114,17 @@
     )
   );
 }
+
+.selects {
+  gap: 1rem;
+ 
+  .select-wrapper {
+    min-width: 250px;
+    flex: 1 1 300px; 
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
