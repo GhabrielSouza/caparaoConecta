@@ -22,6 +22,7 @@ import { IPessoa } from '../../interface/IPessoa.interface';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -45,6 +46,7 @@ export interface GrupoDeVagas {
     RouterModule,
     HomeAdminComponent,
     ReactiveFormsModule,
+    MatIcon,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -138,7 +140,6 @@ export class HomeComponent implements OnInit {
     this.filtroForm.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((formValue) => {
-        console.log('Filtros aplicados:', formValue);
         this.getVagas(formValue);
       });
 
@@ -175,5 +176,15 @@ export class HomeComponent implements OnInit {
     if (vaga?.id_vagas) {
       this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
     }
+  }
+
+  public limparSelecaoEmpresa(event: MouseEvent): void {
+    event.stopPropagation();
+    this.filtroForm.get('id_empresa')?.reset();
+  }
+
+  public limparSelecaoAtuacao(event: MouseEvent): void {
+    event.stopPropagation();
+    this.filtroForm.get('atuacao')?.reset();
   }
 }

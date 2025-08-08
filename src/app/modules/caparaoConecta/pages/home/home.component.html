@@ -24,7 +24,7 @@
                 <mat-label class="cpc-regular-010">Empresa</mat-label>
                 <mat-form-field>
                   <mat-select
-                    placeholder="Selecione um item"
+                    placeholder="Selecione uma empresa"
                     formControlName="id_empresa"
                   >
                     @for (empresa of empresas(); track empresa.id_pessoas) {
@@ -33,6 +33,17 @@
                     }}</mat-option>
                     }
                   </mat-select>
+                  @if (filtroForm.get('id_empresa')?.value) {
+                  <button
+                    class="mat-icon-button"
+                    matSuffix
+                    matIconButton
+                    aria-label="Limpar seleção"
+                    (click)="limparSelecaoEmpresa($event)"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  }
                 </mat-form-field>
                 }
                 <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
@@ -49,6 +60,17 @@
                     }}</mat-option>
                     }
                   </mat-select>
+                  @if (filtroForm.get('atuacao')?.value) {
+                  <button
+                    class="mat-icon-button"
+                    matSuffix
+                    matIconButton
+                    aria-label="Limpar seleção"
+                    (click)="limparSelecaoAtuacao($event)"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  }
                 </mat-form-field>
               </div>
             </div>
