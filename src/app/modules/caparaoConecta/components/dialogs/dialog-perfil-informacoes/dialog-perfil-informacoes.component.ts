@@ -267,6 +267,8 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     if (formdata.estado && typeof formdata.estado === 'object') {
       formdata.estado = formdata.estado.sigla;
     }
+
+    console.log(formdata);
     return this.apiService
       .httpUpdateCandidato$(this.data.id, formdata)
       .pipe(
