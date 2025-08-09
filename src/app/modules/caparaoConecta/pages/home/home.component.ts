@@ -23,6 +23,9 @@ import { RegisterService } from '../../../../services/register-caparao/register.
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
+import { FiltroComponent } from '../../components/filtro/filtro.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogFiltroComponent } from '../../components/dialogs/dialog-filtro/dialog-filtro.component';
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -46,7 +49,7 @@ export interface GrupoDeVagas {
     RouterModule,
     HomeAdminComponent,
     ReactiveFormsModule,
-    MatIcon,
+    FiltroComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -58,8 +61,9 @@ export class HomeComponent implements OnInit {
   private pessoasService = inject(RegisterService);
   private userAuth = inject(AuthService);
   private fb = inject(FormBuilder);
+  public dialog = inject(MatDialog);
 
-  private todasAsVagas = signal<IVaga[]>([]);
+  public todasAsVagas = signal<IVaga[]>([]);
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
   public empresas = signal<IPessoa[]>([]);
   public user = this.userAuth.currentUser;
@@ -178,13 +182,16 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  public limparSelecaoEmpresa(event: MouseEvent): void {
-    event.stopPropagation();
-    this.filtroForm.get('id_empresa')?.reset();
-  }
-
-  public limparSelecaoAtuacao(event: MouseEvent): void {
-    event.stopPropagation();
-    this.filtroForm.get('atuacao')?.reset();
+  public abrirFiltroModal(): void {
+    this.dialog.open(DialogFiltroComponent, {
+      width: '90vw',
+      maxWidth: '500px',
+      data: {
+        filtroForm: this.filtroForm,
+        areasAtuacao: this.areasAtuacao,
+        empresas: this.empresas,
+        role: this.role(),
+      },
+    });
   }
 }
