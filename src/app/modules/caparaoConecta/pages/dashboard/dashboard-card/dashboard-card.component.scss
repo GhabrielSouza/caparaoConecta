@@ -1,40 +1,33 @@
-/* Estilos para o novo card de dashboard */
-
-/* Container principal do card */
 .dashboard-card {
-  display: flex; /* Alinha o ícone e o conteúdo lado a lado */
-  align-items: center; /* Centraliza verticalmente o ícone e o texto */
-  gap: 16px; /* Espaço entre o ícone e o texto */
+  display: flex;
+  align-items: center;
+  gap: 16px;
   padding: 20px;
-  border-radius: 8px; /* Bordas arredondadas */
-  color: white; /* Cor do texto padrão */
-  max-width: 300px; /* Largura máxima de exemplo */
+  border-radius: 8px;
+  color: white;
+  max-width: 300px;
 }
 
-/* Quadrado colorido do ícone */
 .card-icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 64px; /* Largura do quadrado */
-  height: 64px; /* Altura do quadrado */
+  width: 64px;
+  height: 64px;
   border-radius: 6px;
-  flex-shrink: 0; /* Impede que o ícone encolha */
+  flex-shrink: 0;
 }
 
-/* O ícone dentro do quadrado */
 .card-icon img {
-  width: 32px; /* Tamanho do ícone */
+  width: 32px;
   height: 32px;
 }
 
-/* Container para os textos */
 .card-content {
   display: flex;
-  flex-direction: column; /* Empilha o label e o valor verticalmente */
+  flex-direction: column;
 }
 
-/* Estilo para o texto pequeno (ex: "Likes") */
 .card-label {
   font-size: 14px;
   font-weight: bold;
@@ -42,10 +35,9 @@
   letter-spacing: 0.5px;
 }
 
-/* Estilo para o número grande (ex: "41,410") */
 .card-value {
   font-size: 32px;
   font-weight: bold;
-  margin: 0; /* Remove a margem padrão do h2 */
+  margin: 0;
   line-height: 1.2;
 }

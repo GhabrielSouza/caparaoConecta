@@ -1,10 +1,10 @@
 <app-cabecalho />
 
 <section class="mt-5 d-flex justify-content-center align-items-center gap-5">
-  <app-dashboard-card label="Vagas">
+  <app-dashboard-card label="Vagas" [valor]="vagasDaEmpresa().length || 0">
     <i class="fa-solid fa-briefcase fa-2xl"></i>
   </app-dashboard-card>
-  <app-dashboard-card label="Candidatos">
+  <app-dashboard-card label="Candidatos" [valor]="">
     <i class="fa-solid fa-user-tie fa-2xl"></i>
   </app-dashboard-card>
 </section>

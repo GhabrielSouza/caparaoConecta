@@ -142,4 +142,11 @@ export class VagasService {
       {}
     );
   }
+
+  public httpRegistrarVisualizacaoVaga$(vagaId: number): Observable<number> {
+    return this.#http.post<number>(
+      `${this.#url}/api/vagas/${vagaId}/visualizar`,
+      {}
+    );
+  }
 }

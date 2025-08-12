@@ -190,7 +190,10 @@
       >
         <i class="fa-solid fa-user-tie fa-2xl"></i>
       </app-dashboard-card>
-      <app-dashboard-card label="Visualizações" valor="N/A">
+      <app-dashboard-card
+        label="Visualizações"
+        [valor]="vagaData.visualizacoes || 0"
+      >
         <i class="fa-solid fa-eye fa-2xl"></i>
       </app-dashboard-card>
     </section>
