@@ -4,7 +4,7 @@
   <app-dashboard-card label="Vagas" [valor]="vagasDaEmpresa().length || 0">
     <i class="fa-solid fa-briefcase fa-2xl"></i>
   </app-dashboard-card>
-  <app-dashboard-card label="Candidatos" [valor]="">
+  <app-dashboard-card label="Candidatos" [valor]="totalCandidatos() || 0">
     <i class="fa-solid fa-user-tie fa-2xl"></i>
   </app-dashboard-card>
 </section>

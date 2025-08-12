@@ -64,4 +64,12 @@ export class DashboardComponent implements OnInit {
           vaga.status === EStatusVaga.INATIVO)
     );
   });
+
+  public totalCandidatos = computed(() => {
+    const vagas = this.vagasDaEmpresa();
+    return vagas.reduce(
+      (total, vaga) => total + (vaga.candidato?.length || 0),
+      0
+    );
+  });
 }
