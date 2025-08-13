@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { DashboardCardComponent } from './dashboard-card/dashboard-card.component';
 import { TabelaComponent } from './dashboard-tabela/dashboard-tabela.component';
@@ -9,6 +16,10 @@ import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { IVaga } from '../../interface/IVaga.interface';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
+import { ITableColumn } from '../../interface/ITableColumn.interface';
+import { PageEvent } from '@angular/material/paginator';
+import { ChartModule } from 'primeng/chart';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,8 +27,8 @@ import { EStatusVaga } from '../../enum/EStatusVaga.enum';
     CabecalhoComponent,
     DashboardCardComponent,
     TabelaComponent,
-    GraficoComponent,
     FooterComponent,
+    ChartModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -35,7 +46,24 @@ export class DashboardComponent implements OnInit {
     return (roleName as ERoleUser) || ERoleUser.GUEST;
   });
 
-  constructor() {}
+  public currentPage = signal(0);
+  public pageSize = signal(10);
+
+  public barChartData: any;
+  public barChartOptions: any;
+
+  public doughnutChartData: any;
+  public doughnutChartOptions: any;
+
+  constructor() {
+    effect(() => {
+      // Usamos isPlatformBrowser para garantir que o código que manipula 'document'
+      // só execute no navegador, evitando erros durante o Server-Side Rendering (SSR).
+      if (typeof window !== 'undefined' && this.vagasDaEmpresa().length > 0) {
+        this.atualizarDadosDosGraficos();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.getVagas();
@@ -65,6 +93,13 @@ export class DashboardComponent implements OnInit {
     );
   });
 
+  public paginatedVagas = computed(() => {
+    const allVagas = this.vagasDaEmpresa();
+    const startIndex = this.currentPage() * this.pageSize();
+    const endIndex = startIndex + this.pageSize();
+    return allVagas.slice(startIndex, endIndex);
+  });
+
   public totalCandidatos = computed(() => {
     const vagas = this.vagasDaEmpresa();
     return vagas.reduce(
@@ -72,4 +107,109 @@ export class DashboardComponent implements OnInit {
       0
     );
   });
+
+  VagasData: IVaga[] = [];
+
+  public totalVagas = computed(() => this.vagasDaEmpresa().length);
+
+  getStatusVaga = (item: IVaga) => item.status;
+
+  vagasColumns: ITableColumn<IVaga>[] = [
+    { key: 'titulo_vaga', header: 'Titulo da Vaga' },
+
+    {
+      key: 'status',
+      header: 'Status',
+      cell: (vaga) => {
+        return vaga.status === EStatusVaga.EM_ANDAMENTO
+          ? 'Em Andamento'
+          : 'Finalizado';
+      },
+    },
+    {
+      key: 'candidatos',
+      header: 'Candidatos',
+      cell: (vaga) => vaga.candidato?.length || 0,
+    },
+    { key: 'visualizacoes', header: 'Visualizações' },
+  ];
+
+  public updatePaginatedData(event: PageEvent): void {
+    this.currentPage.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
+  }
+
+  public atualizarDadosDosGraficos(): void {
+    const vagas = this.vagasDaEmpresa(); // Obtemos a lista atual de vagas
+    if (vagas.length === 0) return; // Não faz nada se não houver vagas
+
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--p-text-color');
+    const textColorSecondary = documentStyle.getPropertyValue(
+      '--p-text-muted-color'
+    );
+    const surfaceBorder = documentStyle.getPropertyValue(
+      '--p-content-border-color'
+    );
+
+    // --- 1. Preparar dados para o Gráfico de Barras (Candidatos por Vaga) ---
+    this.barChartData = {
+      labels: vagas.map((v) => v.titulo_vaga), // Nomes das vagas no eixo X
+      datasets: [
+        {
+          label: 'Candidatos',
+          data: vagas.map((v) => v.candidato?.length || 0), // Contagem de candidatos por vaga
+          backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'),
+        },
+      ],
+    };
+
+    // --- 2. Preparar dados para o Gráfico de Rosca (Status das Vagas) ---
+    const vagasEmAndamento = vagas.filter(
+      (v) => v.status === EStatusVaga.EM_ANDAMENTO
+    ).length;
+    const vagasFinalizadas = vagas.filter(
+      (v) => v.status === EStatusVaga.FINALIZADO
+    ).length;
+
+    this.doughnutChartData = {
+      labels: ['Em Andamento', 'Finalizadas'],
+      datasets: [
+        {
+          data: [vagasEmAndamento, vagasFinalizadas],
+          backgroundColor: [
+            documentStyle.getPropertyValue('--p-blue-500'),
+            documentStyle.getPropertyValue('--p-gray-500'),
+          ],
+        },
+      ],
+    };
+
+    // --- 3. Definir Opções Comuns para os Gráficos ---
+    this.barChartOptions = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.8,
+      plugins: { legend: { labels: { color: textColor } } },
+      scales: {
+        x: {
+          ticks: { color: textColorSecondary },
+          grid: { color: surfaceBorder },
+        },
+        y: {
+          ticks: { color: textColorSecondary },
+          grid: { color: surfaceBorder },
+        },
+      },
+    };
+
+    this.doughnutChartOptions = {
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
+      },
+    };
+  }
 }

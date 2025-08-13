@@ -1,10 +1,18 @@
 <app-cabecalho />
 
-<section class="mt-5 d-flex justify-content-center gap-5">
-  <app-dashboard-card label="Vagas" [valor]="vagasDaEmpresa().length || 0">
+<section class="mt-5 row justify-content-center gp-5">
+  <app-dashboard-card
+    class="col-lg-3 col-sm-4 col-8"
+    label="Vagas"
+    [valor]="vagasDaEmpresa().length || 0"
+  >
     <i class="fa-solid fa-briefcase fa-2xl"></i>
   </app-dashboard-card>
-  <app-dashboard-card label="Candidatos" [valor]="totalCandidatos() || 0">
+  <app-dashboard-card
+    class="col-lg-3 col-sm-4 col-8"
+    label="Candidatos"
+    [valor]="totalCandidatos() || 0"
+  >
     <i class="fa-solid fa-user-tie fa-2xl"></i>
   </app-dashboard-card>
 </section>
@@ -13,16 +21,32 @@
   <div class="bloco-conteudo">
     <div class="tabela-wrapper">
       <h1 class="titulo-tabela cpc-bold">Vagas</h1>
-      <app-dashboard-tabela [vagas]="vagasDaEmpresa()" />
+      <app-dashboard-tabela
+        [columns]="vagasColumns"
+        [statusFn]="getStatusVaga"
+        [data]="paginatedVagas()"
+        [totalDataLength]="totalVagas()"
+        (pageChanged)="updatePaginatedData($event)"
+      />
     </div>
 
     <div class="grafico-grid">
       <div class="grafico-wrapper">
-        <app-grafico></app-grafico>
+        <p-chart
+          type="bar"
+          [data]="barChartData"
+          [options]="barChartOptions"
+          class="h-[30rem]"
+        ></p-chart>
       </div>
 
       <div class="grafico-wrapper">
-        <app-grafico></app-grafico>
+        <p-chart
+          type="doughnut"
+          [data]="doughnutChartData"
+          [options]="doughnutChartOptions"
+          class="w-full md:w-[30rem]"
+        ></p-chart>
       </div>
 
       <div class="grafico-wrapper">

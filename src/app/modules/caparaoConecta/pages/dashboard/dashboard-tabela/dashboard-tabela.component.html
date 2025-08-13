@@ -1,76 +1,35 @@
 <div class="container">
-  <div class="tabela-scroll">
-    <table mat-table [dataSource]="dataSource" class="mat-table">
-      <!-- Coluna Título da Vaga -->
-      <ng-container matColumnDef="titulo_vaga">
-        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
-          Nome da vaga
-        </th>
-        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
-          {{ vaga.titulo_vaga }}
-        </td>
-      </ng-container>
-
-      <!-- Coluna Status -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
-          Status da vaga
-        </th>
-        <td mat-cell *matCellDef="let vaga">
-          <span
-            class="status-chip"
-            [ngClass]="'status-' + vaga.status.toLowerCase()"
-          >
-            {{ vaga.status.replace("_", " ") }}
-          </span>
-        </td>
-      </ng-container>
-
-      <!-- Coluna Data de Encerramento -->
-      <ng-container matColumnDef="data_fechamento">
-        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
-          Data de encerramento
-        </th>
-        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
-          {{ vaga.data_fechamento | date : "dd/MM/yyyy" }}
-        </td>
-      </ng-container>
-
-      <!-- Coluna Quantidade de Candidatos -->
-      <ng-container matColumnDef="candidatos">
-        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
-          Candidatos
-        </th>
-        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
-          {{ vaga.candidato?.length || 0 }}
-        </td>
-      </ng-container>
-
-      <!-- Coluna Visualizações -->
-      <ng-container matColumnDef="visualizacoes">
-        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
-          Visualizações
-        </th>
-        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
-          {{ vaga.visualizacoes || 0 }}
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-
-    <!-- Mensagem para quando não há vagas -->
-    @if (dataSource.data.length === 0) {
-    <div class="empty-table-message">
-      <p>Nenhuma vaga encontrada para exibir.</p>
-    </div>
-    }
+  <div class="header">
+    <h2 class="cpc-medium">{{ title }}</h2>
   </div>
+
+  <table class="table">
+    <thead>
+      <tr class="header-row">
+        <th *ngFor="let col of columns" class="cpc-regular-010">
+          {{ col.header | capitalize }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data" class="cpc-regular-010">
+        <td
+          *ngFor="let col of columns"
+          class="td-centro"
+          [ngClass]="{ 'row-active': statusFn(item) === 'Em Andamento' }"
+        >
+          {{ getCellValue(item, col) }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
   <mat-paginator
     class="matPaginator"
+    [length]="totalDataLength"
     [pageSizeOptions]="[10, 20]"
+    [pageSize]="10"
+    (page)="onPageChange($event)"
     showFirstLastButtons
   >
   </mat-paginator>
