@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
       (vaga) =>
         vaga.id_empresas === user.id_pessoas &&
         (vaga.status === EStatusVaga.EM_ANDAMENTO ||
-          vaga.status === EStatusVaga.INATIVO)
+          vaga.status === EStatusVaga.FINALIZADO)
     );
   });
 

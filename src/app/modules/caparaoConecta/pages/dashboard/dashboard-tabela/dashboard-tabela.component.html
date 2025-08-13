@@ -1,47 +1,77 @@
-<div class="mt-5 container">
+<div class="container">
   <div class="tabela-scroll">
     <table mat-table [dataSource]="dataSource" class="mat-table">
-      <ng-container matColumnDef="nomeVaga">
-        <th mat-header-cell *matHeaderCellDef>Nome da vaga</th>
-        <td mat-cell *matCellDef="let element">{{ element.nomeVaga }}</td>
+      <!-- Coluna Título da Vaga -->
+      <ng-container matColumnDef="titulo_vaga">
+        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
+          Nome da vaga
+        </th>
+        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
+          {{ vaga.titulo_vaga }}
+        </td>
       </ng-container>
 
-      <ng-container matColumnDef="statusVaga">
-        <th mat-header-cell *matHeaderCellDef>Status da vaga</th>
-        <td mat-cell *matCellDef="let element">{{ element.statusVaga }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="dataEncerramento">
-        <th mat-header-cell *matHeaderCellDef>Data de encerramento</th>
-        <td mat-cell *matCellDef="let element">{{ element.dataEncerramento }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="candidatosAceitos">
-        <th mat-header-cell *matHeaderCellDef>Candidatos aceitos</th>
-        <td mat-cell *matCellDef="let element">
-          <span [class.aceito]="element.aceito" [class.nao-aceito]="!element.aceito">
-            {{ element.candidatosAceitos }}
+      <!-- Coluna Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
+          Status da vaga
+        </th>
+        <td mat-cell *matCellDef="let vaga">
+          <span
+            class="status-chip"
+            [ngClass]="'status-' + vaga.status.toLowerCase()"
+          >
+            {{ vaga.status.replace("_", " ") }}
           </span>
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="qtdCandidatos">
-        <th mat-header-cell *matHeaderCellDef>Qtd. Candidatos</th>
-        <td mat-cell *matCellDef="let element">
-          <span [class.aceito]="element.aceito" [class.nao-aceito]="!element.aceito">
-            {{ element.qtdCandidatos }}
-          </span>
+      <!-- Coluna Data de Encerramento -->
+      <ng-container matColumnDef="data_fechamento">
+        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
+          Data de encerramento
+        </th>
+        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
+          {{ vaga.data_fechamento | date : "dd/MM/yyyy" }}
+        </td>
+      </ng-container>
+
+      <!-- Coluna Quantidade de Candidatos -->
+      <ng-container matColumnDef="candidatos">
+        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
+          Candidatos
+        </th>
+        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
+          {{ vaga.candidato?.length || 0 }}
+        </td>
+      </ng-container>
+
+      <!-- Coluna Visualizações -->
+      <ng-container matColumnDef="visualizacoes">
+        <th mat-header-cell *matHeaderCellDef class="cpc-regular">
+          Visualizações
+        </th>
+        <td mat-cell *matCellDef="let vaga" class="cpc-regular-010">
+          {{ vaga.visualizacoes || 0 }}
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+
+    <!-- Mensagem para quando não há vagas -->
+    @if (dataSource.data.length === 0) {
+    <div class="empty-table-message">
+      <p>Nenhuma vaga encontrada para exibir.</p>
+    </div>
+    }
   </div>
+
   <mat-paginator
     class="matPaginator"
-    [pageSizeOptions]="[12, 20]"
+    [pageSizeOptions]="[10, 20]"
     showFirstLastButtons
-    hidePageSize>
+  >
   </mat-paginator>
 </div>

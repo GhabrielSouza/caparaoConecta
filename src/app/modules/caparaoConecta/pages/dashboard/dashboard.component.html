@@ -1,6 +1,6 @@
 <app-cabecalho />
 
-<section class="mt-5 d-flex justify-content-center align-items-center gap-5">
+<section class="mt-5 d-flex justify-content-center gap-5">
   <app-dashboard-card label="Vagas" [valor]="vagasDaEmpresa().length || 0">
     <i class="fa-solid fa-briefcase fa-2xl"></i>
   </app-dashboard-card>
@@ -12,12 +12,26 @@
 <main>
   <div class="bloco-conteudo">
     <div class="tabela-wrapper">
-      <h1 class="titulo-tabela">Vagas</h1>
-      <app-dashboard-tabela></app-dashboard-tabela>
+      <h1 class="titulo-tabela cpc-bold">Vagas</h1>
+      <app-dashboard-tabela [vagas]="vagasDaEmpresa()" />
     </div>
 
-    <div class="grafico-wrapper">
-      <app-grafico></app-grafico>
+    <div class="grafico-grid">
+      <div class="grafico-wrapper">
+        <app-grafico></app-grafico>
+      </div>
+
+      <div class="grafico-wrapper">
+        <app-grafico></app-grafico>
+      </div>
+
+      <div class="grafico-wrapper">
+        <p>Outro tipo de conteúdo</p>
+      </div>
+
+      <div class="grafico-wrapper">
+        <p>Mais um card de dados</p>
+      </div>
     </div>
   </div>
 </main>

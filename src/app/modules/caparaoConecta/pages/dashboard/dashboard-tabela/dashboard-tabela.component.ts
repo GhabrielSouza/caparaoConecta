@@ -1,81 +1,57 @@
-import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import {
+  Component,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { IVaga } from '../../../interface/IVaga.interface';
 
 @Component({
-  imports:[MatTableModule, RouterModule, MatPaginatorModule, MatDialogModule],
+  imports: [
+    MatTableModule,
+    RouterModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    DatePipe,
+    CommonModule,
+  ],
   templateUrl: 'dashboard-tabela.component.html',
   styleUrls: ['dashboard-tabela.component.scss'],
   selector: 'app-dashboard-tabela',
-  standalone: true
+  standalone: true,
 })
-export class TabelaComponent<T> implements AfterViewInit {
-  @Input() dataSource: MatTableDataSource<T> = new MatTableDataSource<T>([]);
-  @Input() pageSizeOptions: number[] = [10, 20];
-  @Input() displayedColumns?: string[];
-  @Input() customTemplates: {[key: string]: (element: T) => string} = {};
-  aceitosStatus: boolean = true; 
+export class TabelaComponent implements AfterViewInit, OnChanges {
+  @Input() vagas: IVaga[] = [];
+
+  displayedColumns: string[] = [
+    'titulo_vaga',
+    'status',
+    'data_fechamento',
+    'candidatos',
+    'visualizacoes',
+  ];
+
+  dataSource: MatTableDataSource<IVaga> = new MatTableDataSource<IVaga>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(public dialog: MatDialog) {
-    const dadosTeste = [
-      {
-        "nomeVaga": "Web Developer",
-        "statusVaga": "Ativo",
-        "dataEncerramento": "12/12/2025",
-        "candidatosAceitos": 1,
-        "qtdCandidatos": 10,
-      },{
-        "nomeVaga": "Web Developer",
-        "statusVaga": "Ativo",
-        "dataEncerramento": "12/12/2025",
-        "candidatosAceitos": 1,
-        "qtdCandidatos": 10,
-      },{
-        "nomeVaga": "Web Developer",
-        "statusVaga": "Ativo",
-        "dataEncerramento": "12/12/2025",
-        "candidatosAceitos": 1,
-        "qtdCandidatos": 10,
-      },{
-        "nomeVaga": "Web Developer",
-        "statusVaga": "Ativo",
-        "dataEncerramento": "12/12/2025",
-        "candidatosAceitos": 1,
-        "qtdCandidatos": 10,
-      },{
-        "nomeVaga": "Web Developer",
-        "statusVaga": "Ativo",
-        "dataEncerramento": "12/12/2025",
-        "candidatosAceitos": 1,
-        "qtdCandidatos": 10,
-      },{
-        "nomeVaga": "Web Developer",
-        "statusVaga": "Ativo",
-        "dataEncerramento": "12/12/2025",
-        "candidatosAceitos": 1,
-        "qtdCandidatos": 10,
-      },
-      {
-        "nomeVaga": "Web Developer",
-        "statusVaga": "Ativo",
-        "dataEncerramento": "12/12/2025",
-        "candidatosAceitos": 1,
-        "qtdCandidatos": 10,
-      },
-    ];
+  constructor(public dialog: MatDialog) {}
 
-    this.dataSource = new MatTableDataSource<T>(dadosTeste as T[]);
-    this.displayedColumns = ['nomeVaga', 'statusVaga', 'dataEncerramento', 'candidatosAceitos','qtdCandidatos'];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['vagas']) {
+      this.dataSource.data = this.vagas;
+    }
   }
 
   ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-    }
+    this.dataSource.paginator = this.paginator;
   }
 }
