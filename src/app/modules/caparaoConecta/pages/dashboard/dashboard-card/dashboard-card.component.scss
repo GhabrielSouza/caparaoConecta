@@ -41,3 +41,28 @@
   margin: 0;
   line-height: 1.2;
 }
+
+@media (max-width: 600px) {
+  .dashboard-card {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-icon {
+    margin-bottom: 16px;
+  }
+
+  .card-content {
+    width: 100%;
+  }
+
+  .card-label {
+    text-align: center;
+  }
+
+  .card-value {
+    text-align: center;
+  }
+}

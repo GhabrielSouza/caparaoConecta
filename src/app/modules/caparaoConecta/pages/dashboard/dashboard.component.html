@@ -1,15 +1,17 @@
 <app-cabecalho />
 
-<section class="mt-5 row justify-content-center gp-5">
+<section
+  class="me-0 ms-0 mt-5 row justify-content-center gap-lg-5 gap-md-4 gap-sm-3 gap-3"
+>
   <app-dashboard-card
-    class="col-lg-3 col-sm-4 col-8"
+    class="col-lg-2 col-sm-4 col-4"
     label="Vagas"
     [valor]="vagasDaEmpresa().length || 0"
   >
     <i class="fa-solid fa-briefcase fa-2xl"></i>
   </app-dashboard-card>
   <app-dashboard-card
-    class="col-lg-3 col-sm-4 col-8"
+    class="col-lg-2 col-sm-4 col-4"
     label="Candidatos"
     [valor]="totalCandidatos() || 0"
   >
@@ -47,14 +49,6 @@
           [options]="doughnutChartOptions"
           class="w-full md:w-[30rem]"
         ></p-chart>
-      </div>
-
-      <div class="grafico-wrapper">
-        <p>Outro tipo de conteúdo</p>
-      </div>
-
-      <div class="grafico-wrapper">
-        <p>Mais um card de dados</p>
       </div>
     </div>
   </div>

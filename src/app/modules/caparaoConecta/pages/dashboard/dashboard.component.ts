@@ -57,8 +57,6 @@ export class DashboardComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      // Usamos isPlatformBrowser para garantir que o código que manipula 'document'
-      // só execute no navegador, evitando erros durante o Server-Side Rendering (SSR).
       if (typeof window !== 'undefined' && this.vagasDaEmpresa().length > 0) {
         this.atualizarDadosDosGraficos();
       }
@@ -140,8 +138,8 @@ export class DashboardComponent implements OnInit {
   }
 
   public atualizarDadosDosGraficos(): void {
-    const vagas = this.vagasDaEmpresa(); // Obtemos a lista atual de vagas
-    if (vagas.length === 0) return; // Não faz nada se não houver vagas
+    const vagas = this.vagasDaEmpresa();
+    if (vagas.length === 0) return;
 
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--p-text-color');
@@ -152,19 +150,17 @@ export class DashboardComponent implements OnInit {
       '--p-content-border-color'
     );
 
-    // --- 1. Preparar dados para o Gráfico de Barras (Candidatos por Vaga) ---
     this.barChartData = {
-      labels: vagas.map((v) => v.titulo_vaga), // Nomes das vagas no eixo X
+      labels: vagas.map((v) => v.titulo_vaga),
       datasets: [
         {
           label: 'Candidatos',
-          data: vagas.map((v) => v.candidato?.length || 0), // Contagem de candidatos por vaga
-          backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'),
+          data: vagas.map((v) => v.candidato?.length || 0),
+          backgroundColor: documentStyle.getPropertyValue('--p-green-500'),
         },
       ],
     };
 
-    // --- 2. Preparar dados para o Gráfico de Rosca (Status das Vagas) ---
     const vagasEmAndamento = vagas.filter(
       (v) => v.status === EStatusVaga.EM_ANDAMENTO
     ).length;
@@ -178,14 +174,13 @@ export class DashboardComponent implements OnInit {
         {
           data: [vagasEmAndamento, vagasFinalizadas],
           backgroundColor: [
-            documentStyle.getPropertyValue('--p-blue-500'),
+            documentStyle.getPropertyValue('--p-green-500'),
             documentStyle.getPropertyValue('--p-gray-500'),
           ],
         },
       ],
     };
 
-    // --- 3. Definir Opções Comuns para os Gráficos ---
     this.barChartOptions = {
       maintainAspectRatio: false,
       aspectRatio: 0.8,
