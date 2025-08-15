@@ -21,7 +21,7 @@ import { IUsuario } from '../../interface/IUsuario.interface';
 
 @Component({
   selector: 'app-perfil',
-  standalone: true, 
+  standalone: true,
   imports: [
     ComponentDefaultPerfilComponent,
     CabecalhoComponent,
@@ -37,7 +37,6 @@ import { IUsuario } from '../../interface/IUsuario.interface';
   styleUrl: './perfil.component.scss',
 })
 export class PerfilComponent {
-  
   private experienciaService = inject(ExperienciasService);
   private formacoesService = inject(FormacoesAcademicasService);
   private habilidadesService = inject(HabilidadesSService);
@@ -45,11 +44,15 @@ export class PerfilComponent {
   private userAuth = inject(AuthService);
 
   public dadosPessoais = signal<IPessoa | null>(null);
-  public habilidades = signal<any[]>([]);
-  public experiencias = signal<any[]>([]);
-  public formacoes = signal<any[]>([]);
-  public cursos = signal<any[]>([]);
+  // public habilidades = signal<any[]>([]);
+  // public experiencias = signal<any[]>([]);
+  // public formacoes = signal<any[]>([]);
+  // public cursos = signal<any[]>([]);
 
+  public habilidades = this.habilidadesService.getListHabilidadesOnPessoas;
+  public experiencias = this.experienciaService.getListEmpresaId;
+  public formacoes = this.formacoesService.getListFormacoesId;
+  public cursos = this.cursosService.getListCursosId;
 
   public statusCarregamento = signal<
     'pendente' | 'carregando' | 'concluido' | 'erro'
@@ -101,10 +104,10 @@ export class PerfilComponent {
     forkJoin(requests).subscribe({
       next: (resultados: any) => {
         this.dadosPessoais.set(resultados.dadosPessoais);
-        this.experiencias.set(resultados.experiencias);
-        this.formacoes.set(resultados.formacoes);
-        this.cursos.set(resultados.cursos);
-        this.habilidades.set(resultados.habilidades);
+        // this.experiencias.set(resultados.experiencias);
+        // this.formacoes.set(resultados.formacoes);
+        // this.cursos.set(resultados.cursos);
+        // this.habilidades.set(resultados.habilidades);
 
         this.statusCarregamento.set('concluido');
       },

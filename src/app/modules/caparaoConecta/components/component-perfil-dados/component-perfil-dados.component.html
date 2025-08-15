@@ -35,6 +35,7 @@
 
       <aside>
         <div class="container_infos">
+          @if(data?.endereco != null){
           <p class="cpc-regular">
             <img
               src="assets/icons/localizacao.svg"
@@ -44,6 +45,7 @@
             {{ data?.endereco?.cidade?.nome_cidade }},
             {{ data?.endereco?.estado }}
           </p>
+          }
 
           <button class="btn btn-quaternary my-3" (click)="openDialog(data)">
             <img
