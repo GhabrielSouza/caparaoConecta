@@ -64,6 +64,13 @@ export class VagaDialogComponent implements OnInit {
 
   public favoritarVaga() {
     this.favoritar = !this.favoritar;
+
+    this.vagasService.httpToggleFavorito$(this.data.vaga.id_vagas).subscribe({
+      error: (error) => {
+        this.favoritar = !this.favoritar;
+        console.log(error);
+      },
+    });
   }
 
   public candidatarUser() {

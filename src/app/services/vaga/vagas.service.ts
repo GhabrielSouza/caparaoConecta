@@ -149,4 +149,22 @@ export class VagasService {
       {}
     );
   }
+
+  public httpToggleFavorito$(vagaId: number): Observable<number> {
+    return this.#http.post<number>(
+      `${this.#url}/api/vagas/${vagaId}/favoritar`,
+      {}
+    );
+  }
+
+  #setListVagaFavorita = signal<IVaga[] | null>(null);
+  public getListVagaFavorita = this.#setListVagaFavorita.asReadonly();
+  public httpListarFavoritar$(): Observable<IVaga[]> {
+    return this.#http.get<IVaga[]>(`${this.#url}/api/favoritos`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListVagaFavorita.set(data);
+      })
+    );
+  }
 }
