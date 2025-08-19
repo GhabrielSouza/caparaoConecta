@@ -55,6 +55,7 @@ export class VagaDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.favoritar = this.data.vaga.is_favorita;
     this.registrarVisualizacao();
   }
 
