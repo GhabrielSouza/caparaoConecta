@@ -25,11 +25,11 @@ export class SelectRegisterDialogComponent {
 
   navigateCandidato(){
     this._dialogRef.close();
-    this.router.navigate(['/singUp']);
+    this.router.navigate(['cadastroCandidato']);
   }
 
   navigateEmpresa(){
     this._dialogRef.close();
-    this.router.navigate(['/singUpEnterprise']);
+    this.router.navigate(['cadastroEmpresa']);
   }
 }
