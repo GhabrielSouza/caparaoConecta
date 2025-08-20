@@ -49,19 +49,6 @@
 </mat-dialog-content>
 
 <div mat-dialog-actions class="d-flex justify-content-center p-3 gap-3">
-  <app-button-primary
-    fonte="cpc-regular"
-    textColor="btn-secondary"
-    text="Reativar Selecionadas"
-    (click)="salvarAlteracoes()"
-  >
-  </app-button-primary>
-
-  <app-button-primary
-    fonte="cpc-regular"
-    textColor="btn-primary"
-    text="Cancelar"
-    (click)="closeModal()"
-  >
-  </app-button-primary>
+  <button class="btn btn-secondary" (click)="salvarAlteracoes()">Reativar Selecionadas</button>
+  <button class="btn btn-primary" (click)="closeModal()">Cancelar</button>
 </div>

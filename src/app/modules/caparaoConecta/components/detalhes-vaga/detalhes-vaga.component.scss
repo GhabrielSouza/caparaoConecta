@@ -176,4 +176,16 @@
       unselected-pressed-state-layer-color: var(--secondary-background-green),
     )
   );
+
+  @media (max-width:900px) {
+    .detalhesVagaContainer {
+      display: flex;
+      flex-direction: column;
+      justify-self: center;
+      width: 100%;
+      padding: 1em;
+    }
+
+    
+  }
 }
