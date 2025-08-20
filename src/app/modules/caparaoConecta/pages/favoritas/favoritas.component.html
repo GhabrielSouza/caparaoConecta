@@ -1,27 +1,21 @@
 <app-cabecalho></app-cabecalho>
 
-<div class="centralizar">
-  <div class="row">
-    <div class="">
-      @if(role() == roleEnum.CANDIDATO ){
-      <app-component-container-vagas titulo="Favoritas">
-        <app-card-vaga-favorita
-          [vagas]="vagasFavoritas"
-        ></app-card-vaga-favorita>
-      </app-component-container-vagas>
+<div class="row justify-content-center mx-2 mx-md-0">
+  <div class="col-12 col-md-8 col-lg-12">
+    @if(role() == roleEnum.CANDIDATO ){
+    <app-component-container-vagas titulo="Favoritas">
+      <app-card-vaga-favorita [vagas]="vagasFavoritas"></app-card-vaga-favorita>
+    </app-component-container-vagas>
 
-      <app-component-container-vagas titulo="Candidaturas">
-        <app-card-vaga-favorita
-          [vagas]="vagasPublicas"
-        ></app-card-vaga-favorita>
-      </app-component-container-vagas>
-      }
-      <app-component-container-vagas titulo="Encerradas">
-        <app-card-vaga-favorita
-          [vagas]="vagasEncerradas"
-        ></app-card-vaga-favorita>
-      </app-component-container-vagas>
-    </div>
+    <app-component-container-vagas titulo="Candidaturas">
+      <app-card-vaga-favorita [vagas]="vagasPublicas"></app-card-vaga-favorita>
+    </app-component-container-vagas>
+    }
+    <app-component-container-vagas titulo="Encerradas">
+      <app-card-vaga-favorita
+        [vagas]="vagasEncerradas"
+      ></app-card-vaga-favorita>
+    </app-component-container-vagas>
   </div>
 </div>
 

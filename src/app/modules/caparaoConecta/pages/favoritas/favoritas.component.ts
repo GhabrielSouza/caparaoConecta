@@ -46,6 +46,7 @@ export class FavoritasComponent implements OnInit {
     return this.vagaService.httpListarFavoritar$().subscribe({
       next: (vagas) => {
         this.vagasFavoritas = vagas;
+        console.log(this.vagasFavoritas);
       },
       error: (error) => {
         console.log(error);
