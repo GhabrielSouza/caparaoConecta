@@ -1,3 +1,4 @@
+import { VagasService } from './../../../../services/vaga/vagas.service';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { ComponentContainerVagasComponent } from '../../components/component-container-vagas/component-container-vagas.component';
@@ -7,7 +8,7 @@ import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { IVaga } from '../../interface/IVaga.interface';
 import { CardVagaFavoritaComponent } from '../../components/cards/card-vaga-favorita/card-vaga-favorita.component';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
-import { VagasService } from '../../../../services/vaga/vagas.service';
+import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 
 @Component({
   selector: 'app-favoritas',
@@ -27,9 +28,13 @@ export class FavoritasComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   vagasOfertadas: IVaga[] = [];
-  vagasEncerradas: IVaga[] = [];
-  vagasPublicas: IVaga[] = [];
-  vagasFavoritas: IVaga[] = [];
+  vagasEncerradas: IVaga[] | null = [];
+  vagasPublicas: IVaga[] | null = [];
+
+  public vagasFavoritas = this.vagaService.getListVagaFavorita;
+
+  public minhasCandidaturas = this.vagaService.getListVagaMinhasCandidaturas;
+
   public user = this.userAuth.currentUser;
 
   public role = computed(() => {
@@ -40,17 +45,40 @@ export class FavoritasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVagasFavoritas();
+    this.getMinhasCandidaturas();
   }
 
   public getVagasFavoritas() {
-    return this.vagaService.httpListarFavoritar$().subscribe({
-      next: (vagas) => {
-        this.vagasFavoritas = vagas;
-        console.log(this.vagasFavoritas);
-      },
-      error: (error) => {
-        console.log(error);
+    return this.vagaService.httpListarFavoritar$().subscribe();
+  }
+
+  public getMinhasCandidaturas() {
+    return this.vagaService.httpListarMinhasCandidaturas$().subscribe({
+      next: (next) => {
+        console.log(next);
       },
     });
+  }
+
+  public getVagasEncerradas = computed(() => {
+    return (this.vagasEncerradas =
+      this.minhasCandidaturas()?.filter(
+        (encerrada) => encerrada.status === EStatusVaga.FINALIZADO
+      ) ?? null);
+  });
+
+  public getVagasEmAndamento = computed(() => {
+    return (this.vagasPublicas =
+      this.minhasCandidaturas()?.filter(
+        (encerrada) => encerrada.status === EStatusVaga.EM_ANDAMENTO
+      ) ?? null);
+  });
+
+  navegarParaDetalhe(vaga: IVaga) {
+    if (vaga?.id_vagas) {
+      this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
+    }
+
+    console.log('clicado');
   }
 }

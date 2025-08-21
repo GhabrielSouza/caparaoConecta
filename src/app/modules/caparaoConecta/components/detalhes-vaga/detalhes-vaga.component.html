@@ -88,11 +88,12 @@
     <img src="assets/imgs/banner_vaga_padrao.svg" alt="imagemVaga" />
     <div class="d-flex justify-content-between align-items-center my-2">
       <h1 class="cpc-bold">{{ vagaData.titulo_vaga }}</h1>
+      @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
       @if(vagaData.status !== statusVagaEnum.FINALIZADO){
       <p class="cpc-regular-010 cpc-color-red-010 m-0 text-end">
         Encerramento: <strong>{{ vagaData.data_fechamento | date }}</strong>
       </p>
-      }
+      } }
     </div>
     <p class="my-3 cpc-regular">{{ vagaData.descricao }}</p>
 
@@ -113,7 +114,7 @@
       </div>
     </div>
 
-    <!-- @if(vagaData.empresa.pessoa.rede_social){
+    @if(vagaData.empresa.pessoa.rede_social){
     <h1 class="cpc-regular">Contatos</h1>
     <div class="containerFooter">
       <div class="conteudoContatos">
@@ -149,7 +150,10 @@
         </p>
       </div>
     </div>
-    } -->
+    }@else {
+    <p>Nenhum contato cadastrado</p>
+    }
+
     <!-- FIM DO CÓDIGO COMPLETADO 1 -->
 
     <!-- Ações de Prorrogar/Finalizar (só para empresa/admin) -->

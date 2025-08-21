@@ -1,19 +1,25 @@
 <app-cabecalho></app-cabecalho>
 
 <div class="row justify-content-center mx-2 mx-md-0">
-  <div class="col-12 col-md-8 col-lg-12">
+  <div class="col-12 col-md-8 col-lg-8">
     @if(role() == roleEnum.CANDIDATO ){
     <app-component-container-vagas titulo="Favoritas">
-      <app-card-vaga-favorita [vagas]="vagasFavoritas"></app-card-vaga-favorita>
+      <app-card-vaga-favorita
+        [vagas]="vagasFavoritas()"
+      ></app-card-vaga-favorita>
     </app-component-container-vagas>
 
     <app-component-container-vagas titulo="Candidaturas">
-      <app-card-vaga-favorita [vagas]="vagasPublicas"></app-card-vaga-favorita>
+      <app-card-vaga-favorita
+        [vagas]="getVagasEmAndamento()"
+        (vagaClicada)="navegarParaDetalhe($event)"
+      ></app-card-vaga-favorita>
     </app-component-container-vagas>
     }
     <app-component-container-vagas titulo="Encerradas">
       <app-card-vaga-favorita
-        [vagas]="vagasEncerradas"
+        [vagas]="getVagasEncerradas()"
+        (vagaClicada)="navegarParaDetalhe($event)"
       ></app-card-vaga-favorita>
     </app-component-container-vagas>
   </div>

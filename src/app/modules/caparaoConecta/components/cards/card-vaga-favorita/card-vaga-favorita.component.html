@@ -1,6 +1,8 @@
-<div class="d-flex gap-4 pb-4 flex-sm-row justify-content-center">
+<div
+  class="d-flex gap-4 pb-4 flex-sm-row justify-content-center justify-content-md-start"
+>
   @for(vaga of paginatedVagas; track vaga.id_vagas){
-  <div class="vaga-card">
+  <div class="vaga-card" (click)="onCardClick(vaga)">
     <div class="vaga-card-header">
       <img
         [src]="
@@ -42,7 +44,7 @@
 </div>
 <p-paginator
   [rows]="pageSize"
-  [totalRecords]="vagas.length"
+  [totalRecords]="vagas?.length ?? 0"
   (onPageChange)="onPageChange($event)"
 >
 </p-paginator>

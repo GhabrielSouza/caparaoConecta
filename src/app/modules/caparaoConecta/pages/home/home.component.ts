@@ -70,11 +70,17 @@ export class HomeComponent implements OnInit {
     if (this.role() !== ERoleUser.CANDIDATO || userAreaId == null) {
       return [];
     }
-    return vagas.filter((v) => v.area_atuacao?.id_areas_atuacao === userAreaId);
+    return vagas.filter(
+      (v) =>
+        v.area_atuacao?.id_areas_atuacao === userAreaId &&
+        v.status === EStatusVaga.EM_ANDAMENTO
+    );
   });
 
   public vagasAgrupadasPorArea = computed(() => {
-    const todas = this.todasAsVagas();
+    const todas = this.todasAsVagas().filter(
+      (v) => v.status === EStatusVaga.EM_ANDAMENTO
+    );
     const recomendadas = this.vagasRecomendadas();
     const recomendadasIds = new Set(recomendadas.map((v) => v.id_vagas));
 

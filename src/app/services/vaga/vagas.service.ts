@@ -167,4 +167,16 @@ export class VagasService {
       })
     );
   }
+
+  #setListVagaMinhasCandidaturas = signal<IVaga[] | null>(null);
+  public getListVagaMinhasCandidaturas =
+    this.#setListVagaMinhasCandidaturas.asReadonly();
+  public httpListarMinhasCandidaturas$(): Observable<IVaga[]> {
+    return this.#http.get<IVaga[]>(`${this.#url}/api/candidaturas`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListVagaMinhasCandidaturas.set(data);
+      })
+    );
+  }
 }

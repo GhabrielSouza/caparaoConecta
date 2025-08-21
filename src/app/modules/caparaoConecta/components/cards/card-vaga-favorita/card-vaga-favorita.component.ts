@@ -19,14 +19,15 @@ import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 })
 export class CardVagaFavoritaComponent implements OnInit {
   @Input() public imagem: string = 'assets/imgs/semFoto.jpg';
-  @Input() vagas: IVaga[] = [];
+  @Input() vagas: IVaga[] | null = [];
 
   currentPage: number = 0;
-  pageSize: number = 4;
+  pageSize: number = 3;
 
   get paginatedVagas(): IVaga[] {
+    const vagasPage = this.vagas || [];
     const start = this.currentPage * this.pageSize;
-    return this.vagas.slice(start, start + this.pageSize);
+    return vagasPage.slice(start, start + this.pageSize);
   }
 
   onPageChange(event: PaginatorState) {
@@ -53,7 +54,7 @@ export class CardVagaFavoritaComponent implements OnInit {
       this.pageSize = 2;
     } else {
       // Telas de desktop
-      this.pageSize = 4;
+      this.pageSize = 3;
     }
   }
 
