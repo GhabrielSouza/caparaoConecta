@@ -2,26 +2,54 @@
 
 <div class="row justify-content-center mx-2 mx-md-0">
   <div class="col-12 col-md-8 col-lg-8">
-    @if(role() == roleEnum.CANDIDATO ){
+    @if(role() == roleEnum.CANDIDATO ){ @if((!vagasFavoritas() ||
+    vagasFavoritas() === []) && (!getVagasEmAndamento() || getVagasEmAndamento()
+    === []) && (!getVagasEncerradas() || getVagasEncerradas() === [])){
+
+    <div class="empty-state-container">
+      <div class="empty-state-content">
+        <img
+          src="assets/icons/malinha.svg"
+          alt="Nenhuma vaga encontrada"
+          class="empty-state-icon"
+        />
+        <h2 class="empty-state-title">Nenhuma vaga encontrada</h2>
+        <p class="empty-state-message">
+          Parece que você ainda não se candidatou a nenhuma vaga. Que tal
+          explorar as oportunidades disponíveis?
+        </p>
+        <app-button-primary
+          text="Explorar Vagas"
+          (click)="navegarParaVagas()"
+          class="empty-state-button"
+        >
+        </app-button-primary>
+      </div>
+    </div>
+    }@else{ @if(vagasFavoritas() && vagasFavoritas() != []){
     <app-component-container-vagas titulo="Favoritas">
       <app-card-vaga-favorita
         [vagas]="vagasFavoritas()"
+        [IsFavorita]="true"
       ></app-card-vaga-favorita>
     </app-component-container-vagas>
-
+    } @if(getVagasEmAndamento() && getVagasEmAndamento() != []){
     <app-component-container-vagas titulo="Candidaturas">
       <app-card-vaga-favorita
         [vagas]="getVagasEmAndamento()"
         (vagaClicada)="navegarParaDetalhe($event)"
+        [IsFavorita]="false"
       ></app-card-vaga-favorita>
     </app-component-container-vagas>
-    }
+    } @if(getVagasEncerradas() && getVagasEncerradas() != []){
     <app-component-container-vagas titulo="Encerradas">
       <app-card-vaga-favorita
         [vagas]="getVagasEncerradas()"
         (vagaClicada)="navegarParaDetalhe($event)"
+        [IsFavorita]="false"
       ></app-card-vaga-favorita>
     </app-component-container-vagas>
+    } } }
   </div>
 </div>
 

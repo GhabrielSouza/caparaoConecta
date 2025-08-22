@@ -9,6 +9,7 @@ import { IVaga } from '../../interface/IVaga.interface';
 import { CardVagaFavoritaComponent } from '../../components/cards/card-vaga-favorita/card-vaga-favorita.component';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
+import { ButtonPrimaryComponent } from '../../components/buttons/button-primary/button-primary.component';
 
 @Component({
   selector: 'app-favoritas',
@@ -17,6 +18,7 @@ import { EStatusVaga } from '../../enum/EStatusVaga.enum';
     ComponentContainerVagasComponent,
     FooterComponent,
     CardVagaFavoritaComponent,
+    ButtonPrimaryComponent,
   ],
   templateUrl: './favoritas.component.html',
   styleUrl: './favoritas.component.scss',
@@ -49,7 +51,11 @@ export class FavoritasComponent implements OnInit {
   }
 
   public getVagasFavoritas() {
-    return this.vagaService.httpListarFavoritar$().subscribe();
+    return this.vagaService.httpListarFavoritar$().subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+    });
   }
 
   public getMinhasCandidaturas() {
@@ -80,5 +86,9 @@ export class FavoritasComponent implements OnInit {
     }
 
     console.log('clicado');
+  }
+
+  navegarParaVagas() {
+    this.router.navigate(['']);
   }
 }

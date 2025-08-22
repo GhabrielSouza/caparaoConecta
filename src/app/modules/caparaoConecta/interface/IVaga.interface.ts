@@ -28,4 +28,5 @@ export interface IVaga {
   curso: ICursos[];
   empresa: IEmpresa;
   candidato: IPessoaFisica[];
+  is_favorita: boolean;
 }

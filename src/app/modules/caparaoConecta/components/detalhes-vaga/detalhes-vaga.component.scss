@@ -156,6 +156,17 @@
     }
   }
 
+  .etapas {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+
+    &-finalizada {
+      @extend .etapas;
+      color: #ff0000;
+      text-align: center;
+    }
+  }
+
   @include mat.radio-overrides(
     (
       selected-focus-icon-color: var(--primary-background-green),

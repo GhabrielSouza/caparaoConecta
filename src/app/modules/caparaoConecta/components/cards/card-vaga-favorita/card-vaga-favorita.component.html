@@ -2,20 +2,28 @@
   class="d-flex gap-4 pb-4 flex-sm-row justify-content-center justify-content-md-start"
 >
   @for(vaga of paginatedVagas; track vaga.id_vagas){
-  <div class="vaga-card" (click)="onCardClick(vaga)">
+  <div class="vaga-card" (click)="onCardClick(vaga)" (click)="openModel(vaga)">
     <div class="vaga-card-header">
-      <img
-        [src]="
-          vaga.empresa.pessoa.imagem != null
-            ? 'http://localhost:8000/img/pessoas/' + vaga.empresa.pessoa.imagem
-            : imagem
-        "
-        alt="Logo da empresa"
-        class="empresa-logo"
-      />
-      <span class="empresa-nome cpc-regular">{{
-        vaga.empresa.pessoa.nome
-      }}</span>
+      <div class="d-flex gap-2 align-items-center">
+        <img
+          [src]="
+            vaga.empresa.pessoa.imagem != null
+              ? 'http://localhost:8000/img/pessoas/' +
+                vaga.empresa.pessoa.imagem
+              : imagem
+          "
+          alt="Logo da empresa"
+          class="empresa-logo"
+        />
+        <span class="empresa-nome cpc-regular">{{
+          vaga.empresa.pessoa.nome
+        }}</span>
+      </div>
+      @if(IsFavorita){
+      <div class="header-actions" (click)="favoritarVaga(vaga, $event)">
+        <mat-icon>{{ vaga.is_favorita ? "star" : "star_border" }}</mat-icon>
+      </div>
+      }
     </div>
 
     <hr class="card-divider" />

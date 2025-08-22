@@ -135,6 +135,12 @@
             [href]="vagaData.empresa.pessoa.rede_social.linkedin"
             ><img src="assets/icons/iconeLinkedin.svg" alt="Linkedin"
           /></a>
+          } @if(vagaData.empresa.pessoa.rede_social.curriculo_lattes){
+          <a
+            target="_blank"
+            [href]="vagaData.empresa.pessoa.rede_social.linkedin"
+            ><img src="assets/icons/icons_perfil/lattes.svg" alt="Linkedin"
+          /></a>
           }
         </div>
       </div>
@@ -183,6 +189,23 @@
     <app-candidato-selecionado
       [candidatos]="candidatosContratados()"
     ></app-candidato-selecionado>
+    } } @if(role === roleEnum.CANDIDATO){ @if(vagaData.status ===
+    statusVagaEnum.EM_ANDAMENTO){
+    <div class="mt-5">
+      <div class="p-3 etapas">
+        <h2 class="cpc-medium pb-5">Etapas</h2>
+        <p-steps
+          [model]="stepsItems"
+          [activeIndex]="passoAtivoStepper()"
+        ></p-steps>
+      </div>
+    </div>
+    } @else if (vagaData.status === statusVagaEnum.FINALIZADO) {
+    <div class="mt-5">
+      <div class="p-3 etapas-finalizada">
+        <p class="cpc-medium">Está vaga já foi encerrada!</p>
+      </div>
+    </div>
     } } } @if(!visaoDetalhes() && (role === roleEnum.EMPRESA || role ===
     roleEnum.ADMIN)){
     <section
