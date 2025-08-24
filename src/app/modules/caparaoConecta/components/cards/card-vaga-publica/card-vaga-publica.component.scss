@@ -89,4 +89,28 @@
     align-self: flex-end;
     margin-top: 0.5rem;
   }
+
+  @media (max-width:900px) {
+    .vaga-card{
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 1.5rem;
+      width: 250px;
+      height: 270px;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .vaga-quantidade {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #343a40;
+      align-self: flex-end;
+      margin: 0.5rem 0.8rem 0rem 0rem;
+    }
+  }
 }

@@ -4,44 +4,33 @@
     <section class="container-fluid">
       @if(role() != roleEnum.ADMIN){
       <div class="row">
-        <div class="col-12 col-lg-2">
-          <div class="container_filtros_filtro m-4">
-            <h1 class="cpc-regular py-2">Filtrar</h1>
-            <div class="container_filtros_filtro-itens">
-              <h2 class="cpc-regular-010 py-4">Dados da Vaga</h2>
-              <div>
-                <h3 class="cpc-regular-010">Modelo de trabalho</h3>
-                <div class="d-flex flex-column">
-                  <mat-checkbox>Presencial</mat-checkbox>
-                  <mat-checkbox>Híbrido</mat-checkbox>
-                  <mat-checkbox>Remoto</mat-checkbox>
-                </div>
-              </div>
-              <div class="selects d-flex flex-column my-3">
-                @if(role() == roleEnum.CANDIDATO || role() == roleEnum.GUEST){
-                <mat-label class="cpc-regular-010">Empresa</mat-label>
-                <mat-form-field>
-                  <mat-select placeholder="Selecione um item">
-                    <mat-option value="one">First option</mat-option>
-                    <mat-option value="two">Second option</mat-option>
-                  </mat-select>
-                </mat-form-field>
-                }
-                <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
-                <mat-form-field>
-                  <mat-select placeholder="Selecione um item">
-                    <mat-option value="">Todas</mat-option>
+        <div class="col-12 col-lg-2 d-none d-sm-none d-lg-block">
+          <app-filtro
+            [filtroForm]="filtroForm"
+            [areasAtuacao]="areasAtuacao"
+            [empresas]="empresas"
+            [role]="role()"
+          />
+        </div>
 
-                    @for (area of areasAtuacao(); track area.id_areas_atuacao) {
-                    <mat-option [value]="area.nome_area">{{
-                      area.nome_area
-                    }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
-              </div>
+        <div class="col-12 col-lg-10 d-lg-none">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="cpc-bold-010">Vagas</h4>
+              <p class="cpc-regular-010">
+                {{ todasAsVagas().length }} vaga(s) encontrada(s)
+              </p>
+            </div>
+            <div>
+              <button
+                class="btn btn-quaternary cpc-bold-010"
+                (click)="abrirFiltroModal()"
+              >
+                <i class="fas fa-filter pe-2"></i> Filtrar
+              </button>
             </div>
           </div>
+          <hr />
         </div>
 
         <div class="col-12 col-lg-10">
@@ -69,45 +58,36 @@
               } @for (grupo of vagasAgrupadasPorArea(); track
               grupo.area.id_areas_atuacao) {
               <app-component-container-vagas [titulo]="grupo.area.nome_area">
-                <app-card-vaga-publica
-                  [vagas]="grupo.vagas"
-                  [role]="role()"
-                ></app-card-vaga-publica>
+                <app-card-vaga-publica [vagas]="grupo.vagas" [role]="role()"></app-card-vaga-publica>
               </app-component-container-vagas>
               } } @if(role() == roleEnum.EMPRESA){ @if(vagasOfertadas().length
               === 0){
               <div
-                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
-              >
+                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3">
                 <i class="fas fa-archive fa-lg pb-3"></i>
                 <h3 class="text-dark mb-2">Nenhuma vaga ofertada</h3>
                 <p class="text-muted text-center mb-4">
                   Você ainda não publicou nenhuma vaga. Que tal começar agora?
                 </p>
               </div>
-              }@else {
+              } @else {
               <app-component-container-vagas titulo="Vagas Ofertadas">
-                <app-card-vaga-empresa
-                  [vagas]="vagasOfertadas()"
-                  (vagaClicada)="navegarParaDetalhe($event)"
-                ></app-card-vaga-empresa>
+                <app-card-vaga-empresa [vagas]="vagasOfertadas()"
+                  (vagaClicada)="navegarParaDetalhe($event)"></app-card-vaga-empresa>
               </app-component-container-vagas>
               } @if(vagasEncerradas().length === 0){
               <div
-                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
-              >
+                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3">
                 <i class="fas fa-archive fa-lg pb-3"></i>
                 <h3 class="text-dark mb-2">Nenhuma vaga encerrada</h3>
                 <p class="text-muted text-center">
                   Você ainda não finalizou o processo de nenhuma vaga.
                 </p>
               </div>
-              }@else {
+              } @else {
               <app-component-container-vagas titulo="Vagas Encerradas">
-                <app-card-vaga-empresa
-                  [vagas]="vagasEncerradas()"
-                  (vagaClicada)="navegarParaDetalhe($event)"
-                ></app-card-vaga-empresa>
+                <app-card-vaga-empresa [vagas]="vagasEncerradas()"
+                  (vagaClicada)="navegarParaDetalhe($event)"></app-card-vaga-empresa>
               </app-component-container-vagas>
               } } }@placeholder (minimum 1s){
               <app-spinner />

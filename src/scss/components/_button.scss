@@ -1,90 +1,70 @@
 .btn {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-
-  transition: 0.5s;
-
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--font-poppinsB), sans-serif;
   border: none;
+  border-radius: 12px;
   cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
 
   &.btn-primary {
-    font-size: 16px;
-    padding: 10px 50px;
+    background: var(--background-red);
+    color: var(--white);
 
     &:hover {
       background: var(--background-red-010);
-      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
   }
 
-  &.btn-primary {
-    color: var(--white);
-    background: var(--background-red);
-    font-weight: 500;
-    font-family: var(--font-poppinsB), sans-serif;
-    border-radius: 14px;
-  }
-
   &.btn-secondary {
-    font-size: 16px;
-    padding: 10px 50px;
+    background: var(--primary-background-green);
+    color: var(--white);
 
     &:hover {
       background: var(--secondary-background-green);
-      color: var(--white);
-      border: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
   }
 
-  &.btn-secondary {
-    color: var(--white);
-    background: var(--primary-background-green);
-    font-weight: 500;
-    font-family: var(--font-poppinsB), sans-serif;
-    border-radius: 9px;
-  }
-
   &.btn-tertiary {
-    font-size: 16px;
-    padding: 10px 50px;
+    background: var(--secondary-background-green);
+    color: var(--white);
 
     &:hover {
       background: var(--primary-background-green);
-      color: var(--white);
-      border: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
   }
 
-  &.btn-tertiary {
-    color: var(--white);
-    background: var(--secondary-background-green);
-    font-weight: 500;
-    font-family: var(--font-poppinsB), sans-serif;
-    border-radius: 14px;
-  }
-
   &.btn-quaternary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: #f5f5f5;
-    border: none;
-    border-radius: 24px;
-    font-weight: 500;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background: var(--primary-background-green);
+    color: var(--white);
+    padding: 8px;
+    border-radius: 12px;
 
     &:hover {
-      background: #e0e0e0;
+      background: var(--secondary-background-green);
       transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     img {
       width: 16px;
       height: 16px;
     }
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }

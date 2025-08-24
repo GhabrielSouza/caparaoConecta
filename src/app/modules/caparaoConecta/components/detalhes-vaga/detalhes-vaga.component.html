@@ -3,9 +3,9 @@
 <div class="detalhesVagaContainer">
   <!-- CABEÇALHO: Muda com base no perfil -->
   @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
-  <div class="d-flex align-items-center justify-content-between mb-3">
-    <h1 class="my-1 cpc-bold">Detalhes da vaga</h1>
-    <div class="d-flex align-items-center">
+  <div class="d-flex flex-column align-items-center justify-content-between mb-3 flex-md-row">
+    <h1 class="my-1 cpc-bold mb-3 mb-md-0">Detalhes da vaga</h1>
+    <div class="d-flex align-items-md-center">
       <!-- Botões de Alternância de Visão -->
       <div
         class="btn-toggle"
@@ -13,6 +13,7 @@
         (click)="alterarVisao(false)"
       >
         <img
+          class="d-none d-md-block"
           [src]="
             visaoDetalhes()
               ? 'assets/icons/detalhesBranco.svg'
@@ -28,6 +29,7 @@
         (click)="alterarVisao(true)"
       >
         <img
+        class="d-none d-md-block"
           [src]="
             !visaoDetalhes()
               ? 'assets/icons/estatisticaBranca.svg'
@@ -37,13 +39,7 @@
         />
         <p class="cpc-regular">Estatísticas</p>
       </div>
-      <app-button-primary
-        class="ps-2"
-        fonte="cpc-regular"
-        color="btn-secondary"
-        text="Voltar"
-        (click)="voltar()"
-      />
+      <button class="btn btn-secondary ms-2" (click)="voltar()">Voltar</button>
     </div>
   </div>
   } @else {
@@ -51,7 +47,7 @@
   }
 
   <!-- CORPO PRINCIPAL -->
-  <div class="container">
+  <div class="container w-100 w-md-0">
     <!-- Visão de Detalhes (Comum a todos, mas com ações diferentes) -->
     @if(visaoDetalhes()){
     <!-- Bloco de Status e Ações (só para empresa/admin) -->
@@ -85,7 +81,6 @@
     }
 
     <!-- Conteúdo da Vaga (Comum a todos) -->
-    <img src="assets/imgs/banner_vaga_padrao.svg" alt="imagemVaga" />
     <div class="d-flex justify-content-between align-items-center my-2">
       <h1 class="cpc-bold">{{ vagaData.titulo_vaga }}</h1>
       @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
@@ -98,7 +93,7 @@
     <p class="my-3 cpc-regular">{{ vagaData.descricao }}</p>
 
     <!-- INÍCIO DO CÓDIGO COMPLETADO 1 -->
-    <div class="containerInterno">
+    <div class="containerInterno d-flex ">
       <div class="conteudoCompetencias">
         <h1 class="cpc-regular">Competências</h1>
         @for (habilidade of vagaData.habilidades; track
@@ -107,9 +102,9 @@
         }
       </div>
       <div class="conteudoCursos">
-        <h1 class="cpc-regular">Cursos recomendados</h1>
+        <h1 class="cpc-regular text-end text-md-center">Cursos</h1>
         @for(curso of vagaData.curso; track curso.id_cursos){
-        <p class="cpc-regular-010">{{ curso.curso }}</p>
+        <p class="cpc-regular-010 text-end text-md-center">{{ curso.curso }}</p>
         }
       </div>
     </div>
@@ -165,25 +160,18 @@
     <!-- Ações de Prorrogar/Finalizar (só para empresa/admin) -->
     @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
     @if(vagaData.status === statusVagaEnum.EM_ANDAMENTO){
-    <div class="d-flex justify-content-between align-items-center my-3">
+    <div class="d-flex flex-column flex-md-row align-items-md-center mx-5 my-md-3 gap-3 justify-content-md-between">
       @if(vagaData.prorrogavel){
-      <app-button-primary
-        text="Prorrogar por 5 dias"
-        fonte="cpc-regular"
-        color="btn-secondary"
-        (click)="confirmProrrogarVaga()"
-      />
+      <button class="btn btn-secondary"(click)="confirmProrrogarVaga()">
+        Prorrogar por 5 dias
+      </button>
       } @else {
       <div class="status-chip status-finalizado">
         Limite de prorrogações atingido
       </div>
       }
-      <app-button-primary
-        text="Finalizar Vaga"
-        fonte="cpc-regular"
-        color="btn-secondary"
-        (click)="confirmFinalizarVaga()"
-      />
+       <button class="btn btn-primary" (click)="confirmFinalizarVaga()">Finalizar Vaga</button>
+
     </div>
     } @else if (vagaData.status === statusVagaEnum.FINALIZADO) {
     <app-candidato-selecionado

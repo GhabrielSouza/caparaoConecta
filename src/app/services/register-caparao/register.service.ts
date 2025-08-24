@@ -14,6 +14,7 @@ export class RegisterService {
   #http = inject(HttpClient);
   #url = environment.apiAuth;
 
+
   #setListUsuarios = signal<IPessoa[] | null>(null);
   public getListUsuarios = this.#setListUsuarios.asReadonly();
   public httpListPessoas$(): Observable<IPessoa[]> {
@@ -21,6 +22,17 @@ export class RegisterService {
       shareReplay(),
       tap((data) => {
         this.#setListUsuarios.set(data);
+        })
+    );
+  }
+
+  #setListEmpresa = signal<IPessoa[] | null>(null);
+  public getListEmpresa = this.#setListEmpresa.asReadonly();
+  public httpListEmpresas$(): Observable<IPessoa[]> {
+    return this.#http.get<IPessoa[]>(`${this.#url}/api/pessoas`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListEmpresa.set(data);
       })
     );
   }

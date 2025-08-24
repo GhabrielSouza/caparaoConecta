@@ -18,8 +18,18 @@ import { HomeAdminComponent } from '../home-admin/home-admin.component';
 import { AreasAtuacaoService } from '../../../../services/areasAtuacao/areas-atuacao.service';
 import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
+
 import { EmpyComponent } from '../../components/empy/empy.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { IPessoa } from '../../interface/IPessoa.interface';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
+import { FiltroComponent } from '../../components/filtro/filtro.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogFiltroComponent } from '../../components/dialogs/dialog-filtro/dialog-filtro.component';
+
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -28,9 +38,9 @@ export interface GrupoDeVagas {
 
 @Component({
   selector: 'app-home',
-  standalone: true, // Adicionado para clareza
+  standalone: true,
   imports: [
-    CommonModule, // Adicionado para diretivas como @if, @for
+    CommonModule,
     CabecalhoComponent,
     FooterComponent,
     ComponentContainerVagasComponent,
@@ -44,6 +54,8 @@ export interface GrupoDeVagas {
     HomeAdminComponent,
     EmpyComponent,
     SpinnerComponent,
+    ReactiveFormsModule,
+    FiltroComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -52,11 +64,16 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
   private vagasService = inject(VagasService);
   private areasService = inject(AreasAtuacaoService);
+  private pessoasService = inject(RegisterService);
   private userAuth = inject(AuthService);
+  private fb = inject(FormBuilder);
+  public dialog = inject(MatDialog);
 
   public todasAsVagas = signal<IVaga[]>([]);
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
+  public empresas = signal<IPessoa[]>([]);
   public user = this.userAuth.currentUser;
+  public filtroForm!: FormGroup;
 
   public role = computed(() => {
     const roleName = this.user()?.tipo_usuario?.nome;
@@ -130,18 +147,36 @@ export class HomeComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.filtroForm = this.fb.group({
+      modalidade: this.fb.group({
+        presencial: [false],
+        hibrido: [false],
+        remoto: [false],
+      }),
+      id_empresa: [''],
+      atuacao: [''],
+    });
+
+    this.filtroForm.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((formValue) => {
+        this.getVagas(formValue);
+      });
+
     this.getVagas();
     this.onListAreasAtuacao();
+    this.onListEmpresas();
   }
 
-  public getVagas() {
+
+  public getVagas(filtros?: any) {
     this.statusCarregamento.set('carregando');
-    this.vagasService.httpListVagas$().subscribe({
+    this.vagasService.httpListVagas$(filtros).subscribe({
       next: (data) => {
         this.todasAsVagas.set(data);
         this.statusCarregamento.set('concluido');
       },
-      error: (error) => {
+     error: (error) => {
         console.error('Erro ao buscar vagas:', error);
         this.statusCarregamento.set('erro');
       },
@@ -155,9 +190,32 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  public onListEmpresas() {
+    this.pessoasService.httpListEmpresas$().subscribe({
+      next: (response) => {
+        const empresasFiltradas = response.filter((pessoa) => pessoa.empresa);
+        this.empresas.set(empresasFiltradas);
+      },
+      error: (error) => console.log('Erro ao buscar empresas:', error),
+    });
+  }
+
   navegarParaDetalhe(vaga: IVaga) {
     if (vaga?.id_vagas) {
       this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
     }
+  }
+
+  public abrirFiltroModal(): void {
+    this.dialog.open(DialogFiltroComponent, {
+      width: '90vw',
+      maxWidth: '500px',
+      data: {
+        filtroForm: this.filtroForm,
+        areasAtuacao: this.areasAtuacao,
+        empresas: this.empresas,
+        role: this.role(),
+      },
+    });
   }
 }
