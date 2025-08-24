@@ -48,9 +48,6 @@
   border-bottom: 1px solid #f1f1f1; // Linhas de separação suaves
 }
 
-/* CORREÇÃO DA LINHA ATIVA */
-/* O problema era a especificidade. A regra 'tbody tr' podia sobrepor 'tr.active'.
-   Ao mirar nas células 'td' dentro da linha ativa, garantimos que o estilo seja aplicado. */
 tbody tr.row-active td {
   background-color: #e8f5e9;
   color: #1e4620;

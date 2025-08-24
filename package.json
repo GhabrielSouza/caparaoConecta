@@ -22,6 +22,7 @@
     "@angular/router": "^19.1.6",
     "@primeng/themes": "^19.0.10",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.5.0",
     "ngx-mask": "^19.0.6",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.10",

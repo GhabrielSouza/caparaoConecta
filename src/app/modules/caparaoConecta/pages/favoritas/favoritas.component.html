@@ -1,27 +1,44 @@
 <app-cabecalho></app-cabecalho>
 
-<div class="centralizar">
-  <div class="row">
-    <div class="">
-      @if(role() == roleEnum.CANDIDATO ){
-      <app-component-container-vagas titulo="Favoritas">
-        <app-card-vaga-favorita
-          [vagas]="vagasPublicas"
-        ></app-card-vaga-favorita>
-      </app-component-container-vagas>
+<div class="row justify-content-center mx-2 mx-md-0">
+  <div class="col-12 col-md-8 col-lg-8">
+    @if(role() == roleEnum.CANDIDATO ){ @if((!vagasFavoritas() ||
+    vagasFavoritas().length === 0) && (!getVagasEmAndamento() ||
+    getVagasEmAndamento().length === 0) && (!getVagasEncerradas() ||
+    getVagasEncerradas().length === 0)){
 
-      <app-component-container-vagas titulo="Candidaturas">
-        <app-card-vaga-favorita
-          [vagas]="vagasPublicas"
-        ></app-card-vaga-favorita>
-      </app-component-container-vagas>
-      }
-      <app-component-container-vagas titulo="Encerradas">
-        <app-card-vaga-favorita
-          [vagas]="vagasEncerradas"
-        ></app-card-vaga-favorita>
-      </app-component-container-vagas>
-    </div>
+    <app-empy
+      [titulo]="'Nenhuma vaga encontrada'"
+      [mensagem]="
+        'Parece que você ainda não se candidatou a nenhuma vaga. Que tal explorar as oportunidades disponíveis?'
+      "
+      [textoBotao]="'Explorar Vagas'"
+      (botaoClicado)="navegarParaVagas()"
+    />
+    }@else{ @if(vagasFavoritas() && vagasFavoritas().length > 0){
+    <app-component-container-vagas titulo="Favoritas">
+      <app-card-vaga-favorita
+        [vagas]="vagasFavoritas()"
+        [IsFavorita]="true"
+      ></app-card-vaga-favorita>
+    </app-component-container-vagas>
+    } @if(getVagasEmAndamento() && getVagasEmAndamento().length > 0){
+    <app-component-container-vagas titulo="Candidaturas">
+      <app-card-vaga-favorita
+        [vagas]="getVagasEmAndamento()"
+        (vagaClicada)="navegarParaDetalhe($event)"
+        [IsFavorita]="false"
+      ></app-card-vaga-favorita>
+    </app-component-container-vagas>
+    } @if(getVagasEncerradas() && getVagasEncerradas().length > 0){
+    <app-component-container-vagas titulo="Encerradas">
+      <app-card-vaga-favorita
+        [vagas]="getVagasEncerradas()"
+        (vagaClicada)="navegarParaDetalhe($event)"
+        [IsFavorita]="false"
+      ></app-card-vaga-favorita>
+    </app-component-container-vagas>
+    } } }
   </div>
 </div>
 

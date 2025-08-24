@@ -1,7 +1,43 @@
-section{
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    display: flex;
-    gap: 1.5vw;
+section {
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  gap: 1.5vw;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.bloco-conteudo {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.grafico-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.grafico-wrapper {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 992px) {
+  .grafico-grid {
+    grid-template-columns: 1fr;
+  }
 }
