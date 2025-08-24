@@ -29,4 +29,23 @@
       }
     }
   }
+  @media (max-width: 900px){
+    .form-section {
+      padding: 1em;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      border-radius: 15px;
+      width: 25em;
+      display: flex;
+      flex-direction: column;
+      & h2 {
+        text-align: center;
+      }
+
+      & .form-section_buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+    }
+  }
 }

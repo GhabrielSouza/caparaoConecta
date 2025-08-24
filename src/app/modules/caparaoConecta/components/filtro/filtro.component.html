@@ -1,0 +1,65 @@
+<div class="container_filtros_filtro m-4" [formGroup]="filtroForm">
+  <h1 class="cpc-regular py-2 d-none d-lg-block">Filtrar</h1>
+  <div class="container_filtros_filtro-itens">
+    <h2 class="cpc-regular-010 py-4 d-none d-lg-block">Dados da Vaga</h2>
+    <div>
+      <h3 class="cpc-regular-010">Modelo de trabalho</h3>
+      <div class="d-flex flex-column" formGroupName="modalidade">
+        <mat-checkbox formControlName="presencial">Presencial</mat-checkbox>
+        <mat-checkbox formControlName="hibrido">Híbrido</mat-checkbox>
+        <mat-checkbox formControlName="remoto">Remoto</mat-checkbox>
+      </div>
+    </div>
+    <div class="selects d-flex flex-column my-3">
+      @if(role == roleEnum.CANDIDATO || role == roleEnum.GUEST){
+      <mat-label class="cpc-regular-010">Empresa</mat-label>
+      <mat-form-field>
+        <mat-select
+          placeholder="Selecione uma empresa"
+          formControlName="id_empresa"
+        >
+          @for (empresa of empresas(); track empresa.id_pessoas) {
+          <mat-option [value]="empresa.id_pessoas">{{
+            empresa.nome
+          }}</mat-option>
+          }
+        </mat-select>
+        @if (filtroForm.get('id_empresa')?.value) {
+        <button
+          class="mat-icon-button"
+          matSuffix
+          matIconButton
+          aria-label="Limpar seleção"
+          (click)="limparSelecaoEmpresa($event)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        }
+      </mat-form-field>
+      }
+      <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
+      <mat-form-field>
+        <mat-select placeholder="Selecione um item" formControlName="atuacao">
+          <mat-option value="">Todas</mat-option>
+
+          @for (area of areasAtuacao(); track area.id_areas_atuacao) {
+          <mat-option [value]="area.id_areas_atuacao">{{
+            area.nome_area
+          }}</mat-option>
+          }
+        </mat-select>
+        @if (filtroForm.get('atuacao')?.value) {
+        <button
+          class="mat-icon-button"
+          matSuffix
+          matIconButton
+          aria-label="Limpar seleção"
+          (click)="limparSelecaoAtuacao($event)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        }
+      </mat-form-field>
+    </div>
+  </div>
+</div>

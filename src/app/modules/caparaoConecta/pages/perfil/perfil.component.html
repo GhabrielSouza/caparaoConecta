@@ -1,9 +1,6 @@
 <app-cabecalho />
 
-<!-- O @defer agora espera o status ser 'concluido' -->
 @defer (when statusCarregamento() === 'concluido') {
-
-<!-- Usamos o valor do signal com dadosPessoais() -->
 <app-component-perfil-dados
   [data]="dadosPessoais()"
   [IdUsuario]="user()?.id_pessoas"
@@ -17,7 +14,6 @@
 >
 </app-component-default-perfil>
 
-<!-- A condição agora usa o signal reativo 'role()' -->
 @if(role() === roleEnum.CANDIDATO) {
 <app-perfil-candidato
   [IdUsuario]="user()?.id_pessoas"
