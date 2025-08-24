@@ -47,8 +47,17 @@
         <div class="col-12 col-lg-10">
           <div class="row">
             <div class="col-12 col-lg-11">
-              @if (role() == roleEnum.CANDIDATO || role() == roleEnum.GUEST) {
-              @if (vagasRecomendadas().length > 0) {
+              @defer (when statusCarregamento() === 'concluido') { @if (role()
+              == roleEnum.CANDIDATO || role() == roleEnum.GUEST) {
+              @if(vagasAgrupadasPorArea().length === 0 &&
+              vagasRecomendadas().length === 0){
+              <app-empy
+                icone="face-sad-cry-regular-full.svg"
+                titulo="Nenhuma vaga cadastrada no momento"
+                mensagem="Volte mais tarde!"
+                [botaoHiddem]="false"
+              />
+              } @if (vagasRecomendadas().length > 0) {
               <app-component-container-vagas
                 titulo="Vagas Recomendadas para Você"
               >
@@ -100,7 +109,15 @@
                   (vagaClicada)="navegarParaDetalhe($event)"
                 ></app-card-vaga-empresa>
               </app-component-container-vagas>
-              } }
+              } } }@placeholder (minimum 1s){
+              <app-spinner />
+              }@loading (minimum 1s) {
+              <app-spinner />
+              }@error {
+              <div class="error-message">
+                <p>Erro ao carregar os dados do perfil.</p>
+              </div>
+              }
             </div>
           </div>
         </div>

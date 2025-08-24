@@ -157,7 +157,7 @@ export class VagasService {
     );
   }
 
-  #setListVagaFavorita = signal<IVaga[] | null>(null);
+  #setListVagaFavorita = signal<IVaga[] | []>([]);
   public getListVagaFavorita = this.#setListVagaFavorita.asReadonly();
   public httpListarFavoritar$(): Observable<IVaga[]> {
     return this.#http.get<IVaga[]>(`${this.#url}/api/favoritos`).pipe(
@@ -168,7 +168,7 @@ export class VagasService {
     );
   }
 
-  #setListVagaMinhasCandidaturas = signal<IVaga[] | null>(null);
+  #setListVagaMinhasCandidaturas = signal<IVaga[] | []>([]);
   public getListVagaMinhasCandidaturas =
     this.#setListVagaMinhasCandidaturas.asReadonly();
   public httpListarMinhasCandidaturas$(): Observable<IVaga[]> {

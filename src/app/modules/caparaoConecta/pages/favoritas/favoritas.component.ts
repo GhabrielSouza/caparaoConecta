@@ -10,6 +10,7 @@ import { CardVagaFavoritaComponent } from '../../components/cards/card-vaga-favo
 import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { ButtonPrimaryComponent } from '../../components/buttons/button-primary/button-primary.component';
+import { EmpyComponent } from '../../components/empy/empy.component';
 
 @Component({
   selector: 'app-favoritas',
@@ -18,7 +19,7 @@ import { ButtonPrimaryComponent } from '../../components/buttons/button-primary/
     ComponentContainerVagasComponent,
     FooterComponent,
     CardVagaFavoritaComponent,
-    ButtonPrimaryComponent,
+    EmpyComponent,
   ],
   templateUrl: './favoritas.component.html',
   styleUrl: './favoritas.component.scss',

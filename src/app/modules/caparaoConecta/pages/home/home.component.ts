@@ -18,6 +18,8 @@ import { HomeAdminComponent } from '../home-admin/home-admin.component';
 import { AreasAtuacaoService } from '../../../../services/areasAtuacao/areas-atuacao.service';
 import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
+import { EmpyComponent } from '../../components/empy/empy.component';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -40,6 +42,8 @@ export interface GrupoDeVagas {
     CardVagaEmpresaComponent,
     RouterModule,
     HomeAdminComponent,
+    EmpyComponent,
+    SpinnerComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -50,7 +54,7 @@ export class HomeComponent implements OnInit {
   private areasService = inject(AreasAtuacaoService);
   private userAuth = inject(AuthService);
 
-  private todasAsVagas = signal<IVaga[]>([]);
+  public todasAsVagas = signal<IVaga[]>([]);
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
   public user = this.userAuth.currentUser;
 
@@ -59,6 +63,10 @@ export class HomeComponent implements OnInit {
     return (roleName as ERoleUser) || ERoleUser.GUEST;
   });
   public roleEnum = ERoleUser;
+
+  public statusCarregamento = signal<'carregando' | 'concluido' | 'erro'>(
+    'carregando'
+  );
 
   public vagasRecomendadas = computed(() => {
     const user = this.user();
@@ -127,9 +135,16 @@ export class HomeComponent implements OnInit {
   }
 
   public getVagas() {
+    this.statusCarregamento.set('carregando');
     this.vagasService.httpListVagas$().subscribe({
-      next: (data) => this.todasAsVagas.set(data),
-      error: (error) => console.error('Erro ao buscar vagas:', error),
+      next: (data) => {
+        this.todasAsVagas.set(data);
+        this.statusCarregamento.set('concluido');
+      },
+      error: (error) => {
+        console.error('Erro ao buscar vagas:', error);
+        this.statusCarregamento.set('erro');
+      },
     });
   }
 
