@@ -2,10 +2,10 @@
 
 <div class="row justify-content-center mx-2 mx-md-0">
   <div class="col-12 col-md-8 col-lg-8">
-    @if(role() == roleEnum.CANDIDATO ){ @if((!vagasFavoritas() ||
-    vagasFavoritas().length === 0) && (!getVagasEmAndamento() ||
-    getVagasEmAndamento().length === 0) && (!getVagasEncerradas() ||
-    getVagasEncerradas().length === 0)){
+    @if(role() == roleEnum.CANDIDATO || role() == roleEnum.ADMIN){
+    @if((!vagasFavoritas() || vagasFavoritas().length === 0) &&
+    (!getVagasEmAndamento() || getVagasEmAndamento().length === 0) &&
+    (!getVagasEncerradas() || getVagasEncerradas().length === 0)){
 
     <app-empy
       [titulo]="'Nenhuma vaga encontrada'"

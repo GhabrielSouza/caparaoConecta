@@ -33,7 +33,14 @@ export class VagasService {
         params = params.set('atuacao', filtros.atuacao);
       }
     }
-    return this.#http.get<IVaga[]>(`${this.#url}/api/vagasShowAll`, { params });
+    return this.#http
+      .get<IVaga[]>(`${this.#url}/api/vagasShowAll`, { params })
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setListVaga.set(data);
+        })
+      );
   }
 
   #setListCandidaturas = signal<IVaga | null>(null);

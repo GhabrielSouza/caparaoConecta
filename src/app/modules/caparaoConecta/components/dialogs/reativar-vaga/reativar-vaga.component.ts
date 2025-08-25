@@ -16,6 +16,7 @@ import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { IVaga } from '../../../interface/IVaga.interface';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 
 @Component({
   selector: 'app-reativar-vaga',
@@ -24,11 +25,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatTableModule,
     MatDialogContent,
     RouterModule,
-    ButtonPrimaryComponent,
     ReactiveFormsModule,
     FormsModule,
     MatCheckboxModule,
     CommonModule,
+    CapitalizePipe,
   ],
   templateUrl: './reativar-vaga.component.html',
   styleUrl: './reativar-vaga.component.scss',
@@ -53,8 +54,7 @@ export class ReativarVagaComponent implements OnInit {
 
   vagasFinalizadasNoComponente = computed(() => {
     const todasAsVagas = this.vagasService.getListVaga();
-    if (!todasAsVagas) return [];
-    return todasAsVagas.filter((vaga) => vaga.status === 'FINALIZADO');
+    return (todasAsVagas || []).filter((vaga) => vaga.status === 'FINALIZADO');
   });
 
   public dataSource = this.vagasFinalizadasNoComponente;

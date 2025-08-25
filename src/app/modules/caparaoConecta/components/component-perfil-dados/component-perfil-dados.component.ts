@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogPerfilInformacoesComponent } from '../dialogs/dialog-perfil-informacoes/dialog-perfil-informacoes.component';
@@ -12,7 +12,7 @@ import { RegisterService } from '../../../../services/register-caparao/register.
   templateUrl: './component-perfil-dados.component.html',
   styleUrl: './component-perfil-dados.component.scss',
 })
-export class ComponentPerfilDadosComponent {
+export class ComponentPerfilDadosComponent implements OnInit {
   #dialog = inject(MatDialog);
   #pessoaService = inject(RegisterService);
 
@@ -27,6 +27,8 @@ export class ComponentPerfilDadosComponent {
   get email(): string {
     return this.data?.usuario?.email ?? '';
   }
+
+  ngOnInit(): void {}
 
   openDialog(data: IPessoa | null): void {
     const dialogRef = this.#dialog.open(DialogPerfilInformacoesComponent, {
