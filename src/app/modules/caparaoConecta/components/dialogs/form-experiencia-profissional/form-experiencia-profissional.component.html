@@ -1,6 +1,6 @@
 @if(this.data.id){
 <header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>Adicionar experiência profissional</h3>
+  <h3 class="cpc-medium">Adicionar experiência profissional</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
@@ -24,7 +24,7 @@
       label="Empresa"
     />
 
-    <div class="d-flex justify-content-between gap-3">
+    <div class="d-flex justify-content-between gap-3 flex-column flex-sm-row">
       <app-primary-input
         formControlName="data_emissao"
         type="date"
@@ -61,7 +61,7 @@
         <mat-radio-button [value]="false">Não</mat-radio-button>
       </mat-radio-group>
     </div>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mt-3 m-sm-0">
       <app-button-primary
         fonte="cpc-regular"
         color="btn-secondary"
@@ -74,7 +74,7 @@
 
 } @else{
 <header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>Atualizar experiência profissional</h3>
+  <h3 class="cpc-medium">Atualizar experiência profissional</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>

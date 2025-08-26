@@ -95,13 +95,15 @@ export class CadastroVagaDialogComponent implements OnInit {
     const dataEncerramento = new Date();
     dataEncerramento.setDate(dataEncerramento.getDate() + 20);
 
+    const dataBrasil = dataEncerramento.toLocaleDateString('pt-BR');
+
     this.vagaForm = this._fb.group({
-      id_vagas: [null], // Campo para o ID da vaga em modo de edição
+      id_vagas: [null],
       titulo_vaga: ['', Validators.required],
       modalidade_da_vaga: ['', Validators.required],
       salario: ['', Validators.required],
       data_fechamento: [
-        { value: dataEncerramento.toISOString().split('T')[0], disabled: true },
+        { value: dataBrasil.toString().split('T')[0], disabled: true },
         Validators.required,
       ],
       id_areas_atuacao: [''],

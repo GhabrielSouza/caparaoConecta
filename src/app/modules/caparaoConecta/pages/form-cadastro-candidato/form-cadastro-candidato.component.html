@@ -38,11 +38,11 @@
     <div class="d-flex flex-column flex-md-row">
       <app-data-nascimento-input
         formControlName="data_de_nascimento"
-        type="text"
+        type="date"
         placeholder="dd/mm/yyyy"
         label="Data de nascimento"
         inputName="data_de_nascimento"
-        class="col-12 ps-0 col-md-6 ps-md-3"
+        class="col-12 ps-0 col-md-6 ps-md-0"
         >@if (cadastrarForm.get('data_de_nascimento')?.invalid &&
         (cadastrarForm.get('data_de_nascimento')?.touched ||
         cadastrarForm.get('data_de_nascimento')?.dirty )) {
@@ -68,7 +68,7 @@
         placeholder="Digite seu CPF"
         label="CPF"
         inputName="CPF"
-        class="col-12 ps-0 col-md-6 ps-md-3"
+        class="col-12 ps-0 col-md-6 ps-md-0"
       >
         @if (cadastrarForm.get('cpf')?.invalid
         &&(cadastrarForm.get('cpf')?.touched ||
@@ -76,20 +76,20 @@
         <mat-error>{{ fieldErrors()["cpf"] }}</mat-error>
         }
       </app-cpf-and-cnpj-input>
-     
+
       <app-telefone-input
-      formControlName="telefone"
-      type="tel"
-      placeholder="Digite seu número"
-      label="Telefone(DDD)"
-      inputName="telefone"
-      class="col-12 ps-0 col-md-6 ps-md-3"
-      >@if (cadastrarForm.get('telefone')?.invalid &&
-      (cadastrarForm.get('telefone')?.touched ||
-      cadastrarForm.get('telefone')?.dirty )) {
-      <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
-      }</app-telefone-input
-    >
+        formControlName="telefone"
+        type="tel"
+        placeholder="Digite seu número"
+        label="Telefone(DDD)"
+        inputName="telefone"
+        class="col-12 ps-0 col-md-6 ps-md-3"
+        >@if (cadastrarForm.get('telefone')?.invalid &&
+        (cadastrarForm.get('telefone')?.touched ||
+        cadastrarForm.get('telefone')?.dirty )) {
+        <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
+        }</app-telefone-input
+      >
     </div>
     <div class="d-flex gap-3 align-items-start flex-column flex-md-row">
       <!-- Campo de Estado -->

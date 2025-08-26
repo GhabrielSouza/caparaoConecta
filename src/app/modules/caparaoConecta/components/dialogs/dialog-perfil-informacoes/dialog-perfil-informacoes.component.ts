@@ -186,7 +186,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     if (enderecoControl) {
       merge(enderecoControl.statusChanges, enderecoControl.valueChanges)
         .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('endereco'));
+        .subscribe(() => this.updateErrorMessage('cidade'));
     }
 
     const CepControl = this.cep;
@@ -232,7 +232,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       linkedin: this.data.conteudo.rede_social?.linkedin || '',
       lattes: this.data.conteudo.rede_social?.lattes || '',
       github: this.data.conteudo.rede_social?.github || '',
-      estado: this.data.conteudo.endereco?.estado,
     });
 
     if (this.data.idTipoUsuario === 2 && conteudo.pessoas_fisica) {
@@ -319,6 +318,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
           this.cidades = resp;
           const nomeCidadeSalva =
             this.data.conteudo.endereco?.cidade?.nome_cidade;
+
           if (nomeCidadeSalva) {
             cidadeControl?.setValue(nomeCidadeSalva);
           }

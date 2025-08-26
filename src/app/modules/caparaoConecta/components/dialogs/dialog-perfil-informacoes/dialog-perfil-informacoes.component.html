@@ -1,5 +1,5 @@
 <header class="d-flex justify-content-between align-items-center px-4 pt-3">
-  <h3>Editar Perfil</h3>
+  <h3 class="cpc-medium">Editar Perfil</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
@@ -36,14 +36,14 @@
       }
     </app-primary-input>
 
-    <div class="d-flex">
+    <div class="d-flex flex-column flex-sm-row">
       <app-data-nascimento-input
         formControlName="data_de_nascimento"
         type="text"
         placeholder="dd/mm/yyyy"
         label="Data de nascimento"
         inputName="data_de_nascimento"
-        class="col-6"
+        class="col-12 col-sm-6"
       >
         @if (cadastrarForm.get('data_de_nascimento')?.invalid &&
         (cadastrarForm.get('data_de_nascimento')?.touched ||
@@ -58,7 +58,7 @@
         placeholder="Selecione seu gênero"
         label="Gênero"
         inputName="genero"
-        class="col-6 ps-3"
+        class="col-12 col-sm-6 ps-sm-3"
       >
         @if (cadastrarForm.get('genero')?.invalid &&
         (cadastrarForm.get('genero')?.touched ||
@@ -142,8 +142,8 @@
       <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
       }</app-telefone-input
     >
-    <div class="d-flex gap-3 align-items-start">
-      <div class="flex-grow-1 input-container">
+    <div class="d-flex gap-3 align-items-start flex-column flex-md-row">
+      <div class="flex-grow-1 input-container w-100 w-sm-0">
         <mat-label class="d-block">Estado</mat-label>
         <mat-form-field class="w-100">
           <mat-select
@@ -167,7 +167,7 @@
       </div>
 
       <!-- Campo de Cidade -->
-      <div class="flex-grow-1 input-container">
+      <div class="flex-grow-1 input-container w-100 w-sm-0">
         <mat-label class="d-block">Cidade</mat-label>
         <!-- Label posicionado acima -->
         <mat-form-field class="w-100">

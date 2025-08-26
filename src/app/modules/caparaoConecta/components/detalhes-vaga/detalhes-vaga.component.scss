@@ -140,6 +140,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
     img {
       width: 20px;
     }
@@ -188,7 +189,7 @@
     )
   );
 
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
     .detalhesVagaContainer {
       display: flex;
       flex-direction: column;
@@ -196,7 +197,5 @@
       width: 100%;
       padding: 1em;
     }
-
-    
   }
 }
