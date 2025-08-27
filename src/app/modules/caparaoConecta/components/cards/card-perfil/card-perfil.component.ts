@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IPessoa } from '../../../interface/IPessoa.interface';
 
 @Component({
   selector: 'app-card-perfil',
@@ -8,4 +9,5 @@ import { Component } from '@angular/core';
 })
 export class CardPerfilComponent {
 
+  @Input() dados!: any; 
 }

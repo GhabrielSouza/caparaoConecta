@@ -1,0 +1,13 @@
+.media{
+    background-color: white;
+    width: 40em;
+    border-radius: 10px;
+   }
+
+@media(max-width:900px){
+   .media{
+    background-color: white;
+    width: 25em;
+    border-radius: 10px;
+   }
+}
