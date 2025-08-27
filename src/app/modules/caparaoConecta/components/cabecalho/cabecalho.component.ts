@@ -2,7 +2,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { SelectRegisterDialogComponent } from '../dialogs/select-register-dialog/select-register-dialog.component';
@@ -12,6 +12,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { SelecionarVagaComponent } from '../dialogs/selecionar-vaga/selecionar-vaga.component';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-cabecalho',
@@ -24,6 +25,8 @@ export class CabecalhoComponent {
   private dialog = inject(MatDialog);
   private userAuth = inject(AuthService);
   private router = inject(Router);
+
+  public url = signal(environment.apiAuth);
 
   public user = this.userAuth.currentUser;
 

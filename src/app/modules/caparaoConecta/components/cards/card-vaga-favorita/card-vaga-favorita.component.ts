@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { PaginatorState, Paginator } from 'primeng/paginator';
 import { IVaga } from '../../../interface/IVaga.interface';
@@ -17,6 +18,7 @@ import Swal from 'sweetalert2';
 import { VagaDialogComponent } from '../../dialogs/vaga-dialog/vaga-dialog.component';
 import { EDialogEnum } from '../../../enum/EDialogEnum.enum';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-card-vaga-favorita',
@@ -30,6 +32,8 @@ export class CardVagaFavoritaComponent implements OnInit {
   @Input() public imagem: string = 'assets/imgs/semFoto.jpg';
   @Input() vagas: IVaga[] | null = [];
   @Input() IsFavorita!: boolean;
+
+  public url = signal(environment.apiAuth);
 
   currentPage: number = 0;
   pageSize: number = 3;

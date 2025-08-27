@@ -257,6 +257,9 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       if (estadoCompleto) {
         this.cadastrarForm.get('estado')?.setValue(estadoCompleto);
         this.carregarCidadesPorEstado(estadoCompleto.id.toString());
+      } else {
+        // Recarregar estados se não encontrar o estado salvo
+        this.carregarEstados();
       }
     }
   }
@@ -265,7 +268,11 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     const formdata = { ...this.cadastrarForm.value };
 
     if (formdata.estado && typeof formdata.estado === 'object') {
-      formdata.estado = formdata.estado.sigla;
+      formdata.estado = formdata.estado.nome; // Enviar apenas a sigla do estado
+    }
+
+    if (formdata.cidade && typeof formdata.cidade === 'object') {
+      formdata.cidade = formdata.cidade.nome; // Enviar apenas o nome da cidade
     }
 
     console.log(formdata);
@@ -289,9 +296,12 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     this.areasService.httpListAreas$().subscribe({
       next: (resp) => {
         this.areasAtuacao = resp;
+
+        // Recarregar estados e cidades após atualizar áreas de atuação
+        this.carregarEstados();
       },
       error: (error) => {
-        console.log('Erro ao carregar estados', error);
+        console.log('Erro ao carregar áreas de atuação', error);
       },
     });
   }
@@ -301,6 +311,18 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     this.viacepService.getEstados().subscribe({
       next: (resp) => {
         this.estados = resp;
+
+        // Atualizar o estado no formulário, se necessário
+        const nomeEstadoSalvo = this.data.conteudo.endereco?.estado;
+        if (nomeEstadoSalvo) {
+          const estadoCompleto = this.estados.find(
+            (e) => e.nome === nomeEstadoSalvo
+          );
+          if (estadoCompleto) {
+            this.cadastrarForm.get('estado')?.setValue(estadoCompleto);
+            this.carregarCidadesPorEstado(estadoCompleto.id.toString());
+          }
+        }
       },
       error: (error) => {
         console.log('Erro ao carregar estados', error);
@@ -321,7 +343,12 @@ export class DialogPerfilInformacoesComponent implements OnInit {
             this.data.conteudo.endereco?.cidade?.nome_cidade;
 
           if (nomeCidadeSalva) {
-            cidadeControl?.setValue(nomeCidadeSalva);
+            const cidadeCompleta = this.cidades.find(
+              (c) => c.nome === nomeCidadeSalva
+            );
+            if (cidadeCompleta) {
+              cidadeControl?.setValue(cidadeCompleta);
+            }
           }
         },
         error: (error) => {

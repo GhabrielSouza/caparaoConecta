@@ -1,10 +1,11 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { DialogPerfilInformacoesComponent } from '../dialogs/dialog-perfil-informacoes/dialog-perfil-informacoes.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-usuario/dialog-editar-foto-usuario.component';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-component-perfil-dados',
@@ -15,6 +16,7 @@ import { RegisterService } from '../../../../services/register-caparao/register.
 export class ComponentPerfilDadosComponent implements OnInit {
   #dialog = inject(MatDialog);
   #pessoaService = inject(RegisterService);
+  public url = signal(environment.apiAuth);
 
   @Input() public data!: IPessoa | null;
   @Input() public IdUsuario: any;

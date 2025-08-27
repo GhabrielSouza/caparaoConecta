@@ -7,7 +7,7 @@
             class="img-perfil img-fluid"
             [src]="
               data?.imagem != null
-                ? 'http://localhost:8000/img/pessoas/' + data?.imagem
+                ? url + '/img/pessoas/' + data?.imagem
                 : 'assets/imgs/perfil.svg'
             "
             alt="Foto de perfil"

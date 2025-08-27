@@ -52,8 +52,7 @@
           <img
             [src]="
               loggedUser.pessoa.imagem != null
-                ? 'http://localhost:8000/img/pessoas/' +
-                  loggedUser.pessoa.imagem
+                ? url + '/img/pessoas/' + loggedUser.pessoa.imagem
                 : 'assets/imgs/perfil.svg'
             "
             alt="Foto do usuário"

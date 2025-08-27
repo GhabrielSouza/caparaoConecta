@@ -176,7 +176,7 @@
             placeholder="Selecione sua cidade"
           >
             @for(cidade of cidades; track cidade.id){
-            <mat-option [value]="cidade.nome">
+            <mat-option [value]="cidade">
               {{ cidade.nome }}
             </mat-option>
             }
