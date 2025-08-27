@@ -1,14 +1,66 @@
-<section class="mt-5 mb-5">
-  <app-dashboard-card label="Vagas">
+<section class="mt-5 mb-5 row gap-4">
+  <app-dashboard-card
+    label="Vagas"
+    [valor]="vagas().length || 0"
+    class="col-lg-2 col-sm-4 col-4 p-0"
+  >
     <i class="fa-solid fa-briefcase fa-2xl"></i>
   </app-dashboard-card>
-  <app-dashboard-card label="Usuários">
+  <app-dashboard-card
+    label="Usuários"
+    class="col-lg-2 col-sm-4 col-4 p-0"
+    [valor]="usuarios().length || 0"
+  >
     <i class="fa-solid fa-user fa-2xl"></i>
   </app-dashboard-card>
-  <app-dashboard-card label="Entrevistas">
-    <i class="fa-solid fa-id-badge fa-2xl"></i>
-  </app-dashboard-card>
-  <app-dashboard-card label="Contratações">
+
+  <app-dashboard-card
+    label="Contratações"
+    class="col-lg-2 col-sm-4 col-4 p-0"
+    [valor]="contratacoes()"
+  >
     <i class="fa-solid fa-user-check fa-2xl"></i>
   </app-dashboard-card>
 </section>
+
+<main>
+  <div class="bloco-conteudo">
+    <div class="grafico-grid">
+      <div class="grafico-wrapper">
+        <p-chart
+          type="bar"
+          [data]="barChartData"
+          [options]="barChartOptions"
+          class="h-[30rem]"
+        ></p-chart>
+      </div>
+
+      <div class="grafico-wrapper">
+        <p-chart
+          type="bar"
+          [data]="barChartDataTypeUsers"
+          [options]="barChartOptionsTypeUsers"
+          class="h-[30rem]"
+        ></p-chart>
+      </div>
+
+      <div class="grafico-wrapper">
+        <p-chart
+          type="doughnut"
+          [data]="doughnutChartData"
+          [options]="doughnutChartOptions"
+          class="w-full md:w-[30rem]"
+        ></p-chart>
+      </div>
+
+      <div class="grafico-wrapper">
+        <p-chart
+          type="pie"
+          [data]="doughnutChartData"
+          [options]="doughnutChartOptions"
+          class="w-full md:w-[30rem]"
+        ></p-chart>
+      </div>
+    </div>
+  </div>
+</main>

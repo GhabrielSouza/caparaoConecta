@@ -3,26 +3,35 @@
   [dataExperiencia]="experiencias"
   [IdUsuario]="IdUsuario"
 >
-@for(experiencia of experiencias; track experiencia){
-  <app-card-default-informacoes
-    [data]="experiencia"
-    class="w-50"
-  >
-</app-card-default-informacoes>
-}
-</app-component-default-perfil>
-
-<app-component-default-perfil title="Formação acadêmica" [IdUsuario]="IdUsuario" [dataFormacao]="formacoes">
-  @for(formacao of formacoes; track formacao){
-    <app-card-default-informacoes [dataFormacoes]="formacao" class="w-50">
-    </app-card-default-informacoes>
+  @for(experiencia of experiencias; track experiencia){
+  <app-card-default-informacoes [data]="experiencia" class="p-0">
+  </app-card-default-informacoes>
   }
 </app-component-default-perfil>
 
-<app-component-default-perfil title="Cursos realizados" [IdUsuario]="IdUsuario" [dataCursos]="cursos">
+<app-component-default-perfil
+  title="Formação acadêmica"
+  [IdUsuario]="IdUsuario"
+  [dataFormacao]="formacoes"
+>
+  @for(formacao of formacoes; track formacao){
+  <app-card-default-informacoes [dataFormacoes]="formacao" class="p-0">
+  </app-card-default-informacoes>
+  }
+</app-component-default-perfil>
+
+<app-component-default-perfil
+  title="Cursos realizados"
+  [IdUsuario]="IdUsuario"
+  [dataCursos]="cursos"
+>
   @for(curso of cursos; track curso){
-    <app-card-default-informacoes [idUsuario]="IdUsuario" [dataCursos]="curso" class="w-50">
-    </app-card-default-informacoes>
+  <app-card-default-informacoes
+    [idUsuario]="IdUsuario"
+    [dataCursos]="curso"
+    class="p-0"
+  >
+  </app-card-default-informacoes>
   }
 </app-component-default-perfil>
 
@@ -33,9 +42,7 @@
 >
   <mat-chip-set aria-label="Skill selection">
     @for(habilidade of habilidades; track habilidade){
-      <mat-chip>{{
-        habilidade.nome
-      }}</mat-chip>
+    <mat-chip>{{ habilidade.nome }}</mat-chip>
     }
   </mat-chip-set>
 </app-component-default-perfil>

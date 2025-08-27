@@ -16,20 +16,18 @@ import { CardDefaultInformacoesComponent } from '../../../components/cards/card-
     ComponentDefaultPerfilComponent,
     CardDefaultInformacoesComponent,
     MatChipsModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './perfil-candidato.component.html',
   styleUrls: ['./perfil-candidato.component.scss'],
 })
 export class PerfilCandidatoComponent implements OnInit {
-  @Input() experiencias: IExperiencia[] = [];
-  @Input() formacoes: IFormacoesAcademicas[] = [];
-  @Input() cursos: ICursos[] = [];
-  @Input() habilidades: IHabilidades[] = [];
+  @Input() experiencias: IExperiencia[] | null = [];
+  @Input() formacoes: IFormacoesAcademicas[] | null = [];
+  @Input() cursos: ICursos[] | null = [];
+  @Input() habilidades: IHabilidades[] | null = [];
 
   @Input() IdUsuario: any;
 
-  ngOnInit(): void {
-  
-  }
+  ngOnInit(): void {}
 }

@@ -1,19 +1,58 @@
-<div class="d-flex gap-4 pb-4">
-  <div
-    *ngFor="let vaga of paginatedVagas"
-    (click)="onCardClick(vaga)"
-    class="container cpc-background-gray d-flex align-items-center p-2 gap-4"
-  >
-    <div class="container_informacoes d-flex flex-column py-2">
-      <h1 class="cpc-medium-card">{{ vaga.titulo_vaga }}</h1>
-      <p class="cpc-light-card">{{ vaga.descricao }}</p>
-      <p class="cpc-light-card">Vagas: {{ vaga.qtd_vaga }}</p>
+<div
+  class="d-flex gap-4 pb-4 flex-sm-row justify-content-center justify-content-md-start"
+>
+  @for(vaga of paginatedVagas; track vaga.id_vagas){
+  <div class="vaga-card" (click)="onCardClick(vaga)" (click)="openModel(vaga)">
+    <div class="vaga-card-header">
+      <div class="d-flex gap-2 align-items-center">
+        <img
+          [src]="
+            vaga.empresa.pessoa.imagem != null
+              ? 'http://localhost:8000/img/pessoas/' +
+                vaga.empresa.pessoa.imagem
+              : imagem
+          "
+          alt="Logo da empresa"
+          class="empresa-logo"
+        />
+        <span class="empresa-nome cpc-regular">{{
+          vaga.empresa.pessoa.nome
+        }}</span>
+      </div>
+      @if(IsFavorita){
+      <div class="header-actions" (click)="favoritarVaga(vaga, $event)">
+        <mat-icon>{{ vaga.is_favorita ? "star" : "star_border" }}</mat-icon>
+      </div>
+      }
+    </div>
+
+    <hr class="card-divider" />
+
+    <div class="vaga-card-body">
+      <h3 class="vaga-titulo cpc-regular">{{ vaga.titulo_vaga }}</h3>
+      <p class="vaga-descricao cpc-regular">{{ vaga.descricao }}</p>
+      <div class="d-flex">
+        <span class="cpc-regular-010 pe-3"
+          ><i class="fa-solid fa-user-tie fa-lg pe-1"></i>
+          {{ vaga.modalidade_da_vaga | capitalize }}</span
+        >
+        <span class="cpc-regular-010"
+          ><i class="fa-solid fa-money-bill fa-lg pe-1"></i
+          >{{
+            vaga.salario | currency : "BRL" : "symbol" : "1.2-2" : "pt-BR"
+          }}</span
+        >
+      </div>
+      <span class="vaga-quantidade cpc-regular"
+        >Vagas: {{ vaga.qtd_vaga }}</span
+      >
     </div>
   </div>
+  }
 </div>
 <p-paginator
   [rows]="pageSize"
-  [totalRecords]="vagas.length"
+  [totalRecords]="vagas?.length ?? 0"
   (onPageChange)="onPageChange($event)"
 >
 </p-paginator>

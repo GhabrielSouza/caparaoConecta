@@ -19,6 +19,7 @@ export interface IVaga {
   data_criacao: Date;
   data_fechamento: Date;
   qtd_vaga: number;
+  visualizacoes: number;
   qtd_vagas_preenchidas: number;
   modalidade_da_vaga: string;
   prorrogavel: boolean;
@@ -27,4 +28,5 @@ export interface IVaga {
   curso: ICursos[];
   empresa: IEmpresa;
   candidato: IPessoaFisica[];
+  is_favorita: boolean;
 }

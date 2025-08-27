@@ -1,0 +1,26 @@
+<div class="empty-state-container">
+  <div class="empty-state-content">
+    <img
+      [src]="icone ? 'assets/icons/' + icone : 'assets/icons/malinha.svg'"
+      alt="Nenhuma vaga encontrada"
+      class="empty-state-icon"
+    />
+    <h2 class="empty-state-title cpc-medium">{{ titulo }}</h2>
+    <p class="empty-state-message cpc-regular">
+      {{ mensagem }}
+    </p>
+    <div
+      class="d-flex alingn-center"
+      [ngClass]="botaoHiddem ? 'd-block' : 'd-none'"
+    >
+      <app-button-primary
+        [text]="textoBotao"
+        fonte="cpc-regular"
+        color="btn-secondary"
+        (click)="navegarParaVagas()"
+        class="empty-state-button"
+      >
+      </app-button-primary>
+    </div>
+  </div>
+</div>

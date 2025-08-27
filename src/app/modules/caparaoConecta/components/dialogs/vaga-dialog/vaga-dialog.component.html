@@ -22,7 +22,9 @@
     </div>
     <div class="header-actions" (click)="favoritarVaga()">
       <mat-icon>{{ favoritar ? "star" : "star_border" }}</mat-icon>
-      <span class="cpc-regular-010">Favoritar</span>
+      <span class="cpc-regular-010">{{
+        favoritar ? "Favoritada" : "Favoritar"
+      }}</span>
     </div>
   </header>
 

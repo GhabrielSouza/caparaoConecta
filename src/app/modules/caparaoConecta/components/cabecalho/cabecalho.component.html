@@ -100,6 +100,13 @@
               <span>Empresas</span>
             </a>
           </li>
+          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA) {
+          <li>
+            <a routerLink="/dashboard" (click)="toggleMenu()" class="menu-item">
+              <img src="assets/icons/dashboard.svg" alt="Dashboard" />
+              <span>Dashboard</span>
+            </a>
+          </li>
           } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA ||
           loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
           <li>
@@ -108,13 +115,8 @@
               <span>Candidatos</span>
             </a>
           </li>
-          <li>
-            <a routerLink="/dashboard" (click)="toggleMenu()" class="menu-item">
-              <img src="assets/icons/dashboard.svg" alt="Dashboard" />
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li>
+
+          <li class="d-none">
             <a href="#" class="menu-item">
               <img src="assets/icons/relatorio.svg" alt="Relatórios" />
               <span>Relatórios</span>

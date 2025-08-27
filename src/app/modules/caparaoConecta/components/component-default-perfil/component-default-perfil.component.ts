@@ -26,10 +26,10 @@ export class ComponentDefaultPerfilComponent {
   @Input() public title: string = '';
   @Input() public IdUsuario: any;
   @Input() public data: any;
-  @Input() public dataExperiencia: IExperiencia[] = [];
-  @Input() public dataFormacao: IFormacoesAcademicas[] = [];
-  @Input() public dataHabilidades: IHabilidades[] = [];
-  @Input() public dataCursos: ICursos[] = [];
+  @Input() public dataExperiencia: IExperiencia[] | null = [];
+  @Input() public dataFormacao: IFormacoesAcademicas[] | null = [];
+  @Input() public dataHabilidades: IHabilidades[] | null = [];
+  @Input() public dataCursos: ICursos[] | null = [];
 
   openDialogFormacao(): void {
     const dialogRef = this.#dialog.open(FormFormacaoAcademicaComponent, {
@@ -42,7 +42,7 @@ export class ComponentDefaultPerfilComponent {
     dialogRef.afterClosed().subscribe((resposta: IFormacoesAcademicas[]) => {
       console.log(resposta);
       if (resposta) {
-        this.dataFormacao = resposta; 
+        this.dataFormacao = resposta;
       }
     });
   }
@@ -54,16 +54,16 @@ export class ComponentDefaultPerfilComponent {
         id: this.IdUsuario,
       },
     });
-  
+
     dialogRef.afterClosed().subscribe((resposta: IExperiencia[]) => {
       console.log(resposta);
       if (resposta) {
-        this.dataExperiencia = resposta; 
+        this.dataExperiencia = resposta;
       }
     });
   }
 
-  openDialogHabilidades(data:any): void {
+  openDialogHabilidades(data: any): void {
     const dialogRef = this.#dialog.open(DialogHabilidadesComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {
@@ -75,7 +75,7 @@ export class ComponentDefaultPerfilComponent {
     dialogRef.afterClosed().subscribe((resposta: IHabilidades[]) => {
       console.log(resposta);
       if (resposta) {
-        this.dataHabilidades = resposta; 
+        this.dataHabilidades = resposta;
       }
     });
   }

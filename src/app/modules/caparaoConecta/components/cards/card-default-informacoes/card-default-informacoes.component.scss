@@ -11,11 +11,12 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    max-width: 600px;
 
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       transform: translateY(-2px);
-      
+
       .card-actions {
         opacity: 1;
       }
@@ -49,7 +50,7 @@
 
     .btn-edit {
       background-color: rgba(46, 125, 50, 0.1); // Verde claro
-      
+
       &:hover {
         background-color: rgba(46, 125, 50, 0.2);
       }
@@ -57,7 +58,7 @@
 
     .btn-delete {
       background-color: rgba(244, 67, 54, 0.1); // Vermelho claro
-      
+
       &:hover {
         background-color: rgba(244, 67, 54, 0.2);
       }

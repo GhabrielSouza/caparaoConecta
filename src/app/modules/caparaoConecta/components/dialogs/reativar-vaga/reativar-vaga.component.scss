@@ -1,13 +1,23 @@
 @use "@angular/material" as mat;
 
-
 @include mat.checkbox-overrides(
-    (
-      label-text-font: var(--font-poppinsR),
-      selected-icon-color: var(--secondary-background-green),
-      selected-hover-icon-color: var(--secondary-background-green),
-      selected-focus-icon-color: var(--secondary-background-green),
-      selected-focus-state-layer-color: var(--secondary-background-green),
-      unselected-pressed-state-layer-color: var(--secondary-background-green),
-    )
-  );
+  (
+    label-text-font: var(--font-poppinsR),
+    selected-icon-color: var(--secondary-background-green),
+    selected-hover-icon-color: var(--secondary-background-green),
+    selected-focus-icon-color: var(--secondary-background-green),
+    selected-focus-state-layer-color: var(--secondary-background-green),
+    unselected-pressed-state-layer-color: var(--secondary-background-green),
+  )
+);
+
+:host {
+  .table th {
+    padding: 12px 16px;
+    text-align: center;
+    background-color: #f8f9fa;
+    color: #343a40;
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+  }
+}

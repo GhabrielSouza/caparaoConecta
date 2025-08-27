@@ -33,7 +33,14 @@ export class VagasService {
         params = params.set('atuacao', filtros.atuacao);
       }
     }
-    return this.#http.get<IVaga[]>(`${this.#url}/api/vagasShowAll`, { params });
+    return this.#http
+      .get<IVaga[]>(`${this.#url}/api/vagasShowAll`, { params })
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setListVaga.set(data);
+        })
+      );
   }
 
   #setListCandidaturas = signal<IVaga | null>(null);
@@ -152,6 +159,43 @@ export class VagasService {
     return this.#http.post<number>(
       `${this.#url}/api/vagas/${vagaId}/candidatar`,
       {}
+    );
+  }
+
+  public httpRegistrarVisualizacaoVaga$(vagaId: number): Observable<number> {
+    return this.#http.post<number>(
+      `${this.#url}/api/vagas/${vagaId}/visualizar`,
+      {}
+    );
+  }
+
+  public httpToggleFavorito$(vagaId: number): Observable<number> {
+    return this.#http.post<number>(
+      `${this.#url}/api/vagas/${vagaId}/favoritar`,
+      {}
+    );
+  }
+
+  #setListVagaFavorita = signal<IVaga[] | []>([]);
+  public getListVagaFavorita = this.#setListVagaFavorita.asReadonly();
+  public httpListarFavoritar$(): Observable<IVaga[]> {
+    return this.#http.get<IVaga[]>(`${this.#url}/api/favoritos`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListVagaFavorita.set(data);
+      })
+    );
+  }
+
+  #setListVagaMinhasCandidaturas = signal<IVaga[] | []>([]);
+  public getListVagaMinhasCandidaturas =
+    this.#setListVagaMinhasCandidaturas.asReadonly();
+  public httpListarMinhasCandidaturas$(): Observable<IVaga[]> {
+    return this.#http.get<IVaga[]>(`${this.#url}/api/candidaturas`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListVagaMinhasCandidaturas.set(data);
+      })
     );
   }
 }

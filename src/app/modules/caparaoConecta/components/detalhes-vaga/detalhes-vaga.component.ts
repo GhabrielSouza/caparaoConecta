@@ -2,6 +2,7 @@ import { EStatusVaga } from './../../enum/EStatusVaga.enum';
 import {
   Component,
   computed,
+  effect,
   inject,
   Input,
   OnChanges,
@@ -35,6 +36,8 @@ import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
 import { FormsModule, NgModel } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { StepperModule } from 'primeng/stepper';
+import { StepsModule } from 'primeng/steps';
 
 interface CandidatoViewModel extends IPessoaFisica {
   habilidadesFaltantes: IHabilidades[];
@@ -54,6 +57,8 @@ interface CandidatoViewModel extends IPessoaFisica {
     CandidatoSelecionadoComponent,
     FormsModule,
     RouterLink,
+    StepperModule,
+    StepsModule,
   ],
   templateUrl: './detalhes-vaga.component.html',
   styleUrl: './detalhes-vaga.component.scss',
@@ -69,10 +74,41 @@ export class DetalhesVagaComponent implements OnChanges {
 
   public candidaturasViewModel = signal<CandidatoViewModel[]>([]);
 
+  public passoAtivoStepper = signal<number>(0);
+
   public roleEnum = ERoleUser;
   public statusVagaEnum = EStatusVaga;
 
   public visaoDetalhes = signal(true);
+
+  constructor() {
+    effect(() => {
+      const status = this.minhaCandidatura()?.pivot.status;
+      let passo = 0;
+      switch (status) {
+        case 'Recebido':
+          passo = 0;
+          break;
+        case 'Entrevista':
+          passo = 1;
+          break;
+        case 'Rejeitado':
+          passo = 2;
+          break;
+        case 'Contratado':
+          passo = 3;
+          break;
+      }
+      this.passoAtivoStepper.set(passo);
+    });
+  }
+
+  public stepsItems = [
+    { label: 'Recebido' },
+    { label: 'Entrevista' },
+    { label: 'Rejeitado' },
+    { label: 'Contratado' },
+  ];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['vaga'] && this.vaga) {
@@ -80,6 +116,13 @@ export class DetalhesVagaComponent implements OnChanges {
       console.log(this.vaga);
     }
   }
+
+  public minhaCandidatura = computed(() => {
+    const user = this.IdUsuario;
+    if (!user) return null;
+
+    return this.candidaturasViewModel().find((c) => c.id_pessoas === user);
+  });
 
   private prepararViewModels(vaga: IVaga): void {
     if (!vaga?.candidato) {

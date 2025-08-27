@@ -18,6 +18,9 @@ import { HomeAdminComponent } from '../home-admin/home-admin.component';
 import { AreasAtuacaoService } from '../../../../services/areasAtuacao/areas-atuacao.service';
 import { IAreasAtuacao } from '../../interface/IAreasAtuacao.interface';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
+
+import { EmpyComponent } from '../../components/empy/empy.component';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +29,7 @@ import { MatIcon } from '@angular/material/icon';
 import { FiltroComponent } from '../../components/filtro/filtro.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFiltroComponent } from '../../components/dialogs/dialog-filtro/dialog-filtro.component';
+
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -48,6 +52,8 @@ export interface GrupoDeVagas {
     CardVagaEmpresaComponent,
     RouterModule,
     HomeAdminComponent,
+    EmpyComponent,
+    SpinnerComponent,
     ReactiveFormsModule,
     FiltroComponent,
   ],
@@ -75,6 +81,10 @@ export class HomeComponent implements OnInit {
   });
   public roleEnum = ERoleUser;
 
+  public statusCarregamento = signal<'carregando' | 'concluido' | 'erro'>(
+    'carregando'
+  );
+
   public vagasRecomendadas = computed(() => {
     const user = this.user();
     const vagas = this.todasAsVagas();
@@ -85,11 +95,17 @@ export class HomeComponent implements OnInit {
     if (this.role() !== ERoleUser.CANDIDATO || userAreaId == null) {
       return [];
     }
-    return vagas.filter((v) => v.area_atuacao?.id_areas_atuacao === userAreaId);
+    return vagas.filter(
+      (v) =>
+        v.area_atuacao?.id_areas_atuacao === userAreaId &&
+        v.status === EStatusVaga.EM_ANDAMENTO
+    );
   });
 
   public vagasAgrupadasPorArea = computed(() => {
-    const todas = this.todasAsVagas();
+    const todas = this.todasAsVagas().filter(
+      (v) => v.status === EStatusVaga.EM_ANDAMENTO
+    );
     const recomendadas = this.vagasRecomendadas();
     const recomendadasIds = new Set(recomendadas.map((v) => v.id_vagas));
 
@@ -152,10 +168,18 @@ export class HomeComponent implements OnInit {
     this.onListEmpresas();
   }
 
+
   public getVagas(filtros?: any) {
+    this.statusCarregamento.set('carregando');
     this.vagasService.httpListVagas$(filtros).subscribe({
-      next: (data) => this.todasAsVagas.set(data),
-      error: (error) => console.error('Erro ao buscar vagas:', error),
+      next: (data) => {
+        this.todasAsVagas.set(data);
+        this.statusCarregamento.set('concluido');
+      },
+     error: (error) => {
+        console.error('Erro ao buscar vagas:', error);
+        this.statusCarregamento.set('erro');
+      },
     });
   }
 

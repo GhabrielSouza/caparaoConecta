@@ -1,4 +1,12 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { TypedRegistry } from './../../../../../../node_modules/chart.js/dist/types/index.d';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin, Observable, of } from 'rxjs';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
@@ -21,7 +29,7 @@ import { IUsuario } from '../../interface/IUsuario.interface';
 
 @Component({
   selector: 'app-perfil',
-  standalone: true, 
+  standalone: true,
   imports: [
     ComponentDefaultPerfilComponent,
     CabecalhoComponent,
@@ -36,8 +44,7 @@ import { IUsuario } from '../../interface/IUsuario.interface';
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.scss',
 })
-export class PerfilComponent {
-  
+export class PerfilComponent implements OnInit {
   private experienciaService = inject(ExperienciasService);
   private formacoesService = inject(FormacoesAcademicasService);
   private habilidadesService = inject(HabilidadesSService);
@@ -49,7 +56,6 @@ export class PerfilComponent {
   public experiencias = signal<any[]>([]);
   public formacoes = signal<any[]>([]);
   public cursos = signal<any[]>([]);
-
 
   public statusCarregamento = signal<
     'pendente' | 'carregando' | 'concluido' | 'erro'
@@ -70,14 +76,18 @@ export class PerfilComponent {
     });
   }
 
+  ngOnInit(): void {}
+
   private carregarDadosDoPerfil(currentUser: IUsuario): void {
     this.statusCarregamento.set('carregando');
+
+    const userRole = currentUser.tipo_usuario?.nome;
 
     const requests: { [key: string]: Observable<any> } = {
       dadosPessoais: this.userAuth.getUserData(currentUser.id_pessoas),
     };
 
-    if (currentUser.tipo_usuario?.nome === ERoleUser.CANDIDATO) {
+    if (userRole === ERoleUser.CANDIDATO) {
       requests['experiencias'] = this.experienciaService.httpListExperienciaId$(
         currentUser.id_pessoas
       );
@@ -91,20 +101,16 @@ export class PerfilComponent {
         this.habilidadesService.httpListHabilidadesOnPessoas$(
           currentUser.id_pessoas
         );
-    } else {
-      requests['experiencias'] = of([]);
-      requests['formacoes'] = of([]);
-      requests['cursos'] = of([]);
-      requests['habilidades'] = of([]);
     }
 
     forkJoin(requests).subscribe({
       next: (resultados: any) => {
         this.dadosPessoais.set(resultados.dadosPessoais);
-        this.experiencias.set(resultados.experiencias);
-        this.formacoes.set(resultados.formacoes);
-        this.cursos.set(resultados.cursos);
-        this.habilidades.set(resultados.habilidades);
+        console.log(this.dadosPessoais());
+        this.experiencias.set(resultados.experiencias ?? []);
+        this.formacoes.set(resultados.formacoes ?? []);
+        this.cursos.set(resultados.cursos ?? []);
+        this.habilidades.set(resultados.habilidades ?? []);
 
         this.statusCarregamento.set('concluido');
       },

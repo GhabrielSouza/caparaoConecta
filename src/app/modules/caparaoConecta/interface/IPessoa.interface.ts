@@ -23,4 +23,5 @@ export interface IPessoa {
   experiencias?: IExperiencia[];
   cursos: ICursos[];
   habilidades: IHabilidades[];
+  created_at: Date;
 }
