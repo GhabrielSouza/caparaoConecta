@@ -117,11 +117,11 @@ export class CursosSService {
     );
   }
 
-  #setListCursosOnPessoa = signal<ICursosOnPessoas[] | null>(null);
+  #setListCursosOnPessoa = signal<ICursos[] | null>(null);
   public getListCursosOnPessoaId = this.#setListCursosOnPessoa.asReadonly();
-  public httpListCursosOnPessoaId$(id: number): Observable<ICursosOnPessoas[]> {
+  public httpListCursosOnPessoaId$(id: number): Observable<ICursos[]> {
     return this.#http
-      .get<ICursosOnPessoas[]>(`${this.#url}/api/cursosOnPessoaFisica/${id}`)
+      .get<ICursos[]>(`${this.#url}/api/cursosOnPessoaFisica/${id}`)
       .pipe(
         shareReplay(),
         tap((data) => {

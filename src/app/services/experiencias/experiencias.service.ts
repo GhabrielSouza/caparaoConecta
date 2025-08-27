@@ -5,14 +5,14 @@ import { Observable, shareReplay, tap } from 'rxjs';
 import { IExperiencia } from '../../modules/caparaoConecta/interface/IExperiencias.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ExperienciasService {
   #http = inject(HttpClient);
   #url = environment.apiAuth;
 
-  #setListExperiencia= signal<IExperiencia[] | null>(null);
-  public getListEmpresa = this.#setListExperiencia.asReadonly();
+  #setListExperiencia = signal<IExperiencia[] | null>(null);
+  public getListExperiencia = this.#setListExperiencia.asReadonly();
   public httpListExperiencia$(id: number): Observable<IExperiencia[]> {
     return this.#http.get<IExperiencia[]>(`${this.#url}/api/experiencias`).pipe(
       shareReplay(),
@@ -25,17 +25,21 @@ export class ExperienciasService {
   #setListExperienciaId = signal<IExperiencia[] | null>(null);
   public getListEmpresaId = this.#setListExperienciaId.asReadonly();
   public httpListExperienciaId$(id: number): Observable<IExperiencia[]> {
-    return this.#http.get<IExperiencia[]>(`${this.#url}/api/experiencias/${id}`).pipe(
-      shareReplay(),
-      tap((data) => {
-        this.#setListExperienciaId.set(data);
-      })
-    );
+    return this.#http
+      .get<IExperiencia[]>(`${this.#url}/api/experiencias/${id}`)
+      .pipe(
+        shareReplay(),
+        tap((data) => {
+          this.#setListExperienciaId.set(data);
+        })
+      );
   }
 
   #setCreateExperiencia = signal<IExperiencia | null>(null);
   public getCreateEmpresa = this.#setCreateExperiencia.asReadonly();
-  public httpRegisterExperiencia$(empresa: IExperiencia): Observable<IExperiencia> {
+  public httpRegisterExperiencia$(
+    empresa: IExperiencia
+  ): Observable<IExperiencia> {
     return this.#http
       .post<IExperiencia>(`${this.#url}/api/experiencias`, empresa)
       .pipe(
@@ -48,7 +52,10 @@ export class ExperienciasService {
 
   #setUpdateExperiencia = signal<IExperiencia | null>(null);
   public getUpdateEmpresa = this.#setUpdateExperiencia.asReadonly();
-  public httpUpdateExperiencia$(id:string,empresa: IExperiencia): Observable<IExperiencia> {
+  public httpUpdateExperiencia$(
+    id: string,
+    empresa: IExperiencia
+  ): Observable<IExperiencia> {
     return this.#http
       .put<IExperiencia>(`${this.#url}/api/experiencias/${id}`, empresa)
       .pipe(
@@ -61,7 +68,9 @@ export class ExperienciasService {
 
   #setDeleteExperiencia = signal<IExperiencia | null>(null);
   public getDeleteEmpresa = this.#setDeleteExperiencia.asReadonly();
-  public httpDeleteExperiencia$(id:string | undefined): Observable<IExperiencia> {
+  public httpDeleteExperiencia$(
+    id: string | undefined
+  ): Observable<IExperiencia> {
     return this.#http
       .delete<IExperiencia>(`${this.#url}/api/experiencias/${id}`)
       .pipe(

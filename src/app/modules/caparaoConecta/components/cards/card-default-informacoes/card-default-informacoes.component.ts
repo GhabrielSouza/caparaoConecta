@@ -12,7 +12,6 @@ import { FormFormacaoAcademicaComponent } from '../../dialogs/form-formacao-acad
 import { DialogCursosComponent } from '../../dialogs/dialog-cursos/dialog-cursos.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
-
 @Component({
   selector: 'app-card-default-informacoes',
   imports: [CommonModule],
@@ -24,9 +23,9 @@ export class CardDefaultInformacoesComponent {
   @Input() public cargo = 'Cargo';
   @Input() public empresa = 'Empresa';
 
-  @Input() public data!:IExperiencia;
-  @Input() public dataFormacoes!:IFormacoesAcademicas;
-  @Input() public dataCursos!:ICursos;
+  @Input() public data!: IExperiencia;
+  @Input() public dataFormacoes!: IFormacoesAcademicas;
+  @Input() public dataCursos!: ICursos;
 
   private dialog = inject(MatDialog);
   private apiExperiencia = inject(ExperienciasService);
@@ -34,61 +33,61 @@ export class CardDefaultInformacoesComponent {
   private apiCurso = inject(CursosSService);
 
   @Input() public idUsuario: any;
-  
+
   openEditDialog(): void {
     this.dialog.open(FormExperienciaProfissionalComponent, {
       width: '600px',
-      data: {experiencia: this.data}
+      data: { experiencia: this.data },
     });
   }
 
   openEditDialogFormacao(): void {
     this.dialog.open(FormFormacaoAcademicaComponent, {
       width: '600px',
-      data: {formacao: this.dataFormacoes}
+      data: { formacao: this.dataFormacoes },
     });
   }
 
   openEditDialogCurso(): void {
     this.dialog.open(DialogCursosComponent, {
       width: '600px',
-      data: {curso: this.dataCursos}
+      data: { curso: this.dataCursos },
     });
   }
 
   confirmDelete(type: 'experiencia' | 'formacao' | 'curso'): void {
     let message = '';
 
-    if(type === 'experiencia'){
-      message = `Tem certeza que deseja excluir a experiência em ${this.data.nome_empresa}?`
+    if (type === 'experiencia') {
+      message = `Tem certeza que deseja excluir a experiência em ${this.data.nome_empresa}?`;
     }
 
-    if(type === 'formacao'){
+    if (type === 'formacao') {
       message = `Tem certeza que deseja excluir a formação em ${this.dataFormacoes.instituicao.nome}?`;
     }
 
-    if(type === 'curso'){
+    if (type === 'curso') {
       message = `Tem certeza que deseja excluir o curso em ${this.dataCursos.curso}?`;
     }
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: 'Confirmar exclusão',
-        message: message
-      }
+        message: message,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        if(type === 'experiencia'){
+        if (type === 'experiencia') {
           this.deleteExperience();
         }
-    
-        if(type === 'formacao'){
+
+        if (type === 'formacao') {
           this.deleteFormacao();
         }
 
-        if(type === 'curso'){
+        if (type === 'curso') {
           this.deleteCurso();
         }
       }
@@ -96,38 +95,50 @@ export class CardDefaultInformacoesComponent {
   }
 
   private deleteExperience(): void {
-    this.apiExperiencia.httpDeleteExperiencia$(this.data.id_experiencias).subscribe({
-      next:(data)=>{
-        console.log(`essa experiencia com o nome ${this.data.nome_empresa} foi excluido`)
-        console.log(data)
-      },
-      error: (error)=>{
-        console.log(error)
-      },
-    })
+    this.apiExperiencia
+      .httpDeleteExperiencia$(this.data.id_experiencias)
+      .subscribe({
+        next: (data) => {
+          console.log(
+            `essa experiencia com o nome ${this.data.nome_empresa} foi excluido`
+          );
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
-  private deleteFormacao():void{
-    this.apiFormacao.httpDeleteFormacoes$(this.dataFormacoes.id_formacoes_academicas).subscribe({
-      next:(data)=>{
-        console.log(`essa formação com o nome ${this.dataFormacoes.instituicao.nome} foi excluido`)
-        console.log(data)
-      },
-      error: (error)=>{
-        console.log(error)
-      },
-    })
+  private deleteFormacao(): void {
+    this.apiFormacao
+      .httpDeleteFormacoes$(this.dataFormacoes.id_formacoes_academicas)
+      .subscribe({
+        next: (data) => {
+          console.log(
+            `essa formação com o nome ${this.dataFormacoes.instituicao.nome} foi excluido`
+          );
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
-  private deleteCurso():void{
-    this.apiCurso.httpDeleteCursosOnPessoa$(this.dataCursos.id_cursos, this.idUsuario).subscribe({
-      next:(data)=>{
-        console.log(`esse curso com o nome ${this.dataCursos.curso} foi excluido`)
-        console.log(data)
-      },
-      error: (error)=>{
-        console.log(error)
-      },
-    })
+  private deleteCurso(): void {
+    this.apiCurso
+      .httpDeleteCursosOnPessoa$(this.dataCursos.id_cursos, this.idUsuario)
+      .subscribe({
+        next: (data) => {
+          console.log(
+            `esse curso com o nome ${this.dataCursos.curso} foi excluido`
+          );
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 }
