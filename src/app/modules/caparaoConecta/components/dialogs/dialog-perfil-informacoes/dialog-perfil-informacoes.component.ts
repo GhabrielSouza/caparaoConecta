@@ -210,6 +210,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       areas: this.areasService.httpListAreas$(),
     }).subscribe({
       next: (resultados) => {
+        console.log(resultados);
         this.estados = resultados.estados;
         this.areasAtuacao = resultados.areas;
 

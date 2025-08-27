@@ -12,7 +12,7 @@ import { TInputType } from '../../../types/TInputType.type';
 
 @Component({
   selector: 'app-data-nascimento-input',
-  imports: [MatFormFieldModule, MatInputModule, NgxMaskDirective, FormsModule],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule],
   templateUrl: './data-nascimento-input.component.html',
   styleUrl: './data-nascimento-input.component.scss',
   providers: [
