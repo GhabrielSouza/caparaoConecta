@@ -57,23 +57,24 @@ export const routes: Routes = [
   },
   { path: 'cursos', component: CursosComponent, canActivate: [authGuardGuard] },
   {
-    path: 'Minhas Vagas',
+    path: 'minhas vagas',
     component: FavoritasComponent,
     canActivate: [authGuardGuard],
   },
   {
-    path: 'Pesquisar', 
+    path: 'pesquisar',
     component: PagePesquisaComponent,
+    canActivate: [authGuardGuard],
     children: [
       {
-        path: 'Empresas',
-        component: PagePesquisaComponent
+        path: 'empresas',
+        component: PagePesquisaComponent,
       },
       {
-        path: 'Candidatos',
-        component: PagePesquisaComponent
-      }
-    ]
+        path: 'candidatos',
+        component: PagePesquisaComponent,
+      },
+    ],
   },
   {
     path: '**',

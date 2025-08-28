@@ -95,7 +95,7 @@
           } @if( loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO ||
           loggedUser.tipo_usuario.nome === roleEnum.ADMIN){
           <li>
-            <a href="#" class="menu-item">
+            <a routerLink="/pesquisar/empresas" class="menu-item">
               <img src="assets/icons/empresa.svg" alt="Empresa" />
               <span>Empresas</span>
             </a>
@@ -110,7 +110,7 @@
           } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA ||
           loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
           <li>
-            <a href="#" class="menu-item">
+            <a routerLink="/pesquisar/candidatos" class="menu-item">
               <img src="assets/icons/Candidato.svg" alt="Candidatos" />
               <span>Candidatos</span>
             </a>

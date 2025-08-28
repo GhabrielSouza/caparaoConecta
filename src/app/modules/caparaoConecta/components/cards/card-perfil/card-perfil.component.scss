@@ -1,39 +1,41 @@
-.card{
-    transform: scale(1);
-    transition: 0.5s;
-    &:hover{
-        transform: scale(1.05);
-        transition: 0.5s;
-       
-        
-    }
+.card-container {
+  position: relative;
+}
+.card {
+  cursor: pointer;
+  transform: scale(1);
+  transition: 0.3s;
+  &:hover {
+    transform: scale(1.01);
+    transition: 0.3s;
+  }
 }
 
-.border-radial{
-    border-radius: 15px;
-};
+.border-radial {
+  border-radius: 15px;
+}
 
-.card-size{
-    width: 35em;
+.card-size {
+  width: 35em;
+  margin: 1.5em;
+}
+
+@media (max-width: 900px) {
+  .card-size {
+    width: 20em;
     margin: 1.5em;
+  }
 }
 
-@media(max-width: 900px){
-
-    .card-size{
-        width: 20em;
-        margin: 1.5em;
-    }
-
+.card-corpo {
+  background-color: #e8e8e7;
 }
 
-.card-corpo{
-    
-    background-color: #e8e8e7;
+.img-confg {
+  width: 8em;
+  border-radius: 50%;
 }
 
-.img-confg{
-    
-    width: 8em;
-    border-radius: 50%;
+.pagineter-container {
+  width: 100%;
 }
