@@ -14,7 +14,7 @@ export class CardPerfilComponent {
   @Input() pagineteVagas: IPessoa[] = [];
 
   currentPage: number = 0;
-  pageSize: number = 3;
+  pageSize: number = 4;
 
   get paginatedVagas(): IPessoa[] {
     const start = this.currentPage * this.pageSize;

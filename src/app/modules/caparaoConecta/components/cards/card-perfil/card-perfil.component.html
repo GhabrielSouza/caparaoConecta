@@ -1,5 +1,5 @@
-<div class="card-container">
-  <div class="card-container_elements">
+<div class="card-list-container">
+  <div class="cards-wrapper">
     @for (pessoa of paginatedVagas; track pessoa.id_pessoas) {
     <div class="card border-radial card-size cpc-shadow-black">
       <div
@@ -7,8 +7,12 @@
       >
         <div class="m-3 d-flex justify-content-center">
           <img
-            [src]="pessoa.imagem ? pessoa.imagem : 'assets/imgs/perfil.svg'"
-            alt=""
+            [src]="
+              pessoa.imagem
+                ? 'http://localhost:8000/img/pessoas/' + pessoa.imagem
+                : 'assets/imgs/perfil.svg'
+            "
+            alt="Foto do perfil"
             class="img-confg"
           />
         </div>
@@ -34,11 +38,13 @@
     </div>
     }
   </div>
-  <div class="d-flex justify-content-center mt-4 paginater-container">
+
+  <div class="paginator-container">
     <p-paginator
       [rows]="pageSize"
       [totalRecords]="pessoas?.length"
       (onPageChange)="onPageChange($event)"
+      styleClass="responsive-paginator"
     ></p-paginator>
   </div>
 </div>
