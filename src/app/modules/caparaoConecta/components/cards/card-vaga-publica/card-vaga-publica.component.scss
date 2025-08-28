@@ -61,6 +61,7 @@
   .vaga-card-body {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     flex-grow: 1;
   }
 
@@ -74,12 +75,11 @@
   .vaga-descricao {
     font-size: 0.9rem;
     color: #6c757d;
-    flex-grow: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .vaga-quantidade {
@@ -90,16 +90,17 @@
     margin-top: 0.5rem;
   }
 
-  @media (max-width:900px) {
-    .vaga-card{
+  @media (max-width: 900px) {
+    .vaga-card {
       display: flex;
       flex-direction: column;
       background-color: #f8f9fa;
+      justify-content: center;
       border: 1px solid #dee2e6;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       padding: 1.5rem;
-      width: 250px;
+      width: 100%;
       height: 270px;
       cursor: pointer;
       transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -111,6 +112,30 @@
       color: #343a40;
       align-self: flex-end;
       margin: 0.5rem 0.8rem 0rem 0rem;
+    }
+
+    .vaga-titulo {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+    .vaga-descricao {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
+
+    .empresa-nome {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
     }
   }
 }

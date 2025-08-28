@@ -4,7 +4,7 @@
   <!-- CABEÇALHO: Muda com base no perfil -->
   @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
   <div
-    class="d-flex flex-column align-items-center justify-content-between mb-3 flex-md-row"
+    class="detalhesVagaContainer_actions d-flex flex-column align-items-center justify-content-between mb-3 flex-md-row"
   >
     <h1 class="my-1 cpc-bold mb-3 mb-md-0">Detalhes da vaga</h1>
     <div class="d-flex align-items-md-center">
@@ -49,7 +49,7 @@
   }
 
   <!-- CORPO PRINCIPAL -->
-  <div class="container w-100 w-md-0">
+  <div class="container">
     <!-- Visão de Detalhes (Comum a todos, mas com ações diferentes) -->
     @if(visaoDetalhes()){
     <!-- Bloco de Status e Ações (só para empresa/admin) -->

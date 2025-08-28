@@ -91,6 +91,8 @@ export class HomeAdminComponent implements OnInit {
     const vagas = this.vagas();
     const usuarios = this.usuarios();
 
+    console.log(usuarios);
+
     if (vagas.length === 0) return;
 
     if (usuarios.length === 0) return;
@@ -143,9 +145,9 @@ export class HomeAdminComponent implements OnInit {
         {
           label: 'Tipo de Usuários',
           data: [
-            usuarios.filter((u) => u.usuario?.tipo_usuario.nome === 'EMPRESA')
-              .length,
             usuarios.filter((u) => u.usuario?.tipo_usuario.nome === 'CANDIDATO')
+              .length,
+            usuarios.filter((u) => u.usuario?.tipo_usuario.nome === 'EMPRESA')
               .length,
           ],
           backgroundColor: [

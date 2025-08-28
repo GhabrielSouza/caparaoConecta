@@ -72,12 +72,11 @@
     font-size: 0.9rem;
     color: #6c757d;
     flex-grow: 1;
-    margin-bottom: 1.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    line-clamp: 3;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .card-footer {
