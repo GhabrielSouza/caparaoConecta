@@ -107,15 +107,6 @@ export class PerfilComponent implements OnInit {
     forkJoin(requests).subscribe({
       next: (resultados: any) => {
         this.dadosPessoais.set(resultados.dadosPessoais);
-        // console.log(this.dadosPessoais());
-        // this.experiencias.set(resultados.experiencias ?? []);
-        // this.formacoes.set(resultados.formacoes ?? []);
-        // this.cursos.set(resultados.cursos ?? []);
-        // this.habilidades.set(resultados.habilidades ?? []);
-
-        console.log(resultados);
-
-        this.habilidades = this.habilidadesService.getListHabilidadesOnPessoas;
 
         this.statusCarregamento.set('concluido');
       },

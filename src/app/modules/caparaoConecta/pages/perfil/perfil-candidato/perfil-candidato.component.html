@@ -3,7 +3,7 @@
   [dataExperiencia]="experiencias"
   [IdUsuario]="IdUsuario"
 >
-  @for(experiencia of experiencias; track experiencia){
+  @for(experiencia of experiencias; track experiencia.id_experiencias){
   <app-card-default-informacoes [data]="experiencia" class="p-0">
   </app-card-default-informacoes>
   }
@@ -14,7 +14,7 @@
   [IdUsuario]="IdUsuario"
   [dataFormacao]="formacoes"
 >
-  @for(formacao of formacoes; track formacao){
+  @for(formacao of formacoes; track formacao.id_formacoes_academicas){
   <app-card-default-informacoes [dataFormacoes]="formacao" class="p-0">
   </app-card-default-informacoes>
   }
@@ -25,7 +25,7 @@
   [IdUsuario]="IdUsuario"
   [dataCursos]="cursos"
 >
-  @for(curso of cursos; track curso){
+  @for(curso of cursos; track curso.id_cursos){
   <app-card-default-informacoes
     [idUsuario]="IdUsuario"
     [dataCursos]="curso"
@@ -41,7 +41,7 @@
   [dataHabilidades]="habilidades"
 >
   <mat-chip-set aria-label="Skill selection">
-    @for(habilidade of habilidades; track habilidade){
+    @for(habilidade of habilidades; track habilidade.id_habilidades){
     <mat-chip>{{ habilidade.nome }}</mat-chip>
     }
   </mat-chip-set>
