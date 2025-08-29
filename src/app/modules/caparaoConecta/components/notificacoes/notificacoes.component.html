@@ -1,0 +1,18 @@
+<div class="notificacoes-container">
+  <button class="btn-notificacoes">
+    <mat-icon class="notificacao" matBadge="countNotificacoes()"
+      >notifications</mat-icon
+    >
+  </button>
+  <div class="notificacoes-dropdown open">
+    <p>Notificações</p>
+    <ul class="notificacoes-list">
+      <li
+        class="notificacoes-list_item"
+        *ngFor="let notificacao of [1, 2, 3, 4, 5]"
+      >
+        <p class="cpc-regular">{{ notificacao }}</p>
+      </li>
+    </ul>
+  </div>
+</div>

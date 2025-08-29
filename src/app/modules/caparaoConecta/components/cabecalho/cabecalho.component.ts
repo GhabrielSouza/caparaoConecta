@@ -13,11 +13,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { SelecionarVagaComponent } from '../dialogs/selecionar-vaga/selecionar-vaga.component';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { environment } from '../../../../../environments/environment';
+import { NotificacoesComponent } from '../notificacoes/notificacoes.component';
 
 @Component({
   selector: 'app-cabecalho',
   standalone: true,
-  imports: [RouterLink, CommonModule, MatBadgeModule, MatIconModule],
+  imports: [
+    RouterLink,
+    CommonModule,
+    MatBadgeModule,
+    MatIconModule,
+    NotificacoesComponent,
+  ],
   templateUrl: './cabecalho.component.html',
   styleUrl: './cabecalho.component.scss',
 })
