@@ -1,0 +1,47 @@
+<app-cabecalho></app-cabecalho>
+
+<div class="search-page-container">
+  <div class="search-header">
+    <h1 class="search-title cpc-medium">Encontre Perfis</h1>
+    <p
+      class="search-subtitle cpc-regular"
+      *ngIf="role() === roleEnum.CANDIDATO"
+    >
+      Busque por empresas e oportunidades.
+    </p>
+    <p class="search-subtitle cpc-regular" *ngIf="role() === roleEnum.EMPRESA">
+      Busque por candidatos para suas vagas.
+    </p>
+    <div class="search-bar-wrapper">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input
+        class="form-control cpc-regular-010"
+        type="search"
+        placeholder="Pesquisar por nome..."
+        aria-label="Search"
+        name="search"
+        [(ngModel)]="searchTerm"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+
+  <main class="search-results">
+    <!-- Passamos a lista JÁ PAGINADA para o componente filho -->
+    <app-card-perfil [pessoas]="pessoasPaginadas()"></app-card-perfil>
+
+    <!-- O PAGINADOR VIVE AQUI, NO PAI -->
+    @if (totalFiltrado() > 0) {
+    <div class="paginator-container">
+      <p-paginator
+        [rows]="pageSize()"
+        [totalRecords]="totalFiltrado()"
+        (onPageChange)="onPageChange($event)"
+        styleClass="responsive-paginator"
+      ></p-paginator>
+    </div>
+    }
+  </main>
+</div>
+
+<app-footer></app-footer>

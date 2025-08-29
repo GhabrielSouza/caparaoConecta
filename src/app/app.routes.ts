@@ -13,6 +13,7 @@ import { HabilidadesComponent } from './modules/caparaoConecta/pages/habilidades
 import { CursosComponent } from './modules/caparaoConecta/pages/cursos/cursos.component';
 import { FavoritasComponent } from './modules/caparaoConecta/pages/favoritas/favoritas.component';
 import { authGuardGuard } from './guard/auth-guard.guard';
+import { PesquisarComponent } from './modules/caparaoConecta/pages/pesquisar/pesquisar.component';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,11 @@ export const routes: Routes = [
   {
     path: 'Minhas Vagas',
     component: FavoritasComponent,
+    canActivate: [authGuardGuard],
+  },
+  {
+    path: 'pesquisa',
+    component: PesquisarComponent,
     canActivate: [authGuardGuard],
   },
   {
