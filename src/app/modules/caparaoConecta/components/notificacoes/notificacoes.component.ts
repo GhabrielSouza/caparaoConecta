@@ -1,39 +1,68 @@
+import { Component, HostListener, signal } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { INotificacoes } from '../../interface/INotificacoes.interface ';
 
 @Component({
   selector: 'app-notificacoes',
-  imports: [MatIcon, CommonModule],
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatBadgeModule, DatePipe],
   templateUrl: './notificacoes.component.html',
   styleUrl: './notificacoes.component.scss',
 })
 export class NotificacoesComponent {
-  private notificacoes = signal<INotificacoes[]>([
-    { id: 1, mensagem: 'Nova mensagem recebida', lida: false },
-    { id: 2, mensagem: 'Seu perfil foi atualizado', lida: true },
-    { id: 3, mensagem: 'Nova conexão solicitada', lida: false },
-  ]);
+  dropdownAberto = signal(false);
 
-  public notificacoesNaoLidas = signal(0);
+  // Exemplo de dados - substitua com seus dados reais
+  notificacoes = [
+    {
+      id: 1,
+      titulo: 'Nova mensagem',
+      mensagem: 'Você recebeu uma nova mensagem de João Silva',
+      data: new Date(),
+      lida: false,
+    },
+    {
+      id: 2,
+      titulo: 'Atualização de vaga',
+      mensagem: 'Sua candidatura foi visualizada pela empresa XYZ',
+      data: new Date(Date.now() - 3600000),
+      lida: true,
+    },
+    {
+      id: 3,
+      titulo: 'Lembrete',
+      mensagem: 'Lembre-se de completar seu perfil para aumentar suas chances',
+      data: new Date(Date.now() - 86400000),
+      lida: false,
+    },
+  ];
 
-  public ngOnInit() {
-    this.atualizarNotificacoesNaoLidas();
+  toggleNotificacoes(): void {
+    this.dropdownAberto.set(!this.dropdownAberto());
   }
 
-  public countNotificacoes = computed(() => this.notificacoes().length);
-
-  public countNotificacoesNaoLidas = computed(() =>
-    this.notificacoesNaoLidas()
-  );
-
-  private atualizarNotificacoesNaoLidas() {
-    const naoLidas = this.notificacoes().filter((n) => !n.lida).length;
-    this.notificacoesNaoLidas.set(naoLidas);
+  fecharDropdown(): void {
+    this.dropdownAberto.set(false);
   }
 
-  public getNotificacoes() {
-    return this.notificacoes;
+  countNotificacoes(): number {
+    return this.notificacoes.filter((n) => !n.lida).length;
+  }
+
+  handleNotificacaoClick(notificacao: any): void {
+    console.log('Notificação clicada:', notificacao);
+    // Aqui você pode implementar a lógica para marcar como lida, navegar, etc.
+    this.fecharDropdown();
+  }
+
+  // Fechar o dropdown ao clicar fora dele
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.notificacoes-container') && this.dropdownAberto()) {
+      this.fecharDropdown();
+    }
   }
 }

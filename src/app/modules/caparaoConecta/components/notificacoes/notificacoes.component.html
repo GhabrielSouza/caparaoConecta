@@ -1,18 +1,41 @@
 <div class="notificacoes-container">
-  <button class="btn-notificacoes">
-    <mat-icon class="notificacao" matBadge="countNotificacoes()"
+  <button class="btn-notificacoes" (click)="toggleNotificacoes()">
+    <mat-icon
+      class="notificacao"
+      [matBadge]="countNotificacoes()"
+      matBadgeColor="warn"
       >notifications</mat-icon
     >
   </button>
-  <div class="notificacoes-dropdown open">
-    <p>Notificações</p>
-    <ul class="notificacoes-list">
-      <li
-        class="notificacoes-list_item"
-        *ngFor="let notificacao of [1, 2, 3, 4, 5]"
-      >
-        <p class="cpc-regular">{{ notificacao }}</p>
-      </li>
-    </ul>
+
+  <div class="notificacoes-dropdown" [class.open]="dropdownAberto">
+    <div class="dropdown-header">
+      <h3>Notificações</h3>
+      <button class="fechar-dropdown" (click)="fecharDropdown()">×</button>
+    </div>
+
+    <div class="notificacoes-content">
+      @if(notificacoes && notificacoes.length > 0) {
+      <ul class="notificacoes-list">
+        @for (notificacao of notificacoes; track notificacao.id) {
+        <li
+          class="notificacao-item"
+          (click)="handleNotificacaoClick(notificacao)"
+        >
+          <div class="notificacao-titulo">{{ notificacao.titulo }}</div>
+          <div class="notificacao-mensagem">{{ notificacao.mensagem }}</div>
+          <div class="notificacao-data">
+            {{ notificacao.data | date : "short" }}
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <div class="no-notificacoes">
+        <mat-icon>notifications_off</mat-icon>
+        <p>Nenhuma notificação</p>
+      </div>
+      }
+    </div>
   </div>
 </div>
