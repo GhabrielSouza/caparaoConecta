@@ -1,50 +1,45 @@
 <div class="card-list-container">
-  <div class="cards-wrapper">
-    @for (pessoa of paginatedVagas; track pessoa.id_pessoas) {
-    <div class="card border-radial card-size cpc-shadow-black">
-      <div
-        class="card-body d-flex flex-md-row flex-column align-items-md-center"
-      >
-        <div class="m-3 d-flex justify-content-center">
-          <img
-            [src]="
-              pessoa.imagem
-                ? 'http://localhost:8000/img/pessoas/' + pessoa.imagem
-                : 'assets/imgs/perfil.svg'
-            "
-            alt="Foto do perfil"
-            class="img-confg"
-          />
-        </div>
-        <div>
-          <h5 class="card-title cpc-medium text-center text-md-start">
-            {{ pessoa.nome }}
-          </h5>
-          <h6
-            class="card-subtitle mb-2 text-body-secondary cpc-regular-010 text-center text-md-start"
-            *ngIf="pessoa.endereco"
-          >
-            {{ pessoa.endereco.cidade.nome_cidade }} -
-            {{ pessoa.endereco.estado }}
-          </h6>
-          <p
-            class="card-text cpc-regular-010"
-            *ngIf="pessoa.pessoas_fisica?.area_atuacao"
-          >
-            {{ pessoa.pessoas_fisica?.area_atuacao?.nome_area }}
-          </p>
-        </div>
+  <!-- Grid responsivo para os cards -->
+  <div class="cards-grid">
+    @for (pessoa of pessoas; track pessoa.id_pessoas) {
+    <div class="profile-card">
+      <div class="card-background"></div>
+      <div class="card-content">
+        <img
+          [src]="
+            pessoa.imagem
+              ? 'http://localhost:8000/img/pessoas/' + pessoa.imagem
+              : 'assets/imgs/perfil.svg'
+          "
+          alt="Foto do perfil"
+          class="profile-avatar"
+        />
+        <h5 class="profile-name cpc-medium">{{ pessoa.nome }}</h5>
+        <p class="profile-area" *ngIf="pessoa.pessoas_fisica?.area_atuacao">
+          {{ pessoa.pessoas_fisica?.area_atuacao?.nome_area }}
+        </p>
+        <p class="profile-location cpc-regular" *ngIf="pessoa.endereco">
+          <i class="fa-solid fa-location-dot"></i>
+          {{ pessoa.endereco.cidade.nome_cidade }} -
+          {{ pessoa.endereco.estado }}
+        </p>
       </div>
     </div>
     }
   </div>
 
+  @if (pessoas && pessoas.length > 0) {
   <div class="paginator-container">
     <p-paginator
       [rows]="pageSize"
-      [totalRecords]="pessoas?.length"
+      [totalRecords]="pessoas.length"
       (onPageChange)="onPageChange($event)"
       styleClass="responsive-paginator"
     ></p-paginator>
   </div>
+  } @else {
+  <div class="no-results-message">
+    <p>Nenhum perfil encontrado.</p>
+  </div>
+  }
 </div>

@@ -69,10 +69,12 @@ export const routes: Routes = [
       {
         path: 'empresas',
         component: PagePesquisaComponent,
+        canActivate: [authGuardGuard],
       },
       {
         path: 'candidatos',
         component: PagePesquisaComponent,
+        canActivate: [authGuardGuard],
       },
     ],
   },

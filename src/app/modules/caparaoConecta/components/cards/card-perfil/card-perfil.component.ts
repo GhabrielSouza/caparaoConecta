@@ -11,14 +11,13 @@ import { CommonModule, JsonPipe } from '@angular/common';
 })
 export class CardPerfilComponent {
   @Input() pessoas: IPessoa[] | null = [];
-  @Input() pagineteVagas: IPessoa[] = [];
 
   currentPage: number = 0;
-  pageSize: number = 4;
+  pageSize: number = 6;
 
-  get paginatedVagas(): IPessoa[] {
+  get paginatedPessoas(): IPessoa[] {
     const start = this.currentPage * this.pageSize;
-    return this.pessoas!.slice(start, start + this.pageSize) ?? [];
+    return this.pessoas?.slice(start, start + this.pageSize) ?? [];
   }
 
   onPageChange(event: PaginatorState) {

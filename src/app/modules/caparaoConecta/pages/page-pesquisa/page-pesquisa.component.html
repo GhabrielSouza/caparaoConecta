@@ -1,27 +1,39 @@
 <app-cabecalho></app-cabecalho>
-<section
-  class="d-flex justify-content-end p-md-3 cpc-background-white pt-2 pb-2"
->
-  <form class="d-flex gap-2 w-md-25" role="search">
-    <input
-      class="form-control me-2"
-      type="search"
-      placeholder="Pesquisar"
-      aria-label="Search"
-      name="search"
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="onSearchChange()"
-      autocomplete="off"
-    />
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <button class="btn btn-secondary me-2" type="submit">Buscar</button>
-  </form>
-</section>
 
-<section class="media d-flex justify-content-center m-auto my-4">
-  <div class="p-2">
-    <app-card-perfil [pessoas]="pessoas()"></app-card-perfil>
+<div class="search-page-container">
+  <div class="search-header">
+    <h1 class="search-title cpc-medium">Encontre Perfis</h1>
+    <p
+      class="search-subtitle cpc-regular"
+      *ngIf="role() === roleEnum.CANDIDATO"
+    >
+      Busque por empresas.
+    </p>
+    <p class="search-subtitle cpc-regular" *ngIf="role() === roleEnum.EMPRESA">
+      Busque por candidatos.
+    </p>
+    <div class="search-bar-wrapper">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input
+        class="form-control cpc-regular-010"
+        type="search"
+        placeholder="Pesquisar por nome..."
+        aria-label="Search"
+        name="search"
+        [(ngModel)]="searchTerm"
+      />
+    </div>
   </div>
-</section>
+
+  <main class="search-results">
+    <app-card-perfil
+      [pessoas]="pessoasFiltradas()"
+      *ngIf="pessoasFiltradas()!.length > 0"
+    ></app-card-perfil>
+    <p class="cpc-regular" *ngIf="pessoasFiltradas()!.length === 0">
+      Nenhum resultado encontrado.
+    </p>
+  </main>
+</div>
 
 <app-footer></app-footer>
