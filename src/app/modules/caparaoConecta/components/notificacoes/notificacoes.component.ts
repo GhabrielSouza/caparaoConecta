@@ -1,8 +1,17 @@
-import { Component, HostListener, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { NotificacoesService } from '../../../../services/notificoes/notificacoes.service';
+import { INotificacoes } from '../../interface/INotificacoes.interface';
 
 @Component({
   selector: 'app-notificacoes',
@@ -11,33 +20,30 @@ import { CommonModule } from '@angular/common';
   templateUrl: './notificacoes.component.html',
   styleUrl: './notificacoes.component.scss',
 })
-export class NotificacoesComponent {
+export class NotificacoesComponent implements OnInit {
   dropdownAberto = signal(false);
+  private notificacoesService = inject(NotificacoesService);
 
-  // Exemplo de dados - substitua com seus dados reais
-  notificacoes = [
-    {
-      id: 1,
-      titulo: 'Nova mensagem',
-      mensagem: 'Você recebeu uma nova mensagem de João Silva',
-      data: new Date(),
-      lida: false,
-    },
-    {
-      id: 2,
-      titulo: 'Atualização de vaga',
-      mensagem: 'Sua candidatura foi visualizada pela empresa XYZ',
-      data: new Date(Date.now() - 3600000),
-      lida: true,
-    },
-    {
-      id: 3,
-      titulo: 'Lembrete',
-      mensagem: 'Lembre-se de completar seu perfil para aumentar suas chances',
-      data: new Date(Date.now() - 86400000),
-      lida: false,
-    },
-  ];
+  public notificacoesUser: INotificacoes[] | null = [];
+
+  ngOnInit() {
+    this.getNotificacoes();
+  }
+
+  public getNotificacoes() {
+    return this.notificacoesService.httpListNotificacoes$().subscribe({
+      next: (res) => {
+        this.notificacoesUser = res;
+        console.log('Notificações recebidas:', res);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar notificações:', err);
+      },
+      complete: () => {
+        console.log('Busca de notificações completa');
+      },
+    });
+  }
 
   toggleNotificacoes(): void {
     this.dropdownAberto.set(!this.dropdownAberto());
@@ -48,7 +54,7 @@ export class NotificacoesComponent {
   }
 
   countNotificacoes(): number {
-    return this.notificacoes.filter((n) => !n.lida).length;
+    return this.notificacoesUser?.filter((n) => !n.lida).length || 0;
   }
 
   handleNotificacaoClick(notificacao: any): void {

@@ -2,30 +2,45 @@
   <button class="btn-notificacoes" (click)="toggleNotificacoes()">
     <mat-icon
       class="notificacao"
-      [matBadge]="countNotificacoes()"
+      [matBadge]="countNotificacoes() ? countNotificacoes() : null"
       matBadgeColor="warn"
       >notifications</mat-icon
     >
   </button>
 
-  <div class="notificacoes-dropdown" [class.open]="dropdownAberto">
+  <div class="notificacoes-dropdown" [class.open]="dropdownAberto()">
     <div class="dropdown-header">
       <h3>Notificações</h3>
       <button class="fechar-dropdown" (click)="fecharDropdown()">×</button>
     </div>
 
     <div class="notificacoes-content">
-      @if(notificacoes && notificacoes.length > 0) {
+      @if(notificacoesUser && notificacoesUser.length > 0) {
       <ul class="notificacoes-list">
-        @for (notificacao of notificacoes; track notificacao.id) {
+        @for (notificacao of notificacoesUser; track notificacao.id) {
         <li
           class="notificacao-item"
           (click)="handleNotificacaoClick(notificacao)"
         >
-          <div class="notificacao-titulo">{{ notificacao.titulo }}</div>
-          <div class="notificacao-mensagem">{{ notificacao.mensagem }}</div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="notificacao-titulo">{{ notificacao.titulo }}</div>
+            <button class="" (click)="handleNotificacaoClick(notificacao)">
+              x
+            </button>
+          </div>
+
+          <div
+            class="notificacao-mensagem"
+            *ngIf="notificacao.dados.candidato_id; else vaga"
+          >
+            {{ notificacao.dados.candidato_nome }} candidatou-se à vaga
+            {{ notificacao.dados.titulo_vaga }}
+          </div>
+          <ng-template class="notificacao-mensagem" #vaga>
+            {{ notificacao.dados.titulo_vaga }}
+          </ng-template>
           <div class="notificacao-data">
-            {{ notificacao.data | date : "short" }}
+            {{ notificacao.created_at | date : "short" }}
           </div>
         </li>
         }
@@ -33,7 +48,7 @@
       } @else {
       <div class="no-notificacoes">
         <mat-icon>notifications_off</mat-icon>
-        <p>Nenhuma notificação</p>
+        <p class="cpc-regular">Nenhuma notificação</p>
       </div>
       }
     </div>
