@@ -24,15 +24,33 @@
       }
     }
 
+    .seta-dropdown {
+      position: absolute;
+      top: 100%;
+      z-index: 1001;
+      display: none;
+      right: 10px;
+      width: 20px;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #f8f9fa;
+
+      &.open {
+        display: block;
+        animation: fadeIn 0.2s ease-in-out;
+      }
+    }
+
     .notificacoes-dropdown {
       position: absolute;
       top: 100%;
-      right: 0;
+      right: 10px;
       width: 350px;
       max-height: 400px;
       background: var(--white);
       border: 1px solid var(--light-gray);
-      border-radius: 8px;
+      border-radius: 8px 2px 8px 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       overflow: hidden;
       z-index: 1000;
@@ -76,7 +94,6 @@
         overflow-y: auto;
 
         .notificacoes-list {
-          list-style: none;
           padding: 0;
           margin: 0;
 
