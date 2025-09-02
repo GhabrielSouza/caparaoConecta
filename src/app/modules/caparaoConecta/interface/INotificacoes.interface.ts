@@ -3,7 +3,7 @@ export interface INotificacoes {
   titulo: string;
   dados: IDadosVaga;
   created_at: Date;
-  lida: boolean;
+  data_leitura: Date;
 }
 
 export interface IDadosVaga {

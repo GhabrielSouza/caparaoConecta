@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   HostListener,
   inject,
@@ -8,8 +9,7 @@ import {
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
-import { DatePipe } from '@angular/common';
-import { CommonModule } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
 import { NotificacoesService } from '../../../../services/notificoes/notificacoes.service';
 import { INotificacoes } from '../../interface/INotificacoes.interface';
 
@@ -24,24 +24,26 @@ export class NotificacoesComponent implements OnInit {
   dropdownAberto = signal(false);
   private notificacoesService = inject(NotificacoesService);
 
-  public notificacoesUser: INotificacoes[] | null = [];
+  public notificacoesUser = signal<INotificacoes[]>([]);
+
+  public notificacoesNaoLidas = computed(() => {
+    return this.notificacoesUser().filter((n) => !n.data_leitura);
+  });
+
+  public countNaoLidas = computed(() => {
+    return this.notificacoesNaoLidas().length;
+  });
 
   ngOnInit() {
     this.getNotificacoes();
   }
 
   public getNotificacoes() {
-    return this.notificacoesService.httpListNotificacoes$().subscribe({
-      next: (res) => {
-        this.notificacoesUser = res;
-        console.log('Notificações recebidas:', res);
+    this.notificacoesService.httpListNotificacoes$().subscribe({
+      next: (data) => {
+        this.notificacoesUser.set(data || []);
       },
-      error: (err) => {
-        console.error('Erro ao buscar notificações:', err);
-      },
-      complete: () => {
-        console.log('Busca de notificações completa');
-      },
+      error: (error) => console.error('Erro ao carregar notificações:', error),
     });
   }
 
@@ -53,17 +55,20 @@ export class NotificacoesComponent implements OnInit {
     this.dropdownAberto.set(false);
   }
 
-  countNotificacoes(): number {
-    return this.notificacoesUser?.filter((n) => !n.lida).length || 0;
-  }
-
-  handleNotificacaoClick(notificacao: any): void {
+  handleNotificacaoClick(notificacao: INotificacoes): void {
     console.log('Notificação clicada:', notificacao);
-    // Aqui você pode implementar a lógica para marcar como lida, navegar, etc.
+    if (notificacao.id) {
+      this.notificacoesService.httpMarcarComoLida$(notificacao.id).subscribe({
+        next: () => {
+          this.getNotificacoes();
+        },
+        error: (error) =>
+          console.error('Erro ao marcar notificação como lida:', error),
+      });
+    }
     this.fecharDropdown();
   }
 
-  // Fechar o dropdown ao clicar fora dele
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;

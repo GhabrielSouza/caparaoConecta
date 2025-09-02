@@ -2,7 +2,7 @@
   <button class="btn-notificacoes" (click)="toggleNotificacoes()">
     <mat-icon
       class="notificacao"
-      [matBadge]="countNotificacoes() ? countNotificacoes() : null"
+      [matBadge]="countNaoLidas() > 0 ? countNaoLidas() : null"
       matBadgeColor="warn"
       >notifications</mat-icon
     >
@@ -16,28 +16,31 @@
     </div>
 
     <div class="notificacoes-content">
-      @if(notificacoesUser && notificacoesUser.length > 0) {
+      @if(notificacoesNaoLidas().length > 0) {
       <ul class="notificacoes-list">
-        @for (notificacao of notificacoesUser; track notificacao.id) {
+        @for (notificacao of notificacoesNaoLidas(); track notificacao.id) {
         <li
           class="notificacao-item"
           (click)="handleNotificacaoClick(notificacao)"
         >
           <div class="d-flex justify-content-between align-items-center">
             <div class="notificacao-titulo">{{ notificacao.titulo }}</div>
-            <button class="" (click)="handleNotificacaoClick(notificacao)">
-              x
+            <button
+              class="notificacao-lida"
+              (click)="handleNotificacaoClick(notificacao)"
+            >
+              ×
             </button>
           </div>
 
           <div
-            class="notificacao-mensagem"
+            class="notificacao-mensagem cpc-regular"
             *ngIf="notificacao.dados.candidato_id; else vaga"
           >
             {{ notificacao.dados.candidato_nome }} candidatou-se à vaga
             {{ notificacao.dados.titulo_vaga }}
           </div>
-          <ng-template class="notificacao-mensagem" #vaga>
+          <ng-template class="notificacao-mensagem cpc-regular" #vaga>
             {{ notificacao.dados.titulo_vaga }}
           </ng-template>
           <div class="notificacao-data">

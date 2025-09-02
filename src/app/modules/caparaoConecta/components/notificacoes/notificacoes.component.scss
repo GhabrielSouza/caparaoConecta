@@ -117,6 +117,18 @@
               color: #212529;
             }
 
+            .notificacao-lida {
+              background: none;
+              border: none;
+              font-size: 1rem;
+              cursor: pointer;
+              color: #6c757d;
+
+              &:hover {
+                color: #495057;
+              }
+            }
+
             .notificacao-mensagem {
               font-size: 0.9rem;
               color: #6c757d;

@@ -256,12 +256,6 @@ export class CadastroVagaDialogComponent implements OnInit {
         (c: ICursos) => c.id_cursos
       );
 
-      if (formValue.data_fechamento) {
-        formValue.data_fechamento = new Date(formValue.data_fechamento)
-          .toISOString()
-          .split('T')[0];
-      }
-
       console.log('Enviando para o backend (CRIAR):', formValue);
 
       this.vagaService.httpRegisterVaga$(formValue).subscribe({

@@ -23,4 +23,11 @@ export class NotificacoesService {
         })
       );
   }
+
+  public httpMarcarComoLida$(idNotificacao: number): Observable<INotificacoes> {
+    return this.#http.put<INotificacoes>(
+      `${this.#url}/api/notificacoes/${idNotificacao}/marcar-como-lida`,
+      {}
+    );
+  }
 }
