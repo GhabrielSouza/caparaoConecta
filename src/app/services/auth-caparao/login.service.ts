@@ -54,4 +54,12 @@ export class AuthService {
   public getUserData(userId: number): Observable<IPessoa> {
     return this.http.get<IPessoa>(`${this.#url()}/api/pessoas/${userId}`);
   }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.#url()}/api/forgot-password`, { email });
+  }
+
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(`${this.#url()}/api/reset-password`, data);
+  }
 }

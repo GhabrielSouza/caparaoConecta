@@ -14,6 +14,8 @@ import { CursosComponent } from './modules/caparaoConecta/pages/cursos/cursos.co
 import { FavoritasComponent } from './modules/caparaoConecta/pages/favoritas/favoritas.component';
 import { authGuardGuard } from './guard/auth-guard.guard';
 import { PesquisarComponent } from './modules/caparaoConecta/pages/pesquisar/pesquisar.component';
+import { ResetEmailComponent } from './modules/caparaoConecta/pages/reset-email/reset-email.component';
+import { ResetPasswordComponent } from './modules/caparaoConecta/pages/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +29,14 @@ export const routes: Routes = [
   {
     path: 'login',
     component: FormLoginComponent,
+  },
+  {
+    path: 'reset-email',
+    component: ResetEmailComponent,
+  },
+  {
+    path: 'password-reset/:token',
+    component: ResetPasswordComponent,
   },
   { path: '', component: HomeComponent },
   {

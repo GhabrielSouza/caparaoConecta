@@ -25,7 +25,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectRegisterDialogComponent } from '../../components/dialogs/select-register-dialog/select-register-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-form-login',
@@ -39,6 +39,7 @@ import { Router } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    RouterLink,
   ],
   templateUrl: './form-login.component.html',
   styleUrl: './form-login.component.scss',
