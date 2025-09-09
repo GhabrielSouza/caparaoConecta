@@ -165,6 +165,27 @@
         }
       </mat-form-field>
 
+      @if(this.data.role === roleEnum.ADMIN){
+      <mat-label>Selecione a empresa</mat-label>
+      <!-- Label posicionado acima -->
+      <mat-form-field class="full-width-input mat-chip-list-container">
+        <mat-select
+          formControlName="id_empresas"
+          placeholder="Selecione a empresa"
+        >
+          @for(empresa of empresas(); track empresa.id_pessoas){
+          <mat-option [value]="empresa.id_pessoas">
+            {{ empresa.nome }}
+          </mat-option>
+          }
+        </mat-select>
+        @if (vagaForm.get('estado')?.invalid && (vagaForm.get('estado')?.touched
+        || vagaForm.get('estado')?.dirty)) {
+        <mat-error>ai é triste</mat-error>
+        }
+      </mat-form-field>
+      }
+
       <footer>
         <div class="d-flex justify-content-center gap-4 p-3">
           @if (isEditMode) {

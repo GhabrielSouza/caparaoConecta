@@ -23,6 +23,8 @@ import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { RegisterService } from '../../../../../services/register-caparao/register.service';
 import { concat, concatMap } from 'rxjs';
+import { IconField } from 'primeng/iconfield';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-sobre',
@@ -69,9 +71,20 @@ export class DialogSobreComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            text: 'Informações atualizadas com sucesso',
+            showConfirmButton: false,
+          });
         },
         error: (error) => {
           console.error('Error updating data', error);
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
         },
         complete: () => {
           console.log('Update complete');

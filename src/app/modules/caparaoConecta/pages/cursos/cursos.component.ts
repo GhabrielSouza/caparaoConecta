@@ -7,6 +7,7 @@ import { ICursos } from '../../interface/ICursos.inteface';
 import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-cursos-admin/dialog-cursos-admin.component';
 import { ITableColumn } from '../../interface/ITableColumn.interface';
 import { PageEvent } from '@angular/material/paginator';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cursos',
@@ -58,9 +59,20 @@ export class CursosComponent implements OnInit {
       next: (data) => {
         console.log('Curso criado com sucesso:', data);
         this.onCursosListados();
+        Swal.fire({
+          icon: 'success',
+          title: 'Curso criado com sucesso!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       },
       error: (error) => {
         console.error('Erro ao criar curso:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao criar curso',
+          text: error?.error?.message || 'Ocorreu um erro inesperado.',
+        });
       },
     });
   }
@@ -72,9 +84,20 @@ export class CursosComponent implements OnInit {
         next: (data) => {
           console.log('Curso atualizado com sucesso:', data);
           this.onCursosListados();
+          Swal.fire({
+            icon: 'success',
+            title: 'Curso atualizado com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
           console.error('Erro ao atualizar curso:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao atualizar curso',
+            text: error?.error?.message || 'Ocorreu um erro inesperado.',
+          });
         },
       });
   }
@@ -120,9 +143,20 @@ export class CursosComponent implements OnInit {
         next: (data) => {
           console.log('Status da habilidade atualizado:', data);
           this.onCursosListados();
+          Swal.fire({
+            icon: 'success',
+            title: 'Status da habilidade atualizado com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
           console.error('Erro ao atualizar status da habilidade:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao atualizar status da habilidade',
+            text: error?.error?.message || 'Ocorreu um erro inesperado.',
+          });
         },
       });
   }

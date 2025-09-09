@@ -54,6 +54,7 @@ export class CabecalhoComponent {
       panelClass: EDialogEnum.PROJETOS,
       data: {
         id: this.user()?.id_pessoas,
+        role: this.user()?.tipo_usuario.nome,
       },
     });
   }

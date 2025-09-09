@@ -28,6 +28,7 @@ export class SelecionarVagaComponent {
       panelClass: EDialogEnum.PROJETOS,
       data: {
         id: this.data.id,
+        role: this.data.role,
       },
     });
   }

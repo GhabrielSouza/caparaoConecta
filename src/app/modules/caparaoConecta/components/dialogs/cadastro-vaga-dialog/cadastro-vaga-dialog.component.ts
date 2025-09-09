@@ -5,6 +5,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   LOCALE_ID,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -43,6 +44,10 @@ import { IHabilidades } from '../../../interface/IHabilidades.interface';
 import { ICursos } from '../../../interface/ICursos.inteface';
 import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
 import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
+import { ERoleUser } from '../../../enum/ERoleUser.enum';
+import { RegisterService } from '../../../../../services/register-caparao/register.service';
+import { IPessoa } from '../../../interface/IPessoa.interface';
+import Swal from 'sweetalert2';
 
 registerLocaleData(localePt);
 
@@ -72,6 +77,8 @@ export class CadastroVagaDialogComponent implements OnInit {
   vagaForm: FormGroup;
   isEditMode = false;
 
+  public roleEnum = ERoleUser;
+
   readonly announcer = inject(LiveAnnouncer);
 
   habilidadeInputCtrl = new FormControl('');
@@ -83,6 +90,8 @@ export class CadastroVagaDialogComponent implements OnInit {
   filteredCursos$: Observable<ICursos[]>;
   areasAtuacao: IAreasAtuacao[] = [];
 
+  public empresas = signal<IPessoa[]>([]);
+
   constructor(
     private _dialogRef: MatDialogRef<CadastroVagaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -90,7 +99,8 @@ export class CadastroVagaDialogComponent implements OnInit {
     private vagaService: VagasService,
     private habilidadesService: HabilidadesSService,
     private cursosService: CursosSService,
-    private areasService: AreasAtuacaoService
+    private areasService: AreasAtuacaoService,
+    private pessoasService: RegisterService
   ) {
     const dataEncerramento = new Date();
     dataEncerramento.setDate(dataEncerramento.getDate() + 20);
@@ -112,7 +122,7 @@ export class CadastroVagaDialogComponent implements OnInit {
       descricao: [''],
       qtd_vaga: ['', [Validators.required, Validators.min(1)]],
       status: ['EM_ANDAMENTO', Validators.required],
-      id_empresas: this.data.id,
+      id_empresas: null,
     });
 
     this.filteredHabilidades$ = this.habilidadeInputCtrl.valueChanges.pipe(
@@ -136,6 +146,7 @@ export class CadastroVagaDialogComponent implements OnInit {
     this.getHabilidades();
     this.getCursos();
     this.onListAreas();
+    this.onListEmpresas();
 
     // Verifica se dados da vaga foram passados para entrar em modo de edição
     if (this.data && this.data.conteudoVaga) {
@@ -256,15 +267,32 @@ export class CadastroVagaDialogComponent implements OnInit {
         (c: ICursos) => c.id_cursos
       );
 
+      if (this.data.role === this.roleEnum.EMPRESA) {
+        formValue.id_empresas = this.data.id;
+      }
+
       console.log('Enviando para o backend (CRIAR):', formValue);
 
       this.vagaService.httpRegisterVaga$(formValue).subscribe({
         next: (response) => {
           console.log('Vaga cadastrada com sucesso:', response);
           this._dialogRef.close(response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Vaga cadastrada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          })
         },
         error: (error) => {
           console.error('Erro ao cadastrar vaga:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao cadastrar vaga',
+            text: 'Ocorreu um erro ao cadastrar a vaga. Por favor, tente novamente.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830'
+          })
         },
       });
     } else {
@@ -284,10 +312,8 @@ export class CadastroVagaDialogComponent implements OnInit {
         (c: ICursos) => c.id_cursos
       );
 
-      if (formValue.data_fechamento) {
-        formValue.data_fechamento = new Date(formValue.data_fechamento)
-          .toISOString()
-          .split('T')[0];
+      if (this.data.role === this.roleEnum.EMPRESA) {
+        formValue.id_empresas = this.data.id;
       }
 
       console.log(this.data.idVagas);
@@ -349,6 +375,16 @@ export class CadastroVagaDialogComponent implements OnInit {
       error: (error) => {
         console.log('Erro ao carregar estados', error);
       },
+    });
+  }
+
+  public onListEmpresas() {
+    this.pessoasService.httpListEmpresas$().subscribe({
+      next: (response) => {
+        const empresasFiltradas = response.filter((pessoa) => pessoa.empresa);
+        this.empresas.set(empresasFiltradas);
+      },
+      error: (error) => console.log('Erro ao buscar empresas:', error),
     });
   }
 }

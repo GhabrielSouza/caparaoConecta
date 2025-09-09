@@ -146,6 +146,7 @@ export class ResetPasswordComponent {
           title: 'Erro',
           text: 'Não foi possível redefinir sua senha. Tente novamente mais tarde.',
           confirmButtonText: 'OK',
+          confirmButtonColor: '#359830',
         });
       },
     });

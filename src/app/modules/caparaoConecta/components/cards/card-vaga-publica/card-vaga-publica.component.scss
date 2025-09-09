@@ -70,6 +70,11 @@
     font-weight: 700;
     color: #212529;
     margin: 0 0 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
   }
 
   .vaga-descricao {

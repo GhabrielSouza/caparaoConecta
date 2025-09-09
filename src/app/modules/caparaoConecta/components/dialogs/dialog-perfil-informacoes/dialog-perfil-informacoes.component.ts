@@ -45,6 +45,7 @@ import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
 import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
 
 import { IPessoa } from '../../../interface/IPessoa.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
@@ -285,9 +286,20 @@ export class DialogPerfilInformacoesComponent implements OnInit {
         next: (resposta) => {
           console.log(resposta);
           this._dialogRef.close(resposta);
+          Swal.fire({
+            icon: 'success',
+            text: 'Informações atualizadas com sucesso',
+            showConfirmButton: false,
+          });
         },
         error: (error) => {
           console.error('Error updating data', error);
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro ao atualizar informações do perfil',
+            confirmButtonColor: '#359830',
+            confirmButtonText: 'OK',
+          });
         },
       });
   }

@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
 import { IInstituicao } from '../../../interface/IInstuicao.interface';
 import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-formacao-academica',
@@ -131,9 +132,22 @@ export class FormFormacaoAcademicaComponent {
         next: (data) => {
           console.log('Lista atualizada:', data);
           this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Formação acadêmica cadastrada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
           console.error('Erro ao atualizar', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao cadastrar formação acadêmica',
+            text: 'Ocorreu um erro ao cadastrar a formação acadêmica. Por favor, tente novamente.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
         },
         complete: () => {
           console.log('Finalizado');
@@ -154,8 +168,22 @@ export class FormFormacaoAcademicaComponent {
         next: (data) => {
           console.log('Formacao atualizada' + data);
           this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Formação acadêmica atualizada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
-        error: (error) => [console.log(error)],
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title:
+              'Ocurreu um erro ao cadastrar formação. Por favor, tente novamente.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
+        },
       });
   }
 
