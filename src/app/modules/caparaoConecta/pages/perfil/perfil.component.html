@@ -5,6 +5,7 @@
   [data]="dadosPessoais()"
   [IdUsuario]="user()?.id_pessoas"
   [idTipoUsuario]="user()?.id_tipo_usuarios"
+  [isEditable]="true"
 ></app-component-perfil-dados>
 
 <app-component-default-perfil
@@ -21,6 +22,7 @@
   [formacoes]="formacoes()"
   [cursos]="cursos()"
   [habilidades]="habilidades()"
+  [isEditable]="true"
 >
 </app-perfil-candidato>
 } @if(role() === roleEnum.EMPRESA) {

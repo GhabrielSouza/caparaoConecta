@@ -1,0 +1,29 @@
+<app-cabecalho></app-cabecalho>
+
+@if(statusCarregamento() === 'concluido' && perfil(); as perfilData) {
+<app-component-perfil-dados
+  [data]="perfilData"
+  [isEditable]="false"
+></app-component-perfil-dados>
+
+<app-component-default-perfil title="Sobre" [data]="perfilData.sobre">
+</app-component-default-perfil>
+
+@if(perfilData.pessoas_fisica) {
+<app-perfil-candidato
+  [experiencias]="perfilData.pessoas_fisica.experiencia"
+  [formacoes]="perfilData.pessoas_fisica.formacao_academica"
+  [cursos]="perfilData.pessoas_fisica.cursos"
+  [habilidades]="perfilData.pessoas_fisica.habilidades"
+  [isEditable]="false"
+>
+</app-perfil-candidato>
+} @if(perfilData.empresa) {
+<app-perfil-empresa [dadosEmpresa]="perfilData.empresa"></app-perfil-empresa>
+} } @else if (statusCarregamento() === 'carregando') {
+<app-spinner />
+} @else {
+<p>Perfil não encontrado.</p>
+}
+
+<app-footer></app-footer>

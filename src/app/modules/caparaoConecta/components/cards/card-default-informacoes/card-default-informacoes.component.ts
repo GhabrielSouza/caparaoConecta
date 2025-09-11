@@ -34,6 +34,8 @@ export class CardDefaultInformacoesComponent {
 
   @Input() public idUsuario: any;
 
+  @Input() isEditable: boolean = false;
+
   openEditDialog(): void {
     this.dialog.open(FormExperienciaProfissionalComponent, {
       width: '600px',

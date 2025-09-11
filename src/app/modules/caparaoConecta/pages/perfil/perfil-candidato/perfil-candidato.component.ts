@@ -30,5 +30,7 @@ export class PerfilCandidatoComponent implements OnInit {
 
   @Input() IdUsuario: any;
 
+  @Input() isEditable: boolean = false;
+
   ngOnInit(): void {}
 }

@@ -2,7 +2,7 @@
 <div
   class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative"
 >
-  <div class="card-actions">
+  <div class="card-actions" *ngIf="isEditable">
     <button class="btn-edit" (click)="openEditDialog()">
       <img
         src="assets/icons/pen-solid.svg"
@@ -50,7 +50,7 @@
 <div
   class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative"
 >
-  <div class="card-actions">
+  <div class="card-actions" *ngIf="isEditable">
     <button class="btn-edit" (click)="openEditDialogFormacao()">
       <img
         src="assets/icons/pen-solid.svg"
@@ -100,7 +100,7 @@
 <div
   class="card-container cpc-background-white d-flex align-items-center p-3 gap-3 position-relative"
 >
-  <div class="card-actions">
+  <div class="card-actions" *ngIf="isEditable">
     <button class="btn-edit" (click)="openEditDialogCurso()">
       <img
         src="assets/icons/pen-solid.svg"

@@ -33,16 +33,32 @@
             </button>
           </div>
 
-          <div
-            class="notificacao-mensagem cpc-regular"
-            *ngIf="notificacao.dados.candidato_id; else vaga"
-          >
-            {{ notificacao.dados.candidato_nome }} candidatou-se à vaga
-            {{ notificacao.dados.titulo_vaga }}
+          @if (notificacao.tipo === 'nova_candidatura') {
+          <div class="notificacao-mensagem cpc-regular">
+            <strong>{{ notificacao.dados.candidato_nome }}</strong>
+            candidatou-se à vaga
+            <strong
+              >"{{
+                notificacao.dados.titulo_vaga || notificacao.dados.titulo_vaga
+              }}"</strong
+            >.
           </div>
-          <ng-template class="notificacao-mensagem cpc-regular" #vaga>
-            {{ notificacao.dados.titulo_vaga }}
-          </ng-template>
+          } @else if (notificacao.tipo === 'perfil_visualizado') {
+          <div class="notificacao-mensagem cpc-regular">
+            A empresa
+            <strong>"{{ notificacao.dados.nome_empresa }}"</strong> visualizou
+            seu perfil.
+          </div>
+          } @else if (notificacao.tipo === 'nova_vaga_recomendada') {
+          <div class="notificacao-mensagem cpc-regular">
+            Nova vaga recomendada:
+            <strong>"{{ notificacao.dados.titulo_vaga }}"</strong>.
+          </div>
+          } @else {
+          <div class="notificacao-mensagem cpc-regular">
+            Você tem uma nova notificação.
+          </div>
+          }
           <div class="notificacao-data">
             {{ notificacao.created_at | date : "short" }}
           </div>

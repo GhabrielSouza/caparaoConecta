@@ -16,6 +16,7 @@ import { authGuardGuard } from './guard/auth-guard.guard';
 import { PesquisarComponent } from './modules/caparaoConecta/pages/pesquisar/pesquisar.component';
 import { ResetEmailComponent } from './modules/caparaoConecta/pages/reset-email/reset-email.component';
 import { ResetPasswordComponent } from './modules/caparaoConecta/pages/reset-password/reset-password.component';
+import { VisualizarPerfilComponent } from './modules/caparaoConecta/pages/visualizar-perfil/visualizar-perfil.component';
 
 export const routes: Routes = [
   {
@@ -53,12 +54,11 @@ export const routes: Routes = [
     path: 'perfil',
     component: PerfilComponent,
     canActivate: [authGuardGuard],
-    children: [
-      {
-        path: 'perfil:id',
-        component: PerfilComponent,
-      },
-    ],
+  },
+  {
+    path: 'perfil/:id',
+    component: VisualizarPerfilComponent,
+    canActivate: [authGuardGuard],
   },
   {
     path: 'habilidades',

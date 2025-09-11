@@ -13,7 +13,7 @@
             alt="Foto de perfil"
             loading="eager"
           />
-          <div class="container_img-edit">
+          <div class="container_img-edit" *ngIf="isEditable">
             <button class="btn" (click)="dialogEditImagem()">
               <img
                 class="img-perfil-edit"
@@ -49,7 +49,11 @@
           </p>
           }
 
-          <button class="btn btn-quinary my-3" (click)="openDialog(data)">
+          <button
+            class="btn btn-quinary my-3"
+            (click)="openDialog(data)"
+            *ngIf="isEditable"
+          >
             <img
               src="assets/icons/editInfos.svg"
               alt="Editar perfil"

@@ -131,8 +131,9 @@ export class DetalhesVagaComponent implements OnChanges {
     }
 
     const viewModels = vaga.candidato.map((candidato): CandidatoViewModel => {
-      const habilidadesDoCandidato = candidato.pessoa?.habilidades || [];
-      const cursosDoCandidato = candidato.pessoa?.cursos || [];
+      const habilidadesDoCandidato =
+        candidato.pessoa.pessoas_fisica?.habilidades || [];
+      const cursosDoCandidato = candidato.pessoa.pessoas_fisica?.cursos || [];
 
       const idsHabilidadesDoCandidato = new Set(
         habilidadesDoCandidato.map((h) => h.id_habilidades)

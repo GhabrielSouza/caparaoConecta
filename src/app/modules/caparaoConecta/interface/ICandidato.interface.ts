@@ -12,5 +12,9 @@ export interface ICandidato {
   area_atuacao: IAreasAtuacao;
   id_areas_atuacao: number;
   cadUnico?: string;
+  formacao_academica: IFormacoesAcademicas[];
+  experiencia: IExperiencia[];
+  cursos: ICursos[];
+  habilidades: IHabilidades[];
   data_de_nascimento: string;
 }

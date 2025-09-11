@@ -31,6 +31,8 @@ export class ComponentDefaultPerfilComponent {
   @Input() public dataHabilidades: IHabilidades[] | null = [];
   @Input() public dataCursos: ICursos[] | null = [];
 
+  @Input() isEditable: boolean = false;
+
   openDialogFormacao(): void {
     const dialogRef = this.#dialog.open(FormFormacaoAcademicaComponent, {
       panelClass: EDialogEnum.FORMACAO,
@@ -108,6 +110,10 @@ export class ComponentDefaultPerfilComponent {
 
   // Método para verificar se mostra o botão
   showAddButton(): boolean {
+    if (!this.isEditable) {
+      return false;
+    }
+
     return [
       'Formação acadêmica',
       'Sobre',

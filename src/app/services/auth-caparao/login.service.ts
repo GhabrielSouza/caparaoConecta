@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -15,6 +15,12 @@ export class AuthService {
   public currentUser = signal<IUsuario | null | undefined>(undefined);
 
   constructor(private http: HttpClient) {}
+
+  public empresaTemVagas = computed(() => {
+    const user = this.currentUser();
+    // Acessa a relação de vagas da empresa e verifica se a lista não está vazia.
+    return (user?.pessoa?.empresa?.vagas?.length ?? 0) > 0;
+  });
 
   private getCsrfCookie(): Observable<any> {
     return this.http.get(`${this.#url()}/sanctum/csrf-cookie`);

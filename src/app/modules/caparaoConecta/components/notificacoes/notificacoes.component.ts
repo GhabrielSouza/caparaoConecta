@@ -12,6 +12,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { DatePipe, CommonModule } from '@angular/common';
 import { NotificacoesService } from '../../../../services/notificoes/notificacoes.service';
 import { INotificacoes } from '../../interface/INotificacoes.interface';
+import { CdkNoDataRow } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-notificacoes',

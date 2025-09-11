@@ -6,10 +6,11 @@ import { IPessoa } from '../../interface/IPessoa.interface';
 import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-usuario/dialog-editar-foto-usuario.component';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { environment } from '../../../../../environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-component-perfil-dados',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './component-perfil-dados.component.html',
   styleUrl: './component-perfil-dados.component.scss',
 })
@@ -21,6 +22,8 @@ export class ComponentPerfilDadosComponent implements OnInit {
   @Input() public data!: IPessoa | null;
   @Input() public IdUsuario: any;
   @Input() public idTipoUsuario: any;
+
+  @Input() isEditable: boolean = false;
 
   get telefoneWhatsApp(): string {
     return '55' + (this.data?.telefone?.replace(/\D/g, '') ?? '');

@@ -1,6 +1,6 @@
 <div class="cards-grid">
   @for (pessoa of pessoas; track pessoa.id_pessoas) {
-  <div class="profile-card">
+  <div class="profile-card" [routerLink]="['/perfil', pessoa.id_pessoas]">
     <div class="card-background"></div>
     <div class="card-content">
       <img
