@@ -42,14 +42,13 @@ export class VisualizarPerfilComponent implements OnInit {
     const perfilId = this.route.snapshot.paramMap.get('id');
 
     if (perfilId) {
-      // Busca os dados do perfil específico na API
       this.pessoasService.httpListCandidatosIdPerfil$(+perfilId).subscribe({
         next: (data) => {
           this.perfil.set(data);
           this.statusCarregamento.set('concluido');
           console.log('Perfil carregado:', data);
           if (this.userAuth.currentUser()?.tipo_usuario?.nome === 'EMPRESA') {
-            if (!this.userAuth.empresaTemVagas()) {
+            if (this.userAuth.empresaTemVagas() === null) {
               Swal.fire({
                 icon: 'info',
                 title: 'Atenção',

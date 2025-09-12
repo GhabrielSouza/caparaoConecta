@@ -1,5 +1,6 @@
 <app-cabecalho></app-cabecalho>
 
+@defer (when statusCarregamento() === 'concluido') {
 <div *ngIf="vaga">
   <app-detalhes-vaga
     [IdUsuario]="user()?.id_pessoas"
@@ -7,5 +8,17 @@
     [role]="role()"
   ></app-detalhes-vaga>
 </div>
-
+<div *ngIf="!vaga">
+  <app-empy
+    icone="face-sad-cry-regular-full.svg"
+    titulo="Vaga não encontrada"
+    mensagem="A vaga que você está tentando acessar não existe ou foi removida."
+    [botaoHiddem]="true"
+  />
+</div>
+} @placeholder (minimum 1s){
+<app-spinner />
+}@loading (minimum 1s) {
+<app-spinner />
+}
 <app-footer></app-footer>
