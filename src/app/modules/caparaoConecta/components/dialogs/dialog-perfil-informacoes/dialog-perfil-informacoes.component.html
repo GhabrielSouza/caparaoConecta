@@ -4,236 +4,241 @@
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
 </header>
+
 <mat-dialog-content>
   <form [formGroup]="cadastrarForm" class="row">
-    <app-primary-input
-      formControlName="nome"
-      type="text"
-      placeholder="Digite seu nome"
-      label="Nome"
-      inputName="nome"
-      class="col-12"
-    >
-      @if (cadastrarForm.get('nome')?.invalid &&
-      (cadastrarForm.get('nome')?.touched || cadastrarForm.get('nome')?.dirty ))
-      {
-      <mat-error>{{ fieldErrors()["nome"] }}</mat-error>
-      }
-    </app-primary-input>
-    @if(data.conteudo.usuario.id_tipo_usuarios == 2) {
-    <app-primary-input
-      formControlName="sobrenome"
-      type="text"
-      placeholder="Digite seu nome"
-      label="Sobrenome"
-      inputName="sobrenome"
-      class="col-12"
-    >
-      @if (cadastrarForm.get('sobrenome')?.invalid &&
-      (cadastrarForm.get('sobrenome')?.touched ||
-      cadastrarForm.get('sobrenome')?.dirty )) {
-      <mat-error>{{ fieldErrors()["sobrenome"] }}</mat-error>
-      }
-    </app-primary-input>
-
-    <div class="d-flex flex-column flex-sm-row">
-      <app-data-nascimento-input
-        formControlName="data_de_nascimento"
-        type="text"
-        placeholder="dd/mm/yyyy"
-        label="Data de nascimento"
-        inputName="data_de_nascimento"
-        class="col-12 col-sm-6"
-      >
-        @if (cadastrarForm.get('data_de_nascimento')?.invalid &&
-        (cadastrarForm.get('data_de_nascimento')?.touched ||
-        cadastrarForm.get('data_de_nascimento')?.dirty )) {
-        <mat-error>{{ fieldErrors()["data_de_nascimento"] }}</mat-error>
-        }
-      </app-data-nascimento-input>
-
-      <app-genero-input
-        formControlName="genero"
-        type="text"
-        placeholder="Selecione seu gênero"
-        label="Gênero"
-        inputName="genero"
-        class="col-12 col-sm-6 ps-sm-3"
-      >
-        @if (cadastrarForm.get('genero')?.invalid &&
-        (cadastrarForm.get('genero')?.touched ||
-        cadastrarForm.get('genero')?.dirty )) {
-        <mat-error>{{ fieldErrors()["genero"] }}</mat-error>
-        }
-      </app-genero-input>
+    <!-- Nome -->
+    <div class="col-12">
+      <label class="cpc-medium-010">Nome</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="nome"
+          type="text"
+          placeholder="Digite seu nome"
+        />
+        <mat-error *ngIf="cadastrarForm.get('nome')?.invalid">
+          {{ fieldErrors()["nome"] }}
+        </mat-error>
+      </mat-form-field>
     </div>
-    }
 
-    <app-primary-input
-      type="text"
-      formControlName="instagram"
-      inputName="instagram"
-      label="Instagram"
-      placeholder="Insira seu link"
-    >
-      @if (cadastrarForm.get('confirmPassword')?.invalid &&
-      (cadastrarForm.get('confirmPassword')?.touched ||
-      cadastrarForm.get('confirmPassword')?.dirty )){
-      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-      } @if (cadastrarForm.errors?.['Invalida']) {
-      <mat-error> As senhas não coincidem.</mat-error>
-      }
-    </app-primary-input>
-    <app-primary-input
-      type="text"
-      formControlName="lattes"
-      inputName="lattes"
-      label="Lattes"
-      placeholder="Insira seu link"
-    >
-      @if (cadastrarForm.get('confirmPassword')?.invalid &&
-      (cadastrarForm.get('confirmPassword')?.touched ||
-      cadastrarForm.get('confirmPassword')?.dirty )){
-      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-      } @if (cadastrarForm.errors?.['Invalida']) {
-      <mat-error> As senhas não coincidem.</mat-error>
-      }
-    </app-primary-input>
-    <app-primary-input
-      type="text"
-      formControlName="github"
-      inputName="github"
-      label="Github"
-      placeholder="Insira seu link"
-    >
-      @if (cadastrarForm.get('confirmPassword')?.invalid &&
-      (cadastrarForm.get('confirmPassword')?.touched ||
-      cadastrarForm.get('confirmPassword')?.dirty )){
-      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-      } @if (cadastrarForm.errors?.['Invalida']) {
-      <mat-error> As senhas não coincidem.</mat-error>
-      }
-    </app-primary-input>
-    <app-primary-input
-      type="text"
-      formControlName="linkedin"
-      inputName="linkedin"
-      label="Linkedin"
-      placeholder="Insira seu link"
-    >
-      @if (cadastrarForm.get('confirmPassword')?.invalid &&
-      (cadastrarForm.get('confirmPassword')?.touched ||
-      cadastrarForm.get('confirmPassword')?.dirty )){
-      <mat-error>{{ fieldErrors()["confirmPassword"] }}</mat-error>
-      } @if (cadastrarForm.errors?.['Invalida']) {
-      <mat-error> As senhas não coincidem.</mat-error>
-      }
-    </app-primary-input>
-
-    <app-telefone-input
-      formControlName="telefone"
-      type="tel"
-      placeholder="Digite seu número"
-      label="Telefone(DDD)"
-      inputName="telefone"
-      >@if (cadastrarForm.get('telefone')?.invalid &&
-      (cadastrarForm.get('telefone')?.touched ||
-      cadastrarForm.get('telefone')?.dirty )) {
-      <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
-      }</app-telefone-input
-    >
-    <div class="d-flex gap-3 align-items-start flex-column flex-md-row">
-      <div class="flex-grow-1 input-container w-100 w-sm-0">
-        <mat-label class="d-block">Estado</mat-label>
-        <mat-form-field class="w-100">
-          <mat-select
-            formControlName="estado"
-            placeholder="Selecione seu estado"
-            (selectionChange)="carregarCidadesPorEstado($event.value.id)"
-            [compareWith]="compararEstados"
-          >
-            @for(estado of estados; track estado.id){
-            <mat-option [value]="estado">
-              {{ estado.nome }}
-            </mat-option>
-            }
-          </mat-select>
-          @if (cadastrarForm.get('estado')?.invalid &&
-          (cadastrarForm.get('estado')?.touched ||
-          cadastrarForm.get('estado')?.dirty)) {
-          <mat-error>{{ fieldErrors()["estado"] }}</mat-error>
-          }
-        </mat-form-field>
-      </div>
-
-      <!-- Campo de Cidade -->
-      <div class="flex-grow-1 input-container w-100 w-sm-0">
-        <mat-label class="d-block">Cidade</mat-label>
-        <!-- Label posicionado acima -->
-        <mat-form-field class="w-100">
-          <mat-select
-            formControlName="cidade"
-            placeholder="Selecione sua cidade"
-          >
-            @for(cidade of cidades; track cidade.id){
-            <mat-option [value]="cidade">
-              {{ cidade.nome }}
-            </mat-option>
-            }
-          </mat-select>
-          @if (cadastrarForm.get('cidade')?.invalid &&
-          (cadastrarForm.get('cidade')?.touched ||
-          cadastrarForm.get('cidade')?.dirty)) {
-          <mat-error>{{ fieldErrors()["cidade"] }}</mat-error>
-          }
-        </mat-form-field>
-      </div>
+    <!-- Sobrenome -->
+    <div *ngIf="data.conteudo.usuario.id_tipo_usuarios == 2" class="col-12">
+      <label class="cpc-medium-010">Sobrenome</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="sobrenome"
+          type="text"
+          placeholder="Digite seu sobrenome"
+        />
+        <mat-error *ngIf="cadastrarForm.get('sobrenome')?.invalid">
+          {{ fieldErrors()["sobrenome"] }}
+        </mat-error>
+      </mat-form-field>
     </div>
-    @if(data.conteudo.usuario.id_tipo_usuarios == 2) {
-    <div class="flex-grow-1 input-container">
-      <mat-label class="d-block">Área de Atuação</mat-label>
-      <!-- Label posicionado acima -->
+
+    <!-- Data de Nascimento -->
+    <div class="col-12 col-sm-6">
+      <label class="cpc-medium-010">Data de Nascimento</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="data_de_nascimento"
+          type="date"
+          placeholder="dd/mm/yyyy"
+        />
+        <mat-error *ngIf="cadastrarForm.get('data_de_nascimento')?.invalid">
+          {{ fieldErrors()["data_de_nascimento"] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Gênero -->
+    <div class="col-12 col-sm-6 ps-sm-3">
+      <label class="cpc-medium-010">Gênero</label>
+      <mat-form-field class="w-100">
+        <mat-select formControlName="genero" placeholder="Selecione seu gênero">
+          <mat-option *ngFor="let genero of generos" [value]="genero">
+            {{ genero }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="cadastrarForm.get('genero')?.invalid">
+          {{ fieldErrors()["genero"] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Instagram -->
+    <div class="col-12">
+      <label class="cpc-medium-010">Instagram</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="instagram"
+          type="text"
+          placeholder="Insira seu link"
+        />
+        <mat-error *ngIf="cadastrarForm.get('instagram')?.invalid">
+          {{ fieldErrors()["instagram"] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Currículo Lattes -->
+    <div class="col-12">
+      <label class="cpc-medium-010">Currículo Lattes</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="lattes"
+          type="text"
+          placeholder="Insira seu link"
+        />
+        <mat-error *ngIf="cadastrarForm.get('lattes')?.hasError('pattern')">
+          O link deve começar com "http://" ou "https://"
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Github -->
+    <div class="col-12">
+      <label class="cpc-medium-010">Github</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="github"
+          type="text"
+          placeholder="Insira seu link"
+        />
+        <mat-error *ngIf="cadastrarForm.get('github')?.hasError('pattern')">
+          O link deve começar com "http://" ou "https://"
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Linkedin -->
+    <div class="col-12">
+      <label class="cpc-medium-010">Linkedin</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="linkedin"
+          type="text"
+          placeholder="Insira seu link"
+        />
+        <mat-error *ngIf="cadastrarForm.get('linkedin')?.hasError('pattern')">
+          O link deve começar com "http://" ou "https://"
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Telefone -->
+    <div class="col-12">
+      <label class="cpc-medium-010">Telefone (DDD)</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="telefone"
+          type="tel"
+          mask="(00) 0 0000-0000"
+          placeholder="Digite seu número"
+        />
+        <mat-error *ngIf="cadastrarForm.get('telefone')?.hasError('required')">
+          O telefone é obrigatório.
+        </mat-error>
+        <mat-error *ngIf="cadastrarForm.get('telefone')?.hasError('pattern')">
+          O telefone deve estar no formato (XX) XXXXX-XXXX.
+        </mat-error>
+        <mat-error *ngIf="cadastrarForm.get('telefone')?.hasError('minlength')">
+          O telefone deve ter no mínimo 10 dígitos.
+        </mat-error>
+        <mat-error *ngIf="cadastrarForm.get('telefone')?.hasError('maxlength')">
+          O telefone deve ter no máximo 15 dígitos.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Estado -->
+    <div class="col-12 col-md-6">
+      <label class="cpc-medium-010">Estado</label>
+      <mat-form-field class="w-100">
+        <mat-select
+          formControlName="estado"
+          placeholder="Selecione seu estado"
+          (selectionChange)="carregarCidadesPorEstado($event.value.id)"
+        >
+          <mat-option *ngFor="let estado of estados" [value]="estado">
+            {{ estado.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="cadastrarForm.get('estado')?.invalid">
+          {{ fieldErrors()["estado"] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Cidade -->
+    <div class="col-12 col-md-6">
+      <label class="cpc-medium-010">Cidade</label>
+      <mat-form-field class="w-100">
+        <mat-select formControlName="cidade" placeholder="Selecione sua cidade">
+          <mat-option *ngFor="let cidade of cidades" [value]="cidade">
+            {{ cidade.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="cadastrarForm.get('cidade')?.invalid">
+          {{ fieldErrors()["cidade"] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Área de Atuação -->
+    <div *ngIf="data.conteudo.usuario.id_tipo_usuarios == 2" class="col-12">
+      <label class="cpc-medium-010">Área de Atuação</label>
       <mat-form-field class="w-100">
         <mat-select
           formControlName="id_areas_atuacao"
           placeholder="Selecione sua área de atuação"
         >
-          @for(area of areasAtuacao; track area.id_areas_atuacao){
-          <mat-option [value]="area.id_areas_atuacao">
+          <mat-option
+            *ngFor="let area of areasAtuacao"
+            [value]="area.id_areas_atuacao"
+          >
             {{ area.nome_area }}
           </mat-option>
-          }
         </mat-select>
-        @if (cadastrarForm.get('id_areas_atuacao')?.invalid &&
-        (cadastrarForm.get('id_areas_atuacao')?.touched ||
-        cadastrarForm.get('id_areas_atuacao')?.dirty)) {
-        <mat-error>{{ fieldErrors()["id_areas_atuacao"] }}</mat-error>
-        }
+        <mat-error *ngIf="cadastrarForm.get('id_areas_atuacao')?.invalid">
+          {{ fieldErrors()["id_areas_atuacao"] }}
+        </mat-error>
       </mat-form-field>
     </div>
-    }
-    <app-primary-input
-      formControlName="email"
-      type="email"
-      inputName="email"
-      label="Email"
-      placeholder="Digite seu email"
-      class="col-12"
-    >
-      @if (cadastrarForm.get('email')?.invalid &&
-      (cadastrarForm.get('email')?.touched || cadastrarForm.get('email')?.dirty
-      )) {
-      <mat-error>{{ fieldErrors()["email"] }}</mat-error>
-      }
-    </app-primary-input>
 
-    <div class="d-flex justify-content-end">
+    <!-- Email -->
+    <div class="col-12">
+      <label class="cpc-medium-010">Email</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="email"
+          type="email"
+          placeholder="Digite seu email"
+        />
+        <mat-error *ngIf="cadastrarForm.get('email')?.invalid">
+          {{ fieldErrors()["email"] }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Botão Salvar -->
+    <div class="d-flex justify-content-end mt-3">
       <app-button-primary
         fonte="cpc-regular"
         color="btn-secondary"
         text="Salvar"
         (click)="submit()"
-      />
+      ></app-button-primary>
     </div>
   </form>
 </mat-dialog-content>

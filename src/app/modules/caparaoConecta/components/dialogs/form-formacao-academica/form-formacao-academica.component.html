@@ -9,7 +9,7 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <div class="col flex-grow-1 input-container">
-      <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+      <label class="cpc-medium-010">Instituição de ensino</label>
       <mat-form-field class="example-full-width w-100">
         <input
           type="text"
@@ -23,12 +23,22 @@
           <mat-option [value]="option">{{ option.nome }}</mat-option>
           }
         </mat-autocomplete>
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="
+            form.get('instituicao')?.touched &&
+            form.get('instituicao')?.invalid &&
+            form.get('instituicao')?.hasError('required')
+          "
+        >
+          Instituição é obrigatória
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="d-flex justify-content-between gap-2 flex-column flex-sm-row">
       <div class="col flex-grow-1 input-container">
-        <mat-label class="cpc-medium-010">Nível de escolaridade</mat-label>
+        <label class="cpc-medium-010">Nível de escolaridade</label>
         <mat-form-field class="w-100">
           <mat-select
             placeholder="Selecione uma escolaridade"
@@ -41,29 +51,52 @@
             <mat-option value="Graduação">Graduação</mat-option>
             <mat-option value="Pós-graduação">Pós-graduação</mat-option>
           </mat-select>
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="
+              form.get('escolaridade')?.touched &&
+              form.get('escolaridade')?.invalid &&
+              form.get('escolaridade')?.hasError('required')
+            "
+          >
+            Escolaridade é obrigatória
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <app-primary-input
-        formControlName="area_de_estudo"
-        type="text"
-        placeholder="Qual sua área de estudo?"
-        label="Área de estudo"
-        inputName="area_de_estudo"
-        class="col-12 col-sm-6 ps-0 ps-sm-2"
-      />
+      <div class="col-12 col-sm-6 ps-0 ps-sm-2">
+        <label class="cpc-medium-010">Área de estudo</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="area_de_estudo"
+            type="text"
+            placeholder="Qual sua área de estudo?"
+          />
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="
+              form.get('area_de_estudo')?.touched &&
+              form.get('area_de_estudo')?.invalid &&
+              form.get('area_de_estudo')?.hasError('required')
+            "
+          >
+            Área é obrigatória
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="d-flex justify-content-between align-items-center p-2">
       <div class="d-flex flex-column">
-        <mat-label class="cpc-medium-010 pb-2">Já concluiu?</mat-label>
+        <label class="cpc-medium-010 pb-2">Já concluiu?</label>
         <mat-radio-group formControlName="conclusao_formacao">
           <mat-radio-button [value]="true">Sim</mat-radio-button>
           <mat-radio-button [value]="false">Não</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="d-flex flex-column">
-        <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
+        <label class="cpc-medium-010 pb-2">Possui certificado?</label>
         <mat-radio-group formControlName="diploma_formacao">
           <mat-radio-button [value]="true">Sim</mat-radio-button>
           <mat-radio-button [value]="false">Não</mat-radio-button>
@@ -71,23 +104,51 @@
       </div>
     </div>
 
-    <app-primary-input
-      formControlName="data_emissao"
-      type="date"
-      placeholder="Mês/Ano"
-      label="Data emissão"
-      inputName="data_emissao"
-    />
+    <div class="w-100">
+      <label class="cpc-medium-010">Data emissão</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="data_emissao"
+          type="date"
+          placeholder="Mês/Ano"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="
+            form.get('data_emissao')?.touched &&
+            form.get('data_emissao')?.invalid &&
+            form.get('data_emissao')?.hasError('required')
+          "
+        >
+          Data de emissão é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     @if(form.get('diploma_formacao')?.value == true &&
     form.get('conclusao_formacao')?.value == true) {
-    <app-primary-input
-      formControlName="data_conclusao"
-      type="date"
-      placeholder="Mês/Ano"
-      label="Data conclusão"
-      inputName="data_conclusao"
-    />
+    <div class="w-100">
+      <label class="cpc-medium-010">Data conclusão</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="data_conclusao"
+          type="date"
+          placeholder="Mês/Ano"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="
+            form.get('data_conclusao')?.touched &&
+            form.get('data_conclusao')?.invalid &&
+            form.get('data_conclusao')?.hasError('required')
+          "
+        >
+          Data de conclusão é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
     }
     <div class="d-flex justify-content-end mt-4">
       <app-button-primary
@@ -95,6 +156,7 @@
         color="btn-secondary"
         text="Salvar"
         (click)="submit()"
+        [disabled]="form.invalid"
       />
     </div>
   </form>
@@ -110,7 +172,7 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <div class="col flex-grow-1 input-container">
-      <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+      <label class="cpc-medium-010">Instituição de ensino</label>
       <mat-form-field class="example-full-width w-100">
         <input
           type="text"
@@ -124,12 +186,22 @@
           <mat-option [value]="option">{{ option.nome }}</mat-option>
           }
         </mat-autocomplete>
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="
+            form.get('instituicao')?.touched &&
+            form.get('instituicao')?.invalid &&
+            form.get('instituicao')?.hasError('required')
+          "
+        >
+          Instituição é obrigatória
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="d-flex justify-content-between gap-2 flex-column flex-sm-row">
       <div class="col flex-grow-1 input-container">
-        <mat-label class="cpc-medium-010">Nível de escolaridade</mat-label>
+        <label class="cpc-medium-010">Nível de escolaridade</label>
         <mat-form-field class="w-100">
           <mat-select
             placeholder="Selecione uma escolaridade"
@@ -142,29 +214,52 @@
             <mat-option value="Graduação">Graduação</mat-option>
             <mat-option value="Pós-graduação">Pós-graduação</mat-option>
           </mat-select>
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="
+              form.get('escolaridade')?.touched &&
+              form.get('escolaridade')?.invalid &&
+              form.get('escolaridade')?.hasError('required')
+            "
+          >
+            Escolaridade é obrigatória
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <app-primary-input
-        formControlName="area_de_estudo"
-        type="text"
-        placeholder="Qual sua área de estudo?"
-        label="Área de estudo"
-        inputName="area_de_estudo"
-        class="col-12 col-sm-6 ps-0 ps-sm-2"
-      />
+      <div class="col-12 col-sm-6 ps-0 ps-sm-2">
+        <label class="cpc-medium-010">Área de estudo</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="area_de_estudo"
+            type="text"
+            placeholder="Qual sua área de estudo?"
+          />
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="
+              form.get('area_de_estudo')?.touched &&
+              form.get('area_de_estudo')?.invalid &&
+              form.get('area_de_estudo')?.hasError('required')
+            "
+          >
+            Área é obrigatória
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="d-flex justify-content-between align-items-center p-2">
       <div class="d-flex flex-column">
-        <mat-label class="cpc-medium-010 pb-2">Já concluiu?</mat-label>
+        <label class="cpc-medium-010 pb-2">Já concluiu?</label>
         <mat-radio-group formControlName="conclusao_formacao">
           <mat-radio-button [value]="true">Sim</mat-radio-button>
           <mat-radio-button [value]="false">Não</mat-radio-button>
         </mat-radio-group>
       </div>
       <div class="d-flex flex-column">
-        <mat-label class="cpc-medium-010 pb-2">Possui certificado?</mat-label>
+        <label class="cpc-medium-010 pb-2">Possui certificado?</label>
         <mat-radio-group formControlName="diploma_formacao">
           <mat-radio-button [value]="true">Sim</mat-radio-button>
           <mat-radio-button [value]="false">Não</mat-radio-button>
@@ -172,23 +267,51 @@
       </div>
     </div>
 
-    <app-primary-input
-      formControlName="data_emissao"
-      type="date"
-      placeholder="Mês/Ano"
-      label="Data emissão"
-      inputName="data_emissao"
-    />
+    <div class="w-100">
+      <label class="cpc-medium-010">Data emissão</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="data_emissao"
+          type="date"
+          placeholder="Mês/Ano"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="
+            form.get('data_emissao')?.touched &&
+            form.get('data_emissao')?.invalid &&
+            form.get('data_emissao')?.hasError('required')
+          "
+        >
+          Data de emissão é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     @if(form.get('diploma_formacao')?.value == true &&
     form.get('conclusao_formacao')?.value == true) {
-    <app-primary-input
-      formControlName="data_conclusao"
-      type="date"
-      placeholder="Mês/Ano"
-      label="Data conclusão"
-      inputName="data_conclusao"
-    />
+    <div class="w-100">
+      <label class="cpc-medium-010">Data conclusão</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="data_conclusao"
+          type="date"
+          placeholder="Mês/Ano"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="
+            form.get('data_conclusao')?.touched &&
+            form.get('data_conclusao')?.invalid &&
+            form.get('data_conclusao')?.hasError('required')
+          "
+        >
+          Data de conclusão é obrigatória
+        </mat-error>
+      </mat-form-field>
+    </div>
     }
     <div class="d-flex justify-content-end mt-4">
       <app-button-primary

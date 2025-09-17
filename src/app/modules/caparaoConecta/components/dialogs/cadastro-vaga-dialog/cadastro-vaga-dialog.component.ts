@@ -117,9 +117,9 @@ export class CadastroVagaDialogComponent implements OnInit {
         Validators.required,
       ],
       id_areas_atuacao: [''],
-      habilidades: this._fb.array([]),
-      cursos: this._fb.array([]),
-      descricao: [''],
+      habilidades: this._fb.array([Validators.required]),
+      cursos: this._fb.array([Validators.required]),
+      descricao: ['', [Validators.maxLength(500)]],
       qtd_vaga: ['', [Validators.required, Validators.min(1)]],
       status: ['EM_ANDAMENTO', Validators.required],
       id_empresas: null,
@@ -282,7 +282,7 @@ export class CadastroVagaDialogComponent implements OnInit {
             title: 'Vaga cadastrada com sucesso!',
             showConfirmButton: false,
             timer: 1500,
-          })
+          });
         },
         error: (error) => {
           console.error('Erro ao cadastrar vaga:', error);
@@ -291,8 +291,8 @@ export class CadastroVagaDialogComponent implements OnInit {
             title: 'Erro ao cadastrar vaga',
             text: 'Ocorreu um erro ao cadastrar a vaga. Por favor, tente novamente.',
             confirmButtonText: 'OK',
-            confirmButtonColor: '#359830'
-          })
+            confirmButtonColor: '#359830',
+          });
         },
       });
     } else {

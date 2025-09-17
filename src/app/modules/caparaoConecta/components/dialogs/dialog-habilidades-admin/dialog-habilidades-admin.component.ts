@@ -21,7 +21,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'app-dialog-habilidades-admin',
   imports: [
     ButtonPrimaryComponent,
-    PrimaryInputComponent,
     ReactiveFormsModule,
     MatDialogContent,
     MatFormFieldModule,

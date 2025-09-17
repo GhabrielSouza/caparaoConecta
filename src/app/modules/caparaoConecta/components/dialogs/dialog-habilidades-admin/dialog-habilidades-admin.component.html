@@ -8,19 +8,27 @@
 <mat-dialog-content>
   <div class="habilidades-list">
     <form [formGroup]="formHabilidade">
-      <app-primary-input
-        formControlName="nome"
-        type="text"
-        placeholder="Digite uma nova habilidade"
-        label="Habilidade"
-        inputName="habilidade"
-      >
-        @if (formHabilidade.get('habilidade')?.invalid &&
-        (formHabilidade.get('habilidade')?.touched ||
-        formHabilidade.get('habilidade')?.dirty )) {
-        <mat-error>Este campo não pode estar vazio</mat-error>
-        }
-      </app-primary-input>
+      <!-- Habilidade -->
+      <div class="input-container">
+        <label class="cpc-medium-010">Habilidade</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="nome"
+            type="text"
+            placeholder="Digite uma nova habilidade"
+          />
+          <mat-error
+            *ngIf="
+              formHabilidade.get('nome')?.invalid &&
+              (formHabilidade.get('nome')?.touched ||
+                formHabilidade.get('nome')?.dirty)
+            "
+          >
+            Este campo não pode estar vazio
+          </mat-error>
+        </mat-form-field>
+      </div>
     </form>
   </div>
   <div class="d-flex justify-content-end">
@@ -29,6 +37,6 @@
       color="btn-secondary"
       text="Salvar"
       (click)="submit()"
-    />
+    ></app-button-primary>
   </div>
 </mat-dialog-content>

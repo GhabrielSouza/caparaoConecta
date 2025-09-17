@@ -8,52 +8,93 @@
 
 <mat-dialog-content>
   <form [formGroup]="formExperiencia">
-    <app-primary-input
-      formControlName="cargo"
-      type="text"
-      placeholder="Qual cargo você desempenhou"
-      inputName="cargo"
-      label="Cargo"
-    />
-
-    <app-primary-input
-      formControlName="nome_empresa"
-      type="text"
-      placeholder="Local onde desempenhou o cargo"
-      inputName="empresa"
-      label="Empresa"
-    />
-
-    <div class="d-flex justify-content-between gap-3 flex-column flex-sm-row">
-      <app-primary-input
-        formControlName="data_emissao"
-        type="date"
-        placeholder="Mês/Ano"
-        label="Início"
-        inputName="dateInicio"
-      />
-      <div>
-        <app-primary-input
-          formControlName="data_conclusao"
-          type="date"
-          placeholder="Mês/Ano"
-          label="Término"
-          inputName="dateTermino"
-          [ngClass]="
-            formExperiencia.get('trabalho_atual')?.value ? 'opacityy' : ''
-          "
+    <!-- Cargo -->
+    <div class="input-container">
+      <label class="cpc-medium-010">Cargo</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="cargo"
+          type="text"
+          placeholder="Qual cargo você desempenhou"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="formExperiencia.get('cargo')?.hasError('required')"
         >
-        </app-primary-input>
+          O campo cargo é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Empresa -->
+    <div class="input-container">
+      <label class="cpc-medium-010">Empresa</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="nome_empresa"
+          type="text"
+          placeholder="Local onde desempenhou o cargo"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="formExperiencia.get('nome_empresa')?.hasError('required')"
+        >
+          O campo empresa é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Datas de início e término -->
+    <div class="d-flex justify-content-between gap-4 flex-column flex-sm-row">
+      <div class="input-container">
+        <label class="cpc-medium-010">Início</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="data_emissao"
+            type="date"
+            placeholder="Mês/Ano"
+          />
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="formExperiencia.get('data_emissao')?.hasError('required')"
+          >
+            Data de início é obrigatório
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <label class="cpc-medium-010">Término</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="data_conclusao"
+            type="date"
+            placeholder="Mês/Ano"
+            [disabled]="formExperiencia.get('trabalho_atual')?.value"
+          />
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="
+              formExperiencia.get('data_conclusao')?.hasError('required') &&
+              !formExperiencia.get('trabalho_atual')?.value
+            "
+          >
+            Data de término é obrigatório
+          </mat-error>
+        </mat-form-field>
         <mat-checkbox
           formControlName="trabalho_atual"
           (change)="toggleDateTermino($event)"
-          class=""
         >
           Trabalho atualmente neste cargo
         </mat-checkbox>
       </div>
     </div>
 
+    <!-- Comprovação -->
     <div class="pt-2">
       <p>Possui comprovação?</p>
       <mat-radio-group formControlName="comprovacao">
@@ -61,12 +102,14 @@
         <mat-radio-button [value]="false">Não</mat-radio-button>
       </mat-radio-group>
     </div>
-    <div class="d-flex justify-content-end mt-3 m-sm-0">
+
+    <!-- Botão Atualizar -->
+    <div class="d-flex justify-content-end">
       <app-button-primary
         fonte="cpc-regular"
         color="btn-secondary"
-        text="Salvar"
-        (click)="submit()"
+        text="Adicionar"
+        (click)="update()"
       />
     </div>
   </form>
@@ -82,52 +125,93 @@
 
 <mat-dialog-content>
   <form [formGroup]="formExperiencia">
-    <app-primary-input
-      formControlName="cargo"
-      type="text"
-      placeholder="Qual cargo você desempenhou"
-      inputName="cargo"
-      label="Cargo"
-    />
-
-    <app-primary-input
-      formControlName="nome_empresa"
-      type="text"
-      placeholder="Local onde desempenhou o cargo"
-      inputName="empresa"
-      label="Empresa"
-    />
-
-    <div class="d-flex justify-content-between gap-3">
-      <app-primary-input
-        formControlName="data_emissao"
-        type="date"
-        placeholder="Mês/Ano"
-        label="Início"
-        inputName="dateInicio"
-      />
-      <div>
-        <app-primary-input
-          formControlName="data_conclusao"
-          type="date"
-          placeholder="Mês/Ano"
-          label="Término"
-          inputName="dateTermino"
-          [ngClass]="
-            formExperiencia.get('trabalho_atual')?.value ? 'opacityy' : ''
-          "
+    <!-- Cargo -->
+    <div class="input-container">
+      <label class="cpc-medium-010">Cargo</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="cargo"
+          type="text"
+          placeholder="Qual cargo você desempenhou"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="formExperiencia.get('cargo')?.hasError('required')"
         >
-        </app-primary-input>
+          O campo cargo é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Empresa -->
+    <div class="input-container">
+      <label class="cpc-medium-010">Empresa</label>
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          formControlName="nome_empresa"
+          type="text"
+          placeholder="Local onde desempenhou o cargo"
+        />
+        <mat-error
+          class="cpc-light-010"
+          *ngIf="formExperiencia.get('nome_empresa')?.hasError('required')"
+        >
+          O campo empresa é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Datas de início e término -->
+    <div class="d-flex justify-content-between gap-3 flex-column flex-sm-row">
+      <div class="input-container">
+        <label class="cpc-medium-010">Início</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="data_emissao"
+            type="date"
+            placeholder="Mês/Ano"
+          />
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="formExperiencia.get('data_emissao')?.hasError('required')"
+          >
+            Data de início é obrigatório
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-container">
+        <label class="cpc-medium-010">Término</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="data_conclusao"
+            type="date"
+            placeholder="Mês/Ano"
+            [disabled]="formExperiencia.get('trabalho_atual')?.value"
+          />
+          <mat-error
+            class="cpc-light-010"
+            *ngIf="
+              formExperiencia.get('data_conclusao')?.hasError('required') &&
+              !formExperiencia.get('trabalho_atual')?.value
+            "
+          >
+            Data de término é obrigatório
+          </mat-error>
+        </mat-form-field>
         <mat-checkbox
           formControlName="trabalho_atual"
           (change)="toggleDateTermino($event)"
-          class=""
         >
           Trabalho atualmente neste cargo
         </mat-checkbox>
       </div>
     </div>
 
+    <!-- Comprovação -->
     <div class="pt-2">
       <p>Possui comprovação?</p>
       <mat-radio-group formControlName="comprovacao">
@@ -135,6 +219,8 @@
         <mat-radio-button [value]="false">Não</mat-radio-button>
       </mat-radio-group>
     </div>
+
+    <!-- Botão Atualizar -->
     <div class="d-flex justify-content-end">
       <app-button-primary
         fonte="cpc-regular"

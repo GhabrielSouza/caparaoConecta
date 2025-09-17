@@ -12,15 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { concatMap, forkJoin, identity, merge } from 'rxjs';
 
-import { VPasswordConfirm } from '../../../validators/VPasswordConfirm.validator';
-import { VPasswordPattern } from '../../../validators/VPasswordPattern.validator';
-
-import { CepInputComponent } from '../../inputs/cep-input/cep-input.component';
-import { CpfAndCnpjInputComponent } from '../../inputs/cpf-and-cnpj-input/cpf-and-cnpj-input.component';
-import { DataNascimentoInputComponent } from '../../inputs/data-nascimento-input/data-nascimento-input.component';
-import { GeneroInputComponent } from '../../inputs/genero-input/genero-input.component';
-import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
-import { TelefoneInputComponent } from '../../inputs/telefone-input/telefone-input.component';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -29,7 +20,7 @@ import {
 import { Router } from '@angular/router';
 
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
-import { FileUpload, FileUploadModule, UploadEvent } from 'primeng/fileupload';
+
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -44,21 +35,18 @@ import { IMunicipioIbge } from '../../../interface/IMunicipioIbge.interface';
 import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
 import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
 
-import { IPessoa } from '../../../interface/IPessoa.interface';
 import Swal from 'sweetalert2';
+import { validDate } from '../../../validators/VDate.validator';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   selector: 'app-dialog-perfil-informacoes',
   imports: [
     CommonModule,
-    PrimaryInputComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    TelefoneInputComponent,
-    DataNascimentoInputComponent,
-    GeneroInputComponent,
     MatDialogContent,
     ButtonPrimaryComponent,
     ToastModule,
@@ -66,6 +54,7 @@ import Swal from 'sweetalert2';
     InputIconModule,
     ButtonModule,
     MatSelectModule,
+    NgxMaskDirective,
   ],
   templateUrl: './dialog-perfil-informacoes.component.html',
   styleUrl: './dialog-perfil-informacoes.component.scss',
@@ -78,6 +67,8 @@ export class DialogPerfilInformacoesComponent implements OnInit {
   cidades: IMunicipioIbge[] = [];
 
   areasAtuacao: IAreasAtuacao[] = [];
+
+  generos: string[] = ['Masculino', 'Feminino', 'Outro', 'Prefiro não dizer'];
 
   constructor(
     private _fb: FormBuilder,
@@ -92,16 +83,53 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     this.cadastrarForm = this._fb.group({
       nome: ['', [Validators.required]],
       sobrenome: ['', [Validators.required]],
-      data_de_nascimento: ['', [Validators.required]],
+      data_de_nascimento: ['', [Validators.required, validDate]],
       genero: ['', [Validators.required]],
-      instagram: ['', [Validators.required]],
-      linkedin: ['', [Validators.required]],
-      lattes: ['', [Validators.required]],
-      github: ['', [Validators.required]],
-      telefone: ['', [Validators.required]],
-      cep: ['', [Validators.required]],
-      estado: [null, []],
-      cidade: [null, []],
+      instagram: [
+        '',
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+        ],
+      ],
+      linkedin: [
+        '',
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+        ],
+      ],
+      lattes: [
+        '',
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+        ],
+      ],
+      github: [
+        '',
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+        ],
+      ],
+      telefone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^\(?[1-9]{2}\)? ?(?:[2-8]|9[0-9])[0-9]{3}\-?[0-9]{4}$/
+          ),
+          Validators.minLength(10),
+          Validators.maxLength(15),
+        ],
+      ],
+      estado: [null, [Validators.required]],
+      cidade: [null, [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       id_areas_atuacao: [null],
       id_tipo_usuarios: this.data.idTipoUsuario,
@@ -166,14 +194,32 @@ export class DialogPerfilInformacoesComponent implements OnInit {
         .subscribe(() => this.updateErrorMessage('password'));
     }
 
-    const confirmPasswordControl = this.confirmPassword;
-    if (confirmPasswordControl) {
-      merge(
-        confirmPasswordControl.statusChanges,
-        confirmPasswordControl.valueChanges
-      )
+    const instagramControl = this.instagram;
+    if (instagramControl) {
+      merge(instagramControl.statusChanges, instagramControl.valueChanges)
         .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('confirmPassword'));
+        .subscribe(() => this.updateErrorMessage('instagram'));
+    }
+
+    const lattesControl = this.lattes;
+    if (lattesControl) {
+      merge(lattesControl.statusChanges, lattesControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('lattes'));
+    }
+
+    const githubControl = this.github;
+    if (githubControl) {
+      merge(githubControl.statusChanges, githubControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('github'));
+    }
+
+    const linkedinControl = this.linkedin;
+    if (linkedinControl) {
+      merge(linkedinControl.statusChanges, linkedinControl.valueChanges)
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage('linkedin'));
     }
 
     const estadoControl = this.estado;
@@ -188,20 +234,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       merge(enderecoControl.statusChanges, enderecoControl.valueChanges)
         .pipe(takeUntilDestroyed())
         .subscribe(() => this.updateErrorMessage('cidade'));
-    }
-
-    const CepControl = this.cep;
-    if (CepControl) {
-      merge(CepControl.statusChanges, CepControl.valueChanges)
-        .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('cep'));
-    }
-
-    const cadUnicoControl = this.cadUnico;
-    if (cadUnicoControl) {
-      merge(cadUnicoControl.statusChanges, cadUnicoControl.valueChanges)
-        .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('cadUnico'));
     }
   }
 
@@ -276,7 +308,18 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       formdata.cidade = formdata.cidade.nome; // Enviar apenas o nome da cidade
     }
 
+    if (formdata.invalid) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Preencha todos os campos obrigatórios',
+        confirmButtonColor: '#359830',
+        confirmButtonText: 'OK',
+      });
+      return;
+    }
+
     console.log(formdata);
+
     return this.apiService
       .httpUpdateCandidato$(this.data.id, formdata)
       .pipe(
@@ -300,6 +343,20 @@ export class DialogPerfilInformacoesComponent implements OnInit {
             confirmButtonColor: '#359830',
             confirmButtonText: 'OK',
           });
+
+          if (
+            error.status === 422 &&
+            error.error &&
+            typeof error.error === 'object'
+          ) {
+            const fieldErrors: Record<string, string> = {};
+            for (const key in error.error) {
+              if (error.error.hasOwnProperty(key)) {
+                fieldErrors[key] = error.error[key];
+              }
+            }
+            this.fieldErrors.set(fieldErrors);
+          }
         },
       });
   }
@@ -379,14 +436,8 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     email: 'Por favor, preencha um email válido.',
     minlength: 'O campo deve ter pelo menos 6 caracteres',
     maxlength: 'O campo deve ter menos que 15 caracteres',
-    Invalida: 'As senhas não coincidem.',
-    cpfInvalido: 'Este CPF não é válido',
-  };
-
-  public patternMessages: Record<string, string> = {
-    uppercase: 'A senha deve conter pelo menos uma letra maiúscula.',
-    lowercase: 'A senha deve conter pelo menos uma letra minúscula.',
-    specialChar: 'A senha deve conter pelo menos um caractere especial.',
+    invalidDate: 'Data de nascimento inválida.',
+    underage: 'Você precisa ter pelo menos 18 anos.',
   };
 
   public fieldErrors = signal<Record<string, string>>({});
@@ -419,8 +470,20 @@ export class DialogPerfilInformacoesComponent implements OnInit {
     return this.cadastrarForm.get('password');
   }
 
-  get confirmPassword() {
-    return this.cadastrarForm.get('confirmPassword');
+  get lattes() {
+    return this.cadastrarForm.get('lattes');
+  }
+
+  get github() {
+    return this.cadastrarForm.get('github');
+  }
+
+  get linkedin() {
+    return this.cadastrarForm.get('linkedin');
+  }
+
+  get instagram() {
+    return this.cadastrarForm.get('intagram');
   }
 
   get cpf() {
@@ -437,10 +500,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
 
   get cidade() {
     return this.cadastrarForm.get('cidade');
-  }
-
-  get cep() {
-    return this.cadastrarForm.get('cep');
   }
 
   updateErrorMessage(field: any) {

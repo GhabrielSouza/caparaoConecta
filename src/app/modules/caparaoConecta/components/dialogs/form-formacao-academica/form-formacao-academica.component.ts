@@ -37,7 +37,6 @@ import Swal from 'sweetalert2';
     MatDialogContent,
     RouterModule,
     MatCheckboxModule,
-    PrimaryInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,
@@ -66,11 +65,11 @@ export class FormFormacaoAcademicaComponent {
       instituicao: ['', [Validators.required]],
       id_instituicoes: '',
       escolaridade: ['', [Validators.required]],
-      area_de_estudo: ['', [Validators.required]],
+      area_de_estudo: [''],
       conclusao_formacao: [false, [Validators.required]],
       diploma_formacao: [false],
       data_emissao: ['', [Validators.required]],
-      data_conclusao: [''],
+      data_conclusao: ['', [Validators.required]],
       id_pessoasFisicas: this.data.id || this.data.formacao.id_pessoasFisicas,
     });
   }
@@ -84,6 +83,32 @@ export class FormFormacaoAcademicaComponent {
     if (this.data.formacao) {
       this.loadFormData(this.data.formacao);
     }
+
+    this.form.get('conclusao_formacao')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.form.get('data_conclusao')?.enable();
+        this.form.get('data_conclusao')?.setValidators([Validators.required]);
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+      } else {
+        this.form.get('data_conclusao')?.disable();
+        this.form.get('data_conclusao')?.clearValidators();
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+        this.form.get('data_conclusao')?.setValue('');
+      }
+    });
+
+    this.form.get('diploma_formacao')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.form.get('data_conclusao')?.enable();
+        this.form.get('data_conclusao')?.setValidators([Validators.required]);
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+      } else {
+        this.form.get('data_conclusao')?.disable();
+        this.form.get('data_conclusao')?.clearValidators();
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+        this.form.get('data_conclusao')?.setValue('');
+      }
+    });
   }
 
   private loadFormData(formacao: IFormacoesAcademicas): void {

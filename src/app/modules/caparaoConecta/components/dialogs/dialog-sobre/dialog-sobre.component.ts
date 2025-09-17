@@ -53,7 +53,7 @@ export class DialogSobreComponent implements OnInit {
     private apiService: RegisterService
   ) {
     this.form = this._fb.group({
-      sobre: [''],
+      sobre: ['', [Validators.maxLength(500)]],
     });
   }
 

@@ -31,6 +31,7 @@ import { CursosSService } from '../../../../../services/cursos/cursos-s.service'
 import { ICursosOnPessoas } from '../../../interface/ICursosOnPessoas.inteface';
 import { C } from '@angular/cdk/keycodes';
 import Swal from 'sweetalert2';
+import { validDate } from '../../../validators/VDate.validator';
 
 @Component({
   selector: 'app-dialog-cursos',
@@ -67,7 +68,7 @@ export class DialogCursosComponent {
       instituicao: ['', [Validators.required]],
       id_cursos: ['', [Validators.required]],
       certificado_curso: [false, [Validators.required]],
-      data_conclusao: ['', [Validators.required]],
+      data_conclusao: ['', [Validators.required, validDate]],
       id_pessoasFisicas:
         this.data.id || this.data.curso.pivot.id_pessoasFisicas,
     });

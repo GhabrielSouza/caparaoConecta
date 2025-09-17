@@ -7,6 +7,7 @@ import { DialogEditarFotoUsuarioComponent } from '../dialogs/dialog-editar-foto-
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { environment } from '../../../../../environments/environment';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-component-perfil-dados',
@@ -68,9 +69,21 @@ export class ComponentPerfilDadosComponent implements OnInit {
     this.#pessoaService.httpUpdatePessoaImagem$(idUsuario, imagem).subscribe({
       next: (resposta) => {
         this.data = resposta;
+        Swal.fire({
+          icon: 'success',
+          title: 'Imagem atualizada com sucesso!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       },
       error: (error) => {
         console.error('Erro ao atualizar imagem:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao atualizar imagem. Tente novamente mais tarde.',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#359830',
+        });
       },
     });
   }

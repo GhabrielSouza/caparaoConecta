@@ -7,7 +7,7 @@
             class="img-perfil img-fluid"
             [src]="
               data?.imagem != null
-                ? url + '/img/pessoas/' + data?.imagem
+                ? url() + '/img/pessoas/' + data?.imagem
                 : 'assets/imgs/perfil.svg'
             "
             alt="Foto de perfil"
@@ -49,11 +49,7 @@
           </p>
           }
 
-          <button
-            class="btn btn-quinary my-3"
-            (click)="openDialog(data)"
-            *ngIf="isEditable"
-          >
+          <button class="btn btn-quinary my-3" (click)="openDialog(data)">
             <img
               src="assets/icons/editInfos.svg"
               alt="Editar perfil"

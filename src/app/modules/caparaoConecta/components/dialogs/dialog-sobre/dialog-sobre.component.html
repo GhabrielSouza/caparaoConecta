@@ -7,8 +7,8 @@
 
 <mat-dialog-content>
   <form [formGroup]="form">
+    <mat-label class="cpc-regular-010">Fale mais sobre você aqui</mat-label>
     <mat-form-field class="example-full-width w-100">
-      <mat-label class="cpc-regular-010">Fale mais sobre você aqui</mat-label>
       <textarea
         class="w-100 cpc-regular-010"
         formControlName="sobre"
@@ -16,8 +16,16 @@
         placeholder="Ex. Olá, eu sou o Eduardo..."
         rows="10"
       ></textarea>
+      <mat-hint class="cpc-light-010" align="end"
+        >{{ form.get("sobre")?.value?.length || 0 }}/500</mat-hint
+      >
+      <mat-error
+        class="cpc-light-010"
+        *ngIf="form.get('sobre')?.hasError('maxlength')"
+        >O texto não pode ter mais que 500 caracteres</mat-error
+      >
     </mat-form-field>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end pt-4">
       <app-button-primary
         fonte="cpc-regular"
         color="btn-secondary"

@@ -28,3 +28,9 @@ mat-option {
     outline: none;
   }
 }
+
+:host {
+  input {
+    font-family: var(--font-poppinsM);
+  }
+}

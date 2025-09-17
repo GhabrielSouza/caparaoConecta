@@ -105,6 +105,7 @@ export class CardDefaultInformacoesComponent {
             `essa experiencia com o nome ${this.data.nome_empresa} foi excluido`
           );
           console.log(data);
+          this.apiExperiencia.httpListExperienciaId$(this.idUsuario);
         },
         error: (error) => {
           console.log(error);
@@ -121,6 +122,7 @@ export class CardDefaultInformacoesComponent {
             `essa formação com o nome ${this.dataFormacoes.instituicao.nome} foi excluido`
           );
           console.log(data);
+          this.apiFormacao.httpListFormacoesId$(this.idUsuario);
         },
         error: (error) => {
           console.log(error);
@@ -137,6 +139,7 @@ export class CardDefaultInformacoesComponent {
             `esse curso com o nome ${this.dataCursos.curso} foi excluido`
           );
           console.log(data);
+          this.apiCurso.httpListCursosOnPessoaId$(this.idUsuario);
         },
         error: (error) => {
           console.log(error);

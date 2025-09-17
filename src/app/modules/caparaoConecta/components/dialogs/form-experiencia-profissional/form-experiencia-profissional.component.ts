@@ -29,6 +29,7 @@ import { concatMap, shareReplay } from 'rxjs';
 import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
 import Swal from 'sweetalert2';
 import { TestComponentRenderer } from '@angular/core/testing';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-form-experiencia-profissional',
@@ -37,12 +38,12 @@ import { TestComponentRenderer } from '@angular/core/testing';
     MatDialogContent,
     RouterModule,
     MatCheckboxModule,
-    PrimaryInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,
     ButtonPrimaryComponent,
     CommonModule,
+    MatInputModule,
   ],
   templateUrl: './form-experiencia-profissional.component.html',
   styleUrl: './form-experiencia-profissional.component.scss',
@@ -64,7 +65,7 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       nome_empresa: ['', [Validators.required]],
       data_emissao: ['', [Validators.required]],
       data_conclusao: ['', [Validators.required]],
-      comprovacao: [false, [Validators.required]],
+      comprovacao: [false],
       comentario: [''],
       trabalho_atual: [false],
       id_pessoasFisicas:
@@ -77,6 +78,19 @@ export class FormExperienciaProfissionalComponent implements OnInit {
     if (this.data.experiencia) {
       this.loadFormData(this.data.experiencia);
     }
+
+    this.formExperiencia
+      .get('trabalho_atual')
+      ?.valueChanges.subscribe((value) => {
+        if (value) {
+          this.formExperiencia.get('data_conclusao')?.disable();
+          this.formExperiencia.get('data_conclusao')?.setValue(null);
+          this.formExperiencia.get('data_conclusao')?.clearValidators();
+          this.formExperiencia.get('data_conclusao')?.updateValueAndValidity();
+        } else {
+          this.formExperiencia.get('data_conclusao')?.enable();
+        }
+      });
 
     console.log(this.data.id);
   }
