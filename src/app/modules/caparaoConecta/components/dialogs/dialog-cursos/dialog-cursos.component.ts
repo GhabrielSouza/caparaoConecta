@@ -39,7 +39,6 @@ import Swal from 'sweetalert2';
     MatDialogContent,
     RouterModule,
     MatCheckboxModule,
-    PrimaryInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,
@@ -67,8 +66,8 @@ export class DialogCursosComponent {
     this.form = this._fb.group({
       instituicao: ['', [Validators.required]],
       id_cursos: ['', [Validators.required]],
-      certificado_curso: [false],
-      data_conclusao: [''],
+      certificado_curso: [false, [Validators.required]],
+      data_conclusao: ['', [Validators.required]],
       id_pessoasFisicas:
         this.data.id || this.data.curso.pivot.id_pessoasFisicas,
     });
@@ -87,6 +86,16 @@ export class DialogCursosComponent {
     if (this.data.curso) {
       this.loadFormData(this.data.curso);
     }
+
+    this.form.get('certificado_curso')?.valueChanges.subscribe((value) => {
+      const dataConclusaoControl = this.form.get('data_conclusao');
+      if (value) {
+        dataConclusaoControl?.setValidators([Validators.required]);
+      } else {
+        dataConclusaoControl?.clearValidators();
+      }
+      dataConclusaoControl?.updateValueAndValidity();
+    });
   }
 
   private loadFormData(curso: any): void {
@@ -129,6 +138,11 @@ export class DialogCursosComponent {
   }
 
   public submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     const formData = this.form.value;
     console.log(formData);
     formData.id_cursos = formData.id_cursos.id_cursos;

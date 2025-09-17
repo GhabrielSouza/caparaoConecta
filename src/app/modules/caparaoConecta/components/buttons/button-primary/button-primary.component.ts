@@ -15,6 +15,7 @@ export class ButtonPrimaryComponent {
   @Input() color: string = '';
   @Input() route: string = '';
   @Input() textColor: string = '';
+  @Input() disabled: boolean = false;
 
   constructor(private router: Router) {}
 
