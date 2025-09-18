@@ -25,6 +25,7 @@ import { RegisterService } from '../../../../../services/register-caparao/regist
 import { concat, concatMap } from 'rxjs';
 import { IconField } from 'primeng/iconfield';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-sobre',
@@ -38,6 +39,7 @@ import Swal from 'sweetalert2';
     MatRadioModule,
     ReactiveFormsModule,
     ButtonPrimaryComponent,
+    CommonModule,
   ],
   templateUrl: './dialog-sobre.component.html',
   styleUrl: './dialog-sobre.component.scss',

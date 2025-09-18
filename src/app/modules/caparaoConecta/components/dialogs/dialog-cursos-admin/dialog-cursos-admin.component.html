@@ -7,7 +7,7 @@
 
 <mat-dialog-content>
   <div class="curso-list">
-    <form [formGroup]="formCurso">
+    <form [formGroup]="formCurso" (keyup.enter)="submit()">
       <!-- Instituição de Ensino -->
       <div class="col flex-grow-1 input-container">
         <label class="cpc-medium-010">Instituição de ensino</label>

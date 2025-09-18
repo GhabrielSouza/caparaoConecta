@@ -7,7 +7,7 @@
 </header>
 
 <mat-dialog-content>
-  <form [formGroup]="formExperiencia">
+  <form [formGroup]="formExperiencia" (keyup.enter)="submit()">
     <!-- Cargo -->
     <div class="input-container">
       <label class="cpc-medium-010">Cargo</label>

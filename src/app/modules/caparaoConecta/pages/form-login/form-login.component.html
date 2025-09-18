@@ -16,6 +16,7 @@
         formControlName="email"
         placeholder="Digite seu email"
         (blur)="updateErrorMessage('email')"
+        (keyup.enter)="submit()"
       />
       <mat-error
         class="cpc-light-010"
@@ -38,6 +39,7 @@
         placeholder="Digite sua senha"
         (blur)="updateErrorMessage('password')"
         [type]="hide() ? 'password' : 'text'"
+        (keyup.enter)="submit()"
       />
       <button
         matIconButton

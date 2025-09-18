@@ -6,7 +6,7 @@
 </header>
 
 <mat-dialog-content>
-  <form [formGroup]="form">
+  <form [formGroup]="form" (keyup.enter)="submit()">
     <mat-label class="cpc-regular-010">Fale mais sobre você aqui</mat-label>
     <mat-form-field class="example-full-width w-100">
       <textarea

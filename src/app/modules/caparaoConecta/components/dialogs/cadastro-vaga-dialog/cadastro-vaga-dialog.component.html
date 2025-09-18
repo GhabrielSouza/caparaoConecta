@@ -3,7 +3,7 @@
     {{ isEditMode ? "Editar Vaga" : "Anuncie sua vaga" }}
   </h1>
   <mat-dialog-content>
-    <form [formGroup]="vagaForm" (ngSubmit)="save()">
+    <form [formGroup]="vagaForm" (ngSubmit)="save()" (keyup.enter)="save()">
       <mat-label>Cargo*</mat-label>
       <mat-form-field class="full-width-input">
         <input

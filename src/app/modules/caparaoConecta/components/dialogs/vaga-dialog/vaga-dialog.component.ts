@@ -22,6 +22,7 @@ import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 import { AuthService } from '../../../../../services/auth-caparao/login.service';
 import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { ERoleUser } from '../../../enum/ERoleUser.enum';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-vaga-dialog',
@@ -33,6 +34,7 @@ import { ERoleUser } from '../../../enum/ERoleUser.enum';
     MatDialogActions,
     CommonModule,
     CapitalizePipe,
+    MatTooltipModule,
   ],
   templateUrl: './vaga-dialog.component.html',
   styleUrl: './vaga-dialog.component.scss',

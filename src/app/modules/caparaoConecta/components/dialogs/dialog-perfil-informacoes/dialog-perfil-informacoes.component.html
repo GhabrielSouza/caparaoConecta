@@ -6,7 +6,7 @@
 </header>
 
 <mat-dialog-content>
-  <form [formGroup]="cadastrarForm" class="row">
+  <form [formGroup]="cadastrarForm" class="row" (keyup.enter)="submit()">
     <!-- Nome -->
     <div class="col-12">
       <label class="cpc-medium-010">Nome</label>

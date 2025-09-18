@@ -49,7 +49,11 @@
           </p>
           }
 
-          <button class="btn btn-quinary my-3" (click)="openDialog(data)">
+          <button
+            class="btn btn-quinary my-3"
+            (click)="openDialog(data)"
+            *ngIf="isEditable"
+          >
             <img
               src="assets/icons/editInfos.svg"
               alt="Editar perfil"

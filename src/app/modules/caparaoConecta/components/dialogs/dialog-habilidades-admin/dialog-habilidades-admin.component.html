@@ -7,7 +7,7 @@
 
 <mat-dialog-content>
   <div class="habilidades-list">
-    <form [formGroup]="formHabilidade">
+    <form [formGroup]="formHabilidade" (keyup.enter)="submit()">
       <!-- Habilidade -->
       <div class="input-container">
         <label class="cpc-medium-010">Habilidade</label>

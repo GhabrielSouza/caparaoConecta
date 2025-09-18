@@ -7,7 +7,7 @@
 </header>
 
 <mat-dialog-content>
-  <form [formGroup]="form">
+  <form [formGroup]="form" (keyup.enter)="submit()">
     <div class="col flex-grow-1 input-container">
       <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
       <mat-form-field class="example-full-width w-100">

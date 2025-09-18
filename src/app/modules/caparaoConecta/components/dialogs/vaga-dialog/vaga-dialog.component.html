@@ -1,5 +1,5 @@
 <!-- O container principal do dialog, com padding -->
-<div class="vaga-dialog-container">
+<div class="vaga-dialog-container" (keyup.enter)="closeModal()">
   <!-- CABEÇALHO: Título da vaga, logo da empresa e ação de favoritar -->
   <header class="dialog-header">
     <div class="header-main-info">
@@ -42,12 +42,12 @@
         data.vaga.modalidade_da_vaga | capitalize
       }}</span>
     </div>
-    <!-- <div class="detail-item">
+    <div class="detail-item">
       <mat-icon>location_on</mat-icon>
       <span>{{
         data.vaga.empresa?.pessoa?.endereco?.cidade?.nome_cidade
       }}</span>
-    </div> -->
+    </div>
   </section>
 
   <!-- CORPO PRINCIPAL DO DIALOG -->
@@ -68,10 +68,25 @@
     </section>
 
     <section class="content-section">
-      <h2 class="section-title cpc-regular">Cursos Recomendados</h2>
+      <div class="d-flex align-items-center align-center gap-1">
+        <h2 class="section-title cpc-regular">Cursos Recomendados</h2>
+        <img
+          class="info-icon"
+          height="18"
+          src="/assets/icons/circle-info-solid.svg"
+          matTooltip="Cursos que podem te ajudar a se destacar para essa vaga.
+          Clique no curso para se qualificar caso nunca tenha feito."
+          matTooltipPosition="above"
+          matTooltipClass="custom-tooltip"
+          alt="Ícone de informação"
+        />
+      </div>
+
       <mat-chip-listbox aria-label="Cursos recomendados">
         @for (curso of data.vaga.curso; track curso.id_cursos) {
-        <mat-chip>{{ curso.curso }}</mat-chip>
+        <mat-chip
+          ><a [href]="curso.link">{{ curso.curso }}</a></mat-chip
+        >
         }
       </mat-chip-listbox>
     </section>
