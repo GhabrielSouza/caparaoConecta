@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { IPessoaFisica } from '../../interface/IPessoaFisica.interface';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-candidato-selecionado',
@@ -8,6 +9,8 @@ import { IPessoaFisica } from '../../interface/IPessoaFisica.interface';
 })
 export class CandidatoSelecionadoComponent implements OnInit {
   @Input() public candidatos: IPessoaFisica[] = [];
+
+  public url = signal(environment.apiAuth);
 
   ngOnInit(): void {
     console.log(this.candidatos);

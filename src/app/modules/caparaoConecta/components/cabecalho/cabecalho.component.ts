@@ -63,14 +63,14 @@ export class CabecalhoComponent {
     this.userAuth.logout().subscribe({
       next: () => {
         this.toggleMenu();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       },
       error: (err) => console.error('Falha ao fazer logout', err),
     });
   }
 
   @HostListener('window:scroll', ['$event']) onscroll() {
-    this.navbarFixed = window.scrollY > 50;
+    this.navbarFixed = window.scrollY > 30;
   }
 
   toggleMenu() {

@@ -170,7 +170,7 @@
         Prorrogar por 5 dias
       </button>
       } @else {
-      <div class="status-chip status-finalizado">
+      <div class="status-chip status-finalizado cpc-regular-010">
         Limite de prorrogações atingido
       </div>
       }
@@ -202,7 +202,7 @@
     } } } @if(!visaoDetalhes() && (role === roleEnum.EMPRESA || role ===
     roleEnum.ADMIN)){
     <section
-      class="mt-3 d-flex justify-content-center align-items-center gap-5"
+      class="mt-3 mb-3 d-flex justify-content-center align-items-center gap-5"
     >
       <app-dashboard-card
         label="Candidaturas"
@@ -218,7 +218,7 @@
       </app-dashboard-card>
     </section>
     <section
-      class="my-4 mx-0 mx-md-5 cpc-background-gray p-4 containerSelecaoVaga cpc-shadow-black"
+      class="my-5 mx-0 mx-md-4 cpc-background-gray p-4 containerSelecaoVaga cpc-shadow-black"
     >
       <h2 class="cpc-bold">{{ vagaData.titulo_vaga }}</h2>
       <div>
@@ -231,7 +231,6 @@
           <app-component-accordion
             [title]="candidato.pessoa.nome + ' ' + candidato.sobrenome"
           >
-            <!-- INÍCIO DO CÓDIGO COMPLETADO 2 -->
             <div>
               <p class="cpc-regular mb-3">Perfil do candidato</p>
               <a
@@ -276,7 +275,6 @@
               </p>
               }
             </div>
-            <!-- FIM DO CÓDIGO COMPLETADO 2 -->
             <div class="mb-5">
               <p class="cpc-regular">Ações</p>
               <mat-radio-group [(ngModel)]="candidato.novoStatusSelecionado">

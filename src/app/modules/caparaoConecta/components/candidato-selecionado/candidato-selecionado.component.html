@@ -5,7 +5,10 @@
   <div class="candidato-card">
     <div class="candidato-info">
       <img
-        [src]="candidato.pessoa.imagem || 'assets/imgs/perfil.svg'"
+        [src]="
+          url() + '/img/pessoas/' + candidato.pessoa.imagem ||
+          'assets/imgs/perfil.svg'
+        "
         alt="Foto do candidato"
         class="candidato-avatar"
       />

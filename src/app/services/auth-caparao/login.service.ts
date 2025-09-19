@@ -18,7 +18,6 @@ export class AuthService {
 
   public empresaTemVagas = computed(() => {
     const user = this.currentUser();
-    // Acessa a relação de vagas da empresa e verifica se a lista não está vazia.
     return (user?.pessoa?.empresa?.vagas?.length ?? 0) > 0;
   });
 
@@ -48,7 +47,6 @@ export class AuthService {
     return this.http.get<IUsuario>(`${this.#url()}/api/user`).pipe(
       tap((user) => {
         this.currentUser.set(user);
-        console.log(user);
       }),
       catchError(() => {
         this.currentUser.set(null);

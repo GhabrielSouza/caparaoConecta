@@ -17,6 +17,7 @@ import { IVaga } from '../../../interface/IVaga.interface';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reativar-vaga',
@@ -61,6 +62,10 @@ export class ReativarVagaComponent implements OnInit {
 
   ngOnInit(): void {
     this.vagasService.httpListVagas$().subscribe({
+      next: (vagas) => {
+        this.vagasService.getListVaga();
+        this.dataSource = this.vagasFinalizadasNoComponente;
+      },
       error: (err) => console.error('Falha ao carregar vagas no dialog:', err),
     });
   }
@@ -76,15 +81,17 @@ export class ReativarVagaComponent implements OnInit {
       this.vagasSelecionadas.add(vagaId);
     }
 
-    console.log('Vaga selecionada:', vaga);
-    console.log(this.vagasSelecionadas);
-    // Sua lógica para o checkbox aqui
+    this.dataSource = this.vagasFinalizadasNoComponente;
   }
 
   public salvarAlteracoes(): void {
     if (this.vagasSelecionadas.size === 0) {
-      this.snackBar.open('Nenhuma vaga selecionada.', 'Fechar', {
-        duration: 3000,
+      Swal.fire({
+        icon: 'warning',
+        title: 'Atenção',
+        text: 'Selecione ao menos uma vaga para reativar.',
+        confirmButtonText: 'Fechar',
+        confirmButtonColor: '#3085d6',
       });
       return;
     }
@@ -95,20 +102,29 @@ export class ReativarVagaComponent implements OnInit {
     this.vagasService
       .atualizarStatusVagas$(idsParaAtualizar, novoStatus)
       .subscribe({
-        next: () => {
-          this.snackBar.open('Status das vagas atualizado com sucesso!', 'OK', {
-            duration: 3000,
+        next: (result) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Sucesso',
+            text: 'Status das vagas atualizado com sucesso!',
+            confirmButtonText: 'Fechar',
+            confirmButtonColor: '#3085d6',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/caparao-conecta/vagas']);
+            }
           });
-
           this._dialogRef.close(true);
         },
         error: (err) => {
           console.error('Erro ao atualizar status:', err);
-          this.snackBar.open(
-            'Falha ao atualizar o status das vagas.',
-            'Fechar',
-            { duration: 5000 }
-          );
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Ocorreu um erro ao atualizar o status das vagas. Tente novamente mais tarde.',
+            confirmButtonText: 'Fechar',
+            confirmButtonColor: '#3085d6',
+          });
         },
       });
   }

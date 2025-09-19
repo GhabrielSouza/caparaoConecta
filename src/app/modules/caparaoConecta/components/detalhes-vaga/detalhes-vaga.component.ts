@@ -38,6 +38,7 @@ import { FormsModule, NgModel } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { StepperModule } from 'primeng/stepper';
 import { StepsModule } from 'primeng/steps';
+import { environment } from '../../../../../environments/environment';
 
 interface CandidatoViewModel extends IPessoaFisica {
   habilidadesFaltantes: IHabilidades[];
@@ -184,6 +185,7 @@ export class DetalhesVagaComponent implements OnChanges {
             icon: 'success',
             title: 'Sucesso!',
             text: 'O status do candidato foi atualizado.',
+            confirmButtonColor: '#3085d6',
             timer: 1500,
           });
         },
@@ -224,10 +226,21 @@ export class DetalhesVagaComponent implements OnChanges {
       this.vagaService.httpFinalizarVaga$(vagaId, status).subscribe({
         next: (response) => {
           console.log('Vaga finalizada com sucesso:', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Vaga finalizada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
           this.location.back();
         },
         error: (error) => {
           console.error('Erro ao finalizar vaga:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao finalizar vaga',
+            text: error.error?.message || 'Tente novamente mais tarde.',
+          });
         },
       });
     }
@@ -244,10 +257,21 @@ export class DetalhesVagaComponent implements OnChanges {
       this.vagaService.httpDeleteVaga$(vagaId).subscribe({
         next: (response) => {
           console.log('Vaga excluida com sucesso:', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Vaga excluida com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
           this.location.back();
         },
         error: (error) => {
           console.error('Erro ao excluir vaga:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao excluir vaga',
+            text: error.error?.message || 'Tente novamente mais tarde.',
+          });
         },
       });
     }
@@ -270,9 +294,21 @@ export class DetalhesVagaComponent implements OnChanges {
     this.vagaService.httpProrrogarVaga$(vagaId, data_fechamento).subscribe({
       next: () => {
         console.log('Vaga prorrogada com sucesso!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Vaga prorrogada com sucesso!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.vaga.data_fechamento = data_fechamento;
       },
       error: (err) => {
         console.error('Falha ao prorrogar vaga', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Falha ao prorrogar vaga',
+          text: err.error?.message || 'Tente novamente mais tarde.',
+        });
       },
     });
   }
