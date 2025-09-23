@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import {
   FormGroup,
@@ -31,7 +31,7 @@ import { MatSelectModule } from '@angular/material/select';
   selector: 'app-dialog-cursos-admin',
   imports: [
     ButtonPrimaryComponent,
-    PrimaryInputComponent,
+    CommonModule,
     ReactiveFormsModule,
     MatDialogContent,
     MatFormFieldModule,

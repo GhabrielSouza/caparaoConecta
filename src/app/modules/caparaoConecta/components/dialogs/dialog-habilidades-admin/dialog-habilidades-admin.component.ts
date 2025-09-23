@@ -16,6 +16,7 @@ import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-habilidades-admin',
@@ -24,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
     MatDialogContent,
     MatFormFieldModule,
+    CommonModule,
   ],
   templateUrl: './dialog-habilidades-admin.component.html',
   styleUrl: './dialog-habilidades-admin.component.scss',
