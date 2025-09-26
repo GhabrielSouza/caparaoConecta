@@ -77,14 +77,14 @@
       <mat-form-field class="full-width-input mat-chip-list-container">
         <mat-chip-grid #chipGridHabilidades>
           @for (habilidade of habilidadesFormArray.value; track
-          habilidade.id_habilidades) {
+          habilidade.id_habilidades) { @if(habilidade.nome) {
           <mat-chip-row (removed)="removeHabilidade(habilidade)">
             {{ habilidade.nome }}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
-          }
+          } }
         </mat-chip-grid>
         <input
           placeholder="Nova habilidade..."
@@ -113,13 +113,14 @@
       <mat-form-field class="full-width-input mat-chip-list-container">
         <mat-chip-grid #chipGridCursos>
           @for (curso of cursosFormArray.value; track curso.id_cursos) {
+          @if(curso.curso) {
           <mat-chip-row (removed)="removeCurso(curso)">
             {{ curso.curso }}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
-          }
+          } }
         </mat-chip-grid>
         <input
           placeholder="Novo curso ou certificação..."

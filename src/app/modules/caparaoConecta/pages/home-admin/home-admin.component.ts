@@ -16,10 +16,12 @@ import { VagasService } from '../../../../services/vaga/vagas.service';
 import { IVaga } from '../../interface/IVaga.interface';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
+import { CommonModule } from '@angular/common';
+import { EmpyComponent } from '../../components/empy/empy.component';
 
 @Component({
   selector: 'app-home-admin',
-  imports: [DashboardCardComponent, UIChart],
+  imports: [DashboardCardComponent, UIChart, CommonModule, EmpyComponent],
   templateUrl: './home-admin.component.html',
   styleUrl: './home-admin.component.scss',
 })
