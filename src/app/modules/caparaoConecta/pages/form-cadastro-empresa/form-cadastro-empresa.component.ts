@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-cadastro-empresa',
@@ -61,7 +62,6 @@ export class FormCadastroEmpresaComponent implements OnInit {
         nome: ['', [Validators.required]],
         cnpj: ['', [Validators.required]],
         telefone: ['', [Validators.required]],
-        cep: ['', [Validators.required]],
         estado: ['', [Validators.required]],
         cidade: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
@@ -140,13 +140,6 @@ export class FormCadastroEmpresaComponent implements OnInit {
         .pipe(takeUntilDestroyed())
         .subscribe(() => this.updateErrorMessage('endereco'));
     }
-
-    const CepControl = this.cep;
-    if (CepControl) {
-      merge(CepControl.statusChanges, CepControl.valueChanges)
-        .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('cep'));
-    }
   }
 
   public errorMessages: Record<string, string> = {
@@ -197,15 +190,10 @@ export class FormCadastroEmpresaComponent implements OnInit {
     return this.cadastrarForm.get('endereco');
   }
 
-  get cep() {
-    return this.cadastrarForm.get('cep');
-  }
-
   public carregarEstados() {
     this.cadastrarForm.get('cidade')?.disable();
     this.viacepService.getEstados().subscribe({
       next: (resp) => {
-        console.log('Estados', resp);
         this.estados = resp;
       },
       error: (error) => {
@@ -252,20 +240,68 @@ export class FormCadastroEmpresaComponent implements OnInit {
     this.carregarEstados();
   }
 
-  navigate() {
-    this.router.navigate(['login']);
-  }
-
   submit() {
-    const formdata = this.cadastrarForm.value;
-    formdata.estado = formdata.estado?.nome;
+    const formdata = { ...this.cadastrarForm.value };
+
+    if (
+      formdata.estado &&
+      typeof formdata.estado === 'object' &&
+      formdata.estado.nome
+    ) {
+      formdata.estado = formdata.estado.nome;
+    }
+    if (
+      formdata.cidade &&
+      typeof formdata.cidade === 'object' &&
+      formdata.cidade.nome
+    ) {
+      formdata.cidade = formdata.cidade.nome;
+    }
+
+    if (this.cadastrarForm.invalid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor, preencha todos os campos obrigatórios.',
+        confirmButtonColor: '#359830',
+      });
+      return;
+    }
 
     return this.apiService.httpRegisterEmpresa$(formdata).subscribe({
       next: (resp) => {
+        Swal.fire({
+          title: 'Cadastrando...',
+          showConfirmButton: false,
+          timer: 1500,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        }).then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Cadastro realizado com sucesso!',
+            text: 'Você será redirecionado para a página de login.',
+            confirmButtonColor: '#359830',
+          });
+        });
         this.router.navigate(['login']);
       },
       error: (resp) => {
-        console.log('erro ao cadastrar');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: resp.error.message,
+          confirmButtonColor: '#359830',
+        });
+
+        if (resp.status === 422 && resp.error?.error?.email) {
+          this.cadastrarForm.get('email')?.setErrors({ emailTaken: true });
+          this.fieldErrors.update((errors) => ({
+            ...errors,
+            email: 'Este email já foi cadastrado.',
+          }));
+        }
       },
     });
   }

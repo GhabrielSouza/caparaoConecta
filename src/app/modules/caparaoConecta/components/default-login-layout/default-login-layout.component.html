@@ -6,7 +6,11 @@
     <h2 class="cpc-medium pb-4">{{ titulo }}</h2>
     <ng-content></ng-content>
     <div class="form-section_buttons">
-      <button class="btn btn-secondary" (click)="submit()">
+      <button
+        class="btn btn-secondary"
+        [disabled]="disablebotaoCadastrar"
+        (click)="submit()"
+      >
         {{ botaoEntrar }}
       </button>
 

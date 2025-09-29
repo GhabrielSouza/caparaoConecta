@@ -85,8 +85,15 @@ export class ResetEmailComponent {
   }
 
   submit() {
-    if (this.loginForm.valid) {
-      console.log('formulario válido');
+    if (this.loginForm.invalid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro',
+        text: 'Por favor, preencha todos os campos obrigatórios.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#359830',
+      });
+      return;
     }
 
     return this.authLogin.forgotPassword(this.email?.value).subscribe({
@@ -119,6 +126,9 @@ export class ResetEmailComponent {
           confirmButtonText: 'OK',
           confirmButtonColor: '#359830',
         });
+      },
+      complete: () => {
+        this.loginForm.reset();
       },
     });
   }

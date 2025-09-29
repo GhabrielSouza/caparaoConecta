@@ -18,7 +18,7 @@ export class DefaultLoginLayoutComponent {
   @Input() public titulo: string = '';
   @Input() public botaoEntrar: string = '';
   @Input() public botaoCadastrar: string = '';
-  @Input() public disablebotaoCadastrar: boolean = true;
+  @Input() public disablebotaoCadastrar: boolean = false;
   @Output('Submit') public onSubmit = new EventEmitter();
 
   @Output('Navigate') public onNavigate = new EventEmitter();
