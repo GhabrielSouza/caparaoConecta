@@ -18,6 +18,8 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 import Swal from 'sweetalert2';
+import { ERoleUser } from '../../../enum/ERoleUser.enum';
+import { EStatusVaga } from '../../../enum/EStatusVaga.enum';
 
 @Component({
   selector: 'app-reativar-vaga',
@@ -45,27 +47,34 @@ export class ReativarVagaComponent implements OnInit {
   ];
 
   public vagasService = inject(VagasService);
-  private snackBar = inject(MatSnackBar);
 
   constructor(
     private _dialogRef: MatDialogRef<ReativarVagaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router
   ) {}
 
-  vagasFinalizadasNoComponente = computed(() => {
-    const todasAsVagas = this.vagasService.getListVaga();
-    return (todasAsVagas || []).filter((vaga) => vaga.status === 'FINALIZADO');
+  public todasAsVagas = this.vagasService.getListVaga;
+
+  public vagasEncerradas = computed(() => {
+    if (!this.data || !this.data.user || this.data.role !== ERoleUser.EMPRESA) {
+      return [];
+    }
+
+    const todas = this.todasAsVagas();
+    if (!todas) return [];
+
+    return todas.filter(
+      (vaga) =>
+        vaga.id_empresas === this.data.user.id_pessoas &&
+        vaga.status === EStatusVaga.FINALIZADO
+    );
   });
 
-  public dataSource = this.vagasFinalizadasNoComponente;
+  public dataSource = this.vagasEncerradas();
 
   ngOnInit(): void {
     this.vagasService.httpListVagas$().subscribe({
-      next: (vagas) => {
-        this.vagasService.getListVaga();
-        this.dataSource = this.vagasFinalizadasNoComponente;
-      },
       error: (err) => console.error('Falha ao carregar vagas no dialog:', err),
     });
   }
@@ -81,7 +90,7 @@ export class ReativarVagaComponent implements OnInit {
       this.vagasSelecionadas.add(vagaId);
     }
 
-    this.dataSource = this.vagasFinalizadasNoComponente;
+    this.dataSource = this.vagasEncerradas();
   }
 
   public salvarAlteracoes(): void {
@@ -91,7 +100,7 @@ export class ReativarVagaComponent implements OnInit {
         title: 'Atenção',
         text: 'Selecione ao menos uma vaga para reativar.',
         confirmButtonText: 'Fechar',
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#359830',
       });
       return;
     }
@@ -108,7 +117,7 @@ export class ReativarVagaComponent implements OnInit {
             title: 'Sucesso',
             text: 'Status das vagas atualizado com sucesso!',
             confirmButtonText: 'Fechar',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#359830',
           }).then((result) => {
             if (result.isConfirmed) {
               this.router.navigate(['/caparao-conecta/vagas']);
@@ -123,7 +132,7 @@ export class ReativarVagaComponent implements OnInit {
             title: 'Erro',
             text: 'Ocorreu um erro ao atualizar o status das vagas. Tente novamente mais tarde.',
             confirmButtonText: 'Fechar',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#359830',
           });
         },
       });

@@ -39,6 +39,11 @@ export class SelecionarVagaComponent {
       height: '600px',
       width: '900px',
       maxWidth: 'none',
+      data: {
+        id: this.data.id,
+        role: this.data.role,
+        user: this.data.user,
+      },
     });
   }
 

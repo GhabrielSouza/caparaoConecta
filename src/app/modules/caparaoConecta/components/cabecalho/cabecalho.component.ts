@@ -55,6 +55,7 @@ export class CabecalhoComponent {
       data: {
         id: this.user()?.id_pessoas,
         role: this.user()?.tipo_usuario.nome,
+        user: this.user(),
       },
     });
   }
