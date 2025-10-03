@@ -6,7 +6,7 @@
 </header>
 
 <mat-dialog-content class="d-flex-column justify-content-between p-4">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+  <table mat-table [dataSource]="dataSource()" class="mat-elevation-z8 table">
     <ng-container matColumnDef="selecionar">
       <th mat-header-cell *matHeaderCellDef class="cpc-regular-010">
         Selecionar
@@ -55,7 +55,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  @if (!dataSource.length) {
+  @if (!dataSource().length) {
   <p class="text-center p-4">Nenhuma vaga para reativar foi encontrada.</p>
   }
 </mat-dialog-content>

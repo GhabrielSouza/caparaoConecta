@@ -24,12 +24,11 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { concatMap, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
 import { FiltroComponent } from '../../components/filtro/filtro.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFiltroComponent } from '../../components/dialogs/dialog-filtro/dialog-filtro.component';
-
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -168,19 +167,21 @@ export class HomeComponent implements OnInit {
     this.onListEmpresas();
   }
 
-
   public getVagas(filtros?: any) {
     this.statusCarregamento.set('carregando');
-    this.vagasService.httpListVagas$(filtros).subscribe({
-      next: (data) => {
-        this.todasAsVagas.set(data);
-        this.statusCarregamento.set('concluido');
-      },
-     error: (error) => {
-        console.error('Erro ao buscar vagas:', error);
-        this.statusCarregamento.set('erro');
-      },
-    });
+    this.vagasService
+      .httpListVagas$(filtros)
+      .pipe(concatMap(() => this.vagasService.httpListVagas$()))
+      .subscribe({
+        next: (data) => {
+          this.todasAsVagas.set(data);
+          this.statusCarregamento.set('concluido');
+        },
+        error: (error) => {
+          console.error('Erro ao buscar vagas:', error);
+          this.statusCarregamento.set('erro');
+        },
+      });
   }
 
   public onListAreasAtuacao() {

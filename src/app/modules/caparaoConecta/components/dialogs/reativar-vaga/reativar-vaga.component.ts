@@ -71,7 +71,7 @@ export class ReativarVagaComponent implements OnInit {
     );
   });
 
-  public dataSource = this.vagasEncerradas();
+  public dataSource = this.vagasEncerradas;
 
   ngOnInit(): void {
     this.vagasService.httpListVagas$().subscribe({
@@ -90,7 +90,7 @@ export class ReativarVagaComponent implements OnInit {
       this.vagasSelecionadas.add(vagaId);
     }
 
-    this.dataSource = this.vagasEncerradas();
+    this.dataSource = this.vagasEncerradas;
   }
 
   public salvarAlteracoes(): void {
