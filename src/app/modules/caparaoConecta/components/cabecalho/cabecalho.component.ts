@@ -2,7 +2,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { SelectRegisterDialogComponent } from '../dialogs/select-register-dialog/select-register-dialog.component';

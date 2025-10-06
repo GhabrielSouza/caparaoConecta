@@ -18,7 +18,25 @@ export class AuthService {
 
   public empresaTemVagas = computed(() => {
     const user = this.currentUser();
-    return (user?.pessoa?.empresa?.vagas?.length ?? 0) > 0;
+    console.log('Usuário atual:', user);
+    if (!user) {
+      return false;
+    }
+
+    if (user && user.tipo_usuario?.nome == 'EMPRESA') {
+      const vagas = user?.pessoa?.empresa?.vagas;
+
+      vagas?.forEach((vaga) => {
+        if (vaga.status === 'EM_ANDAMENTO') {
+          return true;
+        }
+        return false;
+      });
+      console.log(user?.pessoa?.empresa?.vagas?.length);
+      return (user?.pessoa?.empresa?.vagas?.length ?? 0) > 0;
+    }
+
+    return null;
   });
 
   private getCsrfCookie(): Observable<any> {
@@ -33,7 +51,9 @@ export class AuthService {
       switchMap(() =>
         this.http.post<IUsuario>(`${this.#url()}/api/login`, credentials)
       ),
-      tap((user) => this.currentUser.set(user))
+      tap((user) => {
+        this.currentUser.set(user);
+      })
     );
   }
 

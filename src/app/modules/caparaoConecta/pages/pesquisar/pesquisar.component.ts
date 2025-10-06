@@ -47,9 +47,9 @@ export class PesquisarComponent {
 
     const listaBase = pessoas.filter((p) => {
       if (roleAtual === ERoleUser.EMPRESA)
-        return p.usuario.tipo_usuario.nome === ERoleUser.CANDIDATO;
+        return p.usuario?.tipo_usuario?.nome === ERoleUser.CANDIDATO;
       if (roleAtual === ERoleUser.CANDIDATO)
-        return p.usuario.tipo_usuario.nome === ERoleUser.EMPRESA;
+        return p.usuario?.tipo_usuario?.nome === ERoleUser.EMPRESA;
       return true; // Para GUEST, mostra todos
     });
 
