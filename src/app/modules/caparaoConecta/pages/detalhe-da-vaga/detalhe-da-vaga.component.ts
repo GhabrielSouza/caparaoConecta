@@ -51,20 +51,16 @@ export class DetalheDaVagaComponent implements OnInit {
     this.statusCarregamento.set('carregando');
     const vagaIdString = this.route.snapshot.paramMap.get('id');
 
-    console.log(vagaIdString);
-
     if (vagaIdString) {
       const vagaId = +vagaIdString;
 
       this.vagasService.httpListVagasId$(vagaId).subscribe({
         next: (data) => {
           this.statusCarregamento.set('concluido');
-          console.log(data);
           this.vaga = data;
         },
         error: (error) => {
           this.statusCarregamento.set('erro');
-          console.error('Erro ao buscar vaga:', error);
         },
       });
     } else {

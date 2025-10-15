@@ -114,7 +114,6 @@ export class DetalhesVagaComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['vaga'] && this.vaga) {
       this.prepararViewModels(this.vaga);
-      console.log(this.vaga);
     }
   }
 
@@ -185,7 +184,7 @@ export class DetalhesVagaComponent implements OnChanges {
             icon: 'success',
             title: 'Sucesso!',
             text: 'O status do candidato foi atualizado.',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#359830',
             timer: 1500,
           });
         },
@@ -217,7 +216,6 @@ export class DetalhesVagaComponent implements OnChanges {
 
   public finalizarVaga() {
     const vagaIdString = this.vaga.id_vagas;
-    console.log(vagaIdString);
 
     const status = 'FINALIZADO';
 
@@ -225,7 +223,6 @@ export class DetalhesVagaComponent implements OnChanges {
       const vagaId = +vagaIdString;
       this.vagaService.httpFinalizarVaga$(vagaId, status).subscribe({
         next: (response) => {
-          console.log('Vaga finalizada com sucesso:', response);
           Swal.fire({
             icon: 'success',
             title: 'Vaga finalizada com sucesso!',
@@ -235,7 +232,6 @@ export class DetalhesVagaComponent implements OnChanges {
           this.location.back();
         },
         error: (error) => {
-          console.error('Erro ao finalizar vaga:', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao finalizar vaga',
@@ -248,7 +244,6 @@ export class DetalhesVagaComponent implements OnChanges {
 
   public deletarVaga() {
     const vagaIdString = this.vaga.id_vagas;
-    console.log(vagaIdString);
 
     const status = 'FINALIZADO';
 
@@ -256,7 +251,6 @@ export class DetalhesVagaComponent implements OnChanges {
       const vagaId = +vagaIdString;
       this.vagaService.httpDeleteVaga$(vagaId).subscribe({
         next: (response) => {
-          console.log('Vaga excluida com sucesso:', response);
           Swal.fire({
             icon: 'success',
             title: 'Vaga excluida com sucesso!',
@@ -266,7 +260,6 @@ export class DetalhesVagaComponent implements OnChanges {
           this.location.back();
         },
         error: (error) => {
-          console.error('Erro ao excluir vaga:', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao excluir vaga',
@@ -282,7 +275,6 @@ export class DetalhesVagaComponent implements OnChanges {
     const dataFechamentoString = this.vaga.data_fechamento;
 
     if (!dataFechamentoString) {
-      console.error('Data de fechamento da vaga não está definida.');
       return;
     }
 
@@ -293,7 +285,6 @@ export class DetalhesVagaComponent implements OnChanges {
 
     this.vagaService.httpProrrogarVaga$(vagaId, data_fechamento).subscribe({
       next: () => {
-        console.log('Vaga prorrogada com sucesso!');
         Swal.fire({
           icon: 'success',
           title: 'Vaga prorrogada com sucesso!',
@@ -303,7 +294,6 @@ export class DetalhesVagaComponent implements OnChanges {
         this.vaga.data_fechamento = data_fechamento;
       },
       error: (err) => {
-        console.error('Falha ao prorrogar vaga', err);
         Swal.fire({
           icon: 'error',
           title: 'Falha ao prorrogar vaga',

@@ -14,7 +14,7 @@ export class AreasAtuacaoService {
   #setListAreas = signal<IAreasAtuacao[] | null>(null);
   public getListAreas = this.#setListAreas.asReadonly();
   public httpListAreas$(): Observable<IAreasAtuacao[]> {
-    return this.#http.get<IAreasAtuacao[]>(`${this.#url}/api/areas`).pipe(
+    return this.#http.get<IAreasAtuacao[]>(`${this.#url}/areas`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListAreas.set(data);
@@ -25,7 +25,7 @@ export class AreasAtuacaoService {
   #setListAreasId = signal<IAreasAtuacao[] | null>(null);
   public getListAreasId = this.#setListAreasId.asReadonly();
   public httpListAreasId$(id: number): Observable<IAreasAtuacao[]> {
-    return this.#http.get<IAreasAtuacao[]>(`${this.#url}/api/areas/${id}`).pipe(
+    return this.#http.get<IAreasAtuacao[]>(`${this.#url}/areas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListAreasId.set(data);
@@ -36,7 +36,7 @@ export class AreasAtuacaoService {
   #setCreateAreas = signal<IAreasAtuacao | null>(null);
   public getCreateAreas = this.#setCreateAreas.asReadonly();
   public httpRegisterAreas$(area: IAreasAtuacao): Observable<IAreasAtuacao> {
-    return this.#http.post<IAreasAtuacao>(`${this.#url}/api/areas`, area).pipe(
+    return this.#http.post<IAreasAtuacao>(`${this.#url}/areas`, area).pipe(
       shareReplay(),
       tap((data) => {
         this.#setCreateAreas.set(data);
@@ -50,26 +50,22 @@ export class AreasAtuacaoService {
     id: string,
     area: IAreasAtuacao
   ): Observable<IAreasAtuacao> {
-    return this.#http
-      .put<IAreasAtuacao>(`${this.#url}/api/areas/${id}`, area)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setUpdateAreas.set(data);
-        })
-      );
+    return this.#http.put<IAreasAtuacao>(`${this.#url}/areas/${id}`, area).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setUpdateAreas.set(data);
+      })
+    );
   }
 
   #setDeleteAreas = signal<IAreasAtuacao | null>(null);
   public getDeleteAreas = this.#setDeleteAreas.asReadonly();
   public httpDeleteAreas$(id: string): Observable<IAreasAtuacao> {
-    return this.#http
-      .delete<IAreasAtuacao>(`${this.#url}/api/areas/${id}`)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setDeleteAreas.set(data);
-        })
-      );
+    return this.#http.delete<IAreasAtuacao>(`${this.#url}/areas/${id}`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setDeleteAreas.set(data);
+      })
+    );
   }
 }

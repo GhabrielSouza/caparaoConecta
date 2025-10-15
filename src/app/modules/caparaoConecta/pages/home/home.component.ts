@@ -178,7 +178,6 @@ export class HomeComponent implements OnInit {
           this.statusCarregamento.set('concluido');
         },
         error: (error) => {
-          console.error('Erro ao buscar vagas:', error);
           this.statusCarregamento.set('erro');
         },
       });
@@ -187,7 +186,6 @@ export class HomeComponent implements OnInit {
   public onListAreasAtuacao() {
     this.areasService.httpListAreas$().subscribe({
       next: (response) => this.areasAtuacao.set(response),
-      error: (error) => console.log('Erro ao buscar áreas:', error),
     });
   }
 
@@ -197,7 +195,6 @@ export class HomeComponent implements OnInit {
         const empresasFiltradas = response.filter((pessoa) => pessoa.empresa);
         this.empresas.set(empresasFiltradas);
       },
-      error: (error) => console.log('Erro ao buscar empresas:', error),
     });
   }
 

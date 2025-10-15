@@ -72,9 +72,11 @@
       </div>
       <!-- Botões de Ação -->
       <div class="card-actions">
+        @if (vagaData.status !== statusVagaEnum.FINALIZADO) {
         <button class="btn-edit" (click)="editarVaga()">
           <img src="assets/icons/pen-solid.svg" alt="Editar" />
         </button>
+        }
         <button class="btn-delete" (click)="confirmDelete()">
           <img src="assets/icons/trash-solid.svg" alt="Deletar" />
         </button>

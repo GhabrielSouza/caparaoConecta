@@ -19,7 +19,8 @@ import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { ITableColumn } from '../../interface/ITableColumn.interface';
 import { PageEvent } from '@angular/material/paginator';
 import { ChartModule } from 'primeng/chart';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { EmpyComponent } from '../../components/empy/empy.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,8 @@ import { isPlatformBrowser } from '@angular/common';
     TabelaComponent,
     FooterComponent,
     ChartModule,
+    CommonModule,
+    EmpyComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -65,14 +68,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVagas();
-    console.log(this.vagas());
   }
 
   public getVagas() {
     return this.vagasService.httpListVagas$().subscribe({
       next: (vagas) => {
         this.vagas.set(vagas);
-        console.log(this.vagas());
       },
       error: (error) => {
         console.error('Error fetching vagas:', error);

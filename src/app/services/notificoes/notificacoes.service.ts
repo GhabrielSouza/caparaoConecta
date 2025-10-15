@@ -14,19 +14,17 @@ export class NotificacoesService {
   #setListNotificacoes = signal<INotificacoes[] | null>(null);
   public getListNotificacoes = this.#setListNotificacoes.asReadonly();
   public httpListNotificacoes$(): Observable<INotificacoes[]> {
-    return this.#http
-      .get<INotificacoes[]>(`${this.#url}/api/notificacoes`)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setListNotificacoes.set(data);
-        })
-      );
+    return this.#http.get<INotificacoes[]>(`${this.#url}/notificacoes`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListNotificacoes.set(data);
+      })
+    );
   }
 
   public httpMarcarComoLida$(idNotificacao: number): Observable<INotificacoes> {
     return this.#http.put<INotificacoes>(
-      `${this.#url}/api/notificacoes/${idNotificacao}/marcar-como-lida`,
+      `${this.#url}/notificacoes/${idNotificacao}/marcar-como-lida`,
       {}
     );
   }

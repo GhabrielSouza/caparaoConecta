@@ -14,7 +14,7 @@ export class ExperienciasService {
   #setListExperiencia = signal<IExperiencia[] | null>(null);
   public getListExperiencia = this.#setListExperiencia.asReadonly();
   public httpListExperiencia$(id: number): Observable<IExperiencia[]> {
-    return this.#http.get<IExperiencia[]>(`${this.#url}/api/experiencias`).pipe(
+    return this.#http.get<IExperiencia[]>(`${this.#url}/experiencias`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListExperiencia.set(data);
@@ -26,7 +26,7 @@ export class ExperienciasService {
   public getListEmpresaId = this.#setListExperienciaId.asReadonly();
   public httpListExperienciaId$(id: number): Observable<IExperiencia[]> {
     return this.#http
-      .get<IExperiencia[]>(`${this.#url}/api/experiencias/${id}`)
+      .get<IExperiencia[]>(`${this.#url}/experiencias/${id}`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -41,7 +41,7 @@ export class ExperienciasService {
     empresa: IExperiencia
   ): Observable<IExperiencia> {
     return this.#http
-      .post<IExperiencia>(`${this.#url}/api/experiencias`, empresa)
+      .post<IExperiencia>(`${this.#url}/experiencias`, empresa)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -57,7 +57,7 @@ export class ExperienciasService {
     empresa: IExperiencia
   ): Observable<IExperiencia> {
     return this.#http
-      .put<IExperiencia>(`${this.#url}/api/experiencias/${id}`, empresa)
+      .put<IExperiencia>(`${this.#url}/experiencias/${id}`, empresa)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -72,7 +72,7 @@ export class ExperienciasService {
     id: string | undefined
   ): Observable<IExperiencia> {
     return this.#http
-      .delete<IExperiencia>(`${this.#url}/api/experiencias/${id}`)
+      .delete<IExperiencia>(`${this.#url}/experiencias/${id}`)
       .pipe(
         shareReplay(),
         tap((data) => {

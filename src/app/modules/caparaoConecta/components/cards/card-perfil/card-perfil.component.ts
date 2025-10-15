@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { IPessoa } from '../../../interface/IPessoa.interface';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-card-perfil',
@@ -11,4 +12,6 @@ import { RouterLink } from '@angular/router';
 })
 export class CardPerfilComponent {
   @Input() pessoas: IPessoa[] | null = [];
+
+  public url = signal(environment.apiAuth);
 }

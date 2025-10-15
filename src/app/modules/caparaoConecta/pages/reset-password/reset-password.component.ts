@@ -140,7 +140,6 @@ export class ResetPasswordComponent {
         this.route.navigate(['/login']);
       },
       error: (err) => {
-        console.error('Erro ao redefinir a senha:', err);
         Swal.fire({
           icon: 'error',
           title: 'Erro',

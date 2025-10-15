@@ -72,12 +72,12 @@ export class ComponentPerfilDadosComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Imagem atualizada com sucesso!',
+          text: 'Atualize a página para ver a nova imagem.',
           showConfirmButton: false,
           timer: 1500,
         });
       },
       error: (error) => {
-        console.error('Erro ao atualizar imagem:', error);
         Swal.fire({
           icon: 'error',
           title: 'Erro ao atualizar imagem. Tente novamente mais tarde.',

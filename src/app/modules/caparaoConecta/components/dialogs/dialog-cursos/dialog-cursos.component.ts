@@ -100,7 +100,6 @@ export class DialogCursosComponent {
   }
 
   private loadFormData(curso: any): void {
-    console.log(curso);
     this.form.patchValue({
       curso: curso.curso,
       certificado_curso: Boolean(curso.pivot.certificado_curso),
@@ -145,7 +144,7 @@ export class DialogCursosComponent {
     }
 
     const formData = this.form.value;
-    console.log(formData);
+
     formData.id_cursos = formData.id_cursos.id_cursos;
 
     return this.cursosService
@@ -153,7 +152,6 @@ export class DialogCursosComponent {
       .pipe(shareReplay())
       .subscribe({
         next: (data) => {
-          console.log('Lista atualizada:', data);
           this._dialogRef.close(data);
           Swal.fire({
             icon: 'success',
@@ -162,7 +160,6 @@ export class DialogCursosComponent {
           });
         },
         error: (error) => {
-          console.error('Erro ao atualizar', error);
           Swal.fire({
             icon: 'error',
             text: 'Erro ao cadastrar curso',
@@ -170,26 +167,33 @@ export class DialogCursosComponent {
             confirmButtonColor: '#359830',
           });
         },
-        complete: () => {
-          console.log('Finalizado');
-        },
       });
   }
 
   public update() {
     const formData = this.form.value;
-    console.log(formData);
-    console.log(this.data.curso.id_cursos);
     formData.id_cursos = formData.id_cursos?.id_cursos;
     return this.cursosService
       .httpUpdateCursosOnPessoa$(formData, this.data.curso.id_cursos)
       .pipe(shareReplay())
       .subscribe({
         next: (data) => {
-          console.log('Cursi atualizado' + data);
           this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Curso atualizado com sucesso',
+            text: 'Atualize a página para ver as mudanças',
+            showConfirmButton: false,
+          });
         },
-        error: (error) => [console.log(error)],
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro ao atualizar curso',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
+        },
       });
   }
 
@@ -201,12 +205,10 @@ export class DialogCursosComponent {
           next: (cursos) => {
             this.optionsCursos = cursos;
             this.updateFilteredOptionsCursos();
-            console.log(cursos);
           },
           error: (error) => console.error('Erro ao buscar cursos', error),
         });
     } else {
-      console.log(this.optionsCursos);
       this.optionsCursos = [];
       this.updateFilteredOptionsCursos();
     }

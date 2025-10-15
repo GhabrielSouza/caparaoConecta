@@ -24,7 +24,7 @@
 </section>
 
 <main>
-  <div class="bloco-conteudo">
+  <div class="bloco-conteudo" [ngClass]="empyAll ? 'p-0' : ''">
     <ng-container
       *ngIf="
         barChartData?.datasets?.length ||

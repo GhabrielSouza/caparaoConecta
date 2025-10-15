@@ -243,7 +243,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       areas: this.areasService.httpListAreas$(),
     }).subscribe({
       next: (resultados) => {
-        console.log(resultados);
         this.estados = resultados.estados;
         this.areasAtuacao = resultados.areas;
 
@@ -251,8 +250,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
           this.oldValue();
         }
       },
-      error: (err) =>
-        console.error('Erro ao carregar dados iniciais do formulário', err),
     });
   }
 
@@ -318,8 +315,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       return;
     }
 
-    console.log(formdata);
-
     return this.apiService
       .httpUpdateCandidato$(this.data.id, formdata)
       .pipe(
@@ -327,7 +322,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       )
       .subscribe({
         next: (resposta) => {
-          console.log(resposta);
           this._dialogRef.close(resposta);
           Swal.fire({
             icon: 'success',
@@ -336,7 +330,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Error updating data', error);
           Swal.fire({
             icon: 'error',
             text: 'Erro ao atualizar informações do perfil',
@@ -366,11 +359,7 @@ export class DialogPerfilInformacoesComponent implements OnInit {
       next: (resp) => {
         this.areasAtuacao = resp;
 
-        // Recarregar estados e cidades após atualizar áreas de atuação
         this.carregarEstados();
-      },
-      error: (error) => {
-        console.log('Erro ao carregar áreas de atuação', error);
       },
     });
   }
@@ -392,9 +381,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
             this.carregarCidadesPorEstado(estadoCompleto.id.toString());
           }
         }
-      },
-      error: (error) => {
-        console.log('Erro ao carregar estados', error);
       },
     });
   }
@@ -419,9 +405,6 @@ export class DialogPerfilInformacoesComponent implements OnInit {
               cidadeControl?.setValue(cidadeCompleta);
             }
           }
-        },
-        error: (error) => {
-          console.log('Erro ao carregar cidades', error);
         },
       });
     }

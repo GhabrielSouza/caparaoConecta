@@ -16,7 +16,7 @@ export class HabilidadesSService {
   public getListHabilidades = this.#setListHabilidades.asReadonly();
   public httpListHabilidades$(): Observable<IHabilidades[]> {
     return this.#http
-      .get<IHabilidades[]>(`${this.#url}/api/showAllHabilidades`)
+      .get<IHabilidades[]>(`${this.#url}/showAllHabilidades`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -35,7 +35,7 @@ export class HabilidadesSService {
       .set('page', page.toString())
       .set('per_page', pageSize.toString());
     return this.#http
-      .get<IHabilidades[]>(`${this.#url}/api/habilidades`, { params })
+      .get<IHabilidades[]>(`${this.#url}/habilidades`, { params })
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -47,7 +47,7 @@ export class HabilidadesSService {
   #setListHabilidadesId = signal<IHabilidades[] | null>(null);
   public getListHabilidadesId = this.#setListHabilidadesId.asReadonly();
   public httpListHabilidadesId$(): Observable<IHabilidades[]> {
-    return this.#http.get<IHabilidades[]>(`${this.#url}/api/habilidades`).pipe(
+    return this.#http.get<IHabilidades[]>(`${this.#url}/habilidades`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListHabilidadesId.set(data);
@@ -61,7 +61,7 @@ export class HabilidadesSService {
     habilidades: IHabilidades
   ): Observable<IHabilidades> {
     return this.#http
-      .post<IHabilidades>(`${this.#url}/api/habilidades`, habilidades)
+      .post<IHabilidades>(`${this.#url}/habilidades`, habilidades)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -74,7 +74,7 @@ export class HabilidadesSService {
   public getStatusHabilidades = this.#setStatusHabilidades.asReadonly();
   public httpStatusHabilidades$(id: number): Observable<IHabilidades> {
     return this.#http
-      .post<IHabilidades>(`${this.#url}/api/habilidades/${id}/toggle-status`, {
+      .post<IHabilidades>(`${this.#url}/habilidades/${id}/toggle-status`, {
         id_habilidades: id,
       })
       .pipe(
@@ -92,7 +92,7 @@ export class HabilidadesSService {
     habilidades: IHabilidades
   ): Observable<IHabilidades> {
     return this.#http
-      .put<IHabilidades>(`${this.#url}/api/habilidades/${id}`, habilidades)
+      .put<IHabilidades>(`${this.#url}/habilidades/${id}`, habilidades)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -105,7 +105,7 @@ export class HabilidadesSService {
   public getGeleteHabilidades = this.#setDeleteHabilidades.asReadonly();
   public httpDeleteHabilidades$(id: number): Observable<IHabilidades> {
     return this.#http
-      .delete<IHabilidades>(`${this.#url}/api/habilidades/${id}`)
+      .delete<IHabilidades>(`${this.#url}/habilidades/${id}`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -119,7 +119,7 @@ export class HabilidadesSService {
     this.#setListHabilidadesOnPessoas.asReadonly();
   public httpListHabilidadesOnPessoas$(id: number): Observable<IHabilidades[]> {
     return this.#http
-      .get<IHabilidades[]>(`${this.#url}/api/habOnCandidato/${id}`)
+      .get<IHabilidades[]>(`${this.#url}/habOnCandidato/${id}`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -135,10 +135,7 @@ export class HabilidadesSService {
     Habilidades: IHabilidadesOnPessoas
   ): Observable<IHabilidadesOnPessoas> {
     return this.#http
-      .post<IHabilidadesOnPessoas>(
-        `${this.#url}/api/habOnCandidato`,
-        Habilidades
-      )
+      .post<IHabilidadesOnPessoas>(`${this.#url}/habOnCandidato`, Habilidades)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -155,11 +152,9 @@ export class HabilidadesSService {
     payload: IHabilidadesOnPessoas
   ): Observable<IHabilidadesOnPessoas> {
     return this.#http
-      .request<IHabilidadesOnPessoas>(
-        'delete',
-        `${this.#url}/api/habOnCandidato`,
-        { body: payload }
-      )
+      .request<IHabilidadesOnPessoas>('delete', `${this.#url}/habOnCandidato`, {
+        body: payload,
+      })
       .pipe(
         shareReplay(),
         tap((data) => {

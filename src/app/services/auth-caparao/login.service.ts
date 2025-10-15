@@ -18,7 +18,7 @@ export class AuthService {
 
   public empresaTemVagas = computed(() => {
     const user = this.currentUser();
-    console.log('Usuário atual:', user);
+
     if (!user) {
       return false;
     }
@@ -49,7 +49,7 @@ export class AuthService {
   }): Observable<IUsuario> {
     return this.getCsrfCookie().pipe(
       switchMap(() =>
-        this.http.post<IUsuario>(`${this.#url()}/api/login`, credentials)
+        this.http.post<IUsuario>(`${this.#url()}/login`, credentials)
       ),
       tap((user) => {
         this.currentUser.set(user);
@@ -59,12 +59,12 @@ export class AuthService {
 
   logout(): Observable<any> {
     return this.http
-      .post(`${this.#url()}/api/logout`, {})
+      .post(`${this.#url()}/logout`, {})
       .pipe(tap(() => this.currentUser.set(null)));
   }
 
   checkAuthStatus(): Observable<IUsuario | null> {
-    return this.http.get<IUsuario>(`${this.#url()}/api/user`).pipe(
+    return this.http.get<IUsuario>(`${this.#url()}/user`).pipe(
       tap((user) => {
         this.currentUser.set(user);
       }),
@@ -76,14 +76,14 @@ export class AuthService {
   }
 
   public getUserData(userId: number): Observable<IPessoa> {
-    return this.http.get<IPessoa>(`${this.#url()}/api/pessoas/${userId}`);
+    return this.http.get<IPessoa>(`${this.#url()}/pessoas/${userId}`);
   }
 
   forgotPassword(email: string): Observable<any> {
-    return this.http.post(`${this.#url()}/api/forgot-password`, { email });
+    return this.http.post(`${this.#url()}/forgot-password`, { email });
   }
 
   resetPassword(data: any): Observable<any> {
-    return this.http.post(`${this.#url()}/api/reset-password`, data);
+    return this.http.post(`${this.#url()}/reset-password`, data);
   }
 }

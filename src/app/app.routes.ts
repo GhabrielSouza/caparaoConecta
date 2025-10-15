@@ -39,7 +39,7 @@ export const routes: Routes = [
     path: 'password-reset/:token',
     component: ResetPasswordComponent,
   },
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   {
     path: 'detalhe-da-vaga/:id',
     component: DetalheDaVagaComponent,

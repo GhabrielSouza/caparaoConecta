@@ -118,7 +118,6 @@ export class ResetEmailComponent {
         });
       },
       error: (err) => {
-        console.error('Erro ao enviar email de redefinição:', err);
         Swal.fire({
           icon: 'error',
           title: 'Erro',
@@ -126,6 +125,14 @@ export class ResetEmailComponent {
           confirmButtonText: 'OK',
           confirmButtonColor: '#359830',
         });
+
+        if (err.status === 422 && err.error?.error?.email) {
+          this.loginForm.get('email')?.setErrors({ emailTaken: true });
+          this.fieldErrors.update((errors) => ({
+            ...errors,
+            email: 'Email não cadastrado ou incorreto.',
+          }));
+        }
       },
       complete: () => {
         this.loginForm.reset();

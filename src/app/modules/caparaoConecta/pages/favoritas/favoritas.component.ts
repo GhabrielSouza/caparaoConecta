@@ -52,19 +52,11 @@ export class FavoritasComponent implements OnInit {
   }
 
   public getVagasFavoritas() {
-    return this.vagaService.httpListarFavoritar$().subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-    });
+    return this.vagaService.httpListarFavoritar$().subscribe();
   }
 
   public getMinhasCandidaturas() {
-    return this.vagaService.httpListarMinhasCandidaturas$().subscribe({
-      next: (next) => {
-        console.log(next);
-      },
-    });
+    return this.vagaService.httpListarMinhasCandidaturas$().subscribe();
   }
 
   public getVagasEncerradas = computed(() => {
@@ -85,8 +77,6 @@ export class FavoritasComponent implements OnInit {
     if (vaga?.id_vagas) {
       this.router.navigate(['/detalhe-da-vaga', vaga.id_vagas]);
     }
-
-    console.log('clicado');
   }
 
   navegarParaVagas() {

@@ -12,9 +12,7 @@ export class CandidatoSelecionadoComponent implements OnInit {
 
   public url = signal(environment.apiAuth);
 
-  ngOnInit(): void {
-    console.log(this.candidatos);
-  }
+  ngOnInit(): void {}
 
   getWhatsAppLink(candidato: IPessoaFisica): string {
     const telefoneLimpo = candidato.pessoa?.telefone?.replace(/\D/g, '') ?? '';

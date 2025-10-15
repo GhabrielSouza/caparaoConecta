@@ -76,7 +76,8 @@ export class DialogHabilidadesComponent {
         this._dialogRef.close(true);
         Swal.fire({
           icon: 'success',
-          text: 'Habilidades salvas com sucesso',
+          title: 'Habilidades salvas com sucesso',
+          text: 'Atualize a página para ver as mudanças',
           showConfirmButton: false,
         });
       },

@@ -85,12 +85,8 @@ export class CardVagaFavoritaComponent implements OnInit {
     vaga.is_favorita = !vaga.is_favorita;
 
     this.vagasService.httpToggleFavorito$(vaga.id_vagas).subscribe({
-      next: (res) => {
-        console.log(res);
-      },
       error: (error) => {
         vaga.is_favorita = !vaga.is_favorita;
-        console.log(error);
       },
     });
   }

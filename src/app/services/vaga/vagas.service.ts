@@ -34,7 +34,7 @@ export class VagasService {
       }
     }
     return this.#http
-      .get<IVaga[]>(`${this.#url}/api/vagasShowAll`, { params })
+      .get<IVaga[]>(`${this.#url}/vagasShowAll`, { params })
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -46,20 +46,18 @@ export class VagasService {
   #setListCandidaturas = signal<IVaga | null>(null);
   public getListCandidaturas = this.#setListCandidaturas.asReadonly();
   public httpListCandidaturas$(id: number): Observable<IVaga> {
-    return this.#http
-      .get<IVaga>(`${this.#url}/api/vagas/${id}/candidatos`)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setListCandidaturas.set(data);
-        })
-      );
+    return this.#http.get<IVaga>(`${this.#url}/vagas/${id}/candidatos`).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListCandidaturas.set(data);
+      })
+    );
   }
 
   #setListVagaId = signal<IVaga | null>(null);
   public getListVagaId = this.#setListVagaId.asReadonly();
   public httpListVagasId$(id: number): Observable<IVaga> {
-    return this.#http.get<IVaga>(`${this.#url}/api/vagas/${id}`).pipe(
+    return this.#http.get<IVaga>(`${this.#url}/vagas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListVagaId.set(data);
@@ -75,7 +73,7 @@ export class VagasService {
       ids: ids,
       status: novoStatus,
     };
-    return this.#http.patch(`${this.#url}/api/vagas/reativar`, payload);
+    return this.#http.patch(`${this.#url}/vagas/reativar`, payload);
   }
 
   public httpAtualizarStatusCandidato$(
@@ -87,17 +85,14 @@ export class VagasService {
       status: status,
     };
     return this.#http
-      .patch(
-        `${this.#url}/api/vagas/${vagaId}/candidatos/${candidatoId}`,
-        payload
-      )
+      .patch(`${this.#url}/vagas/${vagaId}/candidatos/${candidatoId}`, payload)
       .pipe(shareReplay());
   }
 
   #setCreateVaga = signal<IVaga | null>(null);
   public getCreateVaga = this.#setCreateVaga.asReadonly();
   public httpRegisterVaga$(empresa: IVaga): Observable<IVaga> {
-    return this.#http.post<IVaga>(`${this.#url}/api/cadVagas`, empresa).pipe(
+    return this.#http.post<IVaga>(`${this.#url}/cadVagas`, empresa).pipe(
       shareReplay(),
       tap((data) => {
         this.#setCreateVaga.set(data);
@@ -108,7 +103,7 @@ export class VagasService {
   #setUpdateVaga = signal<IVaga | null>(null);
   public getUpdateVaga = this.#setUpdateVaga.asReadonly();
   public httpUpdateVaga$(vaga: IVaga, id: number): Observable<IVaga> {
-    return this.#http.put<IVaga>(`${this.#url}/api/vagas/${id}`, vaga).pipe(
+    return this.#http.put<IVaga>(`${this.#url}/vagas/${id}`, vaga).pipe(
       shareReplay(),
       tap((data) => {
         this.#setUpdateVaga.set(data);
@@ -119,7 +114,7 @@ export class VagasService {
   #setDeleteVaga = signal<IVaga | null>(null);
   public getDeleteVaga = this.#setDeleteVaga.asReadonly();
   public httpDeleteVaga$(id: number): Observable<IVaga> {
-    return this.#http.delete<IVaga>(`${this.#url}/api/vagas/${id}`).pipe(
+    return this.#http.delete<IVaga>(`${this.#url}/vagas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setDeleteVaga.set(data);
@@ -130,14 +125,12 @@ export class VagasService {
   #setPatchVaga = signal<string | null>(null);
   public getFinalizarVaga = this.#setPatchVaga.asReadonly();
   public httpFinalizarVaga$(id: number, status: string): Observable<string> {
-    return this.#http
-      .patch<string>(`${this.#url}/api/vagas/${id}`, status)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setPatchVaga.set(data);
-        })
-      );
+    return this.#http.patch<string>(`${this.#url}/vagas/${id}`, status).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setPatchVaga.set(data);
+      })
+    );
   }
 
   public httpProrrogarVaga$(
@@ -150,28 +143,28 @@ export class VagasService {
       data_fechamento: dataFormatada,
     };
 
-    const url = `${this.#url}/api/vagas/${vagaId}/prorrogar`;
+    const url = `${this.#url}/vagas/${vagaId}/prorrogar`;
 
     return this.#http.patch<string>(url, payload);
   }
 
   public httpCandidatarVaga$(vagaId: number): Observable<number> {
     return this.#http.post<number>(
-      `${this.#url}/api/vagas/${vagaId}/candidatar`,
+      `${this.#url}/vagas/${vagaId}/candidatar`,
       {}
     );
   }
 
   public httpRegistrarVisualizacaoVaga$(vagaId: number): Observable<number> {
     return this.#http.post<number>(
-      `${this.#url}/api/vagas/${vagaId}/visualizar`,
+      `${this.#url}/vagas/${vagaId}/visualizar`,
       {}
     );
   }
 
   public httpToggleFavorito$(vagaId: number): Observable<number> {
     return this.#http.post<number>(
-      `${this.#url}/api/vagas/${vagaId}/favoritar`,
+      `${this.#url}/vagas/${vagaId}/favoritar`,
       {}
     );
   }
@@ -179,7 +172,7 @@ export class VagasService {
   #setListVagaFavorita = signal<IVaga[] | []>([]);
   public getListVagaFavorita = this.#setListVagaFavorita.asReadonly();
   public httpListarFavoritar$(): Observable<IVaga[]> {
-    return this.#http.get<IVaga[]>(`${this.#url}/api/favoritos`).pipe(
+    return this.#http.get<IVaga[]>(`${this.#url}/favoritos`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListVagaFavorita.set(data);
@@ -191,7 +184,7 @@ export class VagasService {
   public getListVagaMinhasCandidaturas =
     this.#setListVagaMinhasCandidaturas.asReadonly();
   public httpListarMinhasCandidaturas$(): Observable<IVaga[]> {
-    return this.#http.get<IVaga[]>(`${this.#url}/api/candidaturas`).pipe(
+    return this.#http.get<IVaga[]>(`${this.#url}/candidaturas`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListVagaMinhasCandidaturas.set(data);

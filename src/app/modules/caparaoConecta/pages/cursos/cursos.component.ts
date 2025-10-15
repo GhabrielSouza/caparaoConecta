@@ -57,7 +57,6 @@ export class CursosComponent implements OnInit {
   onCursoRecebido(curso: ICursos) {
     return this.cursosService.httpCreateCursos$(curso).subscribe({
       next: (data) => {
-        console.log('Curso criado com sucesso:', data);
         this.onCursosListados();
         Swal.fire({
           icon: 'success',
@@ -67,7 +66,6 @@ export class CursosComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.error('Erro ao criar curso:', error);
         Swal.fire({
           icon: 'error',
           title: 'Erro ao criar curso',
@@ -82,7 +80,6 @@ export class CursosComponent implements OnInit {
       .httpUpdateCursos$(curso.id_cursos, curso)
       .subscribe({
         next: (data) => {
-          console.log('Curso atualizado com sucesso:', data);
           this.onCursosListados();
           Swal.fire({
             icon: 'success',
@@ -92,7 +89,6 @@ export class CursosComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Erro ao atualizar curso:', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao atualizar curso',
@@ -105,7 +101,6 @@ export class CursosComponent implements OnInit {
   onCursoDeletado(id: number) {
     return this.cursosService.httpDeleteCursos$(id).subscribe({
       next: (data) => {
-        console.log('Curso deletado com sucesso:', data);
         this.onCursosListados();
       },
       error: (error) => {
@@ -120,7 +115,6 @@ export class CursosComponent implements OnInit {
       .httpListCursosPag$(pageIndexForApi, this.pageSize)
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.cursoData = response.data;
           this.totalCursos = response.total;
         },
@@ -141,7 +135,6 @@ export class CursosComponent implements OnInit {
       .httpStatusCursos$(habilidade.id_cursos)
       .subscribe({
         next: (data) => {
-          console.log('Status da habilidade atualizado:', data);
           this.onCursosListados();
           Swal.fire({
             icon: 'success',
@@ -151,7 +144,6 @@ export class CursosComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Erro ao atualizar status da habilidade:', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao atualizar status da habilidade',

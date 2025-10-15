@@ -101,14 +101,7 @@ export class CardDefaultInformacoesComponent {
       .httpDeleteExperiencia$(this.data.id_experiencias)
       .subscribe({
         next: (data) => {
-          console.log(
-            `essa experiencia com o nome ${this.data.nome_empresa} foi excluido`
-          );
-          console.log(data);
           this.apiExperiencia.httpListExperienciaId$(this.idUsuario);
-        },
-        error: (error) => {
-          console.log(error);
         },
       });
   }
@@ -118,14 +111,7 @@ export class CardDefaultInformacoesComponent {
       .httpDeleteFormacoes$(this.dataFormacoes.id_formacoes_academicas)
       .subscribe({
         next: (data) => {
-          console.log(
-            `essa formação com o nome ${this.dataFormacoes.instituicao.nome} foi excluido`
-          );
-          console.log(data);
           this.apiFormacao.httpListFormacoesId$(this.idUsuario);
-        },
-        error: (error) => {
-          console.log(error);
         },
       });
   }
@@ -135,14 +121,7 @@ export class CardDefaultInformacoesComponent {
       .httpDeleteCursosOnPessoa$(this.dataCursos.id_cursos, this.idUsuario)
       .subscribe({
         next: (data) => {
-          console.log(
-            `esse curso com o nome ${this.dataCursos.curso} foi excluido`
-          );
-          console.log(data);
           this.apiCurso.httpListCursosOnPessoaId$(this.idUsuario);
-        },
-        error: (error) => {
-          console.log(error);
         },
       });
   }

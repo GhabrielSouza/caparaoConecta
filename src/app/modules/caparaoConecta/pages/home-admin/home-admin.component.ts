@@ -6,10 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
-import { FooterComponent } from '../../components/footer/footer.component';
 import { DashboardCardComponent } from '../dashboard/dashboard-card/dashboard-card.component';
-import { CardVagaComponent } from '../../components/cards/card-vaga/card-vaga.component';
 import { UIChart } from 'primeng/chart';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { VagasService } from '../../../../services/vaga/vagas.service';
@@ -52,14 +49,12 @@ export class HomeAdminComponent implements OnInit {
   ngOnInit(): void {
     this.getVagas();
     this.getUsuarios();
-    console.log(this.vagas());
   }
 
   public getVagas() {
     return this.vagasService.httpListVagas$().subscribe({
       next: (vagas) => {
         this.vagas.set(vagas);
-        console.log(this.vagas());
       },
       error: (error) => {
         console.error('Error fetching vagas:', error);
@@ -71,7 +66,6 @@ export class HomeAdminComponent implements OnInit {
     return this.pessoasService.httpListPessoas$().subscribe({
       next: (usuarios) => {
         this.usuarios.set(usuarios);
-        console.log(this.usuarios());
       },
       error: (error) => {
         console.error('Error fetching usuarios:', error);
@@ -92,8 +86,6 @@ export class HomeAdminComponent implements OnInit {
   public atualizarDadosDosGraficos(): void {
     const vagas = this.vagas();
     const usuarios = this.usuarios();
-
-    console.log(usuarios);
 
     if (vagas.length === 0) return;
 

@@ -76,10 +76,10 @@ export class FormCadastroCandidatoComponent implements OnInit {
         genero: ['', [Validators.required]],
         cpf: ['', [Validators.required, ehUmCPF]],
         telefone: ['', [Validators.required]],
-        estado: ['', []],
-        cidade: ['', []],
+        estado: ['', [Validators.required]],
+        cidade: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        cadUnico: ['', [Validators.required]],
+        cadUnico: [''],
         password: [
           '',
           [

@@ -111,7 +111,6 @@ export class PerfilComponent implements OnInit {
         this.statusCarregamento.set('concluido');
       },
       error: (err) => {
-        console.error('Erro ao carregar dados do perfil:', err);
         this.statusCarregamento.set('erro');
       },
     });

@@ -74,7 +74,6 @@ export class FormExperienciaProfissionalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data.experiencia);
     if (this.data.experiencia) {
       this.loadFormData(this.data.experiencia);
     }
@@ -91,8 +90,6 @@ export class FormExperienciaProfissionalComponent implements OnInit {
           this.formExperiencia.get('data_conclusao')?.enable();
         }
       });
-
-    console.log(this.data.id);
   }
 
   public closeModal() {
@@ -105,7 +102,7 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       nome_empresa: experiencia.nome_empresa,
       data_emissao: experiencia.data_emissao,
       data_conclusao: experiencia.data_conclusao,
-      comprovacao: experiencia.comprovacao,
+      comprovacao: Boolean(experiencia.comprovacao),
       comentario: experiencia.comentario,
       trabalho_atual: !experiencia.data_conclusao,
     });
@@ -140,16 +137,14 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          console.log('Lista atualizada:', data);
           this._dialogRef.close(data);
           Swal.fire({
             icon: 'success',
-            text: 'Experiência cadastrada com sucesso!',
+            title: 'Experiência cadastrada com sucesso!',
             showConfirmButton: false,
           });
         },
         error: (error) => {
-          console.error('Erro ao atualizar', error);
           Swal.fire({
             icon: 'error',
             text: 'Ocorreu um erro ao cadastrar Experiência ',
@@ -157,14 +152,10 @@ export class FormExperienciaProfissionalComponent implements OnInit {
             confirmButtonColor: '#359830',
           });
         },
-        complete: () => {
-          console.log('Finalizado');
-        },
       });
   }
 
   public update() {
-    console.log(this.formExperiencia.value);
     return this.experienciaService
       .httpUpdateExperiencia$(
         this.data.experiencia.id_experiencias,
@@ -173,7 +164,6 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       .pipe(shareReplay())
       .subscribe({
         next: (data) => {
-          console.log('Experiencia aualizada' + data);
           Swal.fire({
             icon: 'error',
             text: 'Erro ao atualizar Experiencia',
@@ -181,7 +171,14 @@ export class FormExperienciaProfissionalComponent implements OnInit {
             confirmButtonColor: '#359830',
           });
         },
-        error: (error) => [console.log(error)],
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro ao atualizar Experiencia',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
+        },
       });
   }
 }

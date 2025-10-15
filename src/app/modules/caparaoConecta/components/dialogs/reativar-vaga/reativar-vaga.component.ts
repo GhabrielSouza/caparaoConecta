@@ -120,7 +120,7 @@ export class ReativarVagaComponent implements OnInit {
             confirmButtonColor: '#359830',
           }).then((result) => {
             if (result.isConfirmed) {
-              this.router.navigate(['/caparao-conecta/vagas']);
+              this.router.navigate(['/home']);
             }
           });
           this._dialogRef.close(true);

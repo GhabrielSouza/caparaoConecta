@@ -6,8 +6,7 @@
       <img
         [src]="
           data.vaga.empresa?.pessoa?.imagem
-            ? 'http://localhost:8000/img/pessoas/' +
-              data.vaga.empresa?.pessoa?.imagem
+            ? url() + '/img/pessoas/' + data.vaga.empresa?.pessoa?.imagem
             : imagem
         "
         alt="Logo da empresa"
@@ -22,7 +21,7 @@
     </div>
     <div class="header-actions" (click)="favoritarVaga()">
       <mat-icon>{{ favoritar ? "star" : "star_border" }}</mat-icon>
-      <span class="cpc-regular-010">{{
+      <span class="cpc-regular-010 d-none d-md-block">{{
         favoritar ? "Favoritada" : "Favoritar"
       }}</span>
     </div>
@@ -71,7 +70,7 @@
       <div class="d-flex align-items-center align-center gap-1">
         <h2 class="section-title cpc-regular">Cursos Recomendados</h2>
         <img
-          class="info-icon"
+          class="info-icon cursor-pointer"
           height="18"
           src="/assets/icons/circle-info-solid.svg"
           matTooltip="Cursos que podem te ajudar a se destacar para essa vaga.

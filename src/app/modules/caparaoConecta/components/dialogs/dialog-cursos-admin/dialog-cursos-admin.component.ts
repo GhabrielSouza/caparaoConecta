@@ -88,8 +88,6 @@ export class DialogCursosAdminComponent {
   }
 
   submit() {
-    console.log(this.formCurso.value);
-
     // 1. Verificamos se o formulário é válido
     if (this.formCurso.invalid) {
       this.formCurso.markAllAsTouched(); // Marca campos como tocados para exibir erros

@@ -64,7 +64,7 @@ export class CabecalhoComponent {
     this.userAuth.logout().subscribe({
       next: () => {
         this.toggleMenu();
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       },
       error: (err) => console.error('Falha ao fazer logout', err),
     });

@@ -131,7 +131,6 @@ export class FormLoginComponent implements OnInit {
     }
 
     const credentials = this.loginForm.value;
-    console.log(credentials);
 
     this.authLogin.login(credentials).subscribe({
       next: (user) => {

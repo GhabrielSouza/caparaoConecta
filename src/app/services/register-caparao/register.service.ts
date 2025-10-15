@@ -17,7 +17,7 @@ export class RegisterService {
   #setListUsuarios = signal<IPessoa[] | null>(null);
   public getListUsuarios = this.#setListUsuarios.asReadonly();
   public httpListPessoas$(): Observable<IPessoa[]> {
-    return this.#http.get<IPessoa[]>(`${this.#url}/api/pessoas`).pipe(
+    return this.#http.get<IPessoa[]>(`${this.#url}/pessoas`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListUsuarios.set(data);
@@ -28,7 +28,7 @@ export class RegisterService {
   #setListEmpresa = signal<IPessoa[] | null>(null);
   public getListEmpresa = this.#setListEmpresa.asReadonly();
   public httpListEmpresas$(): Observable<IPessoa[]> {
-    return this.#http.get<IPessoa[]>(`${this.#url}/api/pessoas`).pipe(
+    return this.#http.get<IPessoa[]>(`${this.#url}/pessoas`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListEmpresa.set(data);
@@ -39,7 +39,7 @@ export class RegisterService {
   #setListEmpresaId = signal<IEmpresa[] | null>(null);
   public getListEmpresaId = this.#setListEmpresaId.asReadonly();
   public httpListEmpresasId$(id: number): Observable<IEmpresa[]> {
-    return this.#http.get<IEmpresa[]>(`${this.#url}/api/pessoas/${id}`).pipe(
+    return this.#http.get<IEmpresa[]>(`${this.#url}/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListEmpresaId.set(data);
@@ -50,21 +50,19 @@ export class RegisterService {
   #setCreateEmpresa = signal<IEmpresa | null>(null);
   public getCreateEmpresa = this.#setCreateEmpresa.asReadonly();
   public httpRegisterEmpresa$(empresa: IEmpresa): Observable<IEmpresa> {
-    return this.#http
-      .post<IEmpresa>(`${this.#url}/api/cadPessoas`, empresa)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setCreateEmpresa.set(data);
-        })
-      );
+    return this.#http.post<IEmpresa>(`${this.#url}/cadPessoas`, empresa).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setCreateEmpresa.set(data);
+      })
+    );
   }
 
   #setUpdateEmpresa = signal<IEmpresa | null>(null);
   public getUpdateEmpresa = this.#setCreateEmpresa.asReadonly();
   public httpUpdateEmpresa$(empresa: IEmpresa): Observable<IEmpresa> {
     return this.#http
-      .put<IEmpresa>(`${this.#url}/api/cadPessoas/${empresa.id}`, empresa)
+      .put<IEmpresa>(`${this.#url}/cadPessoas/${empresa.id}`, empresa)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -76,7 +74,7 @@ export class RegisterService {
   #setListCandidatoId = signal<IPessoa | null>(null);
   public getListCandidatoId = this.#setListCandidatoId.asReadonly();
   public httpListCandidatosId$(id: number): Observable<IPessoa> {
-    return this.#http.get<IPessoa>(`${this.#url}/api/pessoas/${id}`).pipe(
+    return this.#http.get<IPessoa>(`${this.#url}/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListCandidatoId.set(data);
@@ -86,7 +84,7 @@ export class RegisterService {
 
   public httpVisualizarPerfilCandidato$(id: number): Observable<IPessoa> {
     return this.#http
-      .get<IPessoa>(`${this.#url}/api/pessoas/${id}/visualizacao`)
+      .get<IPessoa>(`${this.#url}/pessoas/${id}/visualizacao`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -98,7 +96,7 @@ export class RegisterService {
   #setListCandidatoIdPerfil = signal<IPessoa | null>(null);
   public getListCandidatoIdPerfil = this.#setListCandidatoIdPerfil.asReadonly();
   public httpListCandidatosIdPerfil$(id: number): Observable<IPessoa> {
-    return this.#http.get<IPessoa>(`${this.#url}/api/pessoas/${id}`).pipe(
+    return this.#http.get<IPessoa>(`${this.#url}/pessoas/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListCandidatoIdPerfil.set(data);
@@ -110,7 +108,7 @@ export class RegisterService {
   public getCreateCandidato = this.#setCreateCandidato.asReadonly();
   public httpRegisterCandidato$(candidato: ICandidato): Observable<ICandidato> {
     return this.#http
-      .post<ICandidato>(`${this.#url}/api/cadPessoas`, candidato)
+      .post<ICandidato>(`${this.#url}/cadPessoas`, candidato)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -126,7 +124,7 @@ export class RegisterService {
     candidato: IPessoa
   ): Observable<IPessoa> {
     return this.#http
-      .put<IPessoa>(`${this.#url}/api/pessoas/${id}`, candidato)
+      .put<IPessoa>(`${this.#url}/pessoas/${id}`, candidato)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -142,7 +140,7 @@ export class RegisterService {
     novoSobre: string
   ): Observable<IPessoa> {
     return this.#http
-      .patch<IPessoa>(`${this.#url}/api/pessoas/${id}/sobre`, {
+      .patch<IPessoa>(`${this.#url}/pessoas/${id}/sobre`, {
         sobre: novoSobre,
       })
       .pipe(
@@ -162,7 +160,7 @@ export class RegisterService {
     const formData = new FormData();
     formData.append('imagem', imagem, imagem.name);
 
-    const url = `${this.#url}/api/pessoas/${id}/imagem`;
+    const url = `${this.#url}/pessoas/${id}/imagem`;
     return this.#http.post<IPessoa>(url, formData);
   }
 }

@@ -6,7 +6,7 @@
       <img
         [src]="
           pessoa.imagem
-            ? 'http://localhost:8000/img/pessoas/' + pessoa.imagem
+            ? url() + '/img/pessoas/' + pessoa.imagem
             : 'assets/imgs/perfil.svg'
         "
         alt="Foto do perfil"

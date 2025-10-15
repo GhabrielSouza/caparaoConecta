@@ -80,16 +80,12 @@ export class DialogSobreComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Error updating data', error);
           Swal.fire({
             icon: 'error',
             text: 'Erro',
             confirmButtonText: 'OK',
             confirmButtonColor: '#359830',
           });
-        },
-        complete: () => {
-          console.log('Update complete');
         },
       });
   }

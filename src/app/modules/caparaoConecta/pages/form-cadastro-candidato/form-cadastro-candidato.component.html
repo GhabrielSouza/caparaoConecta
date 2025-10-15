@@ -4,7 +4,7 @@
   botaoCadastrar="Login"
   (Submit)="submit()"
   (Navigate)="navigate()"
-  [disablebotaoCadastrar]="!cadastrarForm.valid"
+  [disablebotaoCadastrar]="cadastrarForm.invalid"
 >
   <form [formGroup]="cadastrarForm" class="row">
     <app-primary-input

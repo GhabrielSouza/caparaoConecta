@@ -42,7 +42,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((resposta: IFormacoesAcademicas[]) => {
-      console.log(resposta);
       if (resposta) {
         this.dataFormacao = resposta;
       }
@@ -58,7 +57,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((resposta: IExperiencia[]) => {
-      console.log(resposta);
       if (resposta) {
         this.dataExperiencia = resposta;
       }
@@ -75,7 +73,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((resposta: IHabilidades[]) => {
-      console.log(resposta);
       if (resposta) {
         this.dataHabilidades = resposta;
       }
@@ -92,7 +89,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((novoSobre) => {
-      console.log(novoSobre);
       if (novoSobre) {
         this.data = novoSobre;
       }

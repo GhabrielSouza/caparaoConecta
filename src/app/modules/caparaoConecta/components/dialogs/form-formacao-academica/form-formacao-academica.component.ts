@@ -112,7 +112,6 @@ export class FormFormacaoAcademicaComponent {
   }
 
   private loadFormData(formacao: IFormacoesAcademicas): void {
-    console.log(formacao);
     this.form.patchValue({
       instituicao: formacao.instituicao,
       id_instituicoes: formacao.instituicao.id_instituicoes,
@@ -146,7 +145,6 @@ export class FormFormacaoAcademicaComponent {
 
   public submit() {
     const formData = this.form.value;
-    console.log(formData);
 
     return this.formacaoService
       .httpRegisterFormacoes$(formData)
@@ -155,7 +153,6 @@ export class FormFormacaoAcademicaComponent {
       )
       .subscribe({
         next: (data) => {
-          console.log('Lista atualizada:', data);
           this._dialogRef.close(data);
           Swal.fire({
             icon: 'success',
@@ -165,7 +162,6 @@ export class FormFormacaoAcademicaComponent {
           });
         },
         error: (error) => {
-          console.error('Erro ao atualizar', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao cadastrar formação acadêmica',
@@ -174,15 +170,13 @@ export class FormFormacaoAcademicaComponent {
             confirmButtonColor: '#359830',
           });
         },
-        complete: () => {
-          console.log('Finalizado');
-        },
+        complete: () => {},
       });
   }
 
   public update() {
     const formData = this.form.value;
-    console.log(this.form.value);
+
     return this.formacaoService
       .httpUpdateFormacoes$(
         this.data.formacao.id_formacoes_academicas,
@@ -191,7 +185,6 @@ export class FormFormacaoAcademicaComponent {
       .pipe(shareReplay())
       .subscribe({
         next: (data) => {
-          console.log('Formacao atualizada' + data);
           this._dialogRef.close(data);
           Swal.fire({
             icon: 'success',

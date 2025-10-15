@@ -53,7 +53,7 @@ export class HabilidadesComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.onHabilidadesListadas();
-          console.log('Habilidade criada com sucesso:', data);
+
           Swal.fire({
             icon: 'success',
             title: 'Habilidade criada com sucesso!',
@@ -62,7 +62,6 @@ export class HabilidadesComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Erro ao criar habilidade:', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao criar habilidade',
@@ -78,7 +77,7 @@ export class HabilidadesComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.onHabilidadesListadas();
-          console.log('Habilidade atualizada com sucesso:', data);
+
           Swal.fire({
             icon: 'success',
             title: 'Habilidade atualizada com sucesso!',
@@ -87,7 +86,6 @@ export class HabilidadesComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Erro ao atualizar habilidade:', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao atualizar habilidade',
@@ -100,7 +98,6 @@ export class HabilidadesComponent implements OnInit {
   onHabilidadeDeletada(id: number) {
     return this.habilidadesService.httpDeleteHabilidades$(id).subscribe({
       next: (data) => {
-        console.log('Habilidade deletada com sucesso:', data);
         this.onHabilidadesListadas();
       },
       error: (error) => {
@@ -115,7 +112,6 @@ export class HabilidadesComponent implements OnInit {
       .httpListHabilidadesPag$(pageIndexForApi, this.pageSize)
       .subscribe({
         next: (response) => {
-          console.log('Lista de habilidades:', response);
           this.habilidadesData = response.data;
           this.totalHabilidades = response.total;
         },
@@ -130,7 +126,6 @@ export class HabilidadesComponent implements OnInit {
       .httpStatusHabilidades$(habilidade.id_habilidades)
       .subscribe({
         next: (data) => {
-          console.log('Status da habilidade atualizado:', data);
           this.onHabilidadesListadas();
           Swal.fire({
             icon: 'success',
@@ -140,7 +135,6 @@ export class HabilidadesComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Erro ao atualizar status da habilidade:', error);
           Swal.fire({
             icon: 'error',
             title: 'Erro ao atualizar status da habilidade',
