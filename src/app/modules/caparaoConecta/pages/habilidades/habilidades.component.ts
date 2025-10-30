@@ -9,10 +9,17 @@ import { HabilidadesSService } from '../../../../services/habilidades/habilidade
 import { DialogHabilidadesAdminComponent } from '../../components/dialogs/dialog-habilidades-admin/dialog-habilidades-admin.component';
 import { ITableColumn } from '../../interface/ITableColumn.interface';
 import Swal from 'sweetalert2';
+import { PageEvent } from '@angular/material/paginator';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-habilidades',
-  imports: [CabecalhoComponent, FooterComponent, TableComponent],
+  imports: [
+    CabecalhoComponent,
+    FooterComponent,
+    TableComponent,
+    ButtonReturnTopComponent,
+  ],
   templateUrl: './habilidades.component.html',
   styleUrl: './habilidades.component.scss',
 })
@@ -35,7 +42,7 @@ export class HabilidadesComponent implements OnInit {
   totalHabilidades = 0;
 
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 5;
 
   getIdHabilidade = (item: IHabilidades) => item.id_habilidades;
   getNomeHabilidade = (item: IHabilidades) => item.nome;
@@ -142,5 +149,11 @@ export class HabilidadesComponent implements OnInit {
           });
         },
       });
+  }
+
+  updatePaginatedData(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.onHabilidadesListadas();
   }
 }

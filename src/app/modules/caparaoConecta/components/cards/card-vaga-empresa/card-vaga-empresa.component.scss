@@ -4,6 +4,7 @@
   .vagas-empresa-container {
     padding: 1rem;
     background-color: #f8f9fa;
+    box-sizing: border-box;
   }
 
   .vagas-grid {
@@ -95,6 +96,17 @@
 
     i {
       color: var(--primary-background-green);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .vagas-grid {
+      display: block;
+    }
+
+    .card-status {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
     }
   }
 }

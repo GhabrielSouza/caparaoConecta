@@ -9,7 +9,7 @@ import { IAreasAtuacao } from '../../modules/caparaoConecta/interface/IAreasAtua
 })
 export class AreasAtuacaoService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListAreas = signal<IAreasAtuacao[] | null>(null);
   public getListAreas = this.#setListAreas.asReadonly();

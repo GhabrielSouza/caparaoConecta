@@ -8,10 +8,16 @@ import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-curs
 import { ITableColumn } from '../../interface/ITableColumn.interface';
 import { PageEvent } from '@angular/material/paginator';
 import Swal from 'sweetalert2';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-cursos',
-  imports: [CabecalhoComponent, FooterComponent, TableComponent],
+  imports: [
+    CabecalhoComponent,
+    FooterComponent,
+    TableComponent,
+    ButtonReturnTopComponent,
+  ],
   templateUrl: './cursos.component.html',
   styleUrl: './cursos.component.scss',
 })
@@ -21,7 +27,7 @@ export class CursosComponent implements OnInit {
   totalCursos = 0;
 
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 5;
 
   cursosColumns: ITableColumn<ICursos>[] = [
     { key: 'curso', header: 'Curso' },
@@ -127,7 +133,7 @@ export class CursosComponent implements OnInit {
   updatePaginatedData(event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.onCursosListados();
+    this.onCursosListados(); // Certifique-se de que os dados sejam atualizados
   }
 
   onCursoStatusToggled(habilidade: ICursos) {

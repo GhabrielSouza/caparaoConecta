@@ -15,6 +15,7 @@ import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import Swal from 'sweetalert2';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-visualizar-perfil',
@@ -28,6 +29,7 @@ import Swal from 'sweetalert2';
     ComponentDefaultPerfilComponent,
     ComponentPerfilDadosComponent,
     CabecalhoComponent,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './visualizar-perfil.component.html',
   styleUrl: './visualizar-perfil.component.scss',

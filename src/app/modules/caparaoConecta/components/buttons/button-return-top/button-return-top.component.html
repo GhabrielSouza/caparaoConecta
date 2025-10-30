@@ -1,0 +1,12 @@
+<button
+  type="button"
+  class="px-3 btn btn-return-top"
+  (click)="onReturnTop()"
+  [disabled]="disabled"
+  [ngClass]="windonwsScrollY > 300 ? 'show' : 'hide'"
+>
+  @if (icon) {
+  <img [src]="icon" />
+  }
+  {{ text }}
+</button>

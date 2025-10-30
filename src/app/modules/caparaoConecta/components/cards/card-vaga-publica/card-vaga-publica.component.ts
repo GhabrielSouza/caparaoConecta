@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ERoleUser } from '../../../enum/ERoleUser.enum';
 import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { environment } from '../../../../../../environments/environment';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-card-vaga-publica',
@@ -48,11 +49,36 @@ export class CardVagaPublicaComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((idVaga: number) => {
-      if (idVaga) {
-        this.candidatarUser(idVaga);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .subscribe(
+        (result: { idVaga: number; favoritar: boolean; action: string }) => {
+          if (result?.idVaga && result.action === 'candidatar') {
+            this.candidatarUser(result.idVaga);
+          }
+
+          if (result?.idVaga && result.favoritar) {
+            this.favoritarVaga(result.idVaga);
+          }
+        }
+      );
+  }
+
+  public favoritarVaga(vagaId: number) {
+    this.#vagaService
+      .httpToggleFavorito$(vagaId)
+      .pipe(concatMap(() => this.#vagaService.httpListVagas$()))
+      .subscribe({
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:
+              error.error?.message ||
+              'Não foi possível favoritar a vaga. Tente novamente.',
+          });
+        },
+      });
   }
 
   public candidatarUser(vagaId: number) {

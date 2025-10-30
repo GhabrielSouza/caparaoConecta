@@ -20,6 +20,7 @@ import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 import Swal from 'sweetalert2';
 import { ERoleUser } from '../../../enum/ERoleUser.enum';
 import { EStatusVaga } from '../../../enum/EStatusVaga.enum';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-reativar-vaga',
@@ -110,6 +111,7 @@ export class ReativarVagaComponent implements OnInit {
 
     this.vagasService
       .atualizarStatusVagas$(idsParaAtualizar, novoStatus)
+      .pipe(concatMap(() => this.vagasService.httpListVagas$()))
       .subscribe({
         next: (result) => {
           Swal.fire({

@@ -21,6 +21,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { ChartModule } from 'primeng/chart';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { EmpyComponent } from '../../components/empy/empy.component';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +33,7 @@ import { EmpyComponent } from '../../components/empy/empy.component';
     ChartModule,
     CommonModule,
     EmpyComponent,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

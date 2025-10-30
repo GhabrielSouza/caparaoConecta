@@ -1,4 +1,4 @@
-<header (scroll)="onscroll()" [ngClass]="navbarFixed ? 'fixed' : 'nofixed'">
+<header>
   <div class="header-container">
     <div class="header_logo">
       <a routerLink="/home">
@@ -89,12 +89,18 @@
               <span>Minhas vagas</span>
             </a>
           </li>
-          } @if( loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO ||
-          loggedUser.tipo_usuario.nome === roleEnum.ADMIN){
+          } @if( loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO){
           <li>
             <a href="/pesquisa" class="menu-item">
               <img src="assets/icons/empresa.svg" alt="Empresa" />
               <span>Empresas</span>
+            </a>
+          </li>
+          } @if(loggedUser.tipo_usuario.nome === roleEnum.ADMIN){
+          <li>
+            <a href="/pesquisa" class="menu-item">
+              <img src="assets/icons/Candidato.svg" alt="Empresa" />
+              <span>Usuários</span>
             </a>
           </li>
           } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA) {
@@ -104,8 +110,7 @@
               <span>Dashboard</span>
             </a>
           </li>
-          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA ||
-          loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
+          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA) {
           <li>
             <a href="/pesquisa" class="menu-item">
               <img src="assets/icons/Candidato.svg" alt="Candidatos" />

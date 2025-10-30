@@ -9,7 +9,7 @@ import { IExperiencia } from '../../modules/caparaoConecta/interface/IExperienci
 })
 export class ExperienciasService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListExperiencia = signal<IExperiencia[] | null>(null);
   public getListExperiencia = this.#setListExperiencia.asReadonly();

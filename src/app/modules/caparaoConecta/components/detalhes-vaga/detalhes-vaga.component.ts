@@ -69,7 +69,7 @@ export class DetalhesVagaComponent implements OnChanges {
   private vagaService = inject(VagasService);
   private dialog = inject(MatDialog);
 
-  @Input() vaga!: IVaga;
+  @Input() vaga!: IVaga | null;
   @Input() role!: ERoleUser;
   @Input() IdUsuario: any;
 
@@ -215,7 +215,7 @@ export class DetalhesVagaComponent implements OnChanges {
   });
 
   public finalizarVaga() {
-    const vagaIdString = this.vaga.id_vagas;
+    const vagaIdString = this.vaga?.id_vagas;
 
     const status = 'FINALIZADO';
 
@@ -243,7 +243,7 @@ export class DetalhesVagaComponent implements OnChanges {
   }
 
   public deletarVaga() {
-    const vagaIdString = this.vaga.id_vagas;
+    const vagaIdString = this.vaga?.id_vagas;
 
     const status = 'FINALIZADO';
 
@@ -271,40 +271,36 @@ export class DetalhesVagaComponent implements OnChanges {
   }
 
   private executarProrrogacao(): void {
-    const vagaId = this.vaga.id_vagas;
-    const dataFechamentoString = this.vaga.data_fechamento;
+    const vagaId = this.vaga!?.id_vagas;
+    const dataFechamentoString = this.vaga?.data_fechamento;
 
     if (!dataFechamentoString) {
       return;
     }
 
-    const dataAtual = new Date(dataFechamentoString);
-
-    const data_fechamento = new Date(dataAtual);
-    data_fechamento.setDate(dataAtual.getDate() + 5);
-
-    this.vagaService.httpProrrogarVaga$(vagaId, data_fechamento).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Vaga prorrogada com sucesso!',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        this.vaga.data_fechamento = data_fechamento;
-      },
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Falha ao prorrogar vaga',
-          text: err.error?.message || 'Tente novamente mais tarde.',
-        });
-      },
-    });
+    this.vagaService
+      .httpProrrogarVaga$(vagaId, dataFechamentoString)
+      .subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Vaga prorrogada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Falha ao prorrogar vaga',
+            text: err.error?.message || 'Tente novamente mais tarde.',
+          });
+        },
+      });
   }
 
   public editarVaga() {
-    const vagaIdString = this.vaga.id_vagas;
+    const vagaIdString = this.vaga?.id_vagas;
     this.dialog.open(CadastroVagaDialogComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {

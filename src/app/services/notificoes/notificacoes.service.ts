@@ -9,7 +9,7 @@ import { Observable, shareReplay, tap } from 'rxjs';
 })
 export class NotificacoesService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListNotificacoes = signal<INotificacoes[] | null>(null);
   public getListNotificacoes = this.#setListNotificacoes.asReadonly();

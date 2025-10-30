@@ -4,7 +4,7 @@
 <div *ngIf="vaga">
   <app-detalhes-vaga
     [IdUsuario]="user()?.id_pessoas"
-    [vaga]="vaga"
+    [vaga]="vaga()"
     [role]="role()"
   ></app-detalhes-vaga>
 </div>
@@ -22,3 +22,4 @@
 <app-spinner />
 }
 <app-footer></app-footer>
+<app-button-return-top></app-button-return-top>

@@ -10,7 +10,7 @@ import { ICursosOnPessoas } from '../../modules/caparaoConecta/interface/ICursos
 })
 export class CursosSService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListCursos = signal<ICursos[] | null>(null);
   public getListCursos = this.#setListCursos.asReadonly();

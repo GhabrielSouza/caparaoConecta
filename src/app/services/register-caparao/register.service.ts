@@ -12,7 +12,7 @@ import { IPessoa } from '../../modules/caparaoConecta/interface/IPessoa.interfac
 })
 export class RegisterService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListUsuarios = signal<IPessoa[] | null>(null);
   public getListUsuarios = this.#setListUsuarios.asReadonly();

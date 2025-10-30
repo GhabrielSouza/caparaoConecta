@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 })
 export class FormacoesAcademicasService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListFormacoes = signal<IFormacoesAcademicas[] | null>(null);
   public getListFormacoes = this.#setListFormacoes.asReadonly();

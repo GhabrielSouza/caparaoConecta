@@ -27,6 +27,7 @@ import { ComponentDefaultPerfilComponent } from '../../components/component-defa
 import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { IUsuario } from '../../interface/IUsuario.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-perfil',
@@ -41,6 +42,7 @@ import { ICursos } from '../../interface/ICursos.inteface';
     PerfilEmpresaComponent,
     PerfilCandidatoComponent,
     SpinnerComponent,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.scss',

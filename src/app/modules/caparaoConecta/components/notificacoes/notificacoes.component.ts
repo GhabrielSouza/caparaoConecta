@@ -57,7 +57,6 @@ export class NotificacoesComponent implements OnInit {
   }
 
   handleNotificacaoClick(notificacao: INotificacoes): void {
-    console.log('Notificação clicada:', notificacao);
     if (notificacao.id) {
       this.notificacoesService.httpMarcarComoLida$(notificacao.id).subscribe({
         next: () => {

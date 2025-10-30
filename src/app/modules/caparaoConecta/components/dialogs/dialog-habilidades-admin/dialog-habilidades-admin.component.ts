@@ -17,6 +17,7 @@ import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-prim
 import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-dialog-habilidades-admin',
@@ -25,6 +26,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatDialogContent,
     MatFormFieldModule,
+    MatInputModule,
     CommonModule,
   ],
   templateUrl: './dialog-habilidades-admin.component.html',

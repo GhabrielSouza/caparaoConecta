@@ -1,7 +1,7 @@
 <div class="layout">
   <app-cabecalho />
   <main class="conteudo">
-    <section class="container-fluid">
+    <section class="container-fluid mb-5">
       @if(role() != roleEnum.ADMIN){
       <div class="row">
         <div class="col-12 col-lg-2 d-none d-sm-none d-lg-block">
@@ -120,3 +120,4 @@
   </main>
   <app-footer></app-footer>
 </div>
+<app-button-return-top></app-button-return-top>

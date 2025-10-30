@@ -9,7 +9,7 @@ import { IInstituicao } from '../../modules/caparaoConecta/interface/IInstuicao.
 })
 export class InstituicoesService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListInstituicao = signal<IInstituicao[] | null>(null);
   public getListInstituicao = this.#setListInstituicao.asReadonly();

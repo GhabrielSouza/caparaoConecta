@@ -334,27 +334,32 @@ export class CadastroVagaDialogComponent implements OnInit {
         formValue.id_empresas = this.data.id;
       }
 
-      this.vagaService.httpUpdateVaga$(formValue, this.data.idVaga).subscribe({
-        next: (response) => {
-          this._dialogRef.close(response);
-          Swal.fire({
-            icon: 'success',
-            title: 'Vaga atualizada com sucesso!',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
-        error: (error) => {
-          console.log(error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro ao atualizar vaga',
-            text: 'Ocorreu um erro ao atualizar a vaga. Por favor, tente novamente.',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-      });
+      this.vagaService
+        .httpUpdateVaga$(formValue, this.data.idVaga)
+        .pipe(
+          concatMap(() => this.vagaService.httpListVagasId$(this.data.idVaga))
+        )
+        .subscribe({
+          next: (response) => {
+            this._dialogRef.close(response);
+            Swal.fire({
+              icon: 'success',
+              title: 'Vaga atualizada com sucesso!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+          error: (error) => {
+            console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro ao atualizar vaga',
+              text: 'Ocorreu um erro ao atualizar a vaga. Por favor, tente novamente.',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#359830',
+            });
+          },
+        });
     } else {
       Swal.fire({
         icon: 'error',

@@ -12,6 +12,8 @@ import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { ERoleUser } from '../../enum/ERoleUser.enum';
 import { EmpyComponent } from '../../components/empy/empy.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
+import { concatMap } from 'rxjs';
 @Component({
   selector: 'app-detalhe-da-vaga',
   templateUrl: './detalhe-da-vaga.component.html',
@@ -23,16 +25,16 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
     FooterComponent,
     EmpyComponent,
     SpinnerComponent,
+    ButtonReturnTopComponent,
   ],
 })
 export class DetalheDaVagaComponent implements OnInit {
-  vaga!: IVaga;
-
   private route = inject(ActivatedRoute);
   private vagasService = inject(VagasService);
   private userAuth = inject(AuthService);
 
   public user = this.userAuth.currentUser;
+  public vaga = this.vagasService.getListVagaId;
 
   public statusCarregamento = signal<'carregando' | 'concluido' | 'erro'>(
     'carregando'
@@ -43,28 +45,30 @@ export class DetalheDaVagaComponent implements OnInit {
     return (roleName as ERoleUser) || ERoleUser.GUEST;
   });
 
+  private vagaIdString = this.route.snapshot.paramMap.get('id');
+
   ngOnInit(): void {
+    this.vagasService.httpListVagasId$(+this.vagaIdString!).subscribe();
     this.getVagaId();
   }
 
   public getVagaId() {
     this.statusCarregamento.set('carregando');
-    const vagaIdString = this.route.snapshot.paramMap.get('id');
 
-    if (vagaIdString) {
-      const vagaId = +vagaIdString;
+    if (this.vagaIdString) {
+      const vagaId = +this.vagaIdString;
 
       this.vagasService.httpListVagasId$(vagaId).subscribe({
         next: (data) => {
           this.statusCarregamento.set('concluido');
-          this.vaga = data;
         },
-        error: (error) => {
+        error: () => {
           this.statusCarregamento.set('erro');
         },
       });
     } else {
       console.error('ID da vaga não encontrado na URL!');
+      this.statusCarregamento.set('erro');
     }
   }
 }

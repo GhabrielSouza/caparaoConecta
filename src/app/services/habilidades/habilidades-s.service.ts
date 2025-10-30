@@ -10,7 +10,7 @@ import { IHabilidadesOnPessoas } from '../../modules/caparaoConecta/interface/IH
 })
 export class HabilidadesSService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListHabilidades = signal<IHabilidades[] | null>(null);
   public getListHabilidades = this.#setListHabilidades.asReadonly();

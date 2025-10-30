@@ -16,29 +16,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  public empresaTemVagas = computed(() => {
-    const user = this.currentUser();
-
-    if (!user) {
-      return false;
-    }
-
-    if (user && user.tipo_usuario?.nome == 'EMPRESA') {
-      const vagas = user?.pessoa?.empresa?.vagas;
-
-      vagas?.forEach((vaga) => {
-        if (vaga.status === 'EM_ANDAMENTO') {
-          return true;
-        }
-        return false;
-      });
-      console.log(user?.pessoa?.empresa?.vagas?.length);
-      return (user?.pessoa?.empresa?.vagas?.length ?? 0) > 0;
-    }
-
-    return null;
-  });
-
   private getCsrfCookie(): Observable<any> {
     return this.http.get(`${this.#url()}/sanctum/csrf-cookie`);
   }
@@ -49,7 +26,7 @@ export class AuthService {
   }): Observable<IUsuario> {
     return this.getCsrfCookie().pipe(
       switchMap(() =>
-        this.http.post<IUsuario>(`${this.#url()}/login`, credentials)
+        this.http.post<IUsuario>(`${this.#url()}/api/login`, credentials)
       ),
       tap((user) => {
         this.currentUser.set(user);
@@ -59,12 +36,12 @@ export class AuthService {
 
   logout(): Observable<any> {
     return this.http
-      .post(`${this.#url()}/logout`, {})
+      .post(`${this.#url()}/api/logout`, {})
       .pipe(tap(() => this.currentUser.set(null)));
   }
 
   checkAuthStatus(): Observable<IUsuario | null> {
-    return this.http.get<IUsuario>(`${this.#url()}/user`).pipe(
+    return this.http.get<IUsuario>(`${this.#url()}/api/user`).pipe(
       tap((user) => {
         this.currentUser.set(user);
       }),
@@ -76,7 +53,7 @@ export class AuthService {
   }
 
   public getUserData(userId: number): Observable<IPessoa> {
-    return this.http.get<IPessoa>(`${this.#url()}/pessoas/${userId}`);
+    return this.http.get<IPessoa>(`${this.#url()}/api/pessoas/${userId}`);
   }
 
   forgotPassword(email: string): Observable<any> {

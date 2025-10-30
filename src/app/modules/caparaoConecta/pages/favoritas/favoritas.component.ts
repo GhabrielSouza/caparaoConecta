@@ -11,6 +11,7 @@ import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { ButtonPrimaryComponent } from '../../components/buttons/button-primary/button-primary.component';
 import { EmpyComponent } from '../../components/empy/empy.component';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-favoritas',
@@ -20,6 +21,7 @@ import { EmpyComponent } from '../../components/empy/empy.component';
     FooterComponent,
     CardVagaFavoritaComponent,
     EmpyComponent,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './favoritas.component.html',
   styleUrl: './favoritas.component.scss',
@@ -47,16 +49,8 @@ export class FavoritasComponent implements OnInit {
   public roleEnum = ERoleUser;
 
   ngOnInit(): void {
-    this.getVagasFavoritas();
-    this.getMinhasCandidaturas();
-  }
-
-  public getVagasFavoritas() {
-    return this.vagaService.httpListarFavoritar$().subscribe();
-  }
-
-  public getMinhasCandidaturas() {
-    return this.vagaService.httpListarMinhasCandidaturas$().subscribe();
+    this.vagaService.httpListarFavoritar$().subscribe();
+    this.vagaService.httpListarMinhasCandidaturas$().subscribe();
   }
 
   public getVagasEncerradas = computed(() => {

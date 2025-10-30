@@ -11,7 +11,7 @@ import { IPessoaFisica } from '../../modules/caparaoConecta/interface/IPessoaFis
 })
 export class VagasService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListVaga = signal<IVaga[]>([]);
   public getListVaga = this.#setListVaga.asReadonly();
@@ -137,10 +137,8 @@ export class VagasService {
     vagaId: number,
     novaData: Date
   ): Observable<string> {
-    const dataFormatada = novaData.toISOString().split('T')[0];
-
     const payload = {
-      data_fechamento: dataFormatada,
+      data_fechamento: novaData,
     };
 
     const url = `${this.#url}/vagas/${vagaId}/prorrogar`;

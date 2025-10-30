@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { CardPerfilComponent } from '../../components/cards/card-perfil/card-perfil.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-pesquisar',
@@ -18,6 +19,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
     CabecalhoComponent,
     CardPerfilComponent,
     Paginator,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './pesquisar.component.html',
   styleUrl: './pesquisar.component.scss',
@@ -50,7 +52,7 @@ export class PesquisarComponent {
         return p.usuario?.tipo_usuario?.nome === ERoleUser.CANDIDATO;
       if (roleAtual === ERoleUser.CANDIDATO)
         return p.usuario?.tipo_usuario?.nome === ERoleUser.EMPRESA;
-      return true; // Para GUEST, mostra todos
+      return true;
     });
 
     if (!termo) return listaBase;

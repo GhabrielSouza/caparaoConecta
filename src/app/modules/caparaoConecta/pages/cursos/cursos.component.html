@@ -11,12 +11,15 @@
     [displayFn]="getNomeCurso"
     [statusFn]="getStatusCurso"
     [totalDataLength]="totalCursos"
+    [pageSize]="pageSize"
     (itemAdded)="onCursoRecebido($event)"
     (itemEdited)="onCursoAtualizado($event)"
     (itemDeleted)="onCursoDeletado($event)"
     (itemStatusToggled)="onCursoStatusToggled($event)"
+    (pageChanged)="updatePaginatedData($event)"
   >
   </app-table>
 </section>
 
 <app-footer></app-footer>
+<app-button-return-top></app-button-return-top>

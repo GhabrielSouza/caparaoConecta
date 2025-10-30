@@ -29,6 +29,7 @@ import { MatIcon } from '@angular/material/icon';
 import { FiltroComponent } from '../../components/filtro/filtro.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFiltroComponent } from '../../components/dialogs/dialog-filtro/dialog-filtro.component';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -55,6 +56,7 @@ export interface GrupoDeVagas {
     SpinnerComponent,
     ReactiveFormsModule,
     FiltroComponent,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -68,7 +70,7 @@ export class HomeComponent implements OnInit {
   private fb = inject(FormBuilder);
   public dialog = inject(MatDialog);
 
-  public todasAsVagas = signal<IVaga[]>([]);
+  public todasAsVagas = this.vagasService.getListVaga;
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
   public empresas = signal<IPessoa[]>([]);
   public user = this.userAuth.currentUser;
@@ -157,9 +159,18 @@ export class HomeComponent implements OnInit {
     });
 
     this.filtroForm.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((formValue) => {
-        this.getVagas(formValue);
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        concatMap((formValue) => this.vagasService.httpListVagas$(formValue))
+      )
+      .subscribe({
+        next: (data) => {
+          this.statusCarregamento.set('concluido');
+        },
+        error: () => {
+          this.statusCarregamento.set('erro');
+        },
       });
 
     this.getVagas();
@@ -169,18 +180,14 @@ export class HomeComponent implements OnInit {
 
   public getVagas(filtros?: any) {
     this.statusCarregamento.set('carregando');
-    this.vagasService
-      .httpListVagas$(filtros)
-      .pipe(concatMap(() => this.vagasService.httpListVagas$()))
-      .subscribe({
-        next: (data) => {
-          this.todasAsVagas.set(data);
-          this.statusCarregamento.set('concluido');
-        },
-        error: (error) => {
-          this.statusCarregamento.set('erro');
-        },
-      });
+    this.vagasService.httpListVagas$(filtros).subscribe({
+      next: (data) => {
+        this.statusCarregamento.set('concluido');
+      },
+      error: () => {
+        this.statusCarregamento.set('erro');
+      },
+    });
   }
 
   public onListAreasAtuacao() {

@@ -25,6 +25,7 @@ import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { ERoleUser } from '../../../enum/ERoleUser.enum';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { environment } from '../../../../../../environments/environment';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-vaga-dialog',
@@ -70,15 +71,17 @@ export class VagaDialogComponent implements OnInit {
   public favoritarVaga() {
     this.favoritar = !this.favoritar;
 
-    this.vagasService.httpToggleFavorito$(this.data.vaga.id_vagas).subscribe({
-      error: (error) => {
-        this.favoritar = !this.favoritar;
-      },
+    this._dialogRef.close({
+      idVaga: this.data.vaga.id_vagas,
+      favoritar: this.favoritar,
     });
   }
 
   public candidatarUser() {
-    this._dialogRef.close(this.data.vaga.id_vagas);
+    this._dialogRef.close({
+      idVaga: this.data.vaga.id_vagas,
+      action: 'candidatar',
+    });
   }
 
   private registrarVisualizacao(): void {
