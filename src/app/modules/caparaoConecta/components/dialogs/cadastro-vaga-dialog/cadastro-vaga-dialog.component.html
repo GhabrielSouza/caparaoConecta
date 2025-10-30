@@ -3,7 +3,7 @@
     {{ isEditMode ? "Editar Vaga" : "Anuncie sua vaga" }}
   </h1>
   <mat-dialog-content>
-    <form [formGroup]="vagaForm" (ngSubmit)="save()">
+    <form [formGroup]="vagaForm" (ngSubmit)="save()" (keyup.enter)="save()">
       <mat-label>Cargo*</mat-label>
       <mat-form-field class="full-width-input">
         <input
@@ -63,20 +63,28 @@
           placeholder="dd/mm/aaaa"
           [disabled]="true"
         />
+        <mat-error
+          *ngIf="
+            vagaForm.get('data_fechamento')?.hasError('required') &&
+            (vagaForm.get('data_fechamento')?.touched ||
+              vagaForm.get('data_fechamento')?.dirty)
+          "
+          >Data de encerramento é obrigatória</mat-error
+        >
       </mat-form-field>
 
       <mat-label>Habilidades</mat-label>
       <mat-form-field class="full-width-input mat-chip-list-container">
         <mat-chip-grid #chipGridHabilidades>
           @for (habilidade of habilidadesFormArray.value; track
-          habilidade.id_habilidades) {
+          habilidade.id_habilidades) { @if(habilidade.nome) {
           <mat-chip-row (removed)="removeHabilidade(habilidade)">
             {{ habilidade.nome }}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
-          }
+          } }
         </mat-chip-grid>
         <input
           placeholder="Nova habilidade..."
@@ -92,6 +100,12 @@
           habilidade.id_habilidades) {
           <mat-option [value]="habilidade">{{ habilidade.nome }}</mat-option>
           }
+          <mat-error *ngIf="(filteredHabilidades$ | async)?.length === 0">
+            Nenhuma habilidade encontrada.
+          </mat-error>
+          <mat-error *ngIf="habilidadesFormArray.invalid">
+            Pelo menos uma habilidade é obrigatória.
+          </mat-error>
         </mat-autocomplete>
       </mat-form-field>
 
@@ -99,13 +113,14 @@
       <mat-form-field class="full-width-input mat-chip-list-container">
         <mat-chip-grid #chipGridCursos>
           @for (curso of cursosFormArray.value; track curso.id_cursos) {
+          @if(curso.curso) {
           <mat-chip-row (removed)="removeCurso(curso)">
             {{ curso.curso }}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
-          }
+          } }
         </mat-chip-grid>
         <input
           placeholder="Novo curso ou certificação..."
@@ -121,6 +136,9 @@
           <mat-option [value]="curso">{{ curso.curso }}</mat-option>
           }
         </mat-autocomplete>
+        <mat-error *ngIf="cursosFormArray.invalid">
+          Pelo menos um curso ou certificação é obrigatório.
+        </mat-error>
       </mat-form-field>
 
       <mat-label>Área de Atuação</mat-label>
@@ -136,10 +154,15 @@
           </mat-option>
           }
         </mat-select>
-        @if (vagaForm.get('estado')?.invalid && (vagaForm.get('estado')?.touched
-        || vagaForm.get('estado')?.dirty)) {
-        <mat-error>ai é triste</mat-error>
-        }
+        <mat-error
+          *ngIf="
+            vagaForm.get('id_areas_atuacao')?.invalid &&
+            (vagaForm.get('id_areas_atuacao')?.touched ||
+              vagaForm.get('id_areas_atuacao')?.dirty)
+          "
+        >
+          Área de atuação é obrigatória.
+        </mat-error>
       </mat-form-field>
 
       <mat-label>Descrição</mat-label>
@@ -150,6 +173,12 @@
           placeholder="Descreva a vaga..."
           rows="4"
         ></textarea>
+        <mat-hint align="end"
+          >{{ vagaForm.get("descricao")?.value?.length || 0 }}/500</mat-hint
+        >
+        <mat-error *ngIf="vagaForm.get('descricao')?.hasError('maxlength')">
+          A descrição não pode exceder 500 caracteres.
+        </mat-error>
       </mat-form-field>
 
       <mat-label>Quantidade de vagas*</mat-label>
@@ -164,6 +193,32 @@
         <mat-error> Quantidade de vagas é obrigatória </mat-error>
         }
       </mat-form-field>
+
+      @if(this.data.role === roleEnum.ADMIN){
+      <mat-label>Selecione a empresa</mat-label>
+      <!-- Label posicionado acima -->
+      <mat-form-field class="full-width-input mat-chip-list-container">
+        <mat-select
+          formControlName="id_empresas"
+          placeholder="Selecione a empresa"
+        >
+          @for(empresa of empresas(); track empresa.id_pessoas){
+          <mat-option [value]="empresa.id_pessoas">
+            {{ empresa.nome }}
+          </mat-option>
+          }
+        </mat-select>
+        <mat-error
+          *ngIf="
+            vagaForm.get('id_empresas')?.invalid &&
+            (vagaForm.get('id_empresas')?.touched ||
+              vagaForm.get('id_empresas')?.dirty)
+          "
+        >
+          Empresa é obrigatória.
+        </mat-error>
+      </mat-form-field>
+      }
 
       <footer>
         <div class="d-flex justify-content-center gap-4 p-3">

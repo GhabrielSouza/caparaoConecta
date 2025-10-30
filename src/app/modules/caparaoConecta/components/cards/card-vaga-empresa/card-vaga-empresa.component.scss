@@ -4,11 +4,12 @@
   .vagas-empresa-container {
     padding: 1rem;
     background-color: #f8f9fa;
+    box-sizing: border-box;
   }
 
   .vagas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 1.5rem;
     padding-bottom: 2rem;
   }
@@ -72,12 +73,11 @@
     font-size: 0.9rem;
     color: #6c757d;
     flex-grow: 1;
-    margin-bottom: 1.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    line-clamp: 3;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .card-footer {
@@ -96,6 +96,17 @@
 
     i {
       color: var(--primary-background-green);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .vagas-grid {
+      display: block;
+    }
+
+    .card-status {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
     }
   }
 }

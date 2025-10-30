@@ -36,6 +36,8 @@ export class TableComponent<T> {
 
   @Input() totalDataLength: number = 0;
 
+  @Input() pageSize: number = 5;
+
   @Output() pageChanged = new EventEmitter<PageEvent>();
 
   constructor(private dialog: MatDialog) {}

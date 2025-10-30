@@ -21,13 +21,14 @@ import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.
 import { MatSelectModule } from '@angular/material/select';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { FormacoesAcademicasService } from '../../../../../services/formacoes/formacoes-academicas.service';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { concatMap, map, Observable, shareReplay, startWith } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
 import { IInstituicao } from '../../../interface/IInstuicao.interface';
 import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-formacao-academica',
@@ -36,7 +37,6 @@ import { InstituicoesService } from '../../../../../services/instituicoes/instit
     MatDialogContent,
     RouterModule,
     MatCheckboxModule,
-    PrimaryInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,
@@ -45,7 +45,7 @@ import { InstituicoesService } from '../../../../../services/instituicoes/instit
     MatAutocompleteModule,
     MatInputModule,
     CommonModule,
-    AsyncPipe
+    AsyncPipe,
   ],
   templateUrl: './form-formacao-academica.component.html',
   styleUrl: './form-formacao-academica.component.scss',
@@ -65,126 +65,171 @@ export class FormFormacaoAcademicaComponent {
       instituicao: ['', [Validators.required]],
       id_instituicoes: '',
       escolaridade: ['', [Validators.required]],
-      area_de_estudo: ['', [Validators.required]],
+      area_de_estudo: [''],
       conclusao_formacao: [false, [Validators.required]],
       diploma_formacao: [false],
       data_emissao: ['', [Validators.required]],
-      data_conclusao: [''],
-      id_pessoasFisicas: this.data.id || this.data.formacao.id_pessoasFisicas
+      data_conclusao: ['', [Validators.required]],
+      id_pessoasFisicas: this.data.id || this.data.formacao.id_pessoasFisicas,
     });
   }
 
-options: IInstituicao[] = [];
-filteredOptions!: Observable<IInstituicao[]>;
+  options: IInstituicao[] = [];
+  filteredOptions!: Observable<IInstituicao[]>;
 
-ngOnInit() {
-  this.getInstituicoes();
+  ngOnInit() {
+    this.getInstituicoes();
 
-  if(this.data.formacao){
-    this.loadFormData(this.data.formacao);
+    if (this.data.formacao) {
+      this.loadFormData(this.data.formacao);
+    }
+
+    this.form.get('conclusao_formacao')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.form.get('data_conclusao')?.enable();
+        this.form.get('data_conclusao')?.setValidators([Validators.required]);
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+      } else {
+        this.form.get('data_conclusao')?.disable();
+        this.form.get('data_conclusao')?.clearValidators();
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+        this.form.get('data_conclusao')?.setValue('');
+      }
+    });
+
+    this.form.get('diploma_formacao')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.form.get('data_conclusao')?.enable();
+        this.form.get('data_conclusao')?.setValidators([Validators.required]);
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+      } else {
+        this.form.get('data_conclusao')?.disable();
+        this.form.get('data_conclusao')?.clearValidators();
+        this.form.get('data_conclusao')?.updateValueAndValidity();
+        this.form.get('data_conclusao')?.setValue('');
+      }
+    });
   }
-}
 
-private loadFormData(formacao: IFormacoesAcademicas): void {
-  console.log(formacao)
-  this.form.patchValue({
-    instituicao: formacao.instituicao,
-    id_instituicoes: formacao.instituicao.id_instituicoes,
-    escolaridade: formacao.escolaridade,
-    area_de_estudo: formacao.area_de_estudo,
-    conclusao_formacao: Boolean(formacao.conclusao_formacao),
-    diploma_formacao: Boolean(formacao.diploma_formacao),
-    data_emissao: formacao.data_emissao,
-    data_conclusao: formacao.data_conclusao,
-  });
+  private loadFormData(formacao: IFormacoesAcademicas): void {
+    this.form.patchValue({
+      instituicao: formacao.instituicao,
+      id_instituicoes: formacao.instituicao.id_instituicoes,
+      escolaridade: formacao.escolaridade,
+      area_de_estudo: formacao.area_de_estudo,
+      conclusao_formacao: Boolean(formacao.conclusao_formacao),
+      diploma_formacao: Boolean(formacao.diploma_formacao),
+      data_emissao: formacao.data_emissao,
+      data_conclusao: formacao.data_conclusao,
+    });
 
-  // if (!formacao.data_conclusao) {
-  //   this.form.get('data_conclusao')?.disable();
-  // }
-}
+    // if (!formacao.data_conclusao) {
+    //   this.form.get('data_conclusao')?.disable();
+    // }
+  }
 
-displayFn(instituicao: IInstituicao): string {
-  return instituicao && instituicao.nome ? instituicao.nome : '';
-}
+  displayFn(instituicao: IInstituicao): string {
+    return instituicao && instituicao.nome ? instituicao.nome : '';
+  }
 
-private _filter(value: string): IInstituicao[] {
-  const filterValue = value.toLowerCase();
-  return this.options.filter(option => option.nome.toLowerCase().includes(filterValue));
-}
-
+  private _filter(value: string): IInstituicao[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter((option) =>
+      option.nome.toLowerCase().includes(filterValue)
+    );
+  }
 
   public closeModal() {
     this._dialogRef.close();
   }
 
   public submit() {
-      const formData = this.form.value;
-      console.log(formData)
+    const formData = this.form.value;
 
-      
-      return this.formacaoService
-        .httpRegisterFormacoes$(formData)
-        .pipe(
-          concatMap(() =>
-            this.formacaoService.httpListFormacoesId$(this.data.id)
-          )
-        )
-        .subscribe({
-          next: (data) => {
-            console.log('Lista atualizada:', data);
-            this._dialogRef.close(data);
-          },
-          error: (error) => {
-            console.error('Erro ao atualizar', error);
-          },
-          complete: () => {
-            console.log('Finalizado');
-          },
-        });
-    }
-
-    public update() {
-      const formData = this.form.value;
-        console.log(this.form.value);
-        return this.formacaoService.httpUpdateFormacoes$(
-            this.data.formacao.id_formacoes_academicas,
-            formData
-          )
-          .pipe(shareReplay())
-          .subscribe({
-            next: (data) => {
-              console.log('Formacao atualizada' + data);
-              this._dialogRef.close(data);
-            },
-            error: (error) => [console.log(error)],
-          });
-      }
-
-    public getInstituicoes(){
-      this.instituicaoService.httpListInstituicao$().subscribe({
+    return this.formacaoService
+      .httpRegisterFormacoes$(formData)
+      .pipe(
+        concatMap(() => this.formacaoService.httpListFormacoesId$(this.data.id))
+      )
+      .subscribe({
         next: (data) => {
-          this.options = data;
-          this.filteredOptions = this.form.get('instituicao')!.valueChanges.pipe(
-            startWith(''),
-            map(value => {
-              const name = typeof value === 'string' ? value : value?.nome;
-              return name ? this._filter(name as string) : this.options.slice();
-            }),
-          );
-
-          this.form.get('instituicao')?.valueChanges.subscribe(value => {
-            if (value && typeof value === 'object') {
-              this.form.get('id_instituicoes')?.setValue(value.id_instituicoes);
-            }
+          this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Formação acadêmica cadastrada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
           });
-
-          if (this.data.formacao) {
-            this.loadFormData(this.data.formacao);
-          }
         },
         error: (error) => {
-          console.error('Erro ao buscar instituições', error);
-        }
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao cadastrar formação acadêmica',
+            text: 'Ocorreu um erro ao cadastrar a formação acadêmica. Por favor, tente novamente.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
+        },
+        complete: () => {},
       });
-    }
+  }
+
+  public update() {
+    const formData = this.form.value;
+
+    return this.formacaoService
+      .httpUpdateFormacoes$(
+        this.data.formacao.id_formacoes_academicas,
+        formData
+      )
+      .pipe(shareReplay())
+      .subscribe({
+        next: (data) => {
+          this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Formação acadêmica atualizada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title:
+              'Ocurreu um erro ao cadastrar formação. Por favor, tente novamente.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
+        },
+      });
+  }
+
+  public getInstituicoes() {
+    this.instituicaoService.httpListInstituicao$().subscribe({
+      next: (data) => {
+        this.options = data;
+        this.filteredOptions = this.form.get('instituicao')!.valueChanges.pipe(
+          startWith(''),
+          map((value) => {
+            const name = typeof value === 'string' ? value : value?.nome;
+            return name ? this._filter(name as string) : this.options.slice();
+          })
+        );
+
+        this.form.get('instituicao')?.valueChanges.subscribe((value) => {
+          if (value && typeof value === 'object') {
+            this.form.get('id_instituicoes')?.setValue(value.id_instituicoes);
+          }
+        });
+
+        if (this.data.formacao) {
+          this.loadFormData(this.data.formacao);
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao buscar instituições', error);
+      },
+    });
+  }
 }

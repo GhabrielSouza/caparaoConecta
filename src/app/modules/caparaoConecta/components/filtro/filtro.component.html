@@ -11,7 +11,8 @@
       </div>
     </div>
     <div class="selects d-flex flex-column my-3">
-      @if(role == roleEnum.CANDIDATO || role == roleEnum.GUEST){
+      @if(role == roleEnum.CANDIDATO || role == roleEnum.GUEST){ @if
+      (empresas().length > 0) {
       <mat-label class="cpc-regular-010">Empresa</mat-label>
       <mat-form-field>
         <mat-select
@@ -36,7 +37,7 @@
         </button>
         }
       </mat-form-field>
-      }
+      } }
       <mat-label class="cpc-regular-010">Área de Atuação</mat-label>
       <mat-form-field>
         <mat-select placeholder="Selecione um item" formControlName="atuacao">

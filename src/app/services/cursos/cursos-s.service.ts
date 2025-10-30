@@ -10,12 +10,12 @@ import { ICursosOnPessoas } from '../../modules/caparaoConecta/interface/ICursos
 })
 export class CursosSService {
   #http = inject(HttpClient);
-  #url = environment.apiAuth;
+  #url = `${environment.apiAuth}/api`;
 
   #setListCursos = signal<ICursos[] | null>(null);
   public getListCursos = this.#setListCursos.asReadonly();
   public httpListCursos$(): Observable<ICursos[]> {
-    return this.#http.get<ICursos[]>(`${this.#url}/api/showAllCursos`).pipe(
+    return this.#http.get<ICursos[]>(`${this.#url}/showAllCursos`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListCursos.set(data);
@@ -26,7 +26,7 @@ export class CursosSService {
   #setListCursosId = signal<ICursos[] | null>(null);
   public getListCursosId = this.#setListCursosId.asReadonly();
   public httpListCursosId$(id: string): Observable<ICursos[]> {
-    return this.#http.get<ICursos[]>(`${this.#url}/api/cursos?${id}`).pipe(
+    return this.#http.get<ICursos[]>(`${this.#url}/cursos?${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setListCursosId.set(data);
@@ -40,9 +40,7 @@ export class CursosSService {
     idInstituicao: string
   ): Observable<ICursos[]> {
     return this.#http
-      .get<ICursos[]>(
-        `${this.#url}/api/cursos/por-instituicao/${idInstituicao}`
-      )
+      .get<ICursos[]>(`${this.#url}/cursos/por-instituicao/${idInstituicao}`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -54,7 +52,7 @@ export class CursosSService {
   #setCreateCursos = signal<ICursos[] | null>(null);
   public getCreateCursos = this.#setCreateCursos.asReadonly();
   public httpCreateCursos$(curso: ICursos): Observable<ICursos[]> {
-    return this.#http.post<ICursos[]>(`${this.#url}/api/cursos`, curso).pipe(
+    return this.#http.post<ICursos[]>(`${this.#url}/cursos`, curso).pipe(
       shareReplay(),
       tap((data) => {
         this.#setCreateCursos.set(data);
@@ -68,34 +66,30 @@ export class CursosSService {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('per_page', pageSize.toString());
-    return this.#http
-      .get<ICursos[]>(`${this.#url}/api/cursos`, { params })
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setListCursosPag.set(data);
-        })
-      );
+    return this.#http.get<ICursos[]>(`${this.#url}/cursos`, { params }).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setListCursosPag.set(data);
+      })
+    );
   }
 
   #setUpdateCursos = signal<ICursos[] | null>(null);
   public getUpdateCursos = this.#setUpdateCursos.asReadonly();
   public httpUpdateCursos$(id: number, curso: ICursos): Observable<ICursos[]> {
-    return this.#http
-      .put<ICursos[]>(`${this.#url}/api/cursos/${id}`, curso)
-      .pipe(
-        shareReplay(),
-        tap((data) => {
-          this.#setUpdateCursos.set(data);
-        })
-      );
+    return this.#http.put<ICursos[]>(`${this.#url}/cursos/${id}`, curso).pipe(
+      shareReplay(),
+      tap((data) => {
+        this.#setUpdateCursos.set(data);
+      })
+    );
   }
 
   #setStatusCursos = signal<ICursos | null>(null);
   public getStatusCursos = this.#setStatusCursos.asReadonly();
   public httpStatusCursos$(id: number): Observable<ICursos> {
     return this.#http
-      .post<ICursos>(`${this.#url}/api/cursos/${id}/toggle-status`, {
+      .post<ICursos>(`${this.#url}/cursos/${id}/toggle-status`, {
         id_cursos: id,
       })
       .pipe(
@@ -109,7 +103,7 @@ export class CursosSService {
   #setDeleteCursos = signal<ICursos[] | null>(null);
   public getDeleteCurso = this.#setDeleteCursos.asReadonly();
   public httpDeleteCursos$(id: number): Observable<ICursos[]> {
-    return this.#http.delete<ICursos[]>(`${this.#url}/api/cursos/${id}`).pipe(
+    return this.#http.delete<ICursos[]>(`${this.#url}/cursos/${id}`).pipe(
       shareReplay(),
       tap((data) => {
         this.#setDeleteCursos.set(data);
@@ -117,11 +111,11 @@ export class CursosSService {
     );
   }
 
-  #setListCursosOnPessoa = signal<ICursosOnPessoas[] | null>(null);
+  #setListCursosOnPessoa = signal<ICursos[] | null>(null);
   public getListCursosOnPessoaId = this.#setListCursosOnPessoa.asReadonly();
-  public httpListCursosOnPessoaId$(id: number): Observable<ICursosOnPessoas[]> {
+  public httpListCursosOnPessoaId$(id: number): Observable<ICursos[]> {
     return this.#http
-      .get<ICursosOnPessoas[]>(`${this.#url}/api/cursosOnPessoaFisica/${id}`)
+      .get<ICursos[]>(`${this.#url}/cursosOnPessoaFisica/${id}`)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -136,7 +130,7 @@ export class CursosSService {
     curso: ICursosOnPessoas
   ): Observable<ICursosOnPessoas> {
     return this.#http
-      .post<ICursosOnPessoas>(`${this.#url}/api/cursosOnPessoaFisica`, curso)
+      .post<ICursosOnPessoas>(`${this.#url}/cursosOnPessoaFisica`, curso)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -152,10 +146,7 @@ export class CursosSService {
     id: string
   ): Observable<ICursosOnPessoas> {
     return this.#http
-      .put<ICursosOnPessoas>(
-        `${this.#url}/api/cursosOnPessoaFisica/${id}`,
-        curso
-      )
+      .put<ICursosOnPessoas>(`${this.#url}/cursosOnPessoaFisica/${id}`, curso)
       .pipe(
         shareReplay(),
         tap((data) => {
@@ -171,9 +162,7 @@ export class CursosSService {
     id_pessoa: number
   ): Observable<ICursos[]> {
     return this.#http
-      .delete<ICursos[]>(
-        `${this.#url}/api/cursosOnPessoaFisica/${id}/${id_pessoa}`
-      )
+      .delete<ICursos[]>(`${this.#url}/cursosOnPessoaFisica/${id}/${id_pessoa}`)
       .pipe(
         shareReplay(),
         tap((data) => {

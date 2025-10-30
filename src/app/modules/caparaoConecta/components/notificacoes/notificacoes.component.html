@@ -1,0 +1,76 @@
+<div class="notificacoes-container">
+  <button class="btn-notificacoes" (click)="toggleNotificacoes()">
+    <mat-icon
+      class="notificacao"
+      [matBadge]="countNaoLidas() > 0 ? countNaoLidas() : null"
+      matBadgeColor="warn"
+      >notifications</mat-icon
+    >
+  </button>
+
+  <span class="seta-dropdown" [class.open]="dropdownAberto()"></span>
+  <div class="notificacoes-dropdown" [class.open]="dropdownAberto()">
+    <div class="dropdown-header">
+      <h3 class="cpc-medium">Notificações</h3>
+      <button class="fechar-dropdown" (click)="fecharDropdown()">×</button>
+    </div>
+
+    <div class="notificacoes-content">
+      @if(notificacoesNaoLidas().length > 0) {
+      <ul class="notificacoes-list">
+        @for (notificacao of notificacoesNaoLidas(); track notificacao.id) {
+        <li
+          class="notificacao-item"
+          (click)="handleNotificacaoClick(notificacao)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="notificacao-titulo">{{ notificacao.titulo }}</div>
+            <button
+              class="notificacao-lida"
+              (click)="handleNotificacaoClick(notificacao)"
+            >
+              ×
+            </button>
+          </div>
+
+          @if (notificacao.tipo === 'nova_candidatura') {
+          <div class="notificacao-mensagem cpc-regular">
+            <strong>{{ notificacao.dados.candidato_nome }}</strong>
+            candidatou-se à vaga
+            <strong
+              >"{{
+                notificacao.dados.titulo_vaga || notificacao.dados.titulo_vaga
+              }}"</strong
+            >.
+          </div>
+          } @else if (notificacao.tipo === 'perfil_visualizado') {
+          <div class="notificacao-mensagem cpc-regular">
+            A empresa
+            <strong>"{{ notificacao.dados.nome_empresa }}"</strong> visualizou
+            seu perfil.
+          </div>
+          } @else if (notificacao.tipo === 'nova_vaga_recomendada') {
+          <div class="notificacao-mensagem cpc-regular">
+            Nova vaga recomendada:
+            <strong>"{{ notificacao.dados.titulo_vaga }}"</strong>.
+          </div>
+          } @else {
+          <div class="notificacao-mensagem cpc-regular">
+            Você tem uma nova notificação.
+          </div>
+          }
+          <div class="notificacao-data">
+            {{ notificacao.created_at | date : "short" }}
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <div class="no-notificacoes">
+        <mat-icon>notifications_off</mat-icon>
+        <p class="cpc-regular">Nenhuma notificação</p>
+      </div>
+      }
+    </div>
+  </div>
+</div>

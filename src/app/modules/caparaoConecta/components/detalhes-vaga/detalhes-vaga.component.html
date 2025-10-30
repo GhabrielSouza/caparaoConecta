@@ -3,7 +3,9 @@
 <div class="detalhesVagaContainer">
   <!-- CABEÇALHO: Muda com base no perfil -->
   @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
-  <div class="d-flex flex-column align-items-center justify-content-between mb-3 flex-md-row">
+  <div
+    class="detalhesVagaContainer_actions d-flex flex-column align-items-center justify-content-between mb-3 flex-md-row"
+  >
     <h1 class="my-1 cpc-bold mb-3 mb-md-0">Detalhes da vaga</h1>
     <div class="d-flex align-items-md-center">
       <!-- Botões de Alternância de Visão -->
@@ -29,7 +31,7 @@
         (click)="alterarVisao(true)"
       >
         <img
-        class="d-none d-md-block"
+          class="d-none d-md-block"
           [src]="
             !visaoDetalhes()
               ? 'assets/icons/estatisticaBranca.svg'
@@ -47,7 +49,7 @@
   }
 
   <!-- CORPO PRINCIPAL -->
-  <div class="container w-100 w-md-0">
+  <div class="container">
     <!-- Visão de Detalhes (Comum a todos, mas com ações diferentes) -->
     @if(visaoDetalhes()){
     <!-- Bloco de Status e Ações (só para empresa/admin) -->
@@ -70,9 +72,11 @@
       </div>
       <!-- Botões de Ação -->
       <div class="card-actions">
+        @if (vagaData.status !== statusVagaEnum.FINALIZADO) {
         <button class="btn-edit" (click)="editarVaga()">
           <img src="assets/icons/pen-solid.svg" alt="Editar" />
         </button>
+        }
         <button class="btn-delete" (click)="confirmDelete()">
           <img src="assets/icons/trash-solid.svg" alt="Deletar" />
         </button>
@@ -93,7 +97,7 @@
     <p class="my-3 cpc-regular">{{ vagaData.descricao }}</p>
 
     <!-- INÍCIO DO CÓDIGO COMPLETADO 1 -->
-    <div class="containerInterno d-flex ">
+    <div class="containerInterno d-flex">
       <div class="conteudoCompetencias">
         <h1 class="cpc-regular">Competências</h1>
         @for (habilidade of vagaData.habilidades; track
@@ -139,9 +143,9 @@
           }
         </div>
       </div>
-      <div class="conteudoEndereco">
+      <div class="conteudoEndereco ps-5 p-md-0">
         <img
-          class="me-2"
+          class="d-none d-md-block"
           src="assets/icons/iconeLocalizacao.svg"
           alt="Localização"
         />
@@ -160,18 +164,21 @@
     <!-- Ações de Prorrogar/Finalizar (só para empresa/admin) -->
     @if(role === roleEnum.EMPRESA || role === roleEnum.ADMIN){
     @if(vagaData.status === statusVagaEnum.EM_ANDAMENTO){
-    <div class="d-flex flex-column flex-md-row align-items-md-center mx-5 my-md-3 gap-3 justify-content-md-between">
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center mt-4 mx-5 my-md-3 gap-3 justify-content-md-between"
+    >
       @if(vagaData.prorrogavel){
-      <button class="btn btn-secondary"(click)="confirmProrrogarVaga()">
+      <button class="btn btn-secondary" (click)="confirmProrrogarVaga()">
         Prorrogar por 5 dias
       </button>
       } @else {
-      <div class="status-chip status-finalizado">
+      <div class="status-chip text-center status-finalizado cpc-regular-010">
         Limite de prorrogações atingido
       </div>
       }
-       <button class="btn btn-primary" (click)="confirmFinalizarVaga()">Finalizar Vaga</button>
-
+      <button class="btn btn-primary" (click)="confirmFinalizarVaga()">
+        Finalizar Vaga
+      </button>
     </div>
     } @else if (vagaData.status === statusVagaEnum.FINALIZADO) {
     <app-candidato-selecionado
@@ -197,7 +204,7 @@
     } } } @if(!visaoDetalhes() && (role === roleEnum.EMPRESA || role ===
     roleEnum.ADMIN)){
     <section
-      class="mt-3 d-flex justify-content-center align-items-center gap-5"
+      class="mt-3 mb-3 d-flex justify-content-center align-items-center gap-5"
     >
       <app-dashboard-card
         label="Candidaturas"
@@ -213,7 +220,7 @@
       </app-dashboard-card>
     </section>
     <section
-      class="my-5 cpc-background-gray p-4 mx-5 containerSelecaoVaga cpc-shadow-black"
+      class="my-5 mx-0 mx-md-4 cpc-background-gray p-4 containerSelecaoVaga cpc-shadow-black"
     >
       <h2 class="cpc-bold">{{ vagaData.titulo_vaga }}</h2>
       <div>
@@ -226,7 +233,6 @@
           <app-component-accordion
             [title]="candidato.pessoa.nome + ' ' + candidato.sobrenome"
           >
-            <!-- INÍCIO DO CÓDIGO COMPLETADO 2 -->
             <div>
               <p class="cpc-regular mb-3">Perfil do candidato</p>
               <a
@@ -271,7 +277,6 @@
               </p>
               }
             </div>
-            <!-- FIM DO CÓDIGO COMPLETADO 2 -->
             <div class="mb-5">
               <p class="cpc-regular">Ações</p>
               <mat-radio-group [(ngModel)]="candidato.novoStatusSelecionado">

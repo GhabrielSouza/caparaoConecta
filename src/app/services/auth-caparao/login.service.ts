@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -28,7 +28,9 @@ export class AuthService {
       switchMap(() =>
         this.http.post<IUsuario>(`${this.#url()}/api/login`, credentials)
       ),
-      tap((user) => this.currentUser.set(user))
+      tap((user) => {
+        this.currentUser.set(user);
+      })
     );
   }
 
@@ -42,7 +44,6 @@ export class AuthService {
     return this.http.get<IUsuario>(`${this.#url()}/api/user`).pipe(
       tap((user) => {
         this.currentUser.set(user);
-        console.log(user);
       }),
       catchError(() => {
         this.currentUser.set(null);
@@ -53,5 +54,13 @@ export class AuthService {
 
   public getUserData(userId: number): Observable<IPessoa> {
     return this.http.get<IPessoa>(`${this.#url()}/api/pessoas/${userId}`);
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.#url()}/forgot-password`, { email });
+  }
+
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(`${this.#url()}/reset-password`, data);
   }
 }

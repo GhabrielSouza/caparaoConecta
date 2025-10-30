@@ -1,23 +1,49 @@
 ::ng-deep .dialog-container-projects .mdc-dialog__container {
-    max-width: 100%;
-    width: 825px;
+  max-width: 100%;
+  width: 825px;
 }
-
-form{
+:host {
+  form {
     padding: 0 1em;
     display: flex;
     flex-direction: column;
-}
+  }
 
-.form-group{
+  .form-group {
     margin: 1.5vh 0px;
-}
+  }
 
-.container{
+  .container {
     max-height: 90vh;
     overflow: scroll;
-}
+  }
 
-.info-icon {
-    filter: invert(35%) sepia(73%) saturate(365%) hue-rotate(67deg) brightness(94%) contrast(86%);
+  .info-icon {
+    filter: invert(35%) sepia(73%) saturate(365%) hue-rotate(67deg)
+      brightness(94%) contrast(86%);
+  }
+
+  input,
+  mat-label,
+  textarea {
+    box-sizing: border-box;
+    font-family: var(--font-poppinsM);
+
+    &:focus {
+      border-color: var(--primary-background-gray);
+      outline: none;
+    }
+  }
+
+  mat-select,
+  mat-option,
+  mat-error {
+    box-sizing: border-box;
+    font-family: var(--font-poppinsM);
+
+    &:focus {
+      border-color: var(--primary-background-gray);
+      outline: none;
+    }
+  }
 }

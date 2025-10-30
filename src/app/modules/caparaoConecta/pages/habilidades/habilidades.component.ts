@@ -8,10 +8,18 @@ import { HabilidadesSService } from '../../../../services/habilidades/habilidade
 
 import { DialogHabilidadesAdminComponent } from '../../components/dialogs/dialog-habilidades-admin/dialog-habilidades-admin.component';
 import { ITableColumn } from '../../interface/ITableColumn.interface';
+import Swal from 'sweetalert2';
+import { PageEvent } from '@angular/material/paginator';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-habilidades',
-  imports: [CabecalhoComponent, FooterComponent, TableComponent],
+  imports: [
+    CabecalhoComponent,
+    FooterComponent,
+    TableComponent,
+    ButtonReturnTopComponent,
+  ],
   templateUrl: './habilidades.component.html',
   styleUrl: './habilidades.component.scss',
 })
@@ -34,7 +42,7 @@ export class HabilidadesComponent implements OnInit {
   totalHabilidades = 0;
 
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 5;
 
   getIdHabilidade = (item: IHabilidades) => item.id_habilidades;
   getNomeHabilidade = (item: IHabilidades) => item.nome;
@@ -52,10 +60,20 @@ export class HabilidadesComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.onHabilidadesListadas();
-          console.log('Habilidade criada com sucesso:', data);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Habilidade criada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
-          console.error('Erro ao criar habilidade:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao criar habilidade',
+            text: error?.error?.message || 'Ocorreu um erro inesperado.',
+          });
         },
       });
   }
@@ -66,10 +84,20 @@ export class HabilidadesComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.onHabilidadesListadas();
-          console.log('Habilidade atualizada com sucesso:', data);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Habilidade atualizada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
-          console.error('Erro ao atualizar habilidade:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao atualizar habilidade',
+            text: error?.error?.message || 'Ocorreu um erro inesperado.',
+          });
         },
       });
   }
@@ -77,7 +105,6 @@ export class HabilidadesComponent implements OnInit {
   onHabilidadeDeletada(id: number) {
     return this.habilidadesService.httpDeleteHabilidades$(id).subscribe({
       next: (data) => {
-        console.log('Habilidade deletada com sucesso:', data);
         this.onHabilidadesListadas();
       },
       error: (error) => {
@@ -92,7 +119,6 @@ export class HabilidadesComponent implements OnInit {
       .httpListHabilidadesPag$(pageIndexForApi, this.pageSize)
       .subscribe({
         next: (response) => {
-          console.log('Lista de habilidades:', response);
           this.habilidadesData = response.data;
           this.totalHabilidades = response.total;
         },
@@ -107,12 +133,27 @@ export class HabilidadesComponent implements OnInit {
       .httpStatusHabilidades$(habilidade.id_habilidades)
       .subscribe({
         next: (data) => {
-          console.log('Status da habilidade atualizado:', data);
           this.onHabilidadesListadas();
+          Swal.fire({
+            icon: 'success',
+            title: 'Status da habilidade atualizado com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
-          console.error('Erro ao atualizar status da habilidade:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao atualizar status da habilidade',
+            text: error?.error?.message || 'Ocorreu um erro inesperado.',
+          });
         },
       });
+  }
+
+  updatePaginatedData(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.onHabilidadesListadas();
   }
 }

@@ -7,34 +7,76 @@
   (Navigate)="navigate()"
 >
   <form [formGroup]="loginForm">
-    <app-primary-input
-      formControlName="email"
-      type="email"
-      inputName="email"
-      label="Email"
-      placeholder="Digite seu email"
-      (blur)="updateErrorMessage('email')"
-    >
-      @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty ||
-      loginForm.get('email')?.touched )) {
-      <mat-error>{{ fieldErrors()["email"] }}</mat-error>
-      }
-    </app-primary-input>
-    <app-password-input
-      type="password"
-      formControlName="password"
-      inputName="password"
-      label="Senha"
-      placeholder="Digite sua senha"
-      (blur)="updateErrorMessage('password')"
-    >
-      @if (loginForm.get('password')?.invalid &&
-      (loginForm.get('password')?.dirty || loginForm.get('password')?.touched))
-      {
-      <mat-error>{{ fieldErrors()["password"] }}</mat-error>
-      }
-    </app-password-input>
+    <!-- Email Input -->
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label class="cpc-regular-010">Email</mat-label>
+      <input
+        matInput
+        type="email"
+        formControlName="email"
+        placeholder="Digite seu email"
+        (blur)="updateErrorMessage('email')"
+        (keyup.enter)="submit()"
+      />
+      <mat-error
+        class="cpc-light-010"
+        *ngIf="
+          loginForm.get('email')?.invalid &&
+          (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+        "
+      >
+        {{ fieldErrors()["email"] }}
+      </mat-error>
+    </mat-form-field>
 
-    <p><a href="" class="cpc-light cpc-black-010">Esqueceu sua senha?</a></p>
+    <!-- Password Input -->
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label class="cpc-regular-010">Senha</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Digite sua senha"
+        (blur)="updateErrorMessage('password')"
+        [type]="hide() ? 'password' : 'text'"
+        (keyup.enter)="submit()"
+      />
+      <button
+        matIconButton
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+      >
+        <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error
+        class="cpc-light-010"
+        *ngIf="
+          loginForm.get('password')?.invalid &&
+          (loginForm.get('password')?.dirty ||
+            loginForm.get('password')?.touched)
+        "
+      >
+        {{ fieldErrors()["password"] }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- General Form Errors -->
+    <div
+      *ngIf="loginForm.hasError('email') || loginForm.hasError('password')"
+      class="cpc-regular"
+    >
+      <mat-error>
+        {{ loginForm.getError("email") || loginForm.getError("password") }}
+      </mat-error>
+    </div>
+
+    <!-- Forgot Password Link -->
+    <p>
+      <a routerLink="/reset-email" class="cpc-light cpc-black-010"
+        >Esqueceu sua senha?</a
+      >
+    </p>
   </form>
 </app-default-login-layout>

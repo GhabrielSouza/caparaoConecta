@@ -13,6 +13,10 @@ import { HabilidadesComponent } from './modules/caparaoConecta/pages/habilidades
 import { CursosComponent } from './modules/caparaoConecta/pages/cursos/cursos.component';
 import { FavoritasComponent } from './modules/caparaoConecta/pages/favoritas/favoritas.component';
 import { authGuardGuard } from './guard/auth-guard.guard';
+import { PesquisarComponent } from './modules/caparaoConecta/pages/pesquisar/pesquisar.component';
+import { ResetEmailComponent } from './modules/caparaoConecta/pages/reset-email/reset-email.component';
+import { ResetPasswordComponent } from './modules/caparaoConecta/pages/reset-password/reset-password.component';
+import { VisualizarPerfilComponent } from './modules/caparaoConecta/pages/visualizar-perfil/visualizar-perfil.component';
 
 export const routes: Routes = [
   {
@@ -27,7 +31,15 @@ export const routes: Routes = [
     path: 'login',
     component: FormLoginComponent,
   },
-  { path: '', component: HomeComponent },
+  {
+    path: 'reset-email',
+    component: ResetEmailComponent,
+  },
+  {
+    path: 'password-reset/:token',
+    component: ResetPasswordComponent,
+  },
+  { path: 'home', component: HomeComponent },
   {
     path: 'detalhe-da-vaga/:id',
     component: DetalheDaVagaComponent,
@@ -42,12 +54,11 @@ export const routes: Routes = [
     path: 'perfil',
     component: PerfilComponent,
     canActivate: [authGuardGuard],
-    children: [
-      {
-        path: 'perfil:id',
-        component: PerfilComponent,
-      },
-    ],
+  },
+  {
+    path: 'perfil/:id',
+    component: VisualizarPerfilComponent,
+    canActivate: [authGuardGuard],
   },
   {
     path: 'habilidades',
@@ -58,6 +69,11 @@ export const routes: Routes = [
   {
     path: 'Minhas Vagas',
     component: FavoritasComponent,
+    canActivate: [authGuardGuard],
+  },
+  {
+    path: 'pesquisa',
+    component: PesquisarComponent,
     canActivate: [authGuardGuard],
   },
   {

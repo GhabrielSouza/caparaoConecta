@@ -19,9 +19,5 @@ export interface IPessoa {
   pessoas_fisica?: ICandidato;
   endereco?: IEndereco;
   rede_social?: IRedesSociais;
-  formacoes?: IFormacoesAcademicas[];
-  experiencias?: IExperiencia[];
-  cursos: ICursos[];
-  habilidades: IHabilidades[];
   created_at: Date;
 }

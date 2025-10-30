@@ -1,5 +1,5 @@
 <header class="d-flex justify-content-between p-4 align-items-center">
-  <h3>{{ titulo }}</h3>
+  <h3 class="cpc-medium">{{ titulo }}</h3>
   <button class="btn" (click)="closeModal()">
     <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
   </button>
@@ -7,9 +7,10 @@
 
 <mat-dialog-content>
   <div class="curso-list">
-    <form [formGroup]="formCurso">
+    <form [formGroup]="formCurso" (keyup.enter)="submit()">
+      <!-- Instituição de Ensino -->
       <div class="col flex-grow-1 input-container">
-        <mat-label class="cpc-medium-010">Instituição de ensino</mat-label>
+        <label class="cpc-medium-010">Instituição de ensino</label>
         <mat-form-field class="example-full-width w-100">
           <input
             type="text"
@@ -22,41 +23,85 @@
             #auto="matAutocomplete"
             [displayWith]="displayFnInstituicao"
           >
-            @for (option of filteredOptions | async; track option) {
-            <mat-option [value]="option">{{ option.nome }}</mat-option>
-            }
+            <mat-option
+              *ngFor="let option of filteredOptions | async"
+              [value]="option"
+            >
+              {{ option.nome }}
+            </mat-option>
           </mat-autocomplete>
+          <mat-error
+            *ngIf="
+              formCurso.get('id_instituicoes')?.invalid &&
+              (formCurso.get('id_instituicoes')?.touched ||
+                formCurso.get('id_instituicoes')?.dirty)
+            "
+          >
+            Por favor, selecione uma instituição válida
+          </mat-error>
+          <mat-error
+            *ngIf="formCurso.get('id_instituicoes')?.hasError('required')"
+          >
+            Este campo é obrigatório
+          </mat-error>
+          <mat-error
+            *ngIf="
+              formCurso
+                .get('id_instituicoes')
+                ?.hasError('matAutocompleteInvalid')
+            "
+          >
+            Instituição inválida
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <app-primary-input
-        formControlName="curso"
-        type="text"
-        placeholder="Digite um novo curso"
-        label="Curso"
-        inputName="curso"
-      >
-        @if (formCurso.get('curso')?.invalid && (formCurso.get('curso')?.touched
-        || formCurso.get('curso')?.dirty )) {
-        <mat-error>Este campo não pode estar vazio</mat-error>
-        }
-      </app-primary-input>
+      <!-- Curso -->
+      <div class="col flex-grow-1 input-container">
+        <label class="cpc-medium-010">Curso</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="curso"
+            type="text"
+            placeholder="Digite um novo curso"
+          />
+          <mat-error
+            *ngIf="
+              formCurso.get('curso')?.invalid &&
+              (formCurso.get('curso')?.touched || formCurso.get('curso')?.dirty)
+            "
+          >
+            Este campo não pode estar vazio
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-      <app-primary-input
-        formControlName="cargo_horaria"
-        type="text"
-        placeholder="Ex: 40 horas"
-        label="Cargo Horária"
-        inputName="link"
-      >
-        @if (formCurso.get('link')?.invalid && (formCurso.get('link')?.touched
-        || formCurso.get('link')?.dirty )) {
-        <mat-error>Este campo não pode estar vazio</mat-error>
-        }
-      </app-primary-input>
+      <!-- Carga Horária -->
+      <div class="col flex-grow-1 input-container">
+        <label class="cpc-medium-010">Carga Horária</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="cargo_horaria"
+            type="text"
+            placeholder="Ex: 40 horas"
+          />
+          <mat-error
+            *ngIf="
+              formCurso.get('cargo_horaria')?.invalid &&
+              (formCurso.get('cargo_horaria')?.touched ||
+                formCurso.get('cargo_horaria')?.dirty)
+            "
+          >
+            Este campo não pode estar vazio
+          </mat-error>
+        </mat-form-field>
+      </div>
 
+      <!-- Tipo do Curso -->
       <div>
-        <mat-label class="cpc-medium-010">Tipo do curso</mat-label>
+        <label class="cpc-medium-010">Tipo do curso</label>
         <mat-form-field class="w-100">
           <mat-select
             formControlName="id_tipo_de_cursos"
@@ -66,35 +111,53 @@
             <mat-option [value]="2">Online</mat-option>
             <mat-option [value]="3">Híbrido</mat-option>
           </mat-select>
-
-          @if (formCurso.get('id_tipo_de_cursos')?.invalid &&
-          (formCurso.get('id_tipo_de_cursos')?.touched ||
-          formCurso.get('id_tipo_de_cursos')?.dirty )) {
-          <mat-error>Por favor, selecione uma opção</mat-error>
-          }
+          <mat-error
+            *ngIf="
+              formCurso.get('id_tipo_de_cursos')?.invalid &&
+              (formCurso.get('id_tipo_de_cursos')?.touched ||
+                formCurso.get('id_tipo_de_cursos')?.dirty)
+            "
+          >
+            Por favor, selecione uma opção
+          </mat-error>
+          <mat-error
+            *ngIf="formCurso.get('id_tipo_de_cursos')?.hasError('required')"
+          >
+            Este campo é obrigatório
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <app-primary-input
-        formControlName="link"
-        type="text"
-        placeholder="Digite uma nova link"
-        label="Link do curso"
-        inputName="link"
-      >
-        @if (formCurso.get('link')?.invalid && (formCurso.get('link')?.touched
-        || formCurso.get('link')?.dirty )) {
-        <mat-error>Este campo não pode estar vazio</mat-error>
-        }
-      </app-primary-input>
+      <!-- Link do Curso -->
+      <div class="col flex-grow-1 input-container">
+        <label class="cpc-medium-010">Link do curso</label>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            formControlName="link"
+            type="text"
+            placeholder="Digite o link do curso"
+          />
+          <mat-error
+            *ngIf="
+              formCurso.get('link')?.invalid &&
+              (formCurso.get('link')?.touched || formCurso.get('link')?.dirty)
+            "
+          >
+            Este campo não pode estar vazio
+          </mat-error>
+        </mat-form-field>
+      </div>
     </form>
   </div>
+
+  <!-- Botão Salvar -->
   <div class="d-flex justify-content-end">
     <app-button-primary
       fonte="cpc-regular"
       color="btn-secondary"
       text="Salvar"
       (click)="submit()"
-    />
+    ></app-button-primary>
   </div>
 </mat-dialog-content>

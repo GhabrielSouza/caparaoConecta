@@ -1,18 +1,29 @@
 import { Component, Inject, signal } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogContent,  } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HabilidadesSService } from '../../../../../services/habilidades/habilidades-s.service';
 import { IHabilidades } from '../../../interface/IHabilidades.interface';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { ButtonPrimaryComponent } from "../../buttons/button-primary/button-primary.component";
+import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-habilidades',
   standalone: true,
-  imports: [MatCheckboxModule, CommonModule, MatButtonModule, MatDialogContent, ButtonPrimaryComponent],
+  imports: [
+    MatCheckboxModule,
+    CommonModule,
+    MatButtonModule,
+    MatDialogContent,
+    ButtonPrimaryComponent,
+  ],
   templateUrl: './dialog-habilidades.component.html',
-  styleUrls: ['./dialog-habilidades.component.scss']
+  styleUrls: ['./dialog-habilidades.component.scss'],
 })
 export class DialogHabilidadesComponent {
   allHabilidades = signal<IHabilidades[]>([]);
@@ -23,9 +34,11 @@ export class DialogHabilidadesComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private habilidadesService: HabilidadesSService
   ) {
-    console.log(data.habilidades)
+    console.log(data.habilidades);
     if (data.habilidades) {
-      this.selectedHabilidades.set(data.habilidades.map((h: IHabilidades) => h.id_habilidades));
+      this.selectedHabilidades.set(
+        data.habilidades.map((h: IHabilidades) => h.id_habilidades)
+      );
     }
   }
 
@@ -36,14 +49,14 @@ export class DialogHabilidadesComponent {
   loadHabilidades() {
     this.habilidadesService.httpListHabilidades$().subscribe({
       next: (data) => this.allHabilidades.set(data),
-      error: (error) => console.error('Erro ao carregar habilidades', error)
+      error: (error) => console.error('Erro ao carregar habilidades', error),
     });
   }
 
   toggleHabilidade(id: number) {
-    this.selectedHabilidades.update(ids => {
+    this.selectedHabilidades.update((ids) => {
       if (ids.includes(id)) {
-        return ids.filter(i => i !== id);
+        return ids.filter((i) => i !== id);
       } else {
         return [...ids, id];
       }
@@ -53,14 +66,30 @@ export class DialogHabilidadesComponent {
   submit() {
     const payload = {
       id_pessoasFisicas: this.data.id,
-      id_habilidades: this.selectedHabilidades()
+      id_habilidades: this.selectedHabilidades(),
     };
 
     console.log('Payload enviado:', payload);
 
     this.habilidadesService.httpCreateHabilidadesOnPessoas$(payload).subscribe({
-      next: () => this._dialogRef.close(true),
-      error: (error) => console.error('Erro ao salvar habilidades', error)
+      next: () => {
+        this._dialogRef.close(true);
+        Swal.fire({
+          icon: 'success',
+          title: 'Habilidades salvas com sucesso',
+          text: 'Atualize a página para ver as mudanças',
+          showConfirmButton: false,
+        });
+      },
+      error: (error) => {
+        console.error('Erro ao salvar habilidades', error);
+        Swal.fire({
+          icon: 'error',
+          text: 'Erro ao cadastrar habilidade',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#359830',
+        });
+      },
     });
   }
 

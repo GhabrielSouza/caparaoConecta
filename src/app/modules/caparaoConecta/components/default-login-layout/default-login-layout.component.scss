@@ -28,8 +28,12 @@
         gap: 24px;
       }
     }
+
+    .invisible {
+      display: none;
+    }
   }
-  @media (max-width: 900px){
+  @media (max-width: 900px) {
     .form-section {
       padding: 1em;
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

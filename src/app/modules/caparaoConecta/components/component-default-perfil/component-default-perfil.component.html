@@ -26,7 +26,7 @@
     <ng-content></ng-content>
   </div>
 
-  @if(title === 'Experiência profissional'){
+  @if(title === 'Experiência profissional' && isEditable){
   <div class="mt-3">
     <app-button-primary
       (click)="openDialog()"

@@ -39,7 +39,6 @@ export class CardVagaComponent implements OnInit {
 
   ngOnInit(): void {
     this.vagas = this.vagasOb();
-    console.log(this.vagas);
   }
 
   public vagasOb = signal<IVagas[]>([

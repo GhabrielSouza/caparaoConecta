@@ -21,5 +21,41 @@
       display: flex;
       align-items: center;
     }
+
+    input {
+      box-sizing: border-box;
+      font-family: var(--font-poppinsM);
+
+      &:focus {
+        border-color: var(--primary-background-gray);
+        outline: none;
+      }
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      margin-right: 10px;
+      border-radius: 50%;
+      padding: 10px;
+      &:hover {
+        background-color: #c7c9d3;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 14px;
+      align-self: flex-end;
+      margin-top: -12px;
+      margin-bottom: 8px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

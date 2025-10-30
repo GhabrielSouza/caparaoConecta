@@ -84,18 +84,6 @@
         align-items: center;
         gap: 1.5rem;
 
-        .btn-notificacoes {
-          position: relative;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 0.5rem;
-
-          .notificacao {
-            color: var(--white);
-          }
-        }
-
         .menu-toggle {
           #menu-toggle {
             display: none;

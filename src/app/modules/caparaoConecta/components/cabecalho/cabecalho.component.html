@@ -1,7 +1,7 @@
-<header (scroll)="onscroll()" [ngClass]="navbarFixed ? 'fixed' : 'nofixed'">
+<header>
   <div class="header-container">
     <div class="header_logo">
-      <a [routerLink]="['']">
+      <a routerLink="/home">
         <img
           src="assets/imgs/logo.svg"
           alt="Logo do site Carapaó Conecta"
@@ -20,9 +20,7 @@
       </div>
       } @else {
       <div class="header_actions">
-        <button class="btn-notificacoes">
-          <mat-icon class="notificacao" matBadge="15">notifications</mat-icon>
-        </button>
+        <app-notificacoes />
 
         <div class="menu-toggle">
           <input
@@ -52,8 +50,7 @@
           <img
             [src]="
               loggedUser.pessoa.imagem != null
-                ? 'http://localhost:8000/img/pessoas/' +
-                  loggedUser.pessoa.imagem
+                ? url() + '/img/pessoas/' + loggedUser.pessoa.imagem
                 : 'assets/imgs/perfil.svg'
             "
             alt="Foto do usuário"
@@ -69,7 +66,7 @@
       <nav class="menu-nav">
         <ul>
           <li>
-            <a routerLink="/" (click)="toggleMenu()" class="menu-item">
+            <a routerLink="/home" (click)="toggleMenu()" class="menu-item">
               <img src="assets/icons/home.svg" alt="Home" />
               <span>Home</span>
             </a>
@@ -92,12 +89,18 @@
               <span>Minhas vagas</span>
             </a>
           </li>
-          } @if( loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO ||
-          loggedUser.tipo_usuario.nome === roleEnum.ADMIN){
+          } @if( loggedUser.tipo_usuario.nome === roleEnum.CANDIDATO){
           <li>
-            <a href="#" class="menu-item">
+            <a href="/pesquisa" class="menu-item">
               <img src="assets/icons/empresa.svg" alt="Empresa" />
               <span>Empresas</span>
+            </a>
+          </li>
+          } @if(loggedUser.tipo_usuario.nome === roleEnum.ADMIN){
+          <li>
+            <a href="/pesquisa" class="menu-item">
+              <img src="assets/icons/Candidato.svg" alt="Empresa" />
+              <span>Usuários</span>
             </a>
           </li>
           } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA) {
@@ -107,10 +110,9 @@
               <span>Dashboard</span>
             </a>
           </li>
-          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA ||
-          loggedUser.tipo_usuario.nome === roleEnum.ADMIN) {
+          } @if(loggedUser.tipo_usuario.nome === roleEnum.EMPRESA) {
           <li>
-            <a href="#" class="menu-item">
+            <a href="/pesquisa" class="menu-item">
               <img src="assets/icons/Candidato.svg" alt="Candidatos" />
               <span>Candidatos</span>
             </a>

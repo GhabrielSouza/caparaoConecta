@@ -27,6 +27,9 @@ import { CommonModule } from '@angular/common';
 import { ExperienciasService } from '../../../../../services/experiencias/experiencias.service';
 import { concatMap, shareReplay } from 'rxjs';
 import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
+import Swal from 'sweetalert2';
+import { TestComponentRenderer } from '@angular/core/testing';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-form-experiencia-profissional',
@@ -35,12 +38,12 @@ import { InstituicoesService } from '../../../../../services/instituicoes/instit
     MatDialogContent,
     RouterModule,
     MatCheckboxModule,
-    PrimaryInputComponent,
     MatFormFieldModule,
     MatRadioModule,
     ReactiveFormsModule,
     ButtonPrimaryComponent,
     CommonModule,
+    MatInputModule,
   ],
   templateUrl: './form-experiencia-profissional.component.html',
   styleUrl: './form-experiencia-profissional.component.scss',
@@ -55,30 +58,38 @@ export class FormExperienciaProfissionalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
     private _fb: FormBuilder,
-    private experienciaService: ExperienciasService,
+    private experienciaService: ExperienciasService
   ) {
     this.formExperiencia = this._fb.group({
       cargo: ['', [Validators.required]],
       nome_empresa: ['', [Validators.required]],
       data_emissao: ['', [Validators.required]],
       data_conclusao: ['', [Validators.required]],
-      comprovacao: [false, [Validators.required]],
+      comprovacao: [false],
       comentario: [''],
       trabalho_atual: [false],
       id_pessoasFisicas:
         this.data.id || this.data.experiencia.id_pessoasFisicas,
     });
-
-    
   }
 
   ngOnInit(): void {
-    console.log(this.data.experiencia);
     if (this.data.experiencia) {
       this.loadFormData(this.data.experiencia);
     }
 
-    console.log(this.data.id)
+    this.formExperiencia
+      .get('trabalho_atual')
+      ?.valueChanges.subscribe((value) => {
+        if (value) {
+          this.formExperiencia.get('data_conclusao')?.disable();
+          this.formExperiencia.get('data_conclusao')?.setValue(null);
+          this.formExperiencia.get('data_conclusao')?.clearValidators();
+          this.formExperiencia.get('data_conclusao')?.updateValueAndValidity();
+        } else {
+          this.formExperiencia.get('data_conclusao')?.enable();
+        }
+      });
   }
 
   public closeModal() {
@@ -91,7 +102,7 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       nome_empresa: experiencia.nome_empresa,
       data_emissao: experiencia.data_emissao,
       data_conclusao: experiencia.data_conclusao,
-      comprovacao: experiencia.comprovacao,
+      comprovacao: Boolean(experiencia.comprovacao),
       comentario: experiencia.comentario,
       trabalho_atual: !experiencia.data_conclusao,
     });
@@ -126,20 +137,25 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          console.log('Lista atualizada:', data);
           this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Experiência cadastrada com sucesso!',
+            showConfirmButton: false,
+          });
         },
         error: (error) => {
-          console.error('Erro ao atualizar', error);
-        },
-        complete: () => {
-          console.log('Finalizado');
+          Swal.fire({
+            icon: 'error',
+            text: 'Ocorreu um erro ao cadastrar Experiência ',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
         },
       });
   }
 
   public update() {
-    console.log(this.formExperiencia.value);
     return this.experienciaService
       .httpUpdateExperiencia$(
         this.data.experiencia.id_experiencias,
@@ -148,9 +164,21 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       .pipe(shareReplay())
       .subscribe({
         next: (data) => {
-          console.log('Experiencia aualizada' + data);
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro ao atualizar Experiencia',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
         },
-        error: (error) => [console.log(error)],
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro ao atualizar Experiencia',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
+        },
       });
   }
 }

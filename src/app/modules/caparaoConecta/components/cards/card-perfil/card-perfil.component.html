@@ -1,53 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="cards-grid">
+  @for (pessoa of pessoas; track pessoa.id_pessoas) {
+  <div class="profile-card" [routerLink]="['/perfil', pessoa.id_pessoas]">
+    <div class="card-background"></div>
+    <div class="card-content">
+      <img
+        [src]="
+          pessoa.imagem
+            ? url() + '/img/pessoas/' + pessoa.imagem
+            : 'assets/imgs/perfil.svg'
+        "
+        alt="Foto do perfil"
+        class="profile-avatar"
+      />
+      <h5 class="profile-name cpc-medium">{{ pessoa.nome }}</h5>
+      <p
+        class="profile-area cpc-regular"
+        *ngIf="pessoa.pessoas_fisica?.area_atuacao"
+      >
+        {{ pessoa.pessoas_fisica?.area_atuacao?.nome_area }}
+      </p>
+      <p class="profile-location cpc-regular" *ngIf="pessoa.endereco">
+        <i class="fa-solid fa-location-dot"></i>
+        {{ pessoa.endereco.cidade.nome_cidade }} -
+        {{ pessoa.endereco.estado }}
+      </p>
+    </div>
+  </div>
+  }
+</div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <header class="container-fluid p-3 d-flex justify-content-center " style="background-color: #f1f1f1;">
-        <section class=" card-corpo border-radial ">
-            <div class="card border-radial card-size">
-                <div class="card-body d-flex align-items-center ">
-                    <div class="m-3">
-                        <img src="../../../../../assets/imgs/logo.jpg" alt="" class="img-confg">
-                    </div>
-                    <div>
-                        <h5 class="card-title">JUJUBA LTDA</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">cidade, estado, pais</h6>
-                        <p class="card-text">Setor de atuação: Exemplo: tecnologia, varejo, saúde, etc.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-radial card-size">
-                <div class="card-body d-flex align-items-center ">
-                    <div class="m-3">
-                        <img src="../../../../../assets/imgs/logo.jpg" alt="" class="img-confg">
-                    </div>
-                    <div>
-                        <h5 class="card-title">JUJUBA LTDA</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">cidade, estado, pais</h6>
-                        <p class="card-text">Setor de atuação: Exemplo: tecnologia, varejo, saúde, etc.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-radial card-size">
-                <div class="card-body d-flex align-items-center ">
-                    <div class="m-3">
-                        <img src="../../../../../assets/imgs/logo.jpg" alt="" class="img-confg">
-                    </div>
-                    <div>
-                        <h5 class="card-title">JUJUBA LTDA</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">cidade, estado, pais</h6>
-                        <p class="card-text">Setor de atuação: Exemplo: tecnologia, varejo, saúde, etc.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </header>
-</body>
-
-</html>
+@if (!pessoas || pessoas.length === 0) {
+<div class="no-results-message cpc-regular">
+  <p>Nenhum perfil encontrado para sua busca.</p>
+</div>
+}

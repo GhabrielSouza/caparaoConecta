@@ -123,3 +123,33 @@ tbody tr:hover {
   display: flex;
   justify-content: center;
 }
+@media (max-width: 1200px) {
+  .container {
+    margin: 1em 0;
+    width: auto;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 0;
+    width: auto;
+    padding: 16px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px;
+    font-size: 14px; // Texto um pouco menor em telas pequenas
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .icon-btn .material-icons {
+    font-size: 18px;
+  }
+}

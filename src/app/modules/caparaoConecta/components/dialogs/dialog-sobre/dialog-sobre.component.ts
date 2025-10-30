@@ -23,6 +23,9 @@ import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { RegisterService } from '../../../../../services/register-caparao/register.service';
 import { concat, concatMap } from 'rxjs';
+import { IconField } from 'primeng/iconfield';
+import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-sobre',
@@ -36,6 +39,7 @@ import { concat, concatMap } from 'rxjs';
     MatRadioModule,
     ReactiveFormsModule,
     ButtonPrimaryComponent,
+    CommonModule,
   ],
   templateUrl: './dialog-sobre.component.html',
   styleUrl: './dialog-sobre.component.scss',
@@ -51,7 +55,7 @@ export class DialogSobreComponent implements OnInit {
     private apiService: RegisterService
   ) {
     this.form = this._fb.group({
-      sobre: [''],
+      sobre: ['', [Validators.maxLength(500)]],
     });
   }
 
@@ -69,12 +73,19 @@ export class DialogSobreComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this._dialogRef.close(data);
+          Swal.fire({
+            icon: 'success',
+            text: 'Informações atualizadas com sucesso',
+            showConfirmButton: false,
+          });
         },
         error: (error) => {
-          console.error('Error updating data', error);
-        },
-        complete: () => {
-          console.log('Update complete');
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
         },
       });
   }

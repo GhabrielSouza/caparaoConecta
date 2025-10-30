@@ -5,6 +5,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   LOCALE_ID,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -37,12 +38,16 @@ import { registerLocaleData, CommonModule } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { HabilidadesSService } from '../../../../../services/habilidades/habilidades-s.service';
 import { CursosSService } from '../../../../../services/cursos/cursos-s.service';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, concatMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IHabilidades } from '../../../interface/IHabilidades.interface';
 import { ICursos } from '../../../interface/ICursos.inteface';
 import { IAreasAtuacao } from '../../../interface/IAreasAtuacao.interface';
 import { AreasAtuacaoService } from '../../../../../services/areasAtuacao/areas-atuacao.service';
+import { ERoleUser } from '../../../enum/ERoleUser.enum';
+import { RegisterService } from '../../../../../services/register-caparao/register.service';
+import { IPessoa } from '../../../interface/IPessoa.interface';
+import Swal from 'sweetalert2';
 
 registerLocaleData(localePt);
 
@@ -72,6 +77,8 @@ export class CadastroVagaDialogComponent implements OnInit {
   vagaForm: FormGroup;
   isEditMode = false;
 
+  public roleEnum = ERoleUser;
+
   readonly announcer = inject(LiveAnnouncer);
 
   habilidadeInputCtrl = new FormControl('');
@@ -83,6 +90,8 @@ export class CadastroVagaDialogComponent implements OnInit {
   filteredCursos$: Observable<ICursos[]>;
   areasAtuacao: IAreasAtuacao[] = [];
 
+  public empresas = signal<IPessoa[]>([]);
+
   constructor(
     private _dialogRef: MatDialogRef<CadastroVagaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -90,27 +99,30 @@ export class CadastroVagaDialogComponent implements OnInit {
     private vagaService: VagasService,
     private habilidadesService: HabilidadesSService,
     private cursosService: CursosSService,
-    private areasService: AreasAtuacaoService
+    private areasService: AreasAtuacaoService,
+    private pessoasService: RegisterService
   ) {
     const dataEncerramento = new Date();
     dataEncerramento.setDate(dataEncerramento.getDate() + 20);
 
+    const dataBrasil = dataEncerramento.toLocaleDateString('pt-BR');
+
     this.vagaForm = this._fb.group({
-      id_vagas: [null], // Campo para o ID da vaga em modo de edição
+      id_vagas: [null],
       titulo_vaga: ['', Validators.required],
       modalidade_da_vaga: ['', Validators.required],
       salario: ['', Validators.required],
       data_fechamento: [
-        { value: dataEncerramento.toISOString().split('T')[0], disabled: true },
+        { value: dataBrasil.toString().split('T')[0], disabled: true },
         Validators.required,
       ],
       id_areas_atuacao: [''],
-      habilidades: this._fb.array([]),
-      cursos: this._fb.array([]),
-      descricao: [''],
+      habilidades: this._fb.array([Validators.required]),
+      cursos: this._fb.array([Validators.required]),
+      descricao: ['', [Validators.maxLength(500)]],
       qtd_vaga: ['', [Validators.required, Validators.min(1)]],
-      status: ['EM_ANDAMENTO', Validators.required],
-      id_empresas: this.data.id,
+      status: [''],
+      id_empresas: null,
     });
 
     this.filteredHabilidades$ = this.habilidadeInputCtrl.valueChanges.pipe(
@@ -134,6 +146,7 @@ export class CadastroVagaDialogComponent implements OnInit {
     this.getHabilidades();
     this.getCursos();
     this.onListAreas();
+    this.onListEmpresas();
 
     // Verifica se dados da vaga foram passados para entrar em modo de edição
     if (this.data && this.data.conteudoVaga) {
@@ -143,10 +156,21 @@ export class CadastroVagaDialogComponent implements OnInit {
   }
 
   private loadFormData(vaga: any): void {
+    let dataFormadata = '';
+    if (vaga.data_fechamento) {
+      const partesData = vaga.data_fechamento.split('-');
+      if (partesData.length === 3) {
+        dataFormadata = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
+      }
+    }
+
+    vaga.data_fechamento = dataFormadata;
     this.vagaForm.patchValue({
       id_vagas: vaga.id_vagas,
       titulo_vaga: vaga.titulo_vaga,
       modalidade_da_vaga: vaga.modalidade_da_vaga,
+      id_areas_atuacao: vaga.id_areas_atuacao,
+      id_empresas: vaga.id_empresas,
       salario: vaga.salario,
       data_fechamento: vaga.data_fechamento,
       descricao: vaga.descricao,
@@ -180,7 +204,7 @@ export class CadastroVagaDialogComponent implements OnInit {
   }
 
   private _filterHabilidades(value: string): IHabilidades[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     const idsSelecionados = new Set(
       this.habilidadesFormArray.value.map((h: IHabilidades) => h.id_habilidades)
     );
@@ -207,7 +231,7 @@ export class CadastroVagaDialogComponent implements OnInit {
   }
 
   private _filterCursos(value: string): ICursos[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     const idsSelecionados = new Set(
       this.cursosFormArray.value.map((c: ICursos) => c.id_cursos)
     );
@@ -247,32 +271,49 @@ export class CadastroVagaDialogComponent implements OnInit {
     if (this.vagaForm.valid) {
       const formValue = this.vagaForm.getRawValue();
 
-      formValue.habilidades = this.habilidadesFormArray.value.map(
-        (h: IHabilidades) => h.id_habilidades
-      );
-      formValue.cursos = this.cursosFormArray.value.map(
-        (c: ICursos) => c.id_cursos
-      );
+      formValue.habilidades = this.habilidadesFormArray.value
+        .map((h: IHabilidades) => h.id_habilidades)
+        .filter((id: number | null) => id !== undefined);
 
-      if (formValue.data_fechamento) {
-        formValue.data_fechamento = new Date(formValue.data_fechamento)
-          .toISOString()
-          .split('T')[0];
+      formValue.cursos = this.cursosFormArray.value
+        .map((c: ICursos) => c.id_cursos)
+        .filter((id: number | null) => id !== undefined);
+
+      if (this.data.role === this.roleEnum.EMPRESA) {
+        formValue.id_empresas = this.data.id;
       }
 
-      console.log('Enviando para o backend (CRIAR):', formValue);
-
-      this.vagaService.httpRegisterVaga$(formValue).subscribe({
-        next: (response) => {
-          console.log('Vaga cadastrada com sucesso:', response);
-          this._dialogRef.close(response);
-        },
-        error: (error) => {
-          console.error('Erro ao cadastrar vaga:', error);
-        },
-      });
+      this.vagaService
+        .httpRegisterVaga$(formValue)
+        .pipe(concatMap(() => this.vagaService.httpListVagas$()))
+        .subscribe({
+          next: (response) => {
+            this._dialogRef.close(response);
+            Swal.fire({
+              icon: 'success',
+              title: 'Vaga cadastrada com sucesso!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro ao cadastrar vaga',
+              text: 'Ocorreu um erro ao cadastrar a vaga. Por favor, tente novamente.',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#359830',
+            });
+          },
+        });
     } else {
-      console.log('Formulário inválido');
+      Swal.fire({
+        icon: 'error',
+        title: 'Formulário inválido',
+        text: 'Por favor, preencha todos os campos obrigatórios corretamente.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#359830',
+      });
     }
   }
 
@@ -281,34 +322,52 @@ export class CadastroVagaDialogComponent implements OnInit {
     if (this.vagaForm.valid) {
       const formValue = this.vagaForm.getRawValue();
 
-      formValue.habilidades = this.habilidadesFormArray.value.map(
-        (h: IHabilidades) => h.id_habilidades
-      );
-      formValue.cursos = this.cursosFormArray.value.map(
-        (c: ICursos) => c.id_cursos
-      );
+      formValue.habilidades = this.habilidadesFormArray.value
+        .map((h: IHabilidades) => h.id_habilidades)
+        .filter((id: number | null) => id !== undefined);
 
-      if (formValue.data_fechamento) {
-        formValue.data_fechamento = new Date(formValue.data_fechamento)
-          .toISOString()
-          .split('T')[0];
+      formValue.cursos = this.cursosFormArray.value
+        .map((c: ICursos) => c.id_cursos)
+        .filter((id: number | null) => id !== undefined);
+
+      if (this.data.role === this.roleEnum.EMPRESA) {
+        formValue.id_empresas = this.data.id;
       }
 
-      console.log(this.data.idVagas);
-
-      console.log('Enviando para o backend (ATUALIZAR):', formValue);
-
-      this.vagaService.httpUpdateVaga$(formValue, this.data.idVaga).subscribe({
-        next: (response) => {
-          console.log('Vaga atualizada com sucesso:', response);
-          this._dialogRef.close(response);
-        },
-        error: (error) => {
-          console.error('Erro ao atualizar vaga:', error);
-        },
-      });
+      this.vagaService
+        .httpUpdateVaga$(formValue, this.data.idVaga)
+        .pipe(
+          concatMap(() => this.vagaService.httpListVagasId$(this.data.idVaga))
+        )
+        .subscribe({
+          next: (response) => {
+            this._dialogRef.close(response);
+            Swal.fire({
+              icon: 'success',
+              title: 'Vaga atualizada com sucesso!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+          error: (error) => {
+            console.log(error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro ao atualizar vaga',
+              text: 'Ocorreu um erro ao atualizar a vaga. Por favor, tente novamente.',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#359830',
+            });
+          },
+        });
     } else {
-      console.log('Formulário inválido');
+      Swal.fire({
+        icon: 'error',
+        title: 'Formulário inválido',
+        text: 'Por favor, preencha todos os campos obrigatórios corretamente.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#359830',
+      });
     }
   }
 
@@ -353,6 +412,16 @@ export class CadastroVagaDialogComponent implements OnInit {
       error: (error) => {
         console.log('Erro ao carregar estados', error);
       },
+    });
+  }
+
+  public onListEmpresas() {
+    this.pessoasService.httpListEmpresas$().subscribe({
+      next: (response) => {
+        const empresasFiltradas = response.filter((pessoa) => pessoa.empresa);
+        this.empresas.set(empresasFiltradas);
+      },
+      error: (error) => console.log('Erro ao buscar empresas:', error),
     });
   }
 }

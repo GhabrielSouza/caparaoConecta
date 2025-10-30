@@ -2,13 +2,13 @@
   <app-dashboard-card
     label="Vagas"
     [valor]="vagas().length || 0"
-    class="col-lg-2 col-sm-4 col-4 p-0"
+    class="col-lg-2 col-sm-4 col-3 p-0"
   >
     <i class="fa-solid fa-briefcase fa-2xl"></i>
   </app-dashboard-card>
   <app-dashboard-card
     label="Usuários"
-    class="col-lg-2 col-sm-4 col-4 p-0"
+    class="col-lg-2 col-sm-4 col-3 p-0"
     [valor]="usuarios().length || 0"
   >
     <i class="fa-solid fa-user fa-2xl"></i>
@@ -16,7 +16,7 @@
 
   <app-dashboard-card
     label="Contratações"
-    class="col-lg-2 col-sm-4 col-4 p-0"
+    class="col-lg-2 col-sm-4 col-3 p-0"
     [valor]="contratacoes()"
   >
     <i class="fa-solid fa-user-check fa-2xl"></i>
@@ -24,43 +24,68 @@
 </section>
 
 <main>
-  <div class="bloco-conteudo">
-    <div class="grafico-grid">
-      <div class="grafico-wrapper">
-        <p-chart
-          type="bar"
-          [data]="barChartData"
-          [options]="barChartOptions"
-          class="h-[30rem]"
-        ></p-chart>
-      </div>
+  <div class="bloco-conteudo" [ngClass]="empyAll ? 'p-0' : ''">
+    <ng-container
+      *ngIf="
+        barChartData?.datasets?.length ||
+          barChartDataTypeUsers?.datasets?.length ||
+          doughnutChartData?.datasets?.length;
+        else empyAll
+      "
+    >
+      <div class="grafico-grid">
+        <div class="grafico-wrapper" *ngIf="barChartData?.datasets?.length">
+          <p-chart
+            type="bar"
+            [data]="barChartData"
+            [options]="barChartOptions"
+            class="h-[30rem]"
+          ></p-chart>
+        </div>
 
-      <div class="grafico-wrapper">
-        <p-chart
-          type="bar"
-          [data]="barChartDataTypeUsers"
-          [options]="barChartOptionsTypeUsers"
-          class="h-[30rem]"
-        ></p-chart>
-      </div>
+        <div
+          class="grafico-wrapper"
+          *ngIf="barChartDataTypeUsers?.datasets?.length"
+        >
+          <p-chart
+            type="bar"
+            [data]="barChartDataTypeUsers"
+            [options]="barChartOptionsTypeUsers"
+            class="h-[30rem]"
+          ></p-chart>
+        </div>
 
-      <div class="grafico-wrapper">
-        <p-chart
-          type="doughnut"
-          [data]="doughnutChartData"
-          [options]="doughnutChartOptions"
-          class="w-full md:w-[30rem]"
-        ></p-chart>
-      </div>
+        <div
+          class="grafico-wrapper"
+          *ngIf="doughnutChartData?.datasets?.length"
+        >
+          <p-chart
+            type="doughnut"
+            [data]="doughnutChartData"
+            [options]="doughnutChartOptions"
+            class="w-full md:w-[20rem]"
+          ></p-chart>
+        </div>
 
-      <div class="grafico-wrapper">
-        <p-chart
-          type="pie"
-          [data]="doughnutChartData"
-          [options]="doughnutChartOptions"
-          class="w-full md:w-[30rem]"
-        ></p-chart>
+        <div
+          class="grafico-wrapper"
+          *ngIf="doughnutChartData?.datasets?.length"
+        >
+          <p-chart
+            type="pie"
+            [data]="doughnutChartData"
+            [options]="doughnutChartOptions"
+            class="w-full md:w-[20rem]"
+          ></p-chart>
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #empyAll>
+      <app-empy
+        icone="face-sad-cry-regular-full.svg"
+        titulo="Sem dados para exibir"
+        mensagem="Aguarde enquanto coletamos os dados necessários."
+      />
+    </ng-template>
   </div>
 </main>

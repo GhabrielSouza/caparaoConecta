@@ -25,26 +25,33 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectRegisterDialogComponent } from '../../components/dialogs/select-register-dialog/select-register-dialog.component';
 import { EDialogEnum } from '../../enum/EDialogEnum.enum';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-form-login',
   standalone: true,
   imports: [
     DefaultLoginLayoutComponent,
-    PasswordInputComponent,
     ReactiveFormsModule,
-    PrimaryInputComponent,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    RouterLink,
+    CommonModule,
   ],
   templateUrl: './form-login.component.html',
   styleUrl: './form-login.component.scss',
 })
 export class FormLoginComponent implements OnInit {
   public loginForm: FormGroup;
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
   constructor(
     private _fb: FormBuilder,
@@ -124,15 +131,22 @@ export class FormLoginComponent implements OnInit {
     }
 
     const credentials = this.loginForm.value;
-    console.log(credentials);
 
     this.authLogin.login(credentials).subscribe({
       next: (user) => {
-        console.log('Login bem-sucedido para:', user);
         this.route.navigate(['/home']);
       },
       error: (error) => {
-        console.error('Falha no login:', error);
+        if (error.status === 401) {
+          this.updateErrorMessage('email');
+          this.updateErrorMessage('password');
+          this.loginForm.setErrors({ email: error.error.message });
+          this.loginForm.setErrors({ password: error.error.message });
+        } else {
+          this.loginForm.setErrors({
+            email: 'Erro no servidor. Tente novamente mais tarde.',
+          });
+        }
       },
     });
   }

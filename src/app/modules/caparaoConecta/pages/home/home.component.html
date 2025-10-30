@@ -1,7 +1,7 @@
 <div class="layout">
   <app-cabecalho />
   <main class="conteudo">
-    <section class="container-fluid">
+    <section class="container-fluid mb-5">
       @if(role() != roleEnum.ADMIN){
       <div class="row">
         <div class="col-12 col-lg-2 d-none d-sm-none d-lg-block">
@@ -15,12 +15,14 @@
 
         <div class="col-12 col-lg-10 d-lg-none">
           <div class="d-flex justify-content-between align-items-center">
+            @if(role() == roleEnum.CANDIDATO || role() == roleEnum.GUEST){
             <div>
               <h4 class="cpc-bold-010">Vagas</h4>
               <p class="cpc-regular-010">
                 {{ todasAsVagas().length }} vaga(s) encontrada(s)
               </p>
             </div>
+            }
             <div>
               <button
                 class="btn btn-quaternary cpc-bold-010"
@@ -33,7 +35,7 @@
           <hr />
         </div>
 
-        <div class="col-12 col-lg-10">
+        <div class="col-12 col-lg-10 py-2">
           <div class="row">
             <div class="col-12 col-lg-11">
               @defer (when statusCarregamento() === 'concluido') { @if (role()
@@ -58,12 +60,16 @@
               } @for (grupo of vagasAgrupadasPorArea(); track
               grupo.area.id_areas_atuacao) {
               <app-component-container-vagas [titulo]="grupo.area.nome_area">
-                <app-card-vaga-publica [vagas]="grupo.vagas" [role]="role()"></app-card-vaga-publica>
+                <app-card-vaga-publica
+                  [vagas]="grupo.vagas"
+                  [role]="role()"
+                ></app-card-vaga-publica>
               </app-component-container-vagas>
               } } @if(role() == roleEnum.EMPRESA){ @if(vagasOfertadas().length
               === 0){
               <div
-                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3">
+                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
+              >
                 <i class="fas fa-archive fa-lg pb-3"></i>
                 <h3 class="text-dark mb-2">Nenhuma vaga ofertada</h3>
                 <p class="text-muted text-center mb-4">
@@ -72,12 +78,15 @@
               </div>
               } @else {
               <app-component-container-vagas titulo="Vagas Ofertadas">
-                <app-card-vaga-empresa [vagas]="vagasOfertadas()"
-                  (vagaClicada)="navegarParaDetalhe($event)"></app-card-vaga-empresa>
+                <app-card-vaga-empresa
+                  [vagas]="vagasOfertadas()"
+                  (vagaClicada)="navegarParaDetalhe($event)"
+                ></app-card-vaga-empresa>
               </app-component-container-vagas>
               } @if(vagasEncerradas().length === 0){
               <div
-                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3">
+                class="d-flex flex-column align-items-center justify-content-center py-5 px-3 my-4 bg-light rounded-3"
+              >
                 <i class="fas fa-archive fa-lg pb-3"></i>
                 <h3 class="text-dark mb-2">Nenhuma vaga encerrada</h3>
                 <p class="text-muted text-center">
@@ -86,8 +95,10 @@
               </div>
               } @else {
               <app-component-container-vagas titulo="Vagas Encerradas">
-                <app-card-vaga-empresa [vagas]="vagasEncerradas()"
-                  (vagaClicada)="navegarParaDetalhe($event)"></app-card-vaga-empresa>
+                <app-card-vaga-empresa
+                  [vagas]="vagasEncerradas()"
+                  (vagaClicada)="navegarParaDetalhe($event)"
+                ></app-card-vaga-empresa>
               </app-component-container-vagas>
               } } }@placeholder (minimum 1s){
               <app-spinner />
@@ -109,3 +120,4 @@
   </main>
   <app-footer></app-footer>
 </div>
+<app-button-return-top></app-button-return-top>

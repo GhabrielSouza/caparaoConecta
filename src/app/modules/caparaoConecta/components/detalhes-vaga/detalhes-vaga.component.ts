@@ -38,6 +38,7 @@ import { FormsModule, NgModel } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { StepperModule } from 'primeng/stepper';
 import { StepsModule } from 'primeng/steps';
+import { environment } from '../../../../../environments/environment';
 
 interface CandidatoViewModel extends IPessoaFisica {
   habilidadesFaltantes: IHabilidades[];
@@ -68,7 +69,7 @@ export class DetalhesVagaComponent implements OnChanges {
   private vagaService = inject(VagasService);
   private dialog = inject(MatDialog);
 
-  @Input() vaga!: IVaga;
+  @Input() vaga!: IVaga | null;
   @Input() role!: ERoleUser;
   @Input() IdUsuario: any;
 
@@ -113,7 +114,6 @@ export class DetalhesVagaComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['vaga'] && this.vaga) {
       this.prepararViewModels(this.vaga);
-      console.log(this.vaga);
     }
   }
 
@@ -131,8 +131,9 @@ export class DetalhesVagaComponent implements OnChanges {
     }
 
     const viewModels = vaga.candidato.map((candidato): CandidatoViewModel => {
-      const habilidadesDoCandidato = candidato.pessoa?.habilidades || [];
-      const cursosDoCandidato = candidato.pessoa?.cursos || [];
+      const habilidadesDoCandidato =
+        candidato.pessoa.pessoas_fisica?.habilidades || [];
+      const cursosDoCandidato = candidato.pessoa.pessoas_fisica?.cursos || [];
 
       const idsHabilidadesDoCandidato = new Set(
         habilidadesDoCandidato.map((h) => h.id_habilidades)
@@ -183,6 +184,7 @@ export class DetalhesVagaComponent implements OnChanges {
             icon: 'success',
             title: 'Sucesso!',
             text: 'O status do candidato foi atualizado.',
+            confirmButtonColor: '#359830',
             timer: 1500,
           });
         },
@@ -213,8 +215,7 @@ export class DetalhesVagaComponent implements OnChanges {
   });
 
   public finalizarVaga() {
-    const vagaIdString = this.vaga.id_vagas;
-    console.log(vagaIdString);
+    const vagaIdString = this.vaga?.id_vagas;
 
     const status = 'FINALIZADO';
 
@@ -222,19 +223,27 @@ export class DetalhesVagaComponent implements OnChanges {
       const vagaId = +vagaIdString;
       this.vagaService.httpFinalizarVaga$(vagaId, status).subscribe({
         next: (response) => {
-          console.log('Vaga finalizada com sucesso:', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Vaga finalizada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
           this.location.back();
         },
         error: (error) => {
-          console.error('Erro ao finalizar vaga:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao finalizar vaga',
+            text: error.error?.message || 'Tente novamente mais tarde.',
+          });
         },
       });
     }
   }
 
   public deletarVaga() {
-    const vagaIdString = this.vaga.id_vagas;
-    console.log(vagaIdString);
+    const vagaIdString = this.vaga?.id_vagas;
 
     const status = 'FINALIZADO';
 
@@ -242,42 +251,56 @@ export class DetalhesVagaComponent implements OnChanges {
       const vagaId = +vagaIdString;
       this.vagaService.httpDeleteVaga$(vagaId).subscribe({
         next: (response) => {
-          console.log('Vaga excluida com sucesso:', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Vaga excluida com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
           this.location.back();
         },
         error: (error) => {
-          console.error('Erro ao excluir vaga:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao excluir vaga',
+            text: error.error?.message || 'Tente novamente mais tarde.',
+          });
         },
       });
     }
   }
 
   private executarProrrogacao(): void {
-    const vagaId = this.vaga.id_vagas;
-    const dataFechamentoString = this.vaga.data_fechamento;
+    const vagaId = this.vaga!?.id_vagas;
+    const dataFechamentoString = this.vaga?.data_fechamento;
 
     if (!dataFechamentoString) {
-      console.error('Data de fechamento da vaga não está definida.');
       return;
     }
 
-    const dataAtual = new Date(dataFechamentoString);
-
-    const data_fechamento = new Date(dataAtual);
-    data_fechamento.setDate(dataAtual.getDate() + 5);
-
-    this.vagaService.httpProrrogarVaga$(vagaId, data_fechamento).subscribe({
-      next: () => {
-        console.log('Vaga prorrogada com sucesso!');
-      },
-      error: (err) => {
-        console.error('Falha ao prorrogar vaga', err);
-      },
-    });
+    this.vagaService
+      .httpProrrogarVaga$(vagaId, dataFechamentoString)
+      .subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Vaga prorrogada com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Falha ao prorrogar vaga',
+            text: err.error?.message || 'Tente novamente mais tarde.',
+          });
+        },
+      });
   }
 
   public editarVaga() {
-    const vagaIdString = this.vaga.id_vagas;
+    const vagaIdString = this.vaga?.id_vagas;
     this.dialog.open(CadastroVagaDialogComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {

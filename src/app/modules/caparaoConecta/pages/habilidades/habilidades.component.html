@@ -11,12 +11,15 @@
     [displayFn]="getNomeHabilidade"
     [statusFn]="getStatusHabilidade"
     [totalDataLength]="totalHabilidades"
+    [pageSize]="pageSize"
     (itemAdded)="onHabilidadeRecebida($event)"
     (itemEdited)="onHabilidadeAtualizada($event)"
     (itemDeleted)="onHabilidadeDeletada($event)"
     (itemStatusToggled)="onHabilidadeStatusToggled($event)"
+    (pageChanged)="updatePaginatedData($event)"
   >
   </app-table>
 </section>
 
 <app-footer></app-footer>
+<app-button-return-top></app-button-return-top>

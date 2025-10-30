@@ -2,9 +2,14 @@
   title="Experiência profissional"
   [dataExperiencia]="experiencias"
   [IdUsuario]="IdUsuario"
+  [isEditable]="isEditable"
 >
-  @for(experiencia of experiencias; track experiencia){
-  <app-card-default-informacoes [data]="experiencia" class="p-0">
+  @for(experiencia of experiencias; track experiencia.id_experiencias){
+  <app-card-default-informacoes
+    [data]="experiencia"
+    [isEditable]="isEditable"
+    class="p-0"
+  >
   </app-card-default-informacoes>
   }
 </app-component-default-perfil>
@@ -13,9 +18,14 @@
   title="Formação acadêmica"
   [IdUsuario]="IdUsuario"
   [dataFormacao]="formacoes"
+  [isEditable]="isEditable"
 >
-  @for(formacao of formacoes; track formacao){
-  <app-card-default-informacoes [dataFormacoes]="formacao" class="p-0">
+  @for(formacao of formacoes; track formacao.id_formacoes_academicas){
+  <app-card-default-informacoes
+    [dataFormacoes]="formacao"
+    [isEditable]="isEditable"
+    class="p-0"
+  >
   </app-card-default-informacoes>
   }
 </app-component-default-perfil>
@@ -24,11 +34,13 @@
   title="Cursos realizados"
   [IdUsuario]="IdUsuario"
   [dataCursos]="cursos"
+  [isEditable]="isEditable"
 >
-  @for(curso of cursos; track curso){
+  @for(curso of cursos; track curso.id_cursos){
   <app-card-default-informacoes
     [idUsuario]="IdUsuario"
     [dataCursos]="curso"
+    [isEditable]="isEditable"
     class="p-0"
   >
   </app-card-default-informacoes>
@@ -39,9 +51,10 @@
   title="Habilidades e competências adicionais"
   [IdUsuario]="IdUsuario"
   [dataHabilidades]="habilidades"
+  [isEditable]="isEditable"
 >
   <mat-chip-set aria-label="Skill selection">
-    @for(habilidade of habilidades; track habilidade){
+    @for(habilidade of habilidades; track habilidade.id_habilidades){
     <mat-chip>{{ habilidade.nome }}</mat-chip>
     }
   </mat-chip-set>

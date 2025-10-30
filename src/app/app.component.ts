@@ -13,5 +13,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.authService.checkAuthStatus().subscribe();
+    if (window.location.pathname === '/') {
+      window.location.href = '/home';
+    }
   }
 }

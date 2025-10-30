@@ -7,10 +7,17 @@ import { ICursos } from '../../interface/ICursos.inteface';
 import { DialogCursosAdminComponent } from '../../components/dialogs/dialog-cursos-admin/dialog-cursos-admin.component';
 import { ITableColumn } from '../../interface/ITableColumn.interface';
 import { PageEvent } from '@angular/material/paginator';
+import Swal from 'sweetalert2';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-cursos',
-  imports: [CabecalhoComponent, FooterComponent, TableComponent],
+  imports: [
+    CabecalhoComponent,
+    FooterComponent,
+    TableComponent,
+    ButtonReturnTopComponent,
+  ],
   templateUrl: './cursos.component.html',
   styleUrl: './cursos.component.scss',
 })
@@ -20,7 +27,7 @@ export class CursosComponent implements OnInit {
   totalCursos = 0;
 
   currentPage = 0;
-  pageSize = 10;
+  pageSize = 5;
 
   cursosColumns: ITableColumn<ICursos>[] = [
     { key: 'curso', header: 'Curso' },
@@ -56,11 +63,20 @@ export class CursosComponent implements OnInit {
   onCursoRecebido(curso: ICursos) {
     return this.cursosService.httpCreateCursos$(curso).subscribe({
       next: (data) => {
-        console.log('Curso criado com sucesso:', data);
         this.onCursosListados();
+        Swal.fire({
+          icon: 'success',
+          title: 'Curso criado com sucesso!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       },
       error: (error) => {
-        console.error('Erro ao criar curso:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao criar curso',
+          text: error?.error?.message || 'Ocorreu um erro inesperado.',
+        });
       },
     });
   }
@@ -70,11 +86,20 @@ export class CursosComponent implements OnInit {
       .httpUpdateCursos$(curso.id_cursos, curso)
       .subscribe({
         next: (data) => {
-          console.log('Curso atualizado com sucesso:', data);
           this.onCursosListados();
+          Swal.fire({
+            icon: 'success',
+            title: 'Curso atualizado com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
-          console.error('Erro ao atualizar curso:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao atualizar curso',
+            text: error?.error?.message || 'Ocorreu um erro inesperado.',
+          });
         },
       });
   }
@@ -82,7 +107,6 @@ export class CursosComponent implements OnInit {
   onCursoDeletado(id: number) {
     return this.cursosService.httpDeleteCursos$(id).subscribe({
       next: (data) => {
-        console.log('Curso deletado com sucesso:', data);
         this.onCursosListados();
       },
       error: (error) => {
@@ -97,7 +121,6 @@ export class CursosComponent implements OnInit {
       .httpListCursosPag$(pageIndexForApi, this.pageSize)
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.cursoData = response.data;
           this.totalCursos = response.total;
         },
@@ -110,7 +133,7 @@ export class CursosComponent implements OnInit {
   updatePaginatedData(event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.onCursosListados();
+    this.onCursosListados(); // Certifique-se de que os dados sejam atualizados
   }
 
   onCursoStatusToggled(habilidade: ICursos) {
@@ -118,11 +141,20 @@ export class CursosComponent implements OnInit {
       .httpStatusCursos$(habilidade.id_cursos)
       .subscribe({
         next: (data) => {
-          console.log('Status da habilidade atualizado:', data);
           this.onCursosListados();
+          Swal.fire({
+            icon: 'success',
+            title: 'Status da habilidade atualizado com sucesso!',
+            showConfirmButton: false,
+            timer: 1500,
+          });
         },
         error: (error) => {
-          console.error('Erro ao atualizar status da habilidade:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao atualizar status da habilidade',
+            text: error?.error?.message || 'Ocorreu um erro inesperado.',
+          });
         },
       });
   }

@@ -24,12 +24,12 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { concatMap, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
 import { FiltroComponent } from '../../components/filtro/filtro.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFiltroComponent } from '../../components/dialogs/dialog-filtro/dialog-filtro.component';
-
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 export interface GrupoDeVagas {
   area: IAreasAtuacao;
@@ -56,6 +56,7 @@ export interface GrupoDeVagas {
     SpinnerComponent,
     ReactiveFormsModule,
     FiltroComponent,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -69,7 +70,7 @@ export class HomeComponent implements OnInit {
   private fb = inject(FormBuilder);
   public dialog = inject(MatDialog);
 
-  public todasAsVagas = signal<IVaga[]>([]);
+  public todasAsVagas = this.vagasService.getListVaga;
   public areasAtuacao = signal<IAreasAtuacao[]>([]);
   public empresas = signal<IPessoa[]>([]);
   public user = this.userAuth.currentUser;
@@ -158,9 +159,18 @@ export class HomeComponent implements OnInit {
     });
 
     this.filtroForm.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((formValue) => {
-        this.getVagas(formValue);
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        concatMap((formValue) => this.vagasService.httpListVagas$(formValue))
+      )
+      .subscribe({
+        next: (data) => {
+          this.statusCarregamento.set('concluido');
+        },
+        error: () => {
+          this.statusCarregamento.set('erro');
+        },
       });
 
     this.getVagas();
@@ -168,16 +178,13 @@ export class HomeComponent implements OnInit {
     this.onListEmpresas();
   }
 
-
   public getVagas(filtros?: any) {
     this.statusCarregamento.set('carregando');
     this.vagasService.httpListVagas$(filtros).subscribe({
       next: (data) => {
-        this.todasAsVagas.set(data);
         this.statusCarregamento.set('concluido');
       },
-     error: (error) => {
-        console.error('Erro ao buscar vagas:', error);
+      error: () => {
         this.statusCarregamento.set('erro');
       },
     });
@@ -186,7 +193,6 @@ export class HomeComponent implements OnInit {
   public onListAreasAtuacao() {
     this.areasService.httpListAreas$().subscribe({
       next: (response) => this.areasAtuacao.set(response),
-      error: (error) => console.log('Erro ao buscar áreas:', error),
     });
   }
 
@@ -196,7 +202,6 @@ export class HomeComponent implements OnInit {
         const empresasFiltradas = response.filter((pessoa) => pessoa.empresa);
         this.empresas.set(empresasFiltradas);
       },
-      error: (error) => console.log('Erro ao buscar empresas:', error),
     });
   }
 

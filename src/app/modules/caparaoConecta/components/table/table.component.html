@@ -57,8 +57,8 @@
   <mat-paginator
     class="matPaginator"
     [length]="totalDataLength"
-    [pageSizeOptions]="[5, 10, 20]"
-    [pageSize]="10"
+    [pageSizeOptions]="[5]"
+    [pageSize]="pageSize"
     (page)="onPageChange($event)"
     showFirstLastButtons
   >

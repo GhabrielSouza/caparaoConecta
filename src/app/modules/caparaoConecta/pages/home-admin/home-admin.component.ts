@@ -6,20 +6,19 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
-import { FooterComponent } from '../../components/footer/footer.component';
 import { DashboardCardComponent } from '../dashboard/dashboard-card/dashboard-card.component';
-import { CardVagaComponent } from '../../components/cards/card-vaga/card-vaga.component';
 import { UIChart } from 'primeng/chart';
 import { EStatusVaga } from '../../enum/EStatusVaga.enum';
 import { VagasService } from '../../../../services/vaga/vagas.service';
 import { IVaga } from '../../interface/IVaga.interface';
 import { IPessoa } from '../../interface/IPessoa.interface';
 import { RegisterService } from '../../../../services/register-caparao/register.service';
+import { CommonModule } from '@angular/common';
+import { EmpyComponent } from '../../components/empy/empy.component';
 
 @Component({
   selector: 'app-home-admin',
-  imports: [DashboardCardComponent, UIChart],
+  imports: [DashboardCardComponent, UIChart, CommonModule, EmpyComponent],
   templateUrl: './home-admin.component.html',
   styleUrl: './home-admin.component.scss',
 })
@@ -50,14 +49,12 @@ export class HomeAdminComponent implements OnInit {
   ngOnInit(): void {
     this.getVagas();
     this.getUsuarios();
-    console.log(this.vagas());
   }
 
   public getVagas() {
     return this.vagasService.httpListVagas$().subscribe({
       next: (vagas) => {
         this.vagas.set(vagas);
-        console.log(this.vagas());
       },
       error: (error) => {
         console.error('Error fetching vagas:', error);
@@ -69,7 +66,6 @@ export class HomeAdminComponent implements OnInit {
     return this.pessoasService.httpListPessoas$().subscribe({
       next: (usuarios) => {
         this.usuarios.set(usuarios);
-        console.log(this.usuarios());
       },
       error: (error) => {
         console.error('Error fetching usuarios:', error);
@@ -143,9 +139,9 @@ export class HomeAdminComponent implements OnInit {
         {
           label: 'Tipo de Usuários',
           data: [
-            usuarios.filter((u) => u.usuario?.tipo_usuario.nome === 'EMPRESA')
-              .length,
             usuarios.filter((u) => u.usuario?.tipo_usuario.nome === 'CANDIDATO')
+              .length,
+            usuarios.filter((u) => u.usuario?.tipo_usuario.nome === 'EMPRESA')
               .length,
           ],
           backgroundColor: [

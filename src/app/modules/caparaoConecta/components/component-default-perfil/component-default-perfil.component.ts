@@ -31,6 +31,8 @@ export class ComponentDefaultPerfilComponent {
   @Input() public dataHabilidades: IHabilidades[] | null = [];
   @Input() public dataCursos: ICursos[] | null = [];
 
+  @Input() isEditable: boolean = false;
+
   openDialogFormacao(): void {
     const dialogRef = this.#dialog.open(FormFormacaoAcademicaComponent, {
       panelClass: EDialogEnum.FORMACAO,
@@ -40,7 +42,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((resposta: IFormacoesAcademicas[]) => {
-      console.log(resposta);
       if (resposta) {
         this.dataFormacao = resposta;
       }
@@ -56,7 +57,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((resposta: IExperiencia[]) => {
-      console.log(resposta);
       if (resposta) {
         this.dataExperiencia = resposta;
       }
@@ -73,7 +73,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((resposta: IHabilidades[]) => {
-      console.log(resposta);
       if (resposta) {
         this.dataHabilidades = resposta;
       }
@@ -90,7 +89,6 @@ export class ComponentDefaultPerfilComponent {
     });
 
     dialogRef.afterClosed().subscribe((novoSobre) => {
-      console.log(novoSobre);
       if (novoSobre) {
         this.data = novoSobre;
       }
@@ -108,6 +106,10 @@ export class ComponentDefaultPerfilComponent {
 
   // Método para verificar se mostra o botão
   showAddButton(): boolean {
+    if (!this.isEditable) {
+      return false;
+    }
+
     return [
       'Formação acadêmica',
       'Sobre',

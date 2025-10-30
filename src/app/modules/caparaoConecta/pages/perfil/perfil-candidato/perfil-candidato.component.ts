@@ -9,6 +9,7 @@ import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.in
 import { ICursos } from '../../../interface/ICursos.inteface';
 import { IHabilidades } from '../../../interface/IHabilidades.interface';
 import { CardDefaultInformacoesComponent } from '../../../components/cards/card-default-informacoes/card-default-informacoes.component';
+import { ICursosOnPessoas } from '../../../interface/ICursosOnPessoas.inteface';
 
 @Component({
   selector: 'app-perfil-candidato',
@@ -28,6 +29,8 @@ export class PerfilCandidatoComponent implements OnInit {
   @Input() habilidades: IHabilidades[] | null = [];
 
   @Input() IdUsuario: any;
+
+  @Input() isEditable: boolean = false;
 
   ngOnInit(): void {}
 }

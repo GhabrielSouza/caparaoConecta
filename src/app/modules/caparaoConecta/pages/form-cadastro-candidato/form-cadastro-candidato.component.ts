@@ -34,6 +34,7 @@ import { DataNascimentoInputComponent } from '../../components/inputs/data-nasci
 import { RegisterService } from '../../../../services/register-caparao/register.service';
 import { Router } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-cadastro-candidato',
@@ -75,11 +76,10 @@ export class FormCadastroCandidatoComponent implements OnInit {
         genero: ['', [Validators.required]],
         cpf: ['', [Validators.required, ehUmCPF]],
         telefone: ['', [Validators.required]],
-        cep: ['', [Validators.required]],
-        estado: ['', []],
-        cidade: ['', []],
+        estado: ['', [Validators.required]],
+        cidade: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        cadUnico: ['', [Validators.required]],
+        cadUnico: [''],
         password: [
           '',
           [
@@ -180,13 +180,6 @@ export class FormCadastroCandidatoComponent implements OnInit {
         .subscribe(() => this.updateErrorMessage('endereco'));
     }
 
-    const CepControl = this.cep;
-    if (CepControl) {
-      merge(CepControl.statusChanges, CepControl.valueChanges)
-        .pipe(takeUntilDestroyed())
-        .subscribe(() => this.updateErrorMessage('cep'));
-    }
-
     const cadUnicoControl = this.cadUnico;
     if (cadUnicoControl) {
       merge(cadUnicoControl.statusChanges, cadUnicoControl.valueChanges)
@@ -199,7 +192,6 @@ export class FormCadastroCandidatoComponent implements OnInit {
     this.cadastrarForm.get('cidade')?.disable();
     this.viacepService.getEstados().subscribe({
       next: (resp) => {
-        console.log('Estados', resp);
         this.estados = resp;
       },
       error: (error) => {
@@ -289,10 +281,6 @@ export class FormCadastroCandidatoComponent implements OnInit {
     return this.cadastrarForm.get('cidade');
   }
 
-  get cep() {
-    return this.cadastrarForm.get('cep');
-  }
-
   ngOnInit(): void {
     this.carregarEstados();
   }
@@ -320,20 +308,58 @@ export class FormCadastroCandidatoComponent implements OnInit {
   }
 
   submit() {
-    const formdata = this.cadastrarForm.value;
-    formdata.estado = formdata.estado?.nome;
-    console.log(formdata);
+    const formdata = { ...this.cadastrarForm.value };
+
+    if (
+      formdata.estado &&
+      typeof formdata.estado === 'object' &&
+      formdata.estado.nome
+    ) {
+      formdata.estado = formdata.estado.nome;
+    }
+
+    if (
+      formdata.cidade &&
+      typeof formdata.cidade === 'object' &&
+      formdata.cidade.nome
+    ) {
+      formdata.cidade = formdata.cidade.nome;
+    }
+
     return this.apiService.httpRegisterCandidato$(formdata).subscribe({
       next: (resp) => {
-        console.log(resp);
+        Swal.fire({
+          title: 'Cadastrando...',
+          showConfirmButton: false,
+          timer: 1500,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        }).then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Cadastro realizado com sucesso!',
+            text: 'Você será redirecionado para a página de login.',
+            confirmButtonColor: '#359830',
+          });
+        });
         this.router.navigate(['login']);
       },
-      error(resp) {
-        console.log(resp);
-        console.log('erro ao cadastrar');
-      },
-      complete() {
-        console.log('completo');
+      error: (resp) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: resp.error.message,
+          confirmButtonColor: '#359830',
+        });
+
+        if (resp.status === 422 && resp.error?.error?.email) {
+          this.cadastrarForm.get('email')?.setErrors({ emailTaken: true });
+          this.fieldErrors.update((errors) => ({
+            ...errors,
+            email: 'Este email já foi cadastrado.',
+          }));
+        }
       },
     });
   }

@@ -1,0 +1,22 @@
+<app-default-login-layout
+  titulo="Digite seu email para redefinir sua senha"
+  botaoEntrar="Enviar"
+  [disablebotaoCadastrar]="!loginForm.valid"
+  (Submit)="submit()"
+>
+  <form [formGroup]="loginForm">
+    <app-primary-input
+      formControlName="email"
+      type="email"
+      inputName="email"
+      label="Email"
+      placeholder="Digite seu email"
+      (blur)="updateErrorMessage('email')"
+    >
+      @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty ||
+      loginForm.get('email')?.touched )) {
+      <mat-error>{{ fieldErrors()["email"] }}</mat-error>
+      }
+    </app-primary-input>
+  </form>
+</app-default-login-layout>

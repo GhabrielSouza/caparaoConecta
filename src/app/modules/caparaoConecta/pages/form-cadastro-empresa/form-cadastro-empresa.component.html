@@ -2,10 +2,9 @@
   titulo="Cadastrar no Caparaó Conecta"
   botaoCadastrar="Login"
   (Submit)="submit()"
-  (Navigate)="navigate()"
   botaoCadastrar="Login"
   botaoEntrar="Cadastrar"
-  [disablebotaoCadastrar]="!cadastrarForm.valid"
+  [disablebotaoCadastrar]="cadastrarForm.invalid"
 >
   <form [formGroup]="cadastrarForm" class="row">
     <app-primary-input
@@ -24,37 +23,36 @@
     </app-primary-input>
     <div class="formCol d-flex flex-column flex-lg-row">
       <app-cpf-and-cnpj-input
-      formControlName="cnpj"
-      type="text"
-      placeholder="Digite seu CNPJ"
-      label="CNPJ"
-      inputName="CNPJ"
-      class="col-12 col-md 6 pe-0 pe-md-2"
-    >
-      @if (cadastrarForm.get('cnpj')?.invalid
-      &&(cadastrarForm.get('cnpj')?.touched ||
-      cadastrarForm.get('cnpj')?.dirty)) {
-      <mat-error>{{ fieldErrors()["cnpj"] }}</mat-error>
-      }
-    </app-cpf-and-cnpj-input>
+        formControlName="cnpj"
+        type="text"
+        placeholder="Digite seu CNPJ"
+        label="CNPJ"
+        inputName="CNPJ"
+        class="col-12 col-md 6 pe-0 pe-md-2"
+      >
+        @if (cadastrarForm.get('cnpj')?.invalid
+        &&(cadastrarForm.get('cnpj')?.touched ||
+        cadastrarForm.get('cnpj')?.dirty)) {
+        <mat-error>{{ fieldErrors()["cnpj"] }}</mat-error>
+        }
+      </app-cpf-and-cnpj-input>
 
-    <app-telefone-input
-      formControlName="telefone"
-      type="tel"
-      placeholder="Digite seu número"
-      label="Telefone(DDD)"
-      inputName="telefone"
-      class="col-12 col-md-6 ps-0 ps-md-2"
-      >@if (cadastrarForm.get('telefone')?.invalid &&
-      (cadastrarForm.get('telefone')?.touched ||
-      cadastrarForm.get('telefone')?.dirty )) {
-      <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
-      }</app-telefone-input
-    >
+      <app-telefone-input
+        formControlName="telefone"
+        type="tel"
+        placeholder="Digite seu número"
+        label="Telefone(DDD)"
+        inputName="telefone"
+        class="col-12 col-md-6 ps-0 ps-md-2"
+        >@if (cadastrarForm.get('telefone')?.invalid &&
+        (cadastrarForm.get('telefone')?.touched ||
+        cadastrarForm.get('telefone')?.dirty )) {
+        <mat-error>{{ fieldErrors()["telefone"] }}</mat-error>
+        }</app-telefone-input
+      >
     </div>
-    
 
-    <div class="d-flex gap-3 align-items-start flex-column flex-lg-row ">
+    <div class="d-flex gap-3 align-items-start flex-column flex-lg-row">
       <!-- Campo de Estado -->
       <div class="flex-grow-1 input-container w-100 w-md-0">
         <mat-label class="d-block">Estado</mat-label>

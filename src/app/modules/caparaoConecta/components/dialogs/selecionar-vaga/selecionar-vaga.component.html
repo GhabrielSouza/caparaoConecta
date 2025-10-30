@@ -1,12 +1,14 @@
 <header class="d-flex justify-content-between align-items-center px-4 pt-3">
-    <h3>Cadastrar Vaga</h3>
-    <button class="btn" (click)="closeModal()">
-      <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
-    </button>
-  </header>
-<mat-dialog-content class="d-flex justify-content-between p-4 ">
-    <button class="btn btn-secondary" (click)="openDialogReativarVaga()" >Reativar Vaga</button> 
-    <button class="btn btn-secondary ms-3" (click)="openDialogNovaVaga()">Nova Vaga</button>
+  <h3 class="cpc-medium">Cadastrar Vaga</h3>
+  <button class="btn" (click)="closeModal()">
+    <img src="assets/icons/close.svg" alt="Botão para fechar o dialog" />
+  </button>
+</header>
+<mat-dialog-content class="d-flex justify-content-between p-4">
+  <button class="btn btn-secondary" (click)="openDialogReativarVaga()">
+    Reativar Vaga
+  </button>
+  <button class="btn btn-secondary ms-3" (click)="openDialogNovaVaga()">
+    Nova Vaga
+  </button>
 </mat-dialog-content>
-
-

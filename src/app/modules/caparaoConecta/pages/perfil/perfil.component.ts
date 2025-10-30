@@ -26,6 +26,8 @@ import { ExperienciasService } from './../../../../services/experiencias/experie
 import { ComponentDefaultPerfilComponent } from '../../components/component-default-perfil/component-default-perfil.component';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { IUsuario } from '../../interface/IUsuario.interface';
+import { ICursos } from '../../interface/ICursos.inteface';
+import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
 
 @Component({
   selector: 'app-perfil',
@@ -40,6 +42,7 @@ import { IUsuario } from '../../interface/IUsuario.interface';
     PerfilEmpresaComponent,
     PerfilCandidatoComponent,
     SpinnerComponent,
+    ButtonReturnTopComponent,
   ],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.scss',
@@ -52,10 +55,10 @@ export class PerfilComponent implements OnInit {
   private userAuth = inject(AuthService);
 
   public dadosPessoais = signal<IPessoa | null>(null);
-  public habilidades = signal<any[]>([]);
-  public experiencias = signal<any[]>([]);
-  public formacoes = signal<any[]>([]);
-  public cursos = signal<any[]>([]);
+  public habilidades = this.habilidadesService.getListHabilidadesOnPessoas;
+  public experiencias = this.experienciaService.getListEmpresaId;
+  public formacoes = this.formacoesService.getListFormacoesId;
+  public cursos = this.cursosService.getListCursosOnPessoaId;
 
   public statusCarregamento = signal<
     'pendente' | 'carregando' | 'concluido' | 'erro'
@@ -106,16 +109,10 @@ export class PerfilComponent implements OnInit {
     forkJoin(requests).subscribe({
       next: (resultados: any) => {
         this.dadosPessoais.set(resultados.dadosPessoais);
-        console.log(this.dadosPessoais());
-        this.experiencias.set(resultados.experiencias ?? []);
-        this.formacoes.set(resultados.formacoes ?? []);
-        this.cursos.set(resultados.cursos ?? []);
-        this.habilidades.set(resultados.habilidades ?? []);
 
         this.statusCarregamento.set('concluido');
       },
       error: (err) => {
-        console.error('Erro ao carregar dados do perfil:', err);
         this.statusCarregamento.set('erro');
       },
     });

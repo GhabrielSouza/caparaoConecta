@@ -24,7 +24,7 @@ export class CardVagaEmpresaComponent implements OnInit {
   @Input() vagas: IVaga[] = [];
 
   currentPage: number = 0;
-  pageSize: number = 4;
+  pageSize: number = 3;
 
   get paginatedVagas(): IVaga[] {
     const start = this.currentPage * this.pageSize;
@@ -51,7 +51,7 @@ export class CardVagaEmpresaComponent implements OnInit {
       this.pageSize = 2;
     } else {
       // Telas de desktop
-      this.pageSize = 4;
+      this.pageSize = 3;
     }
   }
 

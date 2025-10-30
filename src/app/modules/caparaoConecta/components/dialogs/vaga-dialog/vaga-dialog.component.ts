@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import {
   MatDialogRef,
@@ -22,6 +23,9 @@ import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 import { AuthService } from '../../../../../services/auth-caparao/login.service';
 import { VagasService } from '../../../../../services/vaga/vagas.service';
 import { ERoleUser } from '../../../enum/ERoleUser.enum';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { environment } from '../../../../../../environments/environment';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-vaga-dialog',
@@ -33,6 +37,7 @@ import { ERoleUser } from '../../../enum/ERoleUser.enum';
     MatDialogActions,
     CommonModule,
     CapitalizePipe,
+    MatTooltipModule,
   ],
   templateUrl: './vaga-dialog.component.html',
   styleUrl: './vaga-dialog.component.scss',
@@ -46,13 +51,13 @@ export class VagaDialogComponent implements OnInit {
   private authService = inject(AuthService);
   private user = this.authService.currentUser;
 
+  public url = signal(environment.apiAuth);
+
   constructor(
     private _dialogRef: MatDialogRef<VagaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router
-  ) {
-    console.log(data);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.favoritar = this.data.vaga.is_favorita;
@@ -66,38 +71,29 @@ export class VagaDialogComponent implements OnInit {
   public favoritarVaga() {
     this.favoritar = !this.favoritar;
 
-    this.vagasService.httpToggleFavorito$(this.data.vaga.id_vagas).subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: (error) => {
-        this.favoritar = !this.favoritar;
-        console.log(error);
-      },
+    this._dialogRef.close({
+      idVaga: this.data.vaga.id_vagas,
+      favoritar: this.favoritar,
     });
   }
 
   public candidatarUser() {
-    this._dialogRef.close(this.data.vaga.id_vagas);
+    this._dialogRef.close({
+      idVaga: this.data.vaga.id_vagas,
+      action: 'candidatar',
+    });
   }
 
   private registrarVisualizacao(): void {
     const currentUser = this.user();
     const vagaId = this.data.vaga.id_vagas;
 
-    console.log('Registrando visualização da vaga:', vagaId);
-
     if (
       currentUser &&
       currentUser.tipo_usuario?.nome === ERoleUser.CANDIDATO &&
       vagaId
     ) {
-      this.vagasService.httpRegistrarVisualizacaoVaga$(vagaId).subscribe({
-        next: (res) =>
-          console.log('Notificação de visualização (dialog):', res),
-        error: (err) =>
-          console.error('Erro ao notificar visualização (dialog):', err),
-      });
+      this.vagasService.httpRegistrarVisualizacaoVaga$(vagaId).subscribe();
     }
   }
 }

@@ -21,37 +21,54 @@
 
 <main>
   <div class="bloco-conteudo">
-    <div class="tabela-wrapper">
-      <h1 class="titulo-tabela cpc-bold">Vagas</h1>
-      <app-dashboard-tabela
-        [columns]="vagasColumns"
-        [statusFn]="getStatusVaga"
-        [data]="paginatedVagas()"
-        [totalDataLength]="totalVagas()"
-        (pageChanged)="updatePaginatedData($event)"
+    <ng-container
+      *ngIf="
+        barChartData?.datasets?.length ||
+          doughnutChartData?.datasets?.length ||
+          doughnutChartData?.datasets?.length;
+        else empyAll
+      "
+    >
+      <div class="tabela-wrapper">
+        <h1 class="titulo-tabela cpc-bold">Vagas</h1>
+        <app-dashboard-tabela
+          [columns]="vagasColumns"
+          [statusFn]="getStatusVaga"
+          [data]="paginatedVagas()"
+          [totalDataLength]="totalVagas()"
+          (pageChanged)="updatePaginatedData($event)"
+        />
+      </div>
+
+      <div class="grafico-grid">
+        <div class="grafico-wrapper">
+          <p-chart
+            type="bar"
+            [data]="barChartData"
+            [options]="barChartOptions"
+            class="h-[30rem]"
+          ></p-chart>
+        </div>
+
+        <div class="grafico-wrapper">
+          <p-chart
+            type="doughnut"
+            [data]="doughnutChartData"
+            [options]="doughnutChartOptions"
+            class="w-full md:w-[30rem]"
+          ></p-chart>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #empyAll>
+      <app-empy
+        icone="face-sad-cry-regular-full.svg"
+        titulo="Sem dados para exibir"
+        mensagem="Aguarde enquanto coletamos os dados necessários."
       />
-    </div>
-
-    <div class="grafico-grid">
-      <div class="grafico-wrapper">
-        <p-chart
-          type="bar"
-          [data]="barChartData"
-          [options]="barChartOptions"
-          class="h-[30rem]"
-        ></p-chart>
-      </div>
-
-      <div class="grafico-wrapper">
-        <p-chart
-          type="doughnut"
-          [data]="doughnutChartData"
-          [options]="doughnutChartOptions"
-          class="w-full md:w-[30rem]"
-        ></p-chart>
-      </div>
-    </div>
+    </ng-template>
   </div>
 </main>
 
 <app-footer></app-footer>
+<app-button-return-top></app-button-return-top>
