@@ -53,7 +53,7 @@ export class CardDefaultInformacoesComponent {
   openEditDialogCurso(): void {
     this.dialog.open(DialogCursosComponent, {
       width: '600px',
-      data: { curso: this.dataCursos },
+      data: { curso: this.dataCursos, id: this.idUsuario },
     });
   }
 

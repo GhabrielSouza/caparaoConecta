@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import Swal from 'sweetalert2';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-habilidades',
@@ -69,31 +70,36 @@ export class DialogHabilidadesComponent {
       id_habilidades: this.selectedHabilidades(),
     };
 
-    console.log('Payload enviado:', payload);
-
-    this.habilidadesService.httpCreateHabilidadesOnPessoas$(payload).subscribe({
-      next: () => {
-        this._dialogRef.close(true);
-        Swal.fire({
-          icon: 'success',
-          title: 'Habilidades salvas com sucesso',
-          text: 'Atualize a página para ver as mudanças',
-          showConfirmButton: false,
-        });
-      },
-      error: (error) => {
-        console.error('Erro ao salvar habilidades', error);
-        Swal.fire({
-          icon: 'error',
-          text: 'Erro ao cadastrar habilidade',
-          confirmButtonText: 'OK',
-          confirmButtonColor: '#359830',
-        });
-      },
-    });
+    this.habilidadesService
+      .httpCreateHabilidadesOnPessoas$(payload)
+      .pipe(
+        concatMap(() =>
+          this.habilidadesService.httpListHabilidadesOnPessoas$(this.data.id)
+        )
+      )
+      .subscribe({
+        next: () => {
+          this._dialogRef.close(true);
+          Swal.fire({
+            icon: 'success',
+            title: 'Habilidades salvas com sucesso',
+            text: 'Atualize a página para ver as mudanças',
+            showConfirmButton: false,
+          });
+        },
+        error: (error) => {
+          console.error('Erro ao salvar habilidades', error);
+          Swal.fire({
+            icon: 'error',
+            text: 'Erro ao cadastrar habilidade',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#359830',
+          });
+        },
+      });
   }
 
   closeModal() {
-    this._dialogRef.close();
+    this._dialogRef.close(true);
   }
 }
