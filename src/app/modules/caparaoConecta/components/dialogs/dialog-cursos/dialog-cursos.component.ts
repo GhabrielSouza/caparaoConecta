@@ -149,7 +149,12 @@ export class DialogCursosComponent {
 
     return this.cursosService
       .httpCreateCursosOnPessoa$(formData)
-      .pipe(shareReplay())
+      .pipe(
+        shareReplay(),
+        concatMap(() =>
+          this.cursosService.httpListCursosOnPessoaId$(this.data.id)
+        )
+      )
       .subscribe({
         next: (data) => {
           this._dialogRef.close(data);
@@ -175,7 +180,12 @@ export class DialogCursosComponent {
     formData.id_cursos = formData.id_cursos?.id_cursos;
     return this.cursosService
       .httpUpdateCursosOnPessoa$(formData, this.data.curso.id_cursos)
-      .pipe(shareReplay())
+      .pipe(
+        shareReplay(),
+        concatMap(() =>
+          this.cursosService.httpListCursosOnPessoaId$(this.data.id)
+        )
+      )
       .subscribe({
         next: (data) => {
           this._dialogRef.close(data);

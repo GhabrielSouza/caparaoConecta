@@ -96,11 +96,17 @@ export class ComponentDefaultPerfilComponent {
   }
 
   openDialogCursos(): void {
-    this.#dialog.open(DialogCursosComponent, {
+    const dialogRef = this.#dialog.open(DialogCursosComponent, {
       panelClass: EDialogEnum.PROJETOS,
       data: {
         id: this.IdUsuario,
       },
+    });
+
+    dialogRef.afterClosed().subscribe((resposta: ICursos[]) => {
+      if (resposta) {
+        this.dataCursos = resposta;
+      }
     });
   }
 
