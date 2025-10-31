@@ -151,8 +151,8 @@ export class RegisterService {
       );
   }
 
-  #setUpdatePessoaIamgem = signal<IPessoa | null>(null);
-  public setUpdatePessoaIamgem = this.#setUpdatePessoaIamgem.asReadonly();
+  #setUpdatePessoaImagem = signal<IPessoa | null>(null);
+  public getUpdatePessoaImagem = this.#setUpdatePessoaImagem.asReadonly();
   public httpUpdatePessoaImagem$(
     id: number,
     imagem: File
@@ -161,6 +161,11 @@ export class RegisterService {
     formData.append('imagem', imagem, imagem.name);
 
     const url = `${this.#url}/pessoas/${id}/imagem`;
-    return this.#http.post<IPessoa>(url, formData);
+    return this.#http.post<IPessoa>(url, formData).pipe(
+      tap((data) => {
+        this.#setUpdatePessoaImagem.set(data);
+      }),
+      shareReplay()
+    );
   }
 }
