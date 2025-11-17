@@ -1,5 +1,5 @@
 export const environment = {
   ibgeUrl: 'http://servicodados.ibge.gov.br/api/v1/localidades/estados/',
-  apiAuth: '/api',
+  apiAuth: 'https://control.dev.br',
   apiCharts: 'https://www.gstatic.com/charts/loader.js',
 };
