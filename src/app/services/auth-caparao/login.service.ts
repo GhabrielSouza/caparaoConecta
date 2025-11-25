@@ -57,10 +57,10 @@ export class AuthService {
   }
 
   forgotPassword(email: string): Observable<any> {
-    return this.http.post(`${this.#url()}/forgot-password`, { email });
+    return this.http.post(`${this.#url()}/api/forgot-password`, { email });
   }
 
   resetPassword(data: any): Observable<any> {
-    return this.http.post(`${this.#url()}/reset-password`, data);
+    return this.http.post(`${this.#url()}/api/reset-password`, data);
   }
 }
