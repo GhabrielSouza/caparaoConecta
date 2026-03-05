@@ -4,31 +4,27 @@ import {
   FormBuilder,
   Validators,
   ReactiveFormsModule,
-  FormControl,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
-  MatDialogActions,
   MatDialogContent,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { Router, RouterModule } from '@angular/router';
-import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { FormacoesAcademicasService } from '../../../../../services/formacoes/formacoes-academicas.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { concatMap, map, Observable, shareReplay, startWith } from 'rxjs';
+import { map, Observable, startWith } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
 import { IInstituicao } from '../../../interface/IInstuicao.interface';
 import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-formacao-academica',
@@ -62,6 +58,7 @@ export class FormFormacaoAcademicaComponent {
     private instituicaoService: InstituicoesService
   ) {
     this.form = this._fb.group({
+      id_formacoes_academicas: [''],
       instituicao: ['', [Validators.required]],
       id_instituicoes: '',
       escolaridade: ['', [Validators.required]],
@@ -96,23 +93,11 @@ export class FormFormacaoAcademicaComponent {
         this.form.get('data_conclusao')?.setValue('');
       }
     });
-
-    this.form.get('diploma_formacao')?.valueChanges.subscribe((value) => {
-      if (value) {
-        this.form.get('data_conclusao')?.enable();
-        this.form.get('data_conclusao')?.setValidators([Validators.required]);
-        this.form.get('data_conclusao')?.updateValueAndValidity();
-      } else {
-        this.form.get('data_conclusao')?.disable();
-        this.form.get('data_conclusao')?.clearValidators();
-        this.form.get('data_conclusao')?.updateValueAndValidity();
-        this.form.get('data_conclusao')?.setValue('');
-      }
-    });
   }
 
   private loadFormData(formacao: IFormacoesAcademicas): void {
     this.form.patchValue({
+      id_formacoes_academicas: formacao.id_formacoes_academicas,
       instituicao: formacao.instituicao,
       id_instituicoes: formacao.instituicao.id_instituicoes,
       escolaridade: formacao.escolaridade,
@@ -146,63 +131,14 @@ export class FormFormacaoAcademicaComponent {
   public submit() {
     const formData = this.form.value;
 
-    return this.formacaoService
-      .httpRegisterFormacoes$(formData)
-      .pipe(
-        concatMap(() => this.formacaoService.httpListFormacoesId$(this.data.id))
-      )
-      .subscribe({
-        next: (data) => {
-          this._dialogRef.close(data);
-          Swal.fire({
-            icon: 'success',
-            title: 'Formação acadêmica cadastrada com sucesso!',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro ao cadastrar formação acadêmica',
-            text: 'Ocorreu um erro ao cadastrar a formação acadêmica. Por favor, tente novamente.',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-        complete: () => {},
-      });
+    this._dialogRef.close(formData);
   }
 
   public update() {
     const formData = this.form.value;
 
-    return this.formacaoService
-      .httpUpdateFormacoes$(
-        this.data.formacao.id_formacoes_academicas,
-        formData
-      )
-      .pipe(shareReplay())
-      .subscribe({
-        next: (data) => {
-          this._dialogRef.close(data);
-          Swal.fire({
-            icon: 'success',
-            title: 'Formação acadêmica atualizada com sucesso!',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title:
-              'Ocurreu um erro ao cadastrar formação. Por favor, tente novamente.',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-      });
+    console.log(formData);
+    this._dialogRef.close(formData);
   }
 
   public getInstituicoes() {

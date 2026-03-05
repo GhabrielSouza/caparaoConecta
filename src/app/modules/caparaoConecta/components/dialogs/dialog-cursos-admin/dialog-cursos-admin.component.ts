@@ -11,10 +11,8 @@ import {
   MAT_DIALOG_DATA,
   MatDialogContent,
 } from '@angular/material/dialog';
-import { HabilidadesSService } from '../../../../../services/habilidades/habilidades-s.service';
 import { DialogHabilidadesAdminComponent } from '../dialog-habilidades-admin/dialog-habilidades-admin.component';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
-import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IInstituicao } from '../../../interface/IInstuicao.interface';
 import { map, Observable, startWith } from 'rxjs';
@@ -61,8 +59,6 @@ export class DialogCursosAdminComponent {
     private _fb: FormBuilder,
     private instituicaoService: InstituicoesService
   ) {
-    this.getInstituicoes();
-
     this.formCurso = this._fb.group({
       curso: ['', Validators.required],
       link: ['', Validators.required],
@@ -70,6 +66,8 @@ export class DialogCursosAdminComponent {
       cargo_horaria: ['', [Validators.required, Validators.min(1)]],
       id_tipo_de_cursos: ['', Validators.required],
     });
+
+    this.getInstituicoes(data?.instituicoes ?? []);
 
     if (this.data && this.data.item) {
       this.modo = 'edit';
@@ -88,23 +86,19 @@ export class DialogCursosAdminComponent {
   }
 
   submit() {
-    // 1. Verificamos se o formulário é válido
     if (this.formCurso.invalid) {
-      this.formCurso.markAllAsTouched(); // Marca campos como tocados para exibir erros
-      return; // Para a execução se o formulário não for válido
+      this.formCurso.markAllAsTouched();
+      return;
     }
 
-    // 2. Pegamos os dados do formulário
     const dadosDoFormulario = this.formCurso.value;
     dadosDoFormulario.id_instituicoes =
       dadosDoFormulario.id_instituicoes.id_instituicoes;
 
-    // Se estivermos editando, é bom enviar o ID de volta
     if (this.modo === 'edit') {
       dadosDoFormulario.id_cursos = this.data.item.id_cursos;
     }
 
-    // 3. Fechamos o diálogo, passando os dados como argumento
     this._dialogRef.close(dadosDoFormulario);
   }
 
@@ -123,21 +117,16 @@ export class DialogCursosAdminComponent {
     );
   }
 
-  public getInstituicoes() {
-    this.instituicaoService.httpListInstituicao$().subscribe({
-      next: (data) => {
-        this.options = data;
-        this.filteredOptions = this.formCurso
-          .get('id_instituicoes')!
-          .valueChanges.pipe(
-            startWith(''),
-            map((value) => {
-              const name = typeof value === 'string' ? value : value?.nome;
-              return name ? this._filter(name as string) : this.options.slice();
-            })
-          );
-      },
-      error: (error) => console.error('Erro ao buscar instituições', error),
-    });
+  public getInstituicoes(data: IInstituicao[] = []) {
+    this.options = data;
+    this.filteredOptions = this.formCurso
+      .get('id_instituicoes')!
+      .valueChanges.pipe(
+        startWith(''),
+        map((value) => {
+          const name = typeof value === 'string' ? value : value?.nome;
+          return name ? this._filter(name as string) : this.options.slice();
+        })
+      );
   }
 }

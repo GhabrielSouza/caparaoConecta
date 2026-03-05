@@ -10,8 +10,6 @@ import { IHabilidades } from '../../../interface/IHabilidades.interface';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
-import Swal from 'sweetalert2';
-import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-habilidades',
@@ -35,7 +33,6 @@ export class DialogHabilidadesComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private habilidadesService: HabilidadesSService
   ) {
-    console.log(data.habilidades);
     if (data.habilidades) {
       this.selectedHabilidades.set(
         data.habilidades.map((h: IHabilidades) => h.id_habilidades)
@@ -70,33 +67,7 @@ export class DialogHabilidadesComponent {
       id_habilidades: this.selectedHabilidades(),
     };
 
-    this.habilidadesService
-      .httpCreateHabilidadesOnPessoas$(payload)
-      .pipe(
-        concatMap(() =>
-          this.habilidadesService.httpListHabilidadesOnPessoas$(this.data.id)
-        )
-      )
-      .subscribe({
-        next: () => {
-          this._dialogRef.close(true);
-          Swal.fire({
-            icon: 'success',
-            title: 'Habilidades salvas com sucesso',
-            text: 'Atualize a página para ver as mudanças',
-            showConfirmButton: false,
-          });
-        },
-        error: (error) => {
-          console.error('Erro ao salvar habilidades', error);
-          Swal.fire({
-            icon: 'error',
-            text: 'Erro ao cadastrar habilidade',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-      });
+    this._dialogRef.close(payload);
   }
 
   closeModal() {

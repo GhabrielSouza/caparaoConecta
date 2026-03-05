@@ -1,4 +1,3 @@
-import { TypedRegistry } from './../../../../../../node_modules/chart.js/dist/types/index.d';
 import {
   Component,
   computed,
@@ -8,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { CabecalhoComponent } from '../../components/cabecalho/cabecalho.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ComponentPerfilDadosComponent } from '../../components/component-perfil-dados/component-perfil-dados.component';
@@ -26,8 +25,8 @@ import { ExperienciasService } from './../../../../services/experiencias/experie
 import { ComponentDefaultPerfilComponent } from '../../components/component-default-perfil/component-default-perfil.component';
 import { AuthService } from '../../../../services/auth-caparao/login.service';
 import { IUsuario } from '../../interface/IUsuario.interface';
-import { ICursos } from '../../interface/ICursos.inteface';
 import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
+import { RegisterService } from '../../../../services/register-caparao/register.service';
 
 @Component({
   selector: 'app-perfil',
@@ -53,6 +52,7 @@ export class PerfilComponent implements OnInit {
   private habilidadesService = inject(HabilidadesSService);
   private cursosService = inject(CursosSService);
   private userAuth = inject(AuthService);
+  private apiService = inject(RegisterService);
 
   public dadosPessoais = signal<IPessoa | null>(null);
   public habilidades = this.habilidadesService.getListHabilidadesOnPessoas;

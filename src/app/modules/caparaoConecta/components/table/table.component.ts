@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ComponentType } from '@angular/cdk/portal'; // Importação importante!
+import { ComponentType } from '@angular/cdk/portal';
 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary.component';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 import { ITableColumn } from '../../interface/ITableColumn.interface';
+import { IInstituicao } from '../../interface/IInstuicao.interface';
 
 @Component({
   selector: 'app-table',
@@ -20,6 +21,8 @@ export class TableComponent<T> {
   @Input() title: string = '';
   @Input() addLabel: string = 'Adicionar Item';
   @Input() data: T[] = [];
+
+  @Input() instituicoes: IInstituicao[] = [];
 
   @Input() columns: ITableColumn<T>[] = [];
 
@@ -60,7 +63,10 @@ export class TableComponent<T> {
 
     const dialogRef = this.dialog.open(this.dialogComponent, {
       width: '400px',
-      data: { item },
+      data: {
+        item: item,
+        instituicoes: this.instituicoes,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: T) => {

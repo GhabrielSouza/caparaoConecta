@@ -10,27 +10,21 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
-  MatDialogActions,
   MatDialogContent,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { Router, RouterModule } from '@angular/router';
-import { DateInputComponent } from '../../inputs/date-input/date-input.component';
-import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { IInstituicao } from '../../../interface/IInstuicao.interface';
-import { concatMap, map, Observable, shareReplay, startWith } from 'rxjs';
+import { map, Observable, startWith } from 'rxjs';
 import { ICursos } from '../../../interface/ICursos.inteface';
 import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
 import { CursosSService } from '../../../../../services/cursos/cursos-s.service';
-import { ICursosOnPessoas } from '../../../interface/ICursosOnPessoas.inteface';
-import { C } from '@angular/cdk/keycodes';
-import Swal from 'sweetalert2';
 import { validDate } from '../../../validators/VDate.validator';
 
 @Component({
@@ -105,10 +99,6 @@ export class DialogCursosComponent {
       certificado_curso: Boolean(curso.pivot.certificado_curso),
       data_conclusao: curso.pivot.data_conclusao,
     });
-
-    // if (!formacao.data_conclusao) {
-    //   this.form.get('data_conclusao')?.disable();
-    // }
   }
 
   displayFnInstituicao(instituicao: any): string {
@@ -147,64 +137,13 @@ export class DialogCursosComponent {
 
     formData.id_cursos = formData.id_cursos.id_cursos;
 
-    return this.cursosService
-      .httpCreateCursosOnPessoa$(formData)
-      .pipe(
-        shareReplay(),
-        concatMap(() =>
-          this.cursosService.httpListCursosOnPessoaId$(this.data.id)
-        )
-      )
-      .subscribe({
-        next: (data) => {
-          this._dialogRef.close(data);
-          Swal.fire({
-            icon: 'success',
-            text: 'Curso cadastrado com sucesso',
-            showConfirmButton: false,
-          });
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            text: 'Erro ao cadastrar curso',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-      });
+    this._dialogRef.close(formData);
   }
 
   public update() {
     const formData = this.form.value;
     formData.id_cursos = formData.id_cursos?.id_cursos;
-    return this.cursosService
-      .httpUpdateCursosOnPessoa$(formData, this.data.curso.id_cursos)
-      .pipe(
-        shareReplay(),
-        concatMap(() =>
-          this.cursosService.httpListCursosOnPessoaId$(this.data.id)
-        )
-      )
-      .subscribe({
-        next: (data) => {
-          this._dialogRef.close(data);
-          Swal.fire({
-            icon: 'success',
-            title: 'Curso atualizado com sucesso',
-            text: 'Atualize a página para ver as mudanças',
-            showConfirmButton: false,
-          });
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            text: 'Erro ao atualizar curso',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-      });
+    this._dialogRef.close(formData);
   }
 
   onInstituicaoSelecionada(instituicao: IInstituicao): void {
