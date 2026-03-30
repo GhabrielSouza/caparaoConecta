@@ -19,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { VPasswordValidator } from '../../validators/VPasswordValidator.validator';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge } from 'rxjs';
+import { merge, switchMap } from 'rxjs';
 import { PasswordInputComponent } from '../../components/inputs/password-input/password-input.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectRegisterDialogComponent } from '../../components/dialogs/select-register-dialog/select-register-dialog.component';
@@ -132,23 +132,26 @@ export class FormLoginComponent implements OnInit {
 
     const credentials = this.loginForm.value;
 
-    this.authLogin.login(credentials).subscribe({
-      next: (user) => {
-        this.route.navigate(['/home']);
-      },
-      error: (error) => {
-        if (error.status === 401) {
-          this.updateErrorMessage('email');
-          this.updateErrorMessage('password');
-          this.loginForm.setErrors({ email: error.error.message });
-          this.loginForm.setErrors({ password: error.error.message });
-        } else {
-          this.loginForm.setErrors({
-            email: 'Erro no servidor. Tente novamente mais tarde.',
-          });
-        }
-      },
-    });
+    this.authLogin
+      .login(credentials)
+      .pipe(switchMap(() => this.authLogin.checkAuthStatus()))
+      .subscribe({
+        next: () => {
+          this.route.navigate(['/home']);
+        },
+        error: (error) => {
+          if (error.status === 401) {
+            this.updateErrorMessage('email');
+            this.updateErrorMessage('password');
+            this.loginForm.setErrors({ email: error.error.message });
+            this.loginForm.setErrors({ password: error.error.message });
+          } else {
+            this.loginForm.setErrors({
+              email: 'Erro no servidor. Tente novamente mais tarde.',
+            });
+          }
+        },
+      });
   }
 
   navigate() {
