@@ -1,7 +1,7 @@
-import { IInstituicao } from "./IInstuicao.interface";
+import { IInstituicao } from './IInstuicao.interface';
 
 export interface IFormacoesAcademicas {
-  id_formacoes_academicas?: string;
+  id_formacoes_academicas: string;
   escolaridade: string;
   area_de_estudo: string;
   diploma_formacao: boolean;

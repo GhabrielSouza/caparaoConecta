@@ -126,6 +126,13 @@
 <mat-dialog-content>
   <form [formGroup]="formExperiencia">
     <!-- Cargo -->
+
+    <input
+      type="hidden"
+      formControlName="id_experiencias"
+      name="id_experiencias"
+    />
+
     <div class="input-container">
       <label class="cpc-medium-010">Cargo</label>
       <mat-form-field class="w-100">

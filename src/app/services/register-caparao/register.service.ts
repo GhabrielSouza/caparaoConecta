@@ -21,7 +21,7 @@ export class RegisterService {
       shareReplay(),
       tap((data) => {
         this.#setListUsuarios.set(data);
-      })
+      }),
     );
   }
 
@@ -32,7 +32,7 @@ export class RegisterService {
       shareReplay(),
       tap((data) => {
         this.#setListEmpresa.set(data);
-      })
+      }),
     );
   }
 
@@ -43,7 +43,7 @@ export class RegisterService {
       shareReplay(),
       tap((data) => {
         this.#setListEmpresaId.set(data);
-      })
+      }),
     );
   }
 
@@ -54,12 +54,12 @@ export class RegisterService {
       shareReplay(),
       tap((data) => {
         this.#setCreateEmpresa.set(data);
-      })
+      }),
     );
   }
 
   #setUpdateEmpresa = signal<IEmpresa | null>(null);
-  public getUpdateEmpresa = this.#setCreateEmpresa.asReadonly();
+  public getUpdateEmpresa = this.#setUpdateEmpresa.asReadonly();
   public httpUpdateEmpresa$(empresa: IEmpresa): Observable<IEmpresa> {
     return this.#http
       .put<IEmpresa>(`${this.#url}/cadPessoas/${empresa.id}`, empresa)
@@ -67,7 +67,7 @@ export class RegisterService {
         shareReplay(),
         tap((data) => {
           this.#setUpdateEmpresa.set(data);
-        })
+        }),
       );
   }
 
@@ -78,7 +78,7 @@ export class RegisterService {
       shareReplay(),
       tap((data) => {
         this.#setListCandidatoId.set(data);
-      })
+      }),
     );
   }
 
@@ -89,7 +89,7 @@ export class RegisterService {
         shareReplay(),
         tap((data) => {
           this.#setListCandidatoId.set(data);
-        })
+        }),
       );
   }
 
@@ -100,7 +100,7 @@ export class RegisterService {
       shareReplay(),
       tap((data) => {
         this.#setListCandidatoIdPerfil.set(data);
-      })
+      }),
     );
   }
 
@@ -113,7 +113,7 @@ export class RegisterService {
         shareReplay(),
         tap((data) => {
           this.#setCreateCandidato.set(data);
-        })
+        }),
       );
   }
 
@@ -121,7 +121,7 @@ export class RegisterService {
   public getUpdateCandidato = this.#setCreateCandidato.asReadonly();
   public httpUpdateCandidato$(
     id: number,
-    candidato: IPessoa
+    candidato: IPessoa,
   ): Observable<IPessoa> {
     return this.#http
       .put<IPessoa>(`${this.#url}/pessoas/${id}`, candidato)
@@ -129,7 +129,7 @@ export class RegisterService {
         shareReplay(),
         tap((data) => {
           this.#setUpdateCandidato.set(data);
-        })
+        }),
       );
   }
 
@@ -137,7 +137,7 @@ export class RegisterService {
   public setUpdatePessoaSobre = this.#setUpdatePessoaSobre.asReadonly();
   public httpUpdatePessoaSobre$(
     id: number,
-    novoSobre: string
+    novoSobre: string,
   ): Observable<IPessoa> {
     return this.#http
       .patch<IPessoa>(`${this.#url}/pessoas/${id}/sobre`, {
@@ -147,7 +147,7 @@ export class RegisterService {
         shareReplay(),
         tap((data) => {
           this.#setUpdatePessoaSobre.set(data);
-        })
+        }),
       );
   }
 
@@ -155,7 +155,7 @@ export class RegisterService {
   public getUpdatePessoaImagem = this.#setUpdatePessoaImagem.asReadonly();
   public httpUpdatePessoaImagem$(
     id: number,
-    imagem: File
+    imagem: File,
   ): Observable<IPessoa> {
     const formData = new FormData();
     formData.append('imagem', imagem, imagem.name);
@@ -165,7 +165,7 @@ export class RegisterService {
       tap((data) => {
         this.#setUpdatePessoaImagem.set(data);
       }),
-      shareReplay()
+      shareReplay(),
     );
   }
 }

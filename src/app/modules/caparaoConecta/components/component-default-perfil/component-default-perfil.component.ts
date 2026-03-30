@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ButtonPrimaryComponent } from '../buttons/button-primary/button-primary.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormExperienciaProfissionalComponent } from '../dialogs/form-experiencia-profissional/form-experiencia-profissional.component';
@@ -13,6 +13,9 @@ import { IExperiencia } from '../../interface/IExperiencias.interface';
 import { IFormacoesAcademicas } from '../../interface/IFormacoesAcademicas.interface';
 import { IHabilidades } from '../../interface/IHabilidades.interface';
 import { ICursos } from '../../interface/ICursos.inteface';
+import { ICursosOnPessoas } from '../../interface/ICursosOnPessoas.inteface';
+import { IHabilidadesOnPessoas } from '../../interface/IHabilidadesOnPessoas.interface';
+import { IPessoa } from '../../interface/IPessoa.interface';
 
 @Component({
   selector: 'app-component-default-perfil',
@@ -33,6 +36,12 @@ export class ComponentDefaultPerfilComponent {
 
   @Input() isEditable: boolean = false;
 
+  @Output() public itemAddExperiencia = new EventEmitter<IExperiencia>();
+  @Output() public itemAddFormacao = new EventEmitter<IFormacoesAcademicas>();
+  @Output() public itemAddCurso = new EventEmitter<ICursosOnPessoas>();
+  @Output() public itemAddHabilidade =
+    new EventEmitter<IHabilidadesOnPessoas>();
+
   openDialogFormacao(): void {
     const dialogRef = this.#dialog.open(FormFormacaoAcademicaComponent, {
       panelClass: EDialogEnum.FORMACAO,
@@ -41,9 +50,9 @@ export class ComponentDefaultPerfilComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((resposta: IFormacoesAcademicas[]) => {
+    dialogRef.afterClosed().subscribe((resposta: IFormacoesAcademicas) => {
       if (resposta) {
-        this.dataFormacao = resposta;
+        this.itemAddFormacao.emit(resposta);
       }
     });
   }
@@ -56,9 +65,9 @@ export class ComponentDefaultPerfilComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((resposta: IExperiencia[]) => {
+    dialogRef.afterClosed().subscribe((resposta: IExperiencia) => {
       if (resposta) {
-        this.dataExperiencia = resposta;
+        this.itemAddExperiencia.emit(resposta);
       }
     });
   }
@@ -72,9 +81,11 @@ export class ComponentDefaultPerfilComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((resposta: IHabilidades[]) => {
+    dialogRef.afterClosed().subscribe((resposta: IHabilidadesOnPessoas) => {
       if (resposta) {
-        this.dataHabilidades = resposta;
+        if (resposta.id_habilidades && resposta.id_habilidades.length != 0) {
+          this.itemAddHabilidade.emit(resposta);
+        }
       }
     });
   }
@@ -103,9 +114,9 @@ export class ComponentDefaultPerfilComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((resposta: ICursos[]) => {
+    dialogRef.afterClosed().subscribe((resposta: ICursosOnPessoas) => {
       if (resposta) {
-        this.dataCursos = resposta;
+        this.itemAddCurso.emit(resposta);
       }
     });
   }

@@ -3,11 +3,13 @@
   [dataExperiencia]="experiencias"
   [IdUsuario]="IdUsuario"
   [isEditable]="isEditable"
+  (itemAddExperiencia)="onCreateExperiencia($event)"
 >
   @for(experiencia of experiencias; track experiencia.id_experiencias){
   <app-card-default-informacoes
     [data]="experiencia"
     [isEditable]="isEditable"
+    (itemUpdateExperiencia)="onUpdateExperiencia($event)"
     class="p-0"
   >
   </app-card-default-informacoes>
@@ -19,11 +21,13 @@
   [IdUsuario]="IdUsuario"
   [dataFormacao]="formacoes"
   [isEditable]="isEditable"
+  (itemAddFormacao)="onCreateFormacao($event)"
 >
   @for(formacao of formacoes; track formacao.id_formacoes_academicas){
   <app-card-default-informacoes
     [dataFormacoes]="formacao"
     [isEditable]="isEditable"
+    (itemUpdateFormacao)="onUpdateFormacao($event)"
     class="p-0"
   >
   </app-card-default-informacoes>
@@ -35,12 +39,14 @@
   [IdUsuario]="IdUsuario"
   [dataCursos]="cursos"
   [isEditable]="isEditable"
+  (itemAddCurso)="onCreateCurso($event)"
 >
   @for(curso of cursos; track curso.id_cursos){
   <app-card-default-informacoes
     [idUsuario]="IdUsuario"
     [dataCursos]="curso"
     [isEditable]="isEditable"
+    (itemUpdateCurso)="onUpdateCurso($event)"
     class="p-0"
   >
   </app-card-default-informacoes>
@@ -52,6 +58,7 @@
   [IdUsuario]="IdUsuario"
   [dataHabilidades]="habilidades"
   [isEditable]="isEditable"
+  (itemAddHabilidade)="onCreateHabilidades($event)"
 >
   <mat-chip-set aria-label="Skill selection">
     @for(habilidade of habilidades; track habilidade.id_habilidades){

@@ -9,6 +9,8 @@ import { ITableColumn } from '../../interface/ITableColumn.interface';
 import { PageEvent } from '@angular/material/paginator';
 import Swal from 'sweetalert2';
 import { ButtonReturnTopComponent } from '../../components/buttons/button-return-top/button-return-top.component';
+import { InstituicoesService } from '../../../../services/instituicoes/instituicoes.service';
+import { IInstituicao } from '../../interface/IInstuicao.interface';
 
 @Component({
   selector: 'app-cursos',
@@ -28,6 +30,8 @@ export class CursosComponent implements OnInit {
 
   currentPage = 0;
   pageSize = 5;
+
+  instituicoesList: IInstituicao[] = [];
 
   cursosColumns: ITableColumn<ICursos>[] = [
     { key: 'curso', header: 'Curso' },
@@ -56,9 +60,13 @@ export class CursosComponent implements OnInit {
 
   ngOnInit(): void {
     this.onCursosListados();
+    this.getInstituicoes();
   }
 
-  constructor(private cursosService: CursosSService) {}
+  constructor(
+    private cursosService: CursosSService,
+    private instituicaoService: InstituicoesService
+  ) {}
 
   onCursoRecebido(curso: ICursos) {
     return this.cursosService.httpCreateCursos$(curso).subscribe({
@@ -157,5 +165,15 @@ export class CursosComponent implements OnInit {
           });
         },
       });
+  }
+
+  public getInstituicoes() {
+    this.instituicaoService.httpListInstituicao$().subscribe({
+      next: (data) => {
+        this.instituicoesList = data;
+        return this.instituicoesList;
+      },
+      error: (error) => console.error('Erro ao buscar instituições', error),
+    });
   }
 }

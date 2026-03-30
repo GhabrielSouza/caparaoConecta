@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IExperiencia } from '../../../interface/IExperiencias.interface';
 import { IFormacoesAcademicas } from '../../../interface/IFormacoesAcademicas.interface';
@@ -11,6 +17,7 @@ import { FormExperienciaProfissionalComponent } from '../../dialogs/form-experie
 import { FormFormacaoAcademicaComponent } from '../../dialogs/form-formacao-academica/form-formacao-academica.component';
 import { DialogCursosComponent } from '../../dialogs/dialog-cursos/dialog-cursos.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { ICursosOnPessoas } from '../../../interface/ICursosOnPessoas.inteface';
 
 @Component({
   selector: 'app-card-default-informacoes',
@@ -36,24 +43,56 @@ export class CardDefaultInformacoesComponent {
 
   @Input() isEditable: boolean = false;
 
+  @Output() public itemUpdateExperiencia = new EventEmitter<IExperiencia>();
+  @Output() public itemUpdateFormacao =
+    new EventEmitter<IFormacoesAcademicas>();
+  @Output() public itemUpdateCurso = new EventEmitter<ICursosOnPessoas>();
+
   openEditDialog(): void {
-    this.dialog.open(FormExperienciaProfissionalComponent, {
+    const dialogRef = this.dialog.open(FormExperienciaProfissionalComponent, {
       width: '600px',
       data: { experiencia: this.data },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        if (result.id_experiencias && result.id_experiencias != '') {
+          this.itemUpdateExperiencia.emit(result);
+        }
+      }
     });
   }
 
   openEditDialogFormacao(): void {
-    this.dialog.open(FormFormacaoAcademicaComponent, {
+    const dialogRef = this.dialog.open(FormFormacaoAcademicaComponent, {
       width: '600px',
       data: { formacao: this.dataFormacoes },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        if (
+          result.id_formacoes_academicas &&
+          result.id_formacoes_academicas != ''
+        ) {
+          this.itemUpdateFormacao.emit(result);
+        }
+      }
     });
   }
 
   openEditDialogCurso(): void {
-    this.dialog.open(DialogCursosComponent, {
+    const dialogRef = this.dialog.open(DialogCursosComponent, {
       width: '600px',
       data: { curso: this.dataCursos, id: this.idUsuario },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        if (result.id_cursos && result.id_cursos != '') {
+          this.itemUpdateCurso.emit(result);
+        }
+      }
     });
   }
 

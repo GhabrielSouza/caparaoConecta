@@ -1,15 +1,11 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogContent,
-  MatDialogActions,
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
-import { SelectRegisterDialogComponent } from '../select-register-dialog/select-register-dialog.component';
-import { PrimaryInputComponent } from '../../inputs/primary-input/primary-input.component';
-import { DateInputComponent } from '../../inputs/date-input/date-input.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import {
@@ -25,10 +21,6 @@ import {
 import { ButtonPrimaryComponent } from '../../buttons/button-primary/button-primary.component';
 import { CommonModule } from '@angular/common';
 import { ExperienciasService } from '../../../../../services/experiencias/experiencias.service';
-import { concatMap, shareReplay } from 'rxjs';
-import { InstituicoesService } from '../../../../../services/instituicoes/instituicoes.service';
-import Swal from 'sweetalert2';
-import { TestComponentRenderer } from '@angular/core/testing';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
@@ -61,6 +53,7 @@ export class FormExperienciaProfissionalComponent implements OnInit {
     private experienciaService: ExperienciasService
   ) {
     this.formExperiencia = this._fb.group({
+      id_experiencias: [''],
       cargo: ['', [Validators.required]],
       nome_empresa: ['', [Validators.required]],
       data_emissao: ['', [Validators.required]],
@@ -98,6 +91,7 @@ export class FormExperienciaProfissionalComponent implements OnInit {
 
   private loadFormData(experiencia: any): void {
     this.formExperiencia.patchValue({
+      id_experiencias: experiencia.id_experiencias,
       cargo: experiencia.cargo,
       nome_empresa: experiencia.nome_empresa,
       data_emissao: experiencia.data_emissao,
@@ -128,57 +122,10 @@ export class FormExperienciaProfissionalComponent implements OnInit {
       formData.data_conclusao = '';
     }
 
-    return this.experienciaService
-      .httpRegisterExperiencia$(formData)
-      .pipe(
-        concatMap(() =>
-          this.experienciaService.httpListExperienciaId$(this.data.id)
-        )
-      )
-      .subscribe({
-        next: (data) => {
-          this._dialogRef.close(data);
-          Swal.fire({
-            icon: 'success',
-            title: 'Experiência cadastrada com sucesso!',
-            showConfirmButton: false,
-          });
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            text: 'Ocorreu um erro ao cadastrar Experiência ',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-      });
+    this._dialogRef.close(formData);
   }
 
   public update() {
-    return this.experienciaService
-      .httpUpdateExperiencia$(
-        this.data.experiencia.id_experiencias,
-        this.formExperiencia.value
-      )
-      .pipe(shareReplay())
-      .subscribe({
-        next: (data) => {
-          Swal.fire({
-            icon: 'error',
-            text: 'Erro ao atualizar Experiencia',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            text: 'Erro ao atualizar Experiencia',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#359830',
-          });
-        },
-      });
+    this._dialogRef.close(this.formExperiencia.value);
   }
 }

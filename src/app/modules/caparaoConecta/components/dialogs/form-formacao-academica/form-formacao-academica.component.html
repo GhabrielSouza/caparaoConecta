@@ -126,8 +126,7 @@
       </mat-form-field>
     </div>
 
-    @if(form.get('diploma_formacao')?.value == true &&
-    form.get('conclusao_formacao')?.value == true) {
+    @if( form.get('conclusao_formacao')?.value == true) {
     <div class="w-100">
       <label class="cpc-medium-010">Data conclusão</label>
       <mat-form-field class="w-100">
@@ -171,6 +170,11 @@
 
 <mat-dialog-content>
   <form [formGroup]="form">
+    <input
+      type="hidden"
+      formControlName="id_formacoes_academicas"
+      name="id_formacoes_academicas"
+    />
     <div class="col flex-grow-1 input-container">
       <label class="cpc-medium-010">Instituição de ensino</label>
       <mat-form-field class="example-full-width w-100">
@@ -289,8 +293,7 @@
       </mat-form-field>
     </div>
 
-    @if(form.get('diploma_formacao')?.value == true &&
-    form.get('conclusao_formacao')?.value == true) {
+    @if(form.get('conclusao_formacao')?.value == true) {
     <div class="w-100">
       <label class="cpc-medium-010">Data conclusão</label>
       <mat-form-field class="w-100">
